@@ -16,7 +16,7 @@
     <!-- Define the SonarQube target /  do nut run in IDE-->
     <target name="sonar">
             <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
-            <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube/" />
+            <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube" />
             <property name="sonar.jdbc.url" value="jdbc:mysql://192.168.0.251:3306/sonar?useUnicode=true&amp;characterEncoding=utf8" />
             <property name="sonar.jdbc.username" value="sonar" />
             <property name="sonar.jdbc.password" value="sonar" />
