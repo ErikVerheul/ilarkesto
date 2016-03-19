@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<!-- By default, only the Clean and Build commands use this build script. -->
+<!-- Commands such as Run, Debug, and Test only use this build script if -->
+<!-- the Compile on Save feature is turned off for the project. -->
+<!-- You can turn off the Compile on Save (or Deploy on Save) setting -->
+<!-- in the project's Project Properties dialog box.-->
+<project name="ilarkesto" default="default" basedir="." xmlns:sonar="antlib:org.sonar.ant">
+    <description>Builds, tests, and runs the project ilarkesto.</description>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <property name="test.src.dir" value="${basedir}/src/test/java"/>
+    
+    <!-- Define the SonarQube target /  do nut run in IDE-->
+    <target name="sonar">
+            <!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+            <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube/" />
+            <property name="sonar.jdbc.url" value="jdbc:mysql://192.168.0.251:3306/sonar?useUnicode=true&amp;characterEncoding=utf8" />
+            <property name="sonar.jdbc.username" value="sonar" />
+            <property name="sonar.jdbc.password" value="sonar" />
+ 
+            <!-- Define the SonarQube project properties -->
+            <property name="sonar.projectKey" value="nl.verheulconsultants:Ilarkesto" />
+            <property name="sonar.projectName" value="Ilarkesto project analyzed with the SonarQube Ant Task" />
+            <property name="sonar.projectVersion" value="1.0" />
+            <property name="sonar.language" value="java" />
+            <property name="sonar.sources" value="src/main/java" />
+            <property name="sonar.binaries" value="lib" />
+            <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+                    <!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
+                    <classpath path="D:\apache-ant-1.9.3\bin\sonar-ant-task-*.jar" />
+            </taskdef>
+ 
+            <!-- Execute the SonarQube analysis -->
+            <sonar:sonar />
+    </target>
+    
+    
+    <!--
+
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
+
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
+
+    (Targets beginning with '-' are not intended to be called on their own.)
+
+    Example of inserting an obfuscator after compilation could look like this:
+
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
+
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
+
+
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
+
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
+
+    An example of overriding the target for project execution could look like this:
+
+        <target name="run" depends="ilarkesto-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
+</project>

@@ -1,0 +1,73 @@
+libs.CopyLibs.classpath=\
+    ${base}/CopyLibs/org-netbeans-modules-java-j2seproject-copylibstask.jar
+libs.CopyLibs.displayName=CopyLibs Task
+libs.CopyLibs.prop-version=1.0
+libs.Findbugs.classpath=\
+    ${base}/Findbugs/annotations.jar;\
+    ${base}/Findbugs/ant.jar;\
+    ${base}/Findbugs/asm-3.3.jar;\
+    ${base}/Findbugs/asm-analysis-3.3.jar;\
+    ${base}/Findbugs/asm-commons-3.3.jar;\
+    ${base}/Findbugs/asm-tree-3.3.jar;\
+    ${base}/Findbugs/asm-util-3.3.jar;\
+    ${base}/Findbugs/asm-xml-3.3.jar;\
+    ${base}/Findbugs/bcel.jar;\
+    ${base}/Findbugs/commons-lang-2.4.jar;\
+    ${base}/Findbugs/dom4j-1.6.1.jar;\
+    ${base}/Findbugs/findbugs-ant.jar;\
+    ${base}/Findbugs/findbugs.jar;\
+    ${base}/Findbugs/jaxen-1.1.1.jar;\
+    ${base}/Findbugs/jcip-annotations.jar;\
+    ${base}/Findbugs/jdepend-2.9.jar;\
+    ${base}/Findbugs/jFormatString.jar;\
+    ${base}/Findbugs/jsr305.jar;\
+    ${base}/Findbugs/yjp-controller-api-redist.jar
+libs.Findbugs.displayName=Findbugs
+libs.Findbugs.src=\
+    ${base}/Findbugs/src/
+libs.ilarkesto-libs.classpath=\
+    ${base}/annotations.jar;\
+    ${base}/codemirror_V-0.4-gwt16.jar;\
+    ${base}/commons-codec-1.3.jar;\
+    ${base}/commons-collections-3.2.1.jar;\
+    ${base}/commons-fileupload-1.2.1.jar;\
+    ${base}/commons-httpclient-3.0.1.jar;\
+    ${base}/commons-io-1.4.jar;\
+    ${base}/commons-lang-2.5.jar;\
+    ${base}/gdata-client-1.0.jar;\
+    ${base}/gdata-contacts-3.0.jar;\
+    ${base}/gdata-core-1.0.jar;\
+    ${base}/google-collect-1.0-rc1.jar;\
+    ${base}/gwt-dev.jar;\
+    ${base}/gwt-dnd-3.0.1.jar;\
+    ${base}/gwt-servlet.jar;\
+    ${base}/gwt-user.jar;\
+    ${base}/gwtupload-0.6.1.jar;\
+    ${base}/httpunit-1.6.2.jar;\
+    ${base}/jcip-annotations.jar;\
+    ${base}/jcommon-1.0.0.jar;\
+    ${base}/jdom-1.0.jar;\
+    ${base}/jfreechart-1.0.9.jar;\
+    ${base}/jsr305.jar;\
+    ${base}/log4j-1.2.14.jar;\
+    ${base}/mail-1.4.1.jar;\
+    ${base}/oacurl-1.0.0.jar;\
+    ${base}/openid4java-0.9.5.jar;\
+    ${base}/scribe-1.1.2.jar;\
+    ${base}/servlet-api-2.4.jar;\
+    ${base}/tidy.jar;\
+    ${base}/velocity-1.6.4.jar;\
+    ${base}/xercesImpl-2.8.1.jar;\
+    ${base}/itextpdf-5.2.1.jar;\
+    ${base}/itext-asian.jar;\
+    ${base}/org-netbeans-api-annotations-common.jar
+libs.ilarkesto-libs.src=\
+    ${base}/TestNG-5.11/TestNG-5.11.zip
+libs.javaee-endorsed-api-6.0.classpath=\
+    
+libs.JUnit-4.8.2.classpath=\
+    ${base}/JUnit-4.8.2/junit-4.8.2.jar
+libs.JUnit-4.8.2.javadoc=\
+    ${base}/JUnit-4.8.2/javadoc/
+libs.JUnit-4.8.2.src=\
+    ${base}/JUnit-4.8.2/junit-4.8.2-src.jar
