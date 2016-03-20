@@ -18,7 +18,11 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
-import ilarkesto.pdf.*;
+import ilarkesto.pdf.ACell;
+import ilarkesto.pdf.APdfElement;
+import ilarkesto.pdf.ARow;
+import ilarkesto.pdf.ATable;
+import ilarkesto.pdf.FontStyle;
 import java.util.ArrayList;
 import java.util.List;
 

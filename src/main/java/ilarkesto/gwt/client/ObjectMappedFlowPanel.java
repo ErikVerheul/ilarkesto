@@ -14,19 +14,17 @@
  */
 package ilarkesto.gwt.client;
 
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.gwt.client.animation.AnimatingFlowPanel;
 import ilarkesto.gwt.client.animation.AnimatingFlowPanel.InsertCallback;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Widget;
 
 public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends Composite implements HasWidgets {
 

@@ -14,7 +14,6 @@
  */
 package ilarkesto.form;
 
-import ilarkesto.base.UtlExtend;
 import ilarkesto.email.EmailAddress;
 import java.util.Collection;
 import java.util.Map;

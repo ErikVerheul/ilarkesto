@@ -17,14 +17,12 @@ package ilarkesto.form;
 import ilarkesto.base.StringProvider;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class MultiItemFormField<T> extends AFormField {

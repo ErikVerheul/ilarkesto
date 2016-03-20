@@ -19,11 +19,9 @@ import ilarkesto.mda.model.ModellingSession;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
 import ilarkesto.swing.Swing;
-
 import java.awt.Component;
 import java.awt.Insets;
 import java.util.List;
-
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;

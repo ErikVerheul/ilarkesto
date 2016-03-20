@@ -18,12 +18,10 @@ import ilarkesto.base.TmExtend;
 import ilarkesto.base.UtlExtend;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.integration.jdom.JDom;
-
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 

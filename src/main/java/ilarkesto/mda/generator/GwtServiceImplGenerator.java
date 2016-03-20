@@ -19,7 +19,6 @@ import ilarkesto.gwt.client.ErrorWrapper;
 import ilarkesto.gwt.server.AGwtServiceImpl;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
-
 import java.util.Arrays;
 import java.util.List;
 

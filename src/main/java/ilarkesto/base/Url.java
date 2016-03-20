@@ -15,7 +15,6 @@
 package ilarkesto.base;
 
 import ilarkesto.di.BeanStorage;
-
 import java.util.HashMap;
 import java.util.Map;
 

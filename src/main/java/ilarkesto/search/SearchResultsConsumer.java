@@ -16,7 +16,6 @@ package ilarkesto.search;
 
 import ilarkesto.auth.AUser;
 import ilarkesto.persistence.AEntity;
-
 import java.util.Set;
 
 public interface SearchResultsConsumer {

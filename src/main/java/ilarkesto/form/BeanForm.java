@@ -23,7 +23,6 @@ import ilarkesto.core.time.Date;
 import ilarkesto.core.time.Time;
 import ilarkesto.core.time.TimePeriod;
 import ilarkesto.email.EmailAddress;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;

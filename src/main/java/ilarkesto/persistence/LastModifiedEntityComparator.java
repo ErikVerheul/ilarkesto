@@ -15,7 +15,6 @@
 package ilarkesto.persistence;
 
 import ilarkesto.base.Sys;
-
 import java.util.Comparator;
 
 public class LastModifiedEntityComparator<E extends AEntity> implements Comparator<E> {

@@ -15,7 +15,6 @@
 package ilarkesto.base;
 
 import ilarkesto.console.ColorsConsoleApp;
-
 import java.awt.Color;
 
 /**

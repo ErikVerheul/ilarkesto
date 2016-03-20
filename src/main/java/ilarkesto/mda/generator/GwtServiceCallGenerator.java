@@ -18,7 +18,6 @@ import ilarkesto.base.StrExtend;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeByIndexComparator;
 import ilarkesto.mda.model.NodeTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

@@ -20,13 +20,11 @@ import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.integration.itext.PdfBuilder;
 import ilarkesto.json.JsonObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;

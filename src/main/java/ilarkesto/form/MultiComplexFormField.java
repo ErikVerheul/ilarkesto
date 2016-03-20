@@ -18,7 +18,6 @@ import ilarkesto.base.Factory;
 import ilarkesto.base.Reflect;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class MultiComplexFormField extends AFormField {

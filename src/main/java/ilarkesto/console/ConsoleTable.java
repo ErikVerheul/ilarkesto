@@ -15,7 +15,6 @@
 package ilarkesto.console;
 
 import ilarkesto.core.base.Str;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

@@ -21,8 +21,16 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfWriter;
 import ilarkesto.base.Sys;
 import ilarkesto.core.logging.Log;
-import ilarkesto.pdf.*;
-import java.io.*;
+import ilarkesto.pdf.AImage;
+import ilarkesto.pdf.AParagraph;
+import ilarkesto.pdf.APdfBuilder;
+import ilarkesto.pdf.ATable;
+import ilarkesto.pdf.FontStyle;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 

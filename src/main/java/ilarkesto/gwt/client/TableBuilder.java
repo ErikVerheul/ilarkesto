@@ -14,6 +14,11 @@
  */
 package ilarkesto.gwt.client;
 
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
+import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.gwt.client.editor.ABooleanEditorModel;
 import ilarkesto.gwt.client.editor.ADateAndTimeEditorModel;
 import ilarkesto.gwt.client.editor.ADateEditorModel;
@@ -25,15 +30,8 @@ import ilarkesto.gwt.client.editor.IntegerEditorWidget;
 import ilarkesto.gwt.client.editor.RichtextEditorWidget;
 import ilarkesto.gwt.client.editor.TextEditorWidget;
 import ilarkesto.gwt.client.editor.YesNoEditorWidget;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
-import com.google.gwt.user.client.ui.Widget;
 
 public class TableBuilder {
 

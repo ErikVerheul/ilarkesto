@@ -16,7 +16,6 @@ package ilarkesto.base;
 
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 

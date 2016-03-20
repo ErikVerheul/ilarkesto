@@ -30,7 +30,13 @@ import ilarkesto.search.SearchResultsConsumer;
 import ilarkesto.search.Searchable;
 import ilarkesto.search.Searcher;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class ADao<E extends AEntity> extends ADatobManager<E> implements IdentifiableResolver<E>, Searcher,
 		DaoListener, Iconized {

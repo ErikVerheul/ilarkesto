@@ -16,7 +16,6 @@ package ilarkesto.tools.deletebackups;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.core.time.Date;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;

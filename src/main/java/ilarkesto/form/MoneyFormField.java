@@ -15,10 +15,8 @@
 package ilarkesto.form;
 
 import ilarkesto.base.Money;
-
 import java.util.Collection;
 import java.util.Map;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class MoneyFormField extends AFormField {

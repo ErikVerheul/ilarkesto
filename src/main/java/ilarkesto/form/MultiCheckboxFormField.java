@@ -15,14 +15,12 @@
 package ilarkesto.form;
 
 import ilarkesto.base.StringProvider;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class MultiCheckboxFormField<T> extends AFormField {

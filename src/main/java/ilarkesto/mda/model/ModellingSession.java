@@ -18,7 +18,6 @@ import ilarkesto.core.event.EventBus;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.scope.In;
 import ilarkesto.mda.model.processor.GwtClassesGenerator;
-
 import java.util.ArrayList;
 import java.util.List;
 

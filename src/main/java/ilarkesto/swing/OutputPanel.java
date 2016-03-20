@@ -15,12 +15,10 @@
 package ilarkesto.swing;
 
 import ilarkesto.base.StrExtend;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

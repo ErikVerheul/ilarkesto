@@ -15,7 +15,6 @@
 package ilarkesto.core.time;
 
 import ilarkesto.testng.ATest;
-
 import org.testng.annotations.Test;
 
 public class DateAndTimeTest extends ATest {

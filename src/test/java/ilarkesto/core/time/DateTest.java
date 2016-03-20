@@ -15,9 +15,7 @@
 package ilarkesto.core.time;
 
 import ilarkesto.testng.ATest;
-
 import java.util.GregorianCalendar;
-
 import org.testng.annotations.Test;
 
 public class DateTest extends ATest {

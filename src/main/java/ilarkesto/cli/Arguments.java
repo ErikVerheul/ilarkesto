@@ -16,7 +16,6 @@ package ilarkesto.cli;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.StrExtend;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;

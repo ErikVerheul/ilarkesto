@@ -17,7 +17,6 @@ package ilarkesto.swing;
 import ilarkesto.base.StrExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -47,7 +46,6 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

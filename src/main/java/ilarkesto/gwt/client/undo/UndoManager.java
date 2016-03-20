@@ -15,7 +15,6 @@
 package ilarkesto.gwt.client.undo;
 
 import ilarkesto.core.logging.Log;
-
 import java.util.LinkedList;
 import java.util.List;
 

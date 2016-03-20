@@ -16,7 +16,6 @@ package ilarkesto.json;
 
 import ilarkesto.core.base.Str;
 import ilarkesto.json.Json.JsonWrapper;
-
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;

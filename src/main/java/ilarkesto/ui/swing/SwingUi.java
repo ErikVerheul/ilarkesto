@@ -24,10 +24,8 @@ import ilarkesto.swing.ExceptionPanel;
 import ilarkesto.swing.Swing;
 import ilarkesto.ui.AUi;
 import ilarkesto.ui.AView;
-
 import java.awt.Component;
 import java.io.File;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

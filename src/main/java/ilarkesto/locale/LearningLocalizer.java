@@ -19,12 +19,10 @@ import ilarkesto.base.StrExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
 import ilarkesto.swing.Swing;
-
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 

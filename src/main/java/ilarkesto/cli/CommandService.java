@@ -16,7 +16,6 @@ package ilarkesto.cli;
 
 import ilarkesto.auth.LoginRequiredException;
 import ilarkesto.base.StrExtend;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;

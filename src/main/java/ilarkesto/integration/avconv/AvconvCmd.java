@@ -1,7 +1,6 @@
 package ilarkesto.integration.avconv;
 
 import ilarkesto.base.Proc;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

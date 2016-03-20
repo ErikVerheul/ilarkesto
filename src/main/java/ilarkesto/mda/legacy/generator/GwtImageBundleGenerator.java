@@ -14,15 +14,13 @@
  */
 package ilarkesto.mda.legacy.generator;
 
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
+import com.google.gwt.user.client.ui.ImageBundle;
 import ilarkesto.io.FilenameComparator;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.ImageBundle;
 
 public class GwtImageBundleGenerator extends AClassGenerator {
 

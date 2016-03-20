@@ -4,12 +4,10 @@ import ilarkesto.auth.LoginData;
 import ilarkesto.auth.LoginDataProvider;
 import ilarkesto.auth.PropertiesLoginDataProvider;
 import ilarkesto.io.IO;
-
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.File;
 import java.util.Properties;
-
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

@@ -16,9 +16,7 @@ package ilarkesto.webapp;
 
 import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
-
 import java.io.IOException;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

@@ -16,7 +16,6 @@ package ilarkesto.gwt.client.editor;
 
 import ilarkesto.gwt.client.ADropdownViewEditWidget;
 import ilarkesto.gwt.client.LabelProvider;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;

@@ -24,7 +24,12 @@ import ilarkesto.gwt.client.ADataTransferObject;
 import ilarkesto.persistence.AEntity;
 import ilarkesto.persistence.TransactionService;
 import ilarkesto.webapp.AWebSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 

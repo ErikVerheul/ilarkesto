@@ -12,9 +12,6 @@
  */
 package com.google.gwt.user.client.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -33,6 +30,8 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.PopupPanel.AnimationType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A standard menu bar widget. A menu bar can contain any number of menu items, each of which can either fire

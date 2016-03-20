@@ -15,12 +15,10 @@
 package ilarkesto.form;
 
 import ilarkesto.base.MissingDependencyException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.fileupload.FileItem;
 
 public final class RadioSelectFormField<T> extends AFormField {

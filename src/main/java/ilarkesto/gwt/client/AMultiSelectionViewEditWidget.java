@@ -14,19 +14,17 @@
  */
 package ilarkesto.gwt.client;
 
-import ilarkesto.core.base.Str;
-import ilarkesto.core.base.ToHtmlSupport;
-import ilarkesto.core.base.Utl;
-
-import java.util.Collection;
-import java.util.List;
-
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+import ilarkesto.core.base.Str;
+import ilarkesto.core.base.ToHtmlSupport;
+import ilarkesto.core.base.Utl;
+import java.util.Collection;
+import java.util.List;
 
 public abstract class AMultiSelectionViewEditWidget<I extends Object> extends AViewEditWidget {
 

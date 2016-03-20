@@ -15,9 +15,7 @@
 package ilarkesto.net;
 
 import ilarkesto.testng.ATest;
-
 import java.io.File;
-
 import org.testng.annotations.Test;
 
 public class WebCrawlerTest extends ATest {

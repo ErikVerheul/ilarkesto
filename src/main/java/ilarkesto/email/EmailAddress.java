@@ -15,7 +15,6 @@
 package ilarkesto.email;
 
 import ilarkesto.core.base.Str;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

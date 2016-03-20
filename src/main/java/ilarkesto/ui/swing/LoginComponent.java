@@ -16,9 +16,7 @@ package ilarkesto.ui.swing;
 
 import ilarkesto.auth.LoginData;
 import ilarkesto.swing.PanelBuilder;
-
 import java.awt.event.ActionListener;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPasswordField;

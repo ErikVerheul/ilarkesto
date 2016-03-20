@@ -14,10 +14,9 @@
  */
 package ilarkesto.integration.itext;
 
+import com.itextpdf.text.Element;
 import ilarkesto.pdf.APageBreak;
 import ilarkesto.pdf.APdfElement;
-
-import com.itextpdf.text.Element;
 
 public class PageBreak extends APageBreak implements ItextElement {
 

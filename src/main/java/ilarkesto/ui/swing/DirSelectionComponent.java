@@ -16,9 +16,7 @@ package ilarkesto.ui.swing;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.swing.ALazyTreeNode;
-
 import java.io.File;
-
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;

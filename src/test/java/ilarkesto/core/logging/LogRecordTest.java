@@ -17,7 +17,6 @@ package ilarkesto.core.logging;
 import ilarkesto.core.logging.Log.Level;
 import ilarkesto.core.time.Tm;
 import ilarkesto.testng.ATest;
-
 import org.testng.annotations.Test;
 
 public class LogRecordTest extends ATest {

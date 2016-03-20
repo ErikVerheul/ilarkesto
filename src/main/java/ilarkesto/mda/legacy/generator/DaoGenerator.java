@@ -15,9 +15,9 @@
 package ilarkesto.mda.legacy.generator;
 
 import ilarkesto.auth.AUserDao;
-import ilarkesto.base.StrExtend;
 import ilarkesto.auth.Auth;
 import ilarkesto.base.Cache;
+import ilarkesto.base.StrExtend;
 import ilarkesto.fp.Predicate;
 import ilarkesto.mda.legacy.model.DatobModel;
 import ilarkesto.mda.legacy.model.DependencyModel;
@@ -25,7 +25,6 @@ import ilarkesto.mda.legacy.model.EntityModel;
 import ilarkesto.mda.legacy.model.PropertyModel;
 import ilarkesto.persistence.ADao;
 import ilarkesto.persistence.EntityEvent;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 

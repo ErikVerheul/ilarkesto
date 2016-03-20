@@ -18,14 +18,12 @@ import ilarkesto.core.scope.In;
 import ilarkesto.core.scope.Init;
 import ilarkesto.core.scope.Out;
 import ilarkesto.swing.Swing;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JFrame;

@@ -15,9 +15,7 @@
 package ilarkesto.core.base;
 
 import ilarkesto.testng.ATest;
-
 import java.util.List;
-
 import org.testng.annotations.Test;
 
 public class UtlTest extends ATest {

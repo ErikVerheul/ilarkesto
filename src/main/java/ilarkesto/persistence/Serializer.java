@@ -16,7 +16,6 @@ package ilarkesto.persistence;
 
 import ilarkesto.io.IO.StringInputStream;
 import ilarkesto.io.StringOutputStream;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 

@@ -17,7 +17,6 @@ import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.core.base.Str;
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.logging.Log.Level;
-
 import java.util.Date;
 
 public class LogRecord {

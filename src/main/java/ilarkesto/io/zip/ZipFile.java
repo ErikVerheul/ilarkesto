@@ -52,19 +52,21 @@ package ilarkesto.io.zip;
 
 import java.io.BufferedInputStream;
 import java.io.DataInput;
-import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.EOFException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * This class represents a Zip archive. You can ask for the contained entries_local, or get an input stream for a file entry.
- * The entry is automatically decompressed.
+ * This class represents a Zip archive. You can ask for the contained entries_local, or get an input stream for a file
+ * entry. The entry is automatically decompressed.
  *
  * This class is thread safe: You can open input streams for arbitrary entries_local in different threads.
  *
@@ -191,9 +193,8 @@ public class ZipFile implements ZipConstants {
         }
 
         /**
-         * Read the central directory of a zip file and fill the entries_local array. This is called exactly once when first
-         * needed. It is called while holding the lock on
-         * <code>raf</code>.
+         * Read the central directory of a zip file and fill the entries_local array. This is called exactly once when
+         * first needed. It is called while holding the lock on <code>raf</code>.
          *
          * @exception IOException if a i/o error occured.
          * @exception ZipException if the central directory is malformed
@@ -287,8 +288,7 @@ public class ZipFile implements ZipConstants {
         }
 
         /**
-         * Calls the
-         * <code>close()</code> method when this ZipFile has not yet been explicitly closed.
+         * Calls the <code>close()</code> method when this ZipFile has not yet been explicitly closed.
          */
         @Override
         protected void finalize() throws IOException {
@@ -334,7 +334,7 @@ public class ZipFile implements ZipConstants {
          * @param the name_local. May contain directory components separated by slashes ('/').
          * @return the zip entry, or null if no entry with that name_local exists.
          */
-        public ZipEntry getEntry(String name) {
+        public ZipEntry getEntry(String name) throws CloneNotSupportedException {
                 try {
                         HashMap entries_local = getEntries();
                         ZipEntry entry = (ZipEntry) entries_local.get(name);
@@ -418,6 +418,7 @@ public class ZipFile implements ZipConstants {
 
         /**
          * Returns the number of entries_local in this zip file.
+         * @return 
          */
         public int size() {
                 try {
@@ -441,11 +442,17 @@ public class ZipFile implements ZipConstants {
                 }
 
                 @Override
+                // returns null when not clonable
                 public Object nextElement() {
-                        /*
-                         * We return a clone, just to be safe that the user doesn't change the entry.
-                         */
-                        return ((ZipEntry) elements.next()).clone();
+                        try {
+                                /*
+                                 * We return a clone, just to be safe that the user doesn't change the entry.
+                                 */
+                                return ((ZipEntry) elements.next()).clone();
+                        } catch (CloneNotSupportedException ex) {
+                                Logger.getLogger(ZipFile.class.getName()).log(Level.SEVERE, null, ex);
+                                return null;
+                        }
                 }
         }
 

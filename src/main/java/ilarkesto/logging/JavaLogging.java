@@ -16,7 +16,6 @@ package ilarkesto.logging;
 
 import ilarkesto.base.Sys;
 import ilarkesto.core.logging.Log;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;

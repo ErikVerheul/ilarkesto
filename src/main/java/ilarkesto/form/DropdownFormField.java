@@ -15,7 +15,13 @@
 package ilarkesto.form;
 
 import ilarkesto.base.StrExtend;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.apache.commons.fileupload.FileItem;
 
 public class DropdownFormField<E> extends AFormField {

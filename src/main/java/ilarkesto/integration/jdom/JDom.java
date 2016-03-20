@@ -16,7 +16,6 @@ package ilarkesto.integration.jdom;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,7 +31,6 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;

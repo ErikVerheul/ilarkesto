@@ -17,7 +17,6 @@ package ilarkesto.form;
 import java.io.File;
 import java.util.Collection;
 import java.util.Map;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class FileFormField extends AFormField {

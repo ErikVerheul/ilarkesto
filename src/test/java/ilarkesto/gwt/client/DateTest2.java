@@ -1,10 +1,9 @@
 package ilarkesto.gwt.client;
 
+import ilarkesto.core.time.Date;
 import java.util.GregorianCalendar;
-
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import ilarkesto.core.time.*;
 
 public class DateTest2 extends Assert {
 

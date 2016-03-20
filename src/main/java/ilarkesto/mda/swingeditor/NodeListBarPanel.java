@@ -24,9 +24,7 @@ import ilarkesto.mda.model.ModellingSession;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.swingeditor.NodeListPanel.Observer;
 import ilarkesto.swing.HorizontalBarPanel;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 

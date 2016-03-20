@@ -17,7 +17,6 @@ package ilarkesto.mda.legacy.generator;
 import ilarkesto.core.base.Str;
 import ilarkesto.mda.legacy.model.ActionModel;
 import ilarkesto.mda.legacy.model.ParameterModel;
-
 import java.util.Collection;
 import java.util.List;
 

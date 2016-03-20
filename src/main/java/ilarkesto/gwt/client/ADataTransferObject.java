@@ -14,6 +14,7 @@
  */
 package ilarkesto.gwt.client;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,8 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * This class is for transporting data from the scrum server to the GWT client.

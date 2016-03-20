@@ -15,7 +15,6 @@
 package ilarkesto.core.navig;
 
 import ilarkesto.testng.ATest;
-
 import org.testng.annotations.Test;
 
 public class NavigatorTest extends ATest {

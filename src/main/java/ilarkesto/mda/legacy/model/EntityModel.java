@@ -15,7 +15,6 @@
 package ilarkesto.mda.legacy.model;
 
 import ilarkesto.base.StrExtend;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -15,7 +15,11 @@
 package ilarkesto.mda.legacy.model;
 
 import ilarkesto.base.StrExtend;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class BeanModel extends AModel {
 

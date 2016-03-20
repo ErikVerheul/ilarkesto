@@ -15,7 +15,6 @@
 package ilarkesto.core.event;
 
 import ilarkesto.core.logging.Log;
-
 import java.util.Collection;
 
 public abstract class AEventBus implements EventBus {

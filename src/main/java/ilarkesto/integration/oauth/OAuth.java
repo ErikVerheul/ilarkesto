@@ -5,9 +5,7 @@ import ilarkesto.auth.LoginDataProvider;
 import ilarkesto.core.logging.Log;
 import ilarkesto.json.JsonObject;
 import java.nio.charset.Charset;
-
 import java.util.Scanner;
-
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Api;
 import org.scribe.model.OAuthRequest;

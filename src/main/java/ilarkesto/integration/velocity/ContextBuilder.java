@@ -15,12 +15,10 @@
 package ilarkesto.integration.velocity;
 
 import ilarkesto.base.StrExtend;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.velocity.VelocityContext;
 
 public class ContextBuilder {

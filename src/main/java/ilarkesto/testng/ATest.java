@@ -16,7 +16,6 @@ package ilarkesto.testng;
 
 
 import java.util.Collection;
-
 import org.testng.Assert;
 
 public class ATest extends Assert {

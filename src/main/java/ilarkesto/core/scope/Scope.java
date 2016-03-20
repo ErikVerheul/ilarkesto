@@ -16,7 +16,6 @@ package ilarkesto.core.scope;
 
 import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
-
 import java.util.List;
 
 public abstract class Scope {

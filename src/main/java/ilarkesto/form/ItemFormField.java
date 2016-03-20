@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class ItemFormField<T> extends AFormField {

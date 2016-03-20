@@ -17,7 +17,6 @@ package ilarkesto.mda.swingeditor;
 import ilarkesto.core.logging.Log;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.RuleSet;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

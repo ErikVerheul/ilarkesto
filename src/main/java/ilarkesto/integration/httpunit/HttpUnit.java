@@ -14,16 +14,14 @@
  */
 package ilarkesto.integration.httpunit;
 
-import ilarkesto.base.Sys;
-
-import org.xml.sax.SAXException;
-
 import com.meterware.httpunit.ClientProperties;
 import com.meterware.httpunit.HTMLElement;
 import com.meterware.httpunit.HttpUnitOptions;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
+import ilarkesto.base.Sys;
+import org.xml.sax.SAXException;
 
 public class HttpUnit {
 

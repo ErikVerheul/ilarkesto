@@ -17,7 +17,6 @@ package ilarkesto.io.nio.httpserver;
 import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.nio.tcpserver.TcpConnection;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -36,7 +36,6 @@ import ilarkesto.mda.legacy.model.EntityModel;
 import ilarkesto.mda.legacy.model.PredicateModel;
 import ilarkesto.mda.legacy.model.PropertyModel;
 import ilarkesto.mda.legacy.model.StringPropertyModel;
-
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;

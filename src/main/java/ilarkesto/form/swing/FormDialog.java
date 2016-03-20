@@ -16,17 +16,31 @@ package ilarkesto.form.swing;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.core.logging.Log;
-import ilarkesto.form.*;
+import ilarkesto.form.FileFormField;
+import ilarkesto.form.Form;
+import ilarkesto.form.FormButton;
+import ilarkesto.form.FormField;
+import ilarkesto.form.TextFormField;
+import ilarkesto.form.ValidationException;
 import ilarkesto.swing.FileField;
 import ilarkesto.swing.PanelBuilder;
 import ilarkesto.swing.Swing;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class FormDialog {
 

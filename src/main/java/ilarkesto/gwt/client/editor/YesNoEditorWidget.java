@@ -14,14 +14,13 @@
  */
 package ilarkesto.gwt.client.editor;
 
-import ilarkesto.gwt.client.AViewEditWidget;
-
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import ilarkesto.gwt.client.AViewEditWidget;
 
 public class YesNoEditorWidget extends AViewEditWidget {
 

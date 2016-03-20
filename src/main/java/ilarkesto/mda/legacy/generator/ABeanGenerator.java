@@ -23,7 +23,6 @@ import ilarkesto.mda.legacy.model.CompositeModel;
 import ilarkesto.mda.legacy.model.DependencyModel;
 import ilarkesto.mda.legacy.model.EventModel;
 import ilarkesto.mda.legacy.model.ParameterModel;
-
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;

@@ -2,7 +2,6 @@ package ilarkesto.mda.generator;
 
 import java.util.Arrays;
 import junit.framework.TestCase;
-
 import org.testng.annotations.Test;
 
 public class JavaPrinterTest extends TestCase {

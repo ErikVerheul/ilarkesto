@@ -22,7 +22,6 @@ import ilarkesto.form.MultiCheckboxFormField;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.ui.Option;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

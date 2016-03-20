@@ -17,7 +17,6 @@ package ilarkesto.form;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Map;
-
 import org.apache.commons.fileupload.FileItem;
 
 public class FloatFormField extends AFormField {

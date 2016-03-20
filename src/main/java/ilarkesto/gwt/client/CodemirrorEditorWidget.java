@@ -14,13 +14,12 @@
  */
 package ilarkesto.gwt.client;
 
-import ilarkesto.core.base.Str;
-import ilarkesto.core.time.Tm;
-
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
+import ilarkesto.core.base.Str;
+import ilarkesto.core.time.Tm;
 
 // http://codemirror.net/manual.html
 public class CodemirrorEditorWidget extends AWidget {

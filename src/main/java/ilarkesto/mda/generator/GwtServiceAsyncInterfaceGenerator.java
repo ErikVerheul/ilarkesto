@@ -14,13 +14,11 @@
  */
 package ilarkesto.mda.generator;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import ilarkesto.base.StrExtend;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
-
 import java.util.List;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class GwtServiceAsyncInterfaceGenerator extends AJavaClassGenerator implements NodeTypes {
 

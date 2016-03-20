@@ -16,7 +16,6 @@ package ilarkesto.locale;
 
 import ilarkesto.base.StrExtend;
 import ilarkesto.persistence.AEntity;
-
 import java.util.Locale;
 
 /**

@@ -17,7 +17,6 @@ package ilarkesto.mda.legacy.generator;
 import ilarkesto.base.StrExtend;
 import ilarkesto.mda.legacy.model.ApplicationModel;
 import ilarkesto.mda.legacy.model.EntityModel;
-
 import java.util.Collection;
 
 public class GwtDataTransferObjectGenerator extends AClassGenerator {

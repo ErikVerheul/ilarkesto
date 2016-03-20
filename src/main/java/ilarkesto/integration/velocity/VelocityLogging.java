@@ -16,7 +16,6 @@ package ilarkesto.integration.velocity;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.logging.Log.Level;
-
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogChute;
 

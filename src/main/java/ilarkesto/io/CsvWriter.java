@@ -15,7 +15,6 @@
 package ilarkesto.io;
 
 import ilarkesto.base.StrExtend;
-
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Collection;

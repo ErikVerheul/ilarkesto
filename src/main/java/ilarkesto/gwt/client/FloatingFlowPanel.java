@@ -14,13 +14,12 @@
  */
 package ilarkesto.gwt.client;
 
-import java.util.Iterator;
-
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.Iterator;
 
 public class FloatingFlowPanel extends Composite implements HasWidgets {
 

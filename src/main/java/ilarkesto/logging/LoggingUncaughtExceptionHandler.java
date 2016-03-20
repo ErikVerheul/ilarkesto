@@ -15,7 +15,6 @@
 package ilarkesto.logging;
 
 import ilarkesto.core.logging.Log;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 
 public class LoggingUncaughtExceptionHandler implements UncaughtExceptionHandler {

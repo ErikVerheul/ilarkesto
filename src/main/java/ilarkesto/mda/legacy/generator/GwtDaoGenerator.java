@@ -26,7 +26,6 @@ import ilarkesto.mda.legacy.model.ApplicationModel;
 import ilarkesto.mda.legacy.model.EntityModel;
 import ilarkesto.mda.legacy.model.PropertyModel;
 import ilarkesto.persistence.AEntity;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;

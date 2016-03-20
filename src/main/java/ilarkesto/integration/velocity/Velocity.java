@@ -17,11 +17,9 @@ package ilarkesto.integration.velocity;
 import ilarkesto.base.StrExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.File;
 import java.io.StringWriter;
 import java.util.Map;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;

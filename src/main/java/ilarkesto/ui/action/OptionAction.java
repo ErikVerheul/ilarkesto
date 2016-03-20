@@ -19,7 +19,6 @@ import ilarkesto.di.BeanProvider;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.ui.Option;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

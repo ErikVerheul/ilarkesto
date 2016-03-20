@@ -14,10 +14,7 @@
  */
 package ilarkesto.core.diff;
 
-import ilarkesto.core.diff.CharDiff;
-import ilarkesto.core.diff.TxtDiffMarker;
 import ilarkesto.testng.ATest;
-
 import org.testng.annotations.Test;
 
 public class CharDiffTest extends ATest {

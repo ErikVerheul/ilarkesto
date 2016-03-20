@@ -14,16 +14,6 @@
  */
 package ilarkesto.gwt.client.editor;
 
-import ilarkesto.core.base.Str;
-import ilarkesto.core.logging.Log;
-import ilarkesto.gwt.client.AAction;
-import ilarkesto.gwt.client.AViewEditWidget;
-import ilarkesto.gwt.client.CodemirrorEditorWidget;
-import ilarkesto.gwt.client.Gwt;
-import ilarkesto.gwt.client.Initializer;
-import ilarkesto.gwt.client.RichtextFormater;
-import ilarkesto.gwt.client.ToolbarWidget;
-
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -35,6 +25,15 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import ilarkesto.core.base.Str;
+import ilarkesto.core.logging.Log;
+import ilarkesto.gwt.client.AAction;
+import ilarkesto.gwt.client.AViewEditWidget;
+import ilarkesto.gwt.client.CodemirrorEditorWidget;
+import ilarkesto.gwt.client.Gwt;
+import ilarkesto.gwt.client.Initializer;
+import ilarkesto.gwt.client.RichtextFormater;
+import ilarkesto.gwt.client.ToolbarWidget;
 
 public class RichtextEditorWidget extends AViewEditWidget {
 

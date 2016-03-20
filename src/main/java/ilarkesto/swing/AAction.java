@@ -15,7 +15,6 @@
 package ilarkesto.swing;
 
 import java.net.URL;
-
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;

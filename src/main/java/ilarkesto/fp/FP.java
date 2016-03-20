@@ -15,7 +15,6 @@
 package ilarkesto.fp;
 
 import ilarkesto.base.Tuple;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;

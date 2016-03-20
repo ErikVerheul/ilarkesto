@@ -14,8 +14,8 @@
  */
 package ilarkesto.mda.legacy.generator;
 
-import ilarkesto.base.StrExtend;
 import ilarkesto.auth.AUser;
+import ilarkesto.base.StrExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
@@ -29,7 +29,6 @@ import ilarkesto.persistence.AEntity;
 import ilarkesto.persistence.AStructure;
 import ilarkesto.persistence.EntityDoesNotExistException;
 import ilarkesto.persistence.UniqueFieldConstraintException;
-
 import java.util.LinkedHashSet;
 import java.util.Set;
 

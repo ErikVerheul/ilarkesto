@@ -14,12 +14,10 @@
  */
 package ilarkesto.gwt.client;
 
-import java.util.List;
-
-import ilarkesto.core.logging.Log;
-
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import ilarkesto.core.logging.Log;
+import java.util.List;
 
 public abstract class AGwtApplication implements EntryPoint {
 

@@ -15,7 +15,6 @@
 package ilarkesto.mda.model;
 
 import ilarkesto.core.logging.Log;
-
 import java.util.Comparator;
 
 public class NodeByIndexComparator implements Comparator<Node>, NodeTypes {

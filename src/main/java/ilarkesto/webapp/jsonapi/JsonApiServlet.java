@@ -21,7 +21,6 @@ import ilarkesto.webapp.AServlet;
 import ilarkesto.webapp.AWebApplication;
 import ilarkesto.webapp.AWebSession;
 import ilarkesto.webapp.RequestWrapper;
-
 import java.io.IOException;
 
 public class JsonApiServlet extends AServlet<AWebApplication, AWebSession> {

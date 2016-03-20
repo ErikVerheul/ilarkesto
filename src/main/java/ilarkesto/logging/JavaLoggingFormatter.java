@@ -15,7 +15,6 @@
 package ilarkesto.logging;
 
 import ilarkesto.base.StrExtend;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Formatter;

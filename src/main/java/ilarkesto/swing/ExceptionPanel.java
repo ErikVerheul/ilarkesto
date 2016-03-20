@@ -15,14 +15,12 @@
 package ilarkesto.swing;
 
 import ilarkesto.base.StrExtend;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;

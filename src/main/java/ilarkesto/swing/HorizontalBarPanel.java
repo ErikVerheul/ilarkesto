@@ -15,11 +15,9 @@
 package ilarkesto.swing;
 
 import ilarkesto.core.logging.Log;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

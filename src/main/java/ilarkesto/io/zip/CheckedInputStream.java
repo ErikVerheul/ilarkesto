@@ -52,8 +52,8 @@ exception statement from your version. */
 package ilarkesto.io.zip;
 
 import java.io.FilterInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /* Written using on-line Java Platform 1.2 API Specification
  * and JCL book.

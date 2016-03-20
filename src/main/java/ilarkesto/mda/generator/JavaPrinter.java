@@ -17,7 +17,6 @@ package ilarkesto.mda.generator;
 import ilarkesto.base.StrExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.File;
 import java.util.Collection;
 import java.util.List;

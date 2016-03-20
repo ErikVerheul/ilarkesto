@@ -16,8 +16,17 @@ package ilarkesto.base;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class for easy handling of external processes and executing commands.

@@ -19,7 +19,6 @@ import ilarkesto.core.scope.ComponentReflector;
 import ilarkesto.core.scope.Scope;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

@@ -18,7 +18,6 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;

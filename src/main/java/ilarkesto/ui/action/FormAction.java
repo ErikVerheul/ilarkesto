@@ -34,12 +34,10 @@ import ilarkesto.form.ValidationException;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.ui.Option;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.fileupload.FileItem;
 
 public final class FormAction<F extends Form> extends AAction {

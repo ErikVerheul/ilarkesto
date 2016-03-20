@@ -18,7 +18,6 @@ import ilarkesto.async.AAsyncWorker;
 import ilarkesto.async.AsyncWorker;
 import ilarkesto.async.Callback;
 import ilarkesto.async.Job;
-
 import org.testng.annotations.Test;
 
 public abstract class AAsyncJobTest<R> extends ATest {

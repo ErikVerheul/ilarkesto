@@ -16,13 +16,10 @@ package ilarkesto.auth;
 
 import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
-
 import java.util.Iterator;
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.VerificationResult;

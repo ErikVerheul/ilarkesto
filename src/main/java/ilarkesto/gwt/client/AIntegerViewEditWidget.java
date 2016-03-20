@@ -14,8 +14,6 @@
  */
 package ilarkesto.gwt.client;
 
-import ilarkesto.core.base.Str;
-
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -25,6 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import ilarkesto.core.base.Str;
 
 public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 

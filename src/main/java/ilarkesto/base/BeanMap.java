@@ -15,7 +15,6 @@
 package ilarkesto.base;
 
 import ilarkesto.core.logging.Log;
-
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;

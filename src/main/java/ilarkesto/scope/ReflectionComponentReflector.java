@@ -16,7 +16,11 @@ package ilarkesto.scope;
 
 import ilarkesto.base.Reflect;
 import ilarkesto.core.logging.Log;
-import ilarkesto.core.scope.*;
+import ilarkesto.core.scope.ComponentReflector;
+import ilarkesto.core.scope.In;
+import ilarkesto.core.scope.Init;
+import ilarkesto.core.scope.Out;
+import ilarkesto.core.scope.Scope;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

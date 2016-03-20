@@ -21,7 +21,6 @@ import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.integration.links.MultiLinkConverter;
 import ilarkesto.io.IO;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;

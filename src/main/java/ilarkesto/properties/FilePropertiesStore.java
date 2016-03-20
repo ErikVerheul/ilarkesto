@@ -16,7 +16,6 @@ package ilarkesto.properties;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.File;
 import java.util.Properties;
 

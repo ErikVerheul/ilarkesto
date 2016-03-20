@@ -16,7 +16,12 @@ package ilarkesto.integration.itext;
 
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfPCell;
-import ilarkesto.pdf.*;
+import ilarkesto.pdf.ACell;
+import ilarkesto.pdf.AImage;
+import ilarkesto.pdf.AParagraph;
+import ilarkesto.pdf.APdfBuilder;
+import ilarkesto.pdf.APdfElement;
+import ilarkesto.pdf.ATable;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;

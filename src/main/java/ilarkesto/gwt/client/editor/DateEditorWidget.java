@@ -14,15 +14,14 @@
  */
 package ilarkesto.gwt.client.editor;
 
-import ilarkesto.core.time.Date;
-import ilarkesto.gwt.client.AViewEditWidget;
-
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
+import ilarkesto.core.time.Date;
+import ilarkesto.gwt.client.AViewEditWidget;
 
 public class DateEditorWidget extends AViewEditWidget {
 

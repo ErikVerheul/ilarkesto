@@ -23,7 +23,12 @@ import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import ilarkesto.core.logging.Log;
-import ilarkesto.pdf.*;
+import ilarkesto.pdf.AImage;
+import ilarkesto.pdf.AParagraph;
+import ilarkesto.pdf.AParagraphElement;
+import ilarkesto.pdf.APdfElement;
+import ilarkesto.pdf.FontStyle;
+import ilarkesto.pdf.TextChunk;
 import java.io.File;
 
 public class Paragraph extends AParagraph implements ItextElement {

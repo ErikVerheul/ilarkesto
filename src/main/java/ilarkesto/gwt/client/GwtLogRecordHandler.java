@@ -14,10 +14,9 @@
  */
 package ilarkesto.gwt.client;
 
+import com.google.gwt.core.client.GWT;
 import ilarkesto.core.logging.LogRecord;
 import ilarkesto.core.logging.LogRecordHandler;
-
-import com.google.gwt.core.client.GWT;
 
 public class GwtLogRecordHandler implements LogRecordHandler {
 

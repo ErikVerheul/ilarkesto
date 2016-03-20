@@ -16,8 +16,8 @@ package ilarkesto.concurrent;
 
 import ilarkesto.base.UtlExtend;
 import ilarkesto.core.logging.Log;
-import org.netbeans.api.annotations.common.SuppressWarnings;
 import ilarkesto.core.time.Tm;
+import org.netbeans.api.annotations.common.SuppressWarnings;
 
 public abstract class ATask {
 

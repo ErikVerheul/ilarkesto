@@ -16,7 +16,6 @@ package ilarkesto.core.navig;
 
 import ilarkesto.core.base.Str;
 import ilarkesto.core.logging.Log;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;

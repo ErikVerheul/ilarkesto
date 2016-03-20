@@ -15,9 +15,7 @@
 package ilarkesto.email;
 
 import ilarkesto.testng.ATest;
-
 import java.util.List;
-
 import org.testng.annotations.Test;
 
 public class EmailAddressTest extends ATest {

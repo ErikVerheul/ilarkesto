@@ -17,14 +17,12 @@ package ilarkesto.ui.swing;
 import ilarkesto.core.logging.Log;
 import ilarkesto.persistence.TransactionService;
 import ilarkesto.swing.Swing;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;

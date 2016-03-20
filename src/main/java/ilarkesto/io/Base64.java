@@ -10,8 +10,6 @@
 package ilarkesto.io;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
-import ilarkesto.base.Sys;
-import java.nio.charset.Charset;
 
 /**
  * <p>

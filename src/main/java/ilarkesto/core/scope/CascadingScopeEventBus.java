@@ -15,7 +15,6 @@
 package ilarkesto.core.scope;
 
 import ilarkesto.core.event.AEventBus;
-
 import java.util.Collection;
 
 public class CascadingScopeEventBus extends AEventBus {

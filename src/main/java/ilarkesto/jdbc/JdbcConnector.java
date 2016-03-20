@@ -16,7 +16,6 @@ package ilarkesto.jdbc;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.jdbc.Jdbc.RecordHandler;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

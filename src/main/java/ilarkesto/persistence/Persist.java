@@ -19,7 +19,6 @@ import ilarkesto.auth.Auth;
 import ilarkesto.fp.Predicate;
 import ilarkesto.id.Identifiable;
 import ilarkesto.search.Searchable;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

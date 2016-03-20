@@ -15,7 +15,6 @@
 package ilarkesto.json.jsondb;
 
 import ilarkesto.json.JsonObject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

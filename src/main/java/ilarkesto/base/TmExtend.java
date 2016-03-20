@@ -16,7 +16,6 @@ package ilarkesto.base;
 
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;

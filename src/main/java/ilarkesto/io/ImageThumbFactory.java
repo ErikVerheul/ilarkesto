@@ -15,7 +15,6 @@
 package ilarkesto.io;
 
 import ilarkesto.core.logging.Log;
-
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;

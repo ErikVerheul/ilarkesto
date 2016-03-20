@@ -16,7 +16,6 @@ package ilarkesto.tools;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;

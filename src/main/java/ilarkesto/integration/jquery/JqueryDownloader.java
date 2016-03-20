@@ -16,7 +16,6 @@ package ilarkesto.integration.jquery;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
-
 import java.io.File;
 
 public class JqueryDownloader {

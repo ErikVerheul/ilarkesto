@@ -15,7 +15,11 @@
 package ilarkesto.core.scope;
 
 import ilarkesto.core.event.AEventBus;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CascadingScope extends Scope {
 

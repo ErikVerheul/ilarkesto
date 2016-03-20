@@ -16,11 +16,9 @@ package ilarkesto.mda.swingeditor;
 
 import ilarkesto.core.scope.In;
 import ilarkesto.mda.model.Node;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;

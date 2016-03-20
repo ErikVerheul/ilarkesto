@@ -18,7 +18,6 @@ import ilarkesto.base.UtlExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.fp.Predicate;
 import ilarkesto.id.IdentifiableResolver;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;

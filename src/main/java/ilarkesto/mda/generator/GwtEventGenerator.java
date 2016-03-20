@@ -17,7 +17,6 @@ package ilarkesto.mda.generator;
 import ilarkesto.core.event.Quiet;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

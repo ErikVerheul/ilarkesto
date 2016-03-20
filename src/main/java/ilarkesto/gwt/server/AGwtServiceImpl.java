@@ -14,17 +14,15 @@
  */
 package ilarkesto.gwt.server;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import ilarkesto.core.logging.Log;
 import ilarkesto.di.Context;
 import ilarkesto.gwt.client.ErrorWrapper;
 import ilarkesto.persistence.DaoService;
 import ilarkesto.webapp.AWebApplication;
 import ilarkesto.webapp.AWebSession;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * Base class for GWT service implementations.

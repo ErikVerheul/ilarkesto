@@ -14,12 +14,11 @@
  */
 package ilarkesto.gwt.client.editor;
 
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
 import ilarkesto.gwt.client.AWidget;
 import ilarkesto.gwt.client.Gwt;
-
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 
 public class TextOutputWidget extends AWidget {
 

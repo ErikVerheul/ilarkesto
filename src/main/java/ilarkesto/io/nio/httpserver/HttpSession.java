@@ -15,7 +15,6 @@
 package ilarkesto.io.nio.httpserver;
 
 import ilarkesto.core.time.Tm;
-
 import java.util.UUID;
 
 public class HttpSession<S> {

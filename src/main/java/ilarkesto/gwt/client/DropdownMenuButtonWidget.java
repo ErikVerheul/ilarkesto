@@ -14,14 +14,13 @@
  */
 package ilarkesto.gwt.client;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DropdownMenuButtonWidget extends AWidget {
 

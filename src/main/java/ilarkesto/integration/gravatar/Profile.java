@@ -16,7 +16,6 @@ package ilarkesto.integration.gravatar;
 
 import ilarkesto.json.AJsonWrapper;
 import ilarkesto.json.JsonObject;
-
 import java.util.List;
 
 public class Profile extends AJsonWrapper {
