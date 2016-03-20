@@ -291,9 +291,13 @@ public class ZipFile implements ZipConstants {
          * Calls the <code>close()</code> method when this ZipFile has not yet been explicitly closed.
          */
         @Override
-        protected void finalize() throws IOException {
-                if (!closed && raf != null) {
-                        close();
+        protected void finalize() throws IOException, Throwable {
+                try {
+                        if (!closed && raf != null) {
+                                close();
+                        }
+                } finally {
+                        super.finalize();
                 }
         }
 
