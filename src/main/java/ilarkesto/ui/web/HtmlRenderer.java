@@ -115,7 +115,9 @@ public class HtmlRenderer {
 	public void TEXTAREA(String name, String id, String text, Integer cols, int rows, boolean wysiwyg, String width) {
 		Tag tag = startTag(TEXTAREA).set("name", name).setId(id).set("rows", rows).set("cols", cols)
 				.set("wrap", "virtual").setWidth(width).setStyle("width: " + width + ";");
-		if (wysiwyg) tag.setClass("wysiwyg");
+		if (wysiwyg) {
+                        tag.setClass("wysiwyg");
+                }
 		html(text);
 		endTag(TEXTAREA);
 	}
@@ -198,7 +200,9 @@ public class HtmlRenderer {
 
 	public void startSPANwithHint(String clazz, String content) {
 		Tag tag = startSPAN(clazz);
-		if (content == null) return;
+		if (content == null) {
+                        return;
+                }
 
 		String hintDivId = hintIdGenerator.generateId();
 		tag.setOnmouseover("showHint('" + hintDivId + "')").setOnmouseout("hideHint()");
@@ -327,7 +331,9 @@ public class HtmlRenderer {
 
 	public void OPTION(String value, String text, boolean selected) {
 		Tag tag = startTag(OPTION).set("value", value);
-		if (selected) tag.set("selected", "true");
+		if (selected) {
+                        tag.set("selected", "true");
+                }
 		text(text);
 		endTag(OPTION);
 	}
@@ -376,7 +382,9 @@ public class HtmlRenderer {
 		tag.set("class", "inputButton");
 		tag.set("accesskey", accessKey);
 		tag.setStyle(style);
-		if (onclick != null) tag.setOnclick(onclick);
+		if (onclick != null) {
+                        tag.setOnclick(onclick);
+                }
 		tag.end();
 	}
 
@@ -436,7 +444,9 @@ public class HtmlRenderer {
 
 	private Tag INPUT(String type, String name, String value) {
 		Tag tag = startTag(INPUT, true).set("type", type).set("name", name);
-		if (value != null) tag.set("value", StrExtend.replaceForHtml(value));
+		if (value != null) {
+                        tag.set("value", StrExtend.replaceForHtml(value));
+                }
 		return tag;
 	}
 
@@ -535,7 +545,9 @@ public class HtmlRenderer {
 	public void METArefresh(int seconds, String url) {
 		StringBuilder content = new StringBuilder();
 		content.append(seconds);
-		if (url != null) content.append("; URL=").append(url);
+		if (url != null) {
+                        content.append("; URL=").append(url);
+                }
 		META("refresh", content.toString());
 	}
 
@@ -588,7 +600,9 @@ public class HtmlRenderer {
 	// --- google analytics ---
 
 	public void googleAnalytics(String webPropertyId) {
-		if (webPropertyId == null) return;
+		if (webPropertyId == null) {
+                        return;
+                }
 		html("<script type=\"text/javascript\">\r\n"
 				+ "var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");\r\n"
 				+ "document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));\r\n"
@@ -599,7 +613,9 @@ public class HtmlRenderer {
 
 	@Override
 	public String toString() {
-		if (buffer == null) return super.toString();
+		if (buffer == null) {
+                        return super.toString();
+                }
 		flush();
 		return buffer.toString();
 	}
@@ -607,7 +623,9 @@ public class HtmlRenderer {
 	// --- helper ---
 
 	private String toString(Url url) {
-		if (url == null) return null;
+		if (url == null) {
+                        return null;
+                }
 		return url.toString();
 	}
 
@@ -637,11 +655,21 @@ public class HtmlRenderer {
 	public void IMG(String src, String alternatieText, String id, String align, Integer width, Integer height,
 			String style) {
 		Tag tag = startTag(IMG).setSrc(src).setAlt(alternatieText).setBorder(0);
-		if (id != null) tag.setId(id);
-		if (width != null) tag.setWidth(width);
-		if (height != null) tag.set("height", height);
-		if (align != null) tag.setAlign(align);
-		if (style != null) tag.setStyle(style);
+		if (id != null) {
+                        tag.setId(id);
+                }
+		if (width != null) {
+                        tag.setWidth(width);
+                }
+		if (height != null) {
+                        tag.set("height", height);
+                }
+		if (align != null) {
+                        tag.setAlign(align);
+                }
+		if (style != null) {
+                        tag.setStyle(style);
+                }
 		tag.end();
 	}
 
@@ -774,7 +802,9 @@ public class HtmlRenderer {
 
 	public void A(String href, String text, boolean targetBlank) {
 		Tag a = startA(href);
-		if (targetBlank) a.setTargetBlank();
+		if (targetBlank) {
+                        a.setTargetBlank();
+                }
 		text(text);
 		endA();
 	}
@@ -886,8 +916,9 @@ public class HtmlRenderer {
 
 	private void printPrefix() {
 		// increases html file size
-		for (int i = 0; i < depth; i++)
-			out.print(" ");
+		for (int i = 0; i < depth; i++) {
+                        out.print(" ");
+                }
 	}
 
 	public Tag startTag(String name, boolean nl) {
@@ -935,14 +966,18 @@ public class HtmlRenderer {
 			if (s.startsWith("<html>")) {
 				if (s.length() > 6) {
 					s = s.substring(6);
-					if (activateLinks) s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+					if (activateLinks) {
+                                                s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+                                        }
 					out.print(s);
 				}
 			} else {
 				s = StrExtend.replaceForHtml(s);
 				// text = StringEscapeUtils.escapeHtml(text);
 				// text = text.replace("\n", "<BR/>");
-				if (activateLinks) s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+				if (activateLinks) {
+                                        s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+                                }
 				out.print(s);
 			}
 		}
@@ -1044,7 +1079,9 @@ public class HtmlRenderer {
 		}
 
 		public Tag setHref(String value) {
-			if (value == null) return this;
+			if (value == null) {
+                                return this;
+                        }
 			return set("href", value.replace("&", "&amp;"));
 		}
 
@@ -1133,18 +1170,24 @@ public class HtmlRenderer {
 		}
 
 		private Tag set(String name, Character value) {
-			if (value == null) return this;
+			if (value == null) {
+                                return this;
+                        }
 			return set(name, value.toString());
 		}
 
 		public Tag set(String name, Object value) {
-			if (value == null) return this;
+			if (value == null) {
+                                return this;
+                        }
 			return set(name, String.valueOf(value));
 		}
 
 		public Tag set(String name, String value) {
 			// TODO cache in map
-			if (value == null) return this;
+			if (value == null) {
+                                return this;
+                        }
 			out.print(" ");
 			out.print(name);
 			out.print("=\"");

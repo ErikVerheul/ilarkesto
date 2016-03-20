@@ -23,7 +23,9 @@ public class Async {
 	}
 
 	public static AsyncWorker getWorker() {
-		if (worker == null) worker = new ExecutorAsyncWorker();
+		if (worker == null) {
+                        worker = new ExecutorAsyncWorker();
+                }
 		return worker;
 	}
 

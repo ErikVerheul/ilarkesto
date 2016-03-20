@@ -37,15 +37,21 @@ public class TooltipListener extends MouseListenerAdapter {
 
 	@Override
 	public void onMouseEnter(Widget sender) {
-		if (isContentBlank()) return;
-		if (tooltip != null) tooltip.hide();
+		if (isContentBlank()) {
+                        return;
+                }
+		if (tooltip != null) {
+                        tooltip.hide();
+                }
 		tooltip = new TooltipPopup(sender, offsetX, offsetY, content, false);
 		tooltip.show();
 	}
 
 	@Override
 	public void onMouseLeave(Widget sender) {
-		if (tooltip != null) tooltip.hide();
+		if (tooltip != null) {
+                        tooltip.hide();
+                }
 	}
 
 	@Override

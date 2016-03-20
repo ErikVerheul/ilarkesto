@@ -79,8 +79,12 @@ public class FormDialog {
 	}
 
 	private String getComponentValue(JComponent c) {
-		if (c instanceof JTextField) return ((JTextField) c).getText();
-		if (c instanceof FileField) return ((FileField) c).getPath();
+		if (c instanceof JTextField) {
+                        return ((JTextField) c).getText();
+                }
+		if (c instanceof FileField) {
+                        return ((FileField) c).getPath();
+                }
 		throw new RuntimeException("Unsupported component: " + c.getClass().getName());
 	}
 
@@ -129,7 +133,9 @@ public class FormDialog {
 	private void addField(FormField field) {
 		String label = field.getLabel();
 		String hintText = field.getHintText();
-		if (field.isRequired()) label += "*";
+		if (field.isRequired()) {
+                        label += "*";
+                }
 
 		JLabel l = new JLabel(label);
 		l.setToolTipText(hintText);
@@ -282,7 +288,9 @@ public class FormDialog {
 		// return true;
 		// }
 
-		if (button.isAbort()) return false;
+		if (button.isAbort()) {
+                        return false;
+                }
 
 		// user defined button
 		return false;

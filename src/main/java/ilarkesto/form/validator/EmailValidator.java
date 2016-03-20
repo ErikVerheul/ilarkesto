@@ -30,9 +30,13 @@ public class EmailValidator implements Validator {
 	@Override
 	public String validate(String s) throws ValidationException {
 		s = s.trim();
-		if (s.length() < 5) throw new ValidationException(MSG);
+		if (s.length() < 5) {
+                        throw new ValidationException(MSG);
+                }
 		int idx = s.indexOf('@');
-		if (idx < 1) throw new ValidationException(MSG);
+		if (idx < 1) {
+                        throw new ValidationException(MSG);
+                }
 
 		// if (idx >= s.length() - 3) throw new ValidationException(MSG);
 		// int idx2 = s.lastIndexOf('.');

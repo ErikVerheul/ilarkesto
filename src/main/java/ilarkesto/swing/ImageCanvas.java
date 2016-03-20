@@ -65,12 +65,16 @@ public class ImageCanvas extends Component {
 	public synchronized void paint(Graphics g) {
 		int width = getWidth();
 		int height = getHeight();
-		if (autoScale && preloader != null) preloader.setAutoScale(width, height);
+		if (autoScale && preloader != null) {
+                        preloader.setAutoScale(width, height);
+                }
 
 		g.setColor(backgroundColor);
 		g.fillRect(0, 0, width, height);
 
-		if (image == null) return;
+		if (image == null) {
+                        return;
+                }
 
 		int imageWidth = image.getWidth();
 		int imageHeight = image.getHeight();
@@ -86,8 +90,12 @@ public class ImageCanvas extends Component {
 		int x = 0;
 		int y = 0;
 
-		if (width > imageWidth) x = (width - imageWidth) / 2;
-		if (height > imageHeight) y = (height - imageHeight) / 2;
+		if (width > imageWidth) {
+                        x = (width - imageWidth) / 2;
+                }
+		if (height > imageHeight) {
+                        y = (height - imageHeight) / 2;
+                }
 
 		g.drawImage(image, x, y, null);
 	}
@@ -102,7 +110,9 @@ public class ImageCanvas extends Component {
 
 	public synchronized void setAutoScale(boolean autoScale) {
 		this.autoScale = autoScale;
-		if (autoScale && preloader != null) preloader.setAutoScale(getWidth(), getHeight());
+		if (autoScale && preloader != null) {
+                        preloader.setAutoScale(getWidth(), getHeight());
+                }
 	}
 
 	public synchronized boolean isAutoScale() {
@@ -112,7 +122,9 @@ public class ImageCanvas extends Component {
 	public synchronized ImagePreloader getPreloader() {
 		if (preloader == null) {
 			preloader = new ImagePreloader();
-			if (autoScale) preloader.setAutoScale(getWidth(), getHeight());
+			if (autoScale) {
+                                preloader.setAutoScale(getWidth(), getHeight());
+                        }
 		}
 		return preloader;
 	}

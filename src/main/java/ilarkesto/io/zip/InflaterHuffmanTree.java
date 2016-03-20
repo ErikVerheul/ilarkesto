@@ -64,20 +64,25 @@ public class InflaterHuffmanTree {
       {
 	byte[] codeLengths = new byte[288];
 	int i = 0;
-	while (i < 144)
-	  codeLengths[i++] = 8;
-	while (i < 256)
-	  codeLengths[i++] = 9;
-	while (i < 280)
-	  codeLengths[i++] = 7;
-	while (i < 288)
-	  codeLengths[i++] = 8;
+	while (i < 144) {
+                codeLengths[i++] = 8;
+        }
+	while (i < 256) {
+                codeLengths[i++] = 9;
+        }
+	while (i < 280) {
+                codeLengths[i++] = 7;
+        }
+	while (i < 288) {
+                codeLengths[i++] = 8;
+        }
 	defLitLenTree = new InflaterHuffmanTree(codeLengths);
 	
 	codeLengths = new byte[32];
 	i = 0;
-	while (i < 32)
-	  codeLengths[i++] = 5;
+	while (i < 32) {
+                codeLengths[i++] = 5;
+        }
 	defDistTree = new InflaterHuffmanTree(codeLengths);
       } 
     catch (DataFormatException ex)
@@ -104,8 +109,9 @@ public class InflaterHuffmanTree {
     for (int i = 0; i < codeLengths.length; i++)
       {
 	int bits = codeLengths[i];
-	if (bits > 0)
-	  blCount[bits]++;
+	if (bits > 0) {
+                blCount[bits]++;
+        }
       }
 
     int code = 0;
@@ -122,8 +128,9 @@ public class InflaterHuffmanTree {
 	    treeSize += (end - start) >> (16 - bits);
 	  }
       }
-    if (code != 65536)
-      throw new DataFormatException("Code lengths don't add up properly.");
+    if (code != 65536) {
+            throw new DataFormatException("Code lengths don't add up properly.");
+    }
 
     /* Now create and fill the extra tables from longest to shortest
      * bit len.  This way the sub trees will be aligned.
@@ -146,8 +153,9 @@ public class InflaterHuffmanTree {
     for (int i = 0; i < codeLengths.length; i++)
       {
 	int bits = codeLengths[i];
-	if (bits == 0)
-	  continue;
+	if (bits == 0) {
+                continue;
+        }
 	code = nextCode[bits];
 	int revcode = DeflaterHuffman.bitReverse(code);
 	if (bits <= 9)
@@ -209,8 +217,9 @@ public class InflaterHuffmanTree {
 		input.dropBits(symbol & 15);
 		return symbol >> 4;
 	      }
-	    else
-	      return -1;
+	    else {
+                    return -1;
+            }
 	  }
       }
     else
@@ -223,8 +232,9 @@ public class InflaterHuffmanTree {
 	    input.dropBits(symbol & 15);
 	    return symbol >> 4;
 	  }
-	else
-	  return -1;
+	else {
+                return -1;
+        }
       }
   }
 }

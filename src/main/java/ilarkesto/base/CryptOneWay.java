@@ -356,9 +356,12 @@ public abstract class CryptOneWay {
 
         @SuppressWarnings("SBSC_USE_STRINGBUFFER_CONCATENATION")
 	public static String crypt(String salt, String original) {
-		if (original == null) original = "";
-		while (salt.length() < 2)
-			salt += "A";
+		if (original == null) {
+                        original = "";
+                }
+		while (salt.length() < 2) {
+                        salt += "A";
+                }
 
 		StringBuilder buffer = new StringBuilder("             ");
 
@@ -373,8 +376,9 @@ public abstract class CryptOneWay {
 
 		byte key[] = new byte[8];
 
-		for (int i = 0; i < key.length; i++)
-			key[i] = (byte) 0;
+		for (int i = 0; i < key.length; i++) {
+                        key[i] = (byte) 0;
+                }
 
 		for (int i = 0; i < key.length && i < original.length(); i++) {
 			int iChar = original.charAt(i);
@@ -395,7 +399,9 @@ public abstract class CryptOneWay {
 			for (int j = 0, c = 0; j < 6; j++) {
 				c <<= 1;
 
-				if ((b[y] & u) != 0) c |= 1;
+				if ((b[y] & u) != 0) {
+                                        c |= 1;
+                                }
 
 				u >>>= 1;
 

@@ -167,8 +167,12 @@ public class DateAndTime implements Comparable<DateAndTime>, Serializable {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (obj == null) return false;
-		if (!(obj instanceof DateAndTime)) return false;
+		if (obj == null) {
+                        return false;
+                }
+		if (!(obj instanceof DateAndTime)) {
+                        return false;
+                }
 		return date.equals(((DateAndTime) obj).date) && time.equals(((DateAndTime) obj).time);
 	}
 

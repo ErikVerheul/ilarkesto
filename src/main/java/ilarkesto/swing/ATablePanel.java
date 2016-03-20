@@ -87,7 +87,9 @@ public abstract class ATablePanel<T> extends JPanel {
 		List<T> items = model.getItems();
 		for (T item : itemsToSelect) {
 			int row = items.indexOf(item);
-			if (row < 0) continue;
+			if (row < 0) {
+                                continue;
+                        }
 			selectionModel.addSelectionInterval(row, row);
 		}
 	}

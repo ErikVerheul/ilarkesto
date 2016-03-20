@@ -32,7 +32,9 @@ public class JsonApiServlet extends AServlet<AWebApplication, AWebSession> {
 	protected void onGet(RequestWrapper req) throws IOException {
 		AJsonApi api = createApi(req);
 		boolean binary = api.doBinaryGet();
-		if (binary) return;
+		if (binary) {
+                        return;
+                }
 		writeGet(req, api);
 	}
 
@@ -62,7 +64,9 @@ public class JsonApiServlet extends AServlet<AWebApplication, AWebSession> {
 		if (idx >= 0) {
 			subpath = path.substring(idx + 1);
 			subpath = Str.removeSuffix(subpath, "/");
-			if (Str.isBlank(subpath)) subpath = null;
+			if (Str.isBlank(subpath)) {
+                                subpath = null;
+                        }
 			path = path.substring(0, idx);
 		}
 		AJsonApi api = webApplication.getRestApiFactory().createApi(req, path);

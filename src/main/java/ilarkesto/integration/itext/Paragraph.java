@@ -50,7 +50,9 @@ public class Paragraph extends AParagraph implements ItextElement {
 				p.add(phrase);
 
 				float size = (fontStyle.getSize() * 1.1f) + 1f;
-				if (size > maxSize) maxSize = PdfBuilder.mmToPoints(size);
+				if (size > maxSize) {
+                                        maxSize = PdfBuilder.mmToPoints(size);
+                                }
 			} else if (element instanceof Image) {
 				Image image = (Image) element;
 				com.itextpdf.text.Image itextImage;
@@ -68,7 +70,9 @@ public class Paragraph extends AParagraph implements ItextElement {
 					Chunk chunk = new Chunk(itextImage, 0, 0);
 					p.add(chunk);
 					float size = image.getHeight() + 3;
-					if (size > maxSize) maxSize = size;
+					if (size > maxSize) {
+                                                maxSize = size;
+                                        }
 				}
 
 			} else {
@@ -78,8 +82,12 @@ public class Paragraph extends AParagraph implements ItextElement {
 		p.setLeading(maxSize);
 		p.setSpacingBefore(PdfBuilder.mmToPoints(spacingTop));
 		p.setSpacingAfter(PdfBuilder.mmToPoints(spacingBottom));
-		if (align != null) p.setAlignment(convertAlign(align));
-		if (height <= 0) return p;
+		if (align != null) {
+                        p.setAlignment(convertAlign(align));
+                }
+		if (height <= 0) {
+                        return p;
+                }
 
 		// wrap in table
 		PdfPCell cell = new PdfPCell();

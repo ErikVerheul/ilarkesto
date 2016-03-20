@@ -8,12 +8,18 @@ import java.util.Map;
 public class Json {
 
 	public static String valueToString(Object value, int indentation) {
-		if (value == null) return "null";
-		if (value instanceof String) return '"' + escapeString((String) value) + '"';
+		if (value == null) {
+                        return "null";
+                }
+		if (value instanceof String) {
+                        return '"' + escapeString((String) value) + '"';
+                }
 		if (value instanceof Iterable) {
 			StringBuilder sb = new StringBuilder();
 			sb.append('[');
-			if (indentation >= 0) indentation++;
+			if (indentation >= 0) {
+                                indentation++;
+                        }
 			Iterable list = (Iterable) value;
 			boolean first = true;
 			for (Object element : list) {
@@ -25,11 +31,17 @@ public class Json {
 				sb.append(valueToString(element, indentation));
 			}
 			sb.append(']');
-			if (indentation >= 0) indentation--;
+			if (indentation >= 0) {
+                                indentation--;
+                        }
 			return sb.toString();
 		}
-		if (value instanceof JsonObject) return ((JsonObject) value).toString(indentation);
-		if (value instanceof JsonWrapper) return ((JsonWrapper) value).getJson().toString(indentation);
+		if (value instanceof JsonObject) {
+                        return ((JsonObject) value).toString(indentation);
+                }
+		if (value instanceof JsonWrapper) {
+                        return ((JsonWrapper) value).getJson().toString(indentation);
+                }
 		return value.toString();
 	}
 
@@ -40,7 +52,9 @@ public class Json {
 	}
 
 	public static String escapeString(String s) {
-		if (s == null) return "";
+		if (s == null) {
+                        return "";
+                }
 		s = s.replace("\"", "\\\"");
 		s = s.replace("\t", "\\\t");
 		s = s.replace("\r", "\\\r");
@@ -68,7 +82,9 @@ public class Json {
 	}
 
 	public static Number parseNumber(String s) throws NumberFormatException {
-		if (s.contains(".")) return Double.parseDouble(s);
+		if (s.contains(".")) {
+                        return Double.parseDouble(s);
+                }
 		return Long.parseLong(s);
 	}
 
@@ -77,14 +93,30 @@ public class Json {
 	}
 
 	static Object convertValue(Object value) {
-		if (value == null) return null;
-		if (value instanceof JsonWrapper) return ((JsonWrapper) value).getJson();
-		if (value instanceof JsonObject) return value;
-		if (value instanceof String) return value;
-		if (value instanceof List) return value;
-		if (value instanceof Boolean) return value;
-		if (value instanceof Number) return value;
-		if (value instanceof Collection) return new ArrayList((Collection) value);
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof JsonWrapper) {
+                        return ((JsonWrapper) value).getJson();
+                }
+		if (value instanceof JsonObject) {
+                        return value;
+                }
+		if (value instanceof String) {
+                        return value;
+                }
+		if (value instanceof List) {
+                        return value;
+                }
+		if (value instanceof Boolean) {
+                        return value;
+                }
+		if (value instanceof Number) {
+                        return value;
+                }
+		if (value instanceof Collection) {
+                        return new ArrayList((Collection) value);
+                }
 		if (value instanceof Iterable) {
 			List ret = new ArrayList();
 			for (Object element : (Iterable) value) {
@@ -92,14 +124,18 @@ public class Json {
 			}
 			return ret;
 		}
-		if (value instanceof Map) return new JsonObject((Map) value);
+		if (value instanceof Map) {
+                        return new JsonObject((Map) value);
+                }
 		return value.toString();
 	}
 
 	static int getFirstNonWhitespaceIndex(String s, int offset) {
 		int len = s.length();
 		for (int i = offset; i < len; i++) {
-			if (!isWhitespace(s.charAt(i))) return i;
+			if (!isWhitespace(s.charAt(i))) {
+                                return i;
+                        }
 		}
 		return -1;
 	}
@@ -112,7 +148,9 @@ public class Json {
 				i++;
 				continue;
 			}
-			if (ch == '"') return i;
+			if (ch == '"') {
+                                return i;
+                        }
 		}
 		return -1;
 	}

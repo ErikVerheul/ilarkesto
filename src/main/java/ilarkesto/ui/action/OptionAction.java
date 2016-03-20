@@ -32,11 +32,15 @@ public final class OptionAction<T> extends AAction {
 	protected void performAction() throws InterruptedException {
 		setAutoShowInfoDone(false);
 		showDialog(getOptions(), getMessage());
-		if (selectedOption == null) throw new ActionAbortedException();
+		if (selectedOption == null) {
+                        throw new ActionAbortedException();
+                }
 	}
 
 	public void addOption(Option<T> option) {
-		if (options == null) options = new ArrayList<Option<T>>();
+		if (options == null) {
+                        options = new ArrayList<Option<T>>();
+                }
 		options.add(option);
 	}
 
@@ -51,9 +55,13 @@ public final class OptionAction<T> extends AAction {
 	}
 
 	public Option<T> getOption(String key) {
-		if (Option.KEY_CANCEL.equals(key)) return null;
+		if (Option.KEY_CANCEL.equals(key)) {
+                        return null;
+                }
 		for (Option<T> option : options) {
-			if (option.getKey().equals(key)) return option;
+			if (option.getKey().equals(key)) {
+                                return option;
+                        }
 		}
 		return null;
 	}
@@ -61,7 +69,9 @@ public final class OptionAction<T> extends AAction {
 	private IdGenerator payloadIdGenerator;
 
 	public void addPayloads(Collection<T> payloads) {
-		if (payloadIdGenerator == null) payloadIdGenerator = new CountingIdGenerator("p");
+		if (payloadIdGenerator == null) {
+                        payloadIdGenerator = new CountingIdGenerator("p");
+                }
 		for (T o : payloads) {
 			String icon = o instanceof Iconized ? ((Iconized) o).getIcon() : "item";
 			addOption(new Option<T>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));

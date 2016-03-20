@@ -51,7 +51,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 	public void set(List<O> newObjects) {
 		boolean animationAllowed = !virgin;
 		virgin = false;
-		if (objectList.equals(newObjects)) return;
+		if (objectList.equals(newObjects)) {
+                        return;
+                }
 
 		// remove old objects
 		List<O> objectsToRemove = getOterObjects(newObjects);
@@ -62,7 +64,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 			}
 		}
 
-		if (objectList.equals(newObjects)) return;
+		if (objectList.equals(newObjects)) {
+                        return;
+                }
 
 		// add new objects
 		List<O> objectsToAdd = new ArrayList<O>(newObjects);
@@ -78,7 +82,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 			}
 		}
 
-		if (objectList.equals(newObjects)) return;
+		if (objectList.equals(newObjects)) {
+                        return;
+                }
 
 		// move existing objects
 		int index = 0;
@@ -113,7 +119,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 		assert objectList.contains(object);
 		assert widgetMap.containsKey(object);
 		assert objectList.size() == widgetMap.size();
-		if (callback != null) callback.onInserted(index);
+		if (callback != null) {
+                        callback.onInserted(index);
+                }
 		return widget;
 	}
 
@@ -140,7 +148,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 
 		W oldWidget = remove(object, animate);
 		W newWidget = insert(toIndex, object, animate, callback);
-		if (moveObserver != null) moveObserver.moved(object, oldWidget, newWidget);
+		if (moveObserver != null) {
+                        moveObserver.moved(object, oldWidget, newWidget);
+                }
 
 		assert objectList.size() == widgetMap.size();
 		return newWidget;
@@ -156,7 +166,9 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 	private List<O> getOterObjects(Collection<O> objects) {
 		List<O> ret = new ArrayList<O>();
 		for (O object : objectList) {
-			if (!objects.contains(object)) ret.add(object);
+			if (!objects.contains(object)) {
+                                ret.add(object);
+                        }
 		}
 		return ret;
 	}

@@ -39,7 +39,9 @@ public class DecimalValidator implements Validator {
         } catch (NumberFormatException ex) {
             throw new ValidationException("Die Eingabe mu\u00DF eine Zahl sein. " + getMessage());
         }
-        if (i < min || i > max) throw new ValidationException(getMessage());
+        if (i < min || i > max) {
+                throw new ValidationException(getMessage());
+        }
         return text;
     }
 

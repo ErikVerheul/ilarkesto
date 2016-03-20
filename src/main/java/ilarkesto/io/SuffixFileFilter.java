@@ -28,7 +28,9 @@ public class SuffixFileFilter implements FileFilter {
 	@Override
 	public boolean accept(File file) {
 		for (String suffix : suffixes) {
-			if (file.getName().endsWith(suffix)) return true;
+			if (file.getName().endsWith(suffix)) {
+                                return true;
+                        }
 		}
 		return false;
 	}

@@ -46,9 +46,11 @@ public class LongestCommonSubsequenceList2 {
 		// compute length of LCS and all subproblems via dynamic programming
 		for (int i = M - 1; i >= 0; i--) {
 			for (int j = N - 1; j >= 0; j--) {
-				if (x.get(i).equals(y.get(j)))
-					opt[i][j] = opt[i + 1][j + 1] + 1;
-				else opt[i][j] = Math.max(opt[i + 1][j], opt[i][j + 1]);
+				if (x.get(i).equals(y.get(j))) {
+                                        opt[i][j] = opt[i + 1][j + 1] + 1;
+                                } else {
+                                        opt[i][j] = Math.max(opt[i + 1][j], opt[i][j + 1]);
+                                }
 			}
 		}
 
@@ -60,9 +62,11 @@ public class LongestCommonSubsequenceList2 {
 				ret.add(x.get(i));
 				i++;
 				j++;
-			} else if (opt[i + 1][j] >= opt[i][j + 1])
-				i++;
-			else j++;
+			} else if (opt[i + 1][j] >= opt[i][j + 1]) {
+                                i++;
+                        } else {
+                                j++;
+                        }
 		}
 		return ret;
 	}

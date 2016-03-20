@@ -38,7 +38,9 @@ public class LockWidget extends SwitcherWidget {
 	}
 
 	public final void unlock() {
-		if (!isLocked()) return;
+		if (!isLocked()) {
+                        return;
+                }
 		show(content);
 	}
 

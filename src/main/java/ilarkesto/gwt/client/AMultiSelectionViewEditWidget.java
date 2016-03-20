@@ -79,7 +79,9 @@ public abstract class AMultiSelectionViewEditWidget<I extends Object> extends AV
 		FlowPanel container = new FlowPanel();
 		container.add(editor);
 		Widget w = getExtendedEditorContent();
-		if (w != null) container.add(w);
+		if (w != null) {
+                        container.add(w);
+                }
 		container.add(toolbar);
 
 		FocusPanel focusPanel = new FocusPanel(container);
@@ -93,8 +95,12 @@ public abstract class AMultiSelectionViewEditWidget<I extends Object> extends AV
 	}
 
 	protected String toHtml(I item) {
-		if (item == null) return null;
-		if (item instanceof ToHtmlSupport) return ((ToHtmlSupport) item).toHtml();
+		if (item == null) {
+                        return null;
+                }
+		if (item instanceof ToHtmlSupport) {
+                        return ((ToHtmlSupport) item).toHtml();
+                }
 		return Str.toHtml(item.toString());
 	}
 

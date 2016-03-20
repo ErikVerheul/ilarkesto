@@ -28,7 +28,9 @@ public class FileWatcher {
 
 	public boolean checkIfChanged() {
 		long fileLastModified = file.lastModified();
-		if (fileLastModified == lastModified) return false;
+		if (fileLastModified == lastModified) {
+                        return false;
+                }
 		lastModified = fileLastModified;
 		return true;
 	}

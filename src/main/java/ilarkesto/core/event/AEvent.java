@@ -24,8 +24,9 @@ public abstract class AEvent implements Event {
 
 	public final void fireInCurrentScope() {
 		AEventBus eventBus = (AEventBus) Scope.get().getComponent(AEventBus.DEFAULT_COMPONENT_NAME);
-		if (eventBus == null)
-			throw new IllegalStateException("Missing component in scope: " + AEventBus.DEFAULT_COMPONENT_NAME);
+		if (eventBus == null) {
+                        throw new IllegalStateException("Missing component in scope: " + AEventBus.DEFAULT_COMPONENT_NAME);
+                }
 		eventBus.fireEvent(this);
 	}
 

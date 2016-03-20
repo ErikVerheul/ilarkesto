@@ -51,7 +51,9 @@ public abstract class ADataTransferObject implements Serializable, IsSerializabl
 	}
 
 	public void addError(ErrorWrapper error) {
-		if (errors == null) errors = new ArrayList<ErrorWrapper>(1);
+		if (errors == null) {
+                        errors = new ArrayList<ErrorWrapper>(1);
+                }
 		errors.add(error);
 	}
 
@@ -80,7 +82,9 @@ public abstract class ADataTransferObject implements Serializable, IsSerializabl
 	}
 
 	public final void addEntity(Map data) {
-		if (entities == null) entities = new HashMap<String, Map<String, Serializable>>();
+		if (entities == null) {
+                        entities = new HashMap<String, Map<String, Serializable>>();
+                }
 		entities.put((String) data.get("id"), data);
 	}
 
@@ -93,7 +97,9 @@ public abstract class ADataTransferObject implements Serializable, IsSerializabl
 	}
 
 	public final void addDeletedEntity(String entityId) {
-		if (deletedEntities == null) deletedEntities = new HashSet<String>();
+		if (deletedEntities == null) {
+                        deletedEntities = new HashSet<String>();
+                }
 		deletedEntities.add(entityId);
 	}
 

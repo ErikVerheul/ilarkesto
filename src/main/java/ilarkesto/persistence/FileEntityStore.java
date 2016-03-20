@@ -68,16 +68,22 @@ public class FileEntityStore implements EntityStore {
 
 	@Override
 	public synchronized void lock() {
-		if (locked) return;
+		if (locked) {
+                        return;
+                }
 		locked = true;
 		log.info("File entity store locked.");
 	}
 
 	@Override
 	public synchronized void persist(Collection<AEntity> entitiesToSave, Collection<AEntity> entitiesToDelete) {
-		if (locked) throw new RuntimeException("Can not persist entity changes. EntityStore already locked.");
+		if (locked) {
+                        throw new RuntimeException("Can not persist entity changes. EntityStore already locked.");
+                }
 
-		if (!versionSaved) saveVersion();
+		if (!versionSaved) {
+                        saveVersion();
+                }
 
 		// create operations
 		List<Operation> operations = new ArrayList<FileEntityStore.Operation>(entitiesToSave.size()
@@ -116,7 +122,9 @@ public class FileEntityStore implements EntityStore {
 	public AEntity getById(String id) {
 		for (Map.Entry<Class<AEntity>, Map<String, AEntity>> daoEntry : data.entrySet()) {
 			AEntity entity = daoEntry.getValue().get(id);
-			if (entity != null) return entity;
+			if (entity != null) {
+                                return entity;
+                        }
 		}
 		return null;
 	}
@@ -124,9 +132,13 @@ public class FileEntityStore implements EntityStore {
 	@Override
 	public synchronized AEntity getEntity(Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
 		for (Map.Entry<Class<AEntity>, Map<String, AEntity>> daoEntry : data.entrySet()) {
-			if (typeFilter != null && !typeFilter.test(daoEntry.getKey())) continue;
+			if (typeFilter != null && !typeFilter.test(daoEntry.getKey())) {
+                                continue;
+                        }
 			for (AEntity entity : daoEntry.getValue().values()) {
-				if (entityFilter.test(entity)) return entity;
+				if (entityFilter.test(entity)) {
+                                        return entity;
+                                }
 			}
 		}
 		return null;
@@ -139,7 +151,9 @@ public class FileEntityStore implements EntityStore {
 			Map<String, AEntity> entites = entry.getValue();
 			for (String id : ids) {
 				AEntity entity = entites.get(id);
-				if (entity != null) result.add(entity);
+				if (entity != null) {
+                                        result.add(entity);
+                                }
 			}
 		}
 		return result;
@@ -149,12 +163,16 @@ public class FileEntityStore implements EntityStore {
 	public synchronized Set<AEntity> getEntities(Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
 		Set<AEntity> result = new HashSet<AEntity>();
 		for (Map.Entry<Class<AEntity>, Map<String, AEntity>> entry : data.entrySet()) {
-			if (typeFilter != null && !typeFilter.test(entry.getKey())) continue;
+			if (typeFilter != null && !typeFilter.test(entry.getKey())) {
+                                continue;
+                        }
 			if (entityFilter == null) {
 				result.addAll(entry.getValue().values());
 			} else {
 				for (AEntity entity : entry.getValue().values()) {
-					if (entityFilter.test(entity)) result.add(entity);
+					if (entityFilter.test(entity)) {
+                                                result.add(entity);
+                                        }
 				}
 			}
 		}
@@ -165,12 +183,16 @@ public class FileEntityStore implements EntityStore {
 	public synchronized int getEntitiesCount(Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
 		int result = 0;
 		for (Map.Entry<Class<AEntity>, Map<String, AEntity>> entry : data.entrySet()) {
-			if (typeFilter != null && !typeFilter.test(entry.getKey())) continue;
+			if (typeFilter != null && !typeFilter.test(entry.getKey())) {
+                                continue;
+                        }
 			if (entityFilter == null) {
 				result += entry.getValue().size();
 			} else {
 				for (AEntity entity : entry.getValue().values()) {
-					if (entityFilter.test(entity)) result++;
+					if (entityFilter.test(entity)) {
+                                                result++;
+                                        }
 				}
 			}
 		}
@@ -189,7 +211,9 @@ public class FileEntityStore implements EntityStore {
 
 	@Override
 	public synchronized void load(Class<? extends AEntity> cls, String alias) {
-		if (!versionChecked) checkVersion();
+		if (!versionChecked) {
+                        checkVersion();
+                }
 
 		aliases.put(cls, alias);
 
@@ -213,7 +237,9 @@ public class FileEntityStore implements EntityStore {
 				File file = files[i];
 				String filename = file.getName();
 
-				if (filename.equals(CLUSTER_FILE_NAME)) continue;
+				if (filename.equals(CLUSTER_FILE_NAME)) {
+                                        continue;
+                                }
 				if (!filename.endsWith(".xml")) {
 					log.warn("Unsupported file. Skipping:", filename);
 					continue;
@@ -230,7 +256,9 @@ public class FileEntityStore implements EntityStore {
 	}
 
 	private void loadCluster(File file, Map<String, AEntity> container, Class type, String alias) {
-		if (entityfilePreparator != null) entityfilePreparator.prepareClusterfile(file, type, alias);
+		if (entityfilePreparator != null) {
+                        entityfilePreparator.prepareClusterfile(file, type, alias);
+                }
 
 		BufferedInputStream in;
 		try {
@@ -252,7 +280,9 @@ public class FileEntityStore implements EntityStore {
 	}
 
 	private void loadObject(File file, Map<String, AEntity> container, Class type, String alias) {
-		if (entityfilePreparator != null) entityfilePreparator.prepareEntityfile(file, type, alias);
+		if (entityfilePreparator != null) {
+                        entityfilePreparator.prepareEntityfile(file, type, alias);
+                }
 
 		BufferedInputStream in;
 		try {
@@ -270,7 +300,9 @@ public class FileEntityStore implements EntityStore {
 	}
 
 	private void backup(File src, String type) {
-		if (src.isDirectory()) throw new RuntimeException("sorry, backing up directories is not implemented yet.");
+		if (src.isDirectory()) {
+                        throw new RuntimeException("sorry, backing up directories is not implemented yet.");
+                }
 
 		String destinationPath = backupDir + "/" + Date.today() + "/" + type + "/";
 		File dst = new File(destinationPath + src.getName());
@@ -284,23 +316,32 @@ public class FileEntityStore implements EntityStore {
 
 	private synchronized void checkVersion() {
 		versionChecked = true;
-		if (version <= 0) return;
+		if (version <= 0) {
+                        return;
+                }
 		File propertiesFile = getPropertiesFile();
-		if (!propertiesFile.exists()) return;
+		if (!propertiesFile.exists()) {
+                        return;
+                }
 		Properties properties = IO.loadProperties(propertiesFile, IO.UTF_8);
 		String s = properties.getProperty("version");
-		if (Str.isBlank(s)) return;
+		if (Str.isBlank(s)) {
+                        return;
+                }
 		long dataVersion = Long.parseLong(s);
-		if (dataVersion > version)
-			throw new IllegalStateException("Data stored in " + dir
-					+ " was created by a newer version of the application. "
-					+ "You have probably downgraded. Since data formats changed, this is not possible. "
-					+ "Application version is " + version + ", data version is " + dataVersion + ".");
+		if (dataVersion > version) {
+                        throw new IllegalStateException("Data stored in " + dir
+                                + " was created by a newer version of the application. "
+                                + "You have probably downgraded. Since data formats changed, this is not possible. "
+                                + "Application version is " + version + ", data version is " + dataVersion + ".");
+                }
 	}
 
 	private synchronized void saveVersion() {
 		versionSaved = true;
-		if (version <= 0) return;
+		if (version <= 0) {
+                        return;
+                }
 		File propertiesFile = getPropertiesFile();
 		Properties properties = propertiesFile.exists() ? IO.loadProperties(propertiesFile, IO.UTF_8)
 				: new Properties();
@@ -310,13 +351,19 @@ public class FileEntityStore implements EntityStore {
 
 	@Override
 	public void deleteOldBackups() {
-		if (Str.isBlank(backupDir)) return;
+		if (Str.isBlank(backupDir)) {
+                        return;
+                }
 		File[] dirs = new File(backupDir).listFiles();
-		if (dirs == null || dirs.length == 0) return;
+		if (dirs == null || dirs.length == 0) {
+                        return;
+                }
 		Date deadline = Date.beforeDays(7);
 		log.info("Deleting temporary entity backups from before", deadline);
 		for (File dir_local : dirs) {
-			if (!dir_local.isDirectory()) continue;
+			if (!dir_local.isDirectory()) {
+                                continue;
+                        }
 			String name = dir_local.getName();
 			Date date;
 			try {
@@ -381,7 +428,9 @@ public class FileEntityStore implements EntityStore {
 
 		private synchronized void wirteTemporaryFile() {
 			if (!tmpFile.getParentFile().exists()) {
-                               if (!tmpFile.getParentFile().mkdirs()) throw new RuntimeException("Creating path to tmpFile failed: " + tmpFile.getPath());
+                               if (!tmpFile.getParentFile().mkdirs()) {
+                                       throw new RuntimeException("Creating path to tmpFile failed: " + tmpFile.getPath());
+                               }
                         }
 			BufferedOutputStream out;
 			try {
@@ -392,10 +441,13 @@ public class FileEntityStore implements EntityStore {
 			beanSerializer.serialize(entity, out);
 			IO.close(out);
 
-			if (!tmpFile.exists()) throw new RuntimeException("Writing entity file failed: " + tmpFile.getPath());
+			if (!tmpFile.exists()) {
+                                throw new RuntimeException("Writing entity file failed: " + tmpFile.getPath());
+                        }
 
-			if (tmpFile.length() < 1)
-				throw new RuntimeException("Writing entity file caused empty file: " + tmpFile.getPath());
+			if (tmpFile.length() < 1) {
+                                throw new RuntimeException("Writing entity file caused empty file: " + tmpFile.getPath());
+                        }
 		}
 
 		@Override

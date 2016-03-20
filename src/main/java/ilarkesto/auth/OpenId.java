@@ -63,24 +63,44 @@ public class OpenId {
 	private static Log log = Log.get(OpenId.class);
 
 	public static String cutUsername(String openId) {
-		if (openId == null) return null;
+		if (openId == null) {
+                        return null;
+                }
 		String name = openId;
-		if (name.startsWith(GOOGLE + "?id=")) return Str.cutFrom(name, "=");
-		if (name.startsWith(YAHOO)) return Str.cutFrom(name, ".com/");
-		if (name.startsWith("https://login.launchpad.net/+id/")) return Str.cutFrom(name, "+id/");
-		if (name.startsWith("https://") && name.endsWith(".pip.verisignlabs.com/"))
-			return Str.cutFromTo(name, "//", ".pip");
-		if (name.startsWith("http://openid.aol.com/")) return Str.cutFrom(name, ".com/");
-		if (name.startsWith("https://") && name.endsWith(".myvidoop.com/"))
-			return Str.cutFromTo(name, "//", ".myvidoop");
-		if (name.contains("/")) name = Str.cutFrom(name, "/");
-		if (name.endsWith(".myopenid.com/")) name = Str.cutTo(name, ".");
+		if (name.startsWith(GOOGLE + "?id=")) {
+                        return Str.cutFrom(name, "=");
+                }
+		if (name.startsWith(YAHOO)) {
+                        return Str.cutFrom(name, ".com/");
+                }
+		if (name.startsWith("https://login.launchpad.net/+id/")) {
+                        return Str.cutFrom(name, "+id/");
+                }
+		if (name.startsWith("https://") && name.endsWith(".pip.verisignlabs.com/")) {
+                        return Str.cutFromTo(name, "//", ".pip");
+                }
+		if (name.startsWith("http://openid.aol.com/")) {
+                        return Str.cutFrom(name, ".com/");
+                }
+		if (name.startsWith("https://") && name.endsWith(".myvidoop.com/")) {
+                        return Str.cutFromTo(name, "//", ".myvidoop");
+                }
+		if (name.contains("/")) {
+                        name = Str.cutFrom(name, "/");
+                }
+		if (name.endsWith(".myopenid.com/")) {
+                        name = Str.cutTo(name, ".");
+                }
 		return name;
 	}
 
 	public static boolean isOpenIdCallback(HttpServletRequest request) {
-		if (request.getParameter("openid.ns") != null) return true;
-		if (request.getParameter("openid.identity") != null) return true;
+		if (request.getParameter("openid.ns") != null) {
+                        return true;
+                }
+		if (request.getParameter("openid.identity") != null) {
+                        return true;
+                }
 		return false;
 	}
 
@@ -90,31 +110,47 @@ public class OpenId {
 		AuthRequest authReq = createAuthenticationRequest(openId, returnUrl, session);
 
 		FetchRequest fetch = FetchRequest.createFetchRequest();
-		if (fetchNickname) addAttribute(fetch, "nickname", getNicknameFetchRequestAttribute(openId), nicknameRequired);
-		if (fetchFullname) addAttribute(fetch, "fullname", getFullnameFetchRequestAttribute(openId), fullnameRequired);
-		if (fetchEmail) addAttribute(fetch, "email", getEmailFetchRequestAttribute(openId), emailRequired);
-		if (!fetch.getAttributes().isEmpty()) addExtension(authReq, fetch);
+		if (fetchNickname) {
+                        addAttribute(fetch, "nickname", getNicknameFetchRequestAttribute(openId), nicknameRequired);
+                }
+		if (fetchFullname) {
+                        addAttribute(fetch, "fullname", getFullnameFetchRequestAttribute(openId), fullnameRequired);
+                }
+		if (fetchEmail) {
+                        addAttribute(fetch, "email", getEmailFetchRequestAttribute(openId), emailRequired);
+                }
+		if (!fetch.getAttributes().isEmpty()) {
+                        addExtension(authReq, fetch);
+                }
 
 		return authReq.getDestinationUrl(true);
 	}
 
 	private static String getEmailFetchRequestAttribute(String openId) {
-		if (isAxProvider(openId)) return "http://axschema.org/contact/email";
+		if (isAxProvider(openId)) {
+                        return "http://axschema.org/contact/email";
+                }
 		return "http://schema.openid.net/contact/email";
 	}
 
 	private static String getNicknameFetchRequestAttribute(String openId) {
-		if (isAxProvider(openId)) return "http://axschema.org/namePerson/friendly";
+		if (isAxProvider(openId)) {
+                        return "http://axschema.org/namePerson/friendly";
+                }
 		return "http://schema.openid.net/namePerson/friendly";
 	}
 
 	private static String getFullnameFetchRequestAttribute(String openId) {
-		if (isAxProvider(openId)) return "http://axschema.org/namePerson";
+		if (isAxProvider(openId)) {
+                        return "http://axschema.org/namePerson";
+                }
 		return "http://schema.openid.net/namePerson";
 	}
 
 	public static boolean isAxProvider(String openId) {
-		if (openId.contains("myopenid.com")) return false;
+		if (openId.contains("myopenid.com")) {
+                        return false;
+                }
 		return true;
 	}
 
@@ -158,7 +194,9 @@ public class OpenId {
 			throw new RuntimeException("Discovering OpenID failed: " + openId, ex);
 		}
 		DiscoveryInformation discovered = manager.associate(discoveries);
-		if (discovered == null) throw new RuntimeException("No DiscoveryInformation endpoint associated: " + openId);
+		if (discovered == null) {
+                        throw new RuntimeException("No DiscoveryInformation endpoint associated: " + openId);
+                }
 		session.setAttribute("openIdDiscovered", discovered);
 		AuthRequest authReq;
 		try {
@@ -194,7 +232,9 @@ public class OpenId {
 		// extract the receiving URL from the HTTP request
 		StringBuffer receivingURL = request.getRequestURL();
 		String queryString = request.getQueryString();
-		if (queryString != null && queryString.length() > 0) receivingURL.append("?").append(request.getQueryString());
+		if (queryString != null && queryString.length() > 0) {
+                        receivingURL.append("?").append(request.getQueryString());
+                }
 
 		// verify the response
 		VerificationResult verification;
@@ -213,31 +253,49 @@ public class OpenId {
 
 	public static String getFullname(VerificationResult verification) {
 		String value = getFetchResponseAttribute(verification, "fullname");
-		if (Str.isBlank(value)) return null;
-		if (value.equals(getOpenId(verification))) return null;
+		if (Str.isBlank(value)) {
+                        return null;
+                }
+		if (value.equals(getOpenId(verification))) {
+                        return null;
+                }
 		return value;
 	}
 
 	public static String getNickname(VerificationResult verification) {
 		String value = getFetchResponseAttribute(verification, "nickname");
-		if (Str.isBlank(value)) return null;
-		if (value.equals(getOpenId(verification))) return null;
+		if (Str.isBlank(value)) {
+                        return null;
+                }
+		if (value.equals(getOpenId(verification))) {
+                        return null;
+                }
 		return value;
 	}
 
 	public static String getOpenId(VerificationResult verification) {
-		if (verification == null) return null;
+		if (verification == null) {
+                        return null;
+                }
 		Identifier identifier = verification.getVerifiedId();
-		if (identifier == null) return null;
+		if (identifier == null) {
+                        return null;
+                }
 		String id = identifier.getIdentifier();
-		if (id == null || !id.contains("#")) return id;
+		if (id == null || !id.contains("#")) {
+                        return id;
+                }
 		return Str.cutTo(id, "#");
 	}
 
 	public static String getFetchResponseAttribute(VerificationResult verification, String attributeAlias) {
-		if (verification == null) return null;
+		if (verification == null) {
+                        return null;
+                }
 		AuthSuccess authSuccess = (AuthSuccess) verification.getAuthResponse();
-		if (!authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) return null;
+		if (!authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
+                        return null;
+                }
 		FetchResponse fetchResp;
 		try {
 			fetchResp = (FetchResponse) authSuccess.getExtension(AxMessage.OPENID_NS_AX);
@@ -245,7 +303,9 @@ public class OpenId {
 			throw new RuntimeException("Reading fetch response from OpenID callback failed.", ex);
 		}
 		List values = fetchResp.getAttributeValues(attributeAlias);
-		if (values.isEmpty()) return null;
+		if (values.isEmpty()) {
+                        return null;
+                }
 		return (String) values.get(0);
 	}
 

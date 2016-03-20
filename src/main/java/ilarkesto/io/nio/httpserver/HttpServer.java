@@ -53,7 +53,9 @@ public class HttpServer<S> {
 
 	private HttpSession<S> getSession(String id) {
 		for (HttpSession<S> session : sessions) {
-			if (session.getId().equals(id)) return session;
+			if (session.getId().equals(id)) {
+                                return session;
+                        }
 		}
 		return null;
 	}

@@ -44,8 +44,12 @@ public class Jdbc {
 		sb.append(protocol);
 		sb.append("://");
 		sb.append(host == null ? "localhost" : host);
-		if (port != null) sb.append(":").append(port);
-		if (database != null) sb.append("/").append(database);
+		if (port != null) {
+                        sb.append(":").append(port);
+                }
+		if (database != null) {
+                        sb.append("/").append(database);
+                }
 		return sb.toString();
 	}
 
@@ -115,9 +119,13 @@ public class Jdbc {
 	}
 
 	public static void closeQuiet(Connection connection) {
-		if (connection == null) return;
+		if (connection == null) {
+                        return;
+                }
 		try {
-			if (connection.isClosed()) return;
+			if (connection.isClosed()) {
+                                return;
+                        }
 		} catch (SQLException ex) {}
 		try {
 			connection.close();
@@ -127,9 +135,13 @@ public class Jdbc {
 	}
 
 	public static void closeQuiet(Statement stmt) {
-		if (stmt == null) return;
+		if (stmt == null) {
+                        return;
+                }
 		try {
-			if (stmt.isClosed()) return;
+			if (stmt.isClosed()) {
+                                return;
+                        }
 		} catch (SQLException ex) {}
 		try {
 			stmt.close();
@@ -139,9 +151,13 @@ public class Jdbc {
 	}
 
 	public static void closeQuiet(ResultSet rs) {
-		if (rs == null) return;
+		if (rs == null) {
+                        return;
+                }
 		try {
-			if (rs.isClosed()) return;
+			if (rs.isClosed()) {
+                                return;
+                        }
 		} catch (SQLException ex) {}
 		try {
 			rs.close();

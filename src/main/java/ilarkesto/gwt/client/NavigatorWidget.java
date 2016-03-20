@@ -40,7 +40,9 @@ public class NavigatorWidget<K extends Object> extends AWidget {
 
 	@Override
 	protected Widget onInitialization() {
-		if (menu == null) menu = new StaticMenu();
+		if (menu == null) {
+                        menu = new StaticMenu();
+                }
 
 		panel = new FlowPanel();
 		panel.setStyleName("NavigatorWidget");
@@ -50,7 +52,9 @@ public class NavigatorWidget<K extends Object> extends AWidget {
 
 	@Override
 	protected void onUpdate() {
-		if (!menu.getChangeIndicator().hasChangedSince(lastUpdateTime)) return;
+		if (!menu.getChangeIndicator().hasChangedSince(lastUpdateTime)) {
+                        return;
+                }
 
 		panel.clear();
 		panel.add(Gwt.createEmptyDiv("NavigatorWidget-head"));
@@ -93,7 +97,9 @@ public class NavigatorWidget<K extends Object> extends AWidget {
 				boolean animate = lastAnimatedItem != item;
 				// log.debug("---------- animate:", animate);
 				Widget submenuPanel = animate ? new AnimatingFlowPanel() : new FlowPanel();
-				if (animate) lastAnimatedItem = item;
+				if (animate) {
+                                        lastAnimatedItem = item;
+                                }
 				submenuPanel.setStyleName("NavigatorWidget-submenu");
 				itemPanel.add(submenuPanel);
 				Submenu<MenuItem> submenu = (Submenu) item;
@@ -114,14 +120,18 @@ public class NavigatorWidget<K extends Object> extends AWidget {
 		boolean menuEmpty = menu.getItems().isEmpty();
 
 		StaticMenuItem item = menu.addItem(new StaticMenuItem(label));
-		if (menuEmpty) item.select();
+		if (menuEmpty) {
+                        item.select();
+                }
 		item.setPayload(key);
 		item.setOnSelect(selecionListener);
 	}
 
 	public void select(K key) {
 		StaticMenuItem item = menu.getItemByPayload(key);
-		if (item == null) return;
+		if (item == null) {
+                        return;
+                }
 		item.select();
 		update();
 	}

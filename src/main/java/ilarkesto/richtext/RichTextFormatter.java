@@ -21,7 +21,9 @@ import java.util.List;
 public class RichTextFormatter {
 
 	public static String toHtml(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		if (!s.startsWith("<html")) {
 			s = textToHtml(s);
 		}

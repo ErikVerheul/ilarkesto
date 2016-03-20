@@ -29,8 +29,12 @@ public class JqueryDownloader {
 	}
 
 	public static boolean isInstalled(String version, File destinationDir) {
-		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".min.js").exists()) return false;
-		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".js").exists()) return false;
+		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".min.js").exists()) {
+                        return false;
+                }
+		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".js").exists()) {
+                        return false;
+                }
 		return true;
 	}
 

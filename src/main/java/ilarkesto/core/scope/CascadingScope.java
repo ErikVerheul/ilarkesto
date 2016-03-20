@@ -53,21 +53,29 @@ public class CascadingScope extends Scope {
 			componentReflector.outjectComponents(component, this);
 		}
 
-		if (wiringRequired) wireComponents();
+		if (wiringRequired) {
+                        wireComponents();
+                }
 	}
 
 	@Override
 	public synchronized Object getComponent(String name) {
-		if (wiringRequired) wireComponents();
+		if (wiringRequired) {
+                        wireComponents();
+                }
 
 		Object component = componentsByName.get(name);
-		if (component == null) return getComponentFromParentScope(name);
+		if (component == null) {
+                        return getComponentFromParentScope(name);
+                }
 
 		return component;
 	}
 
 	private Object getComponentFromParentScope(String name) {
-		if (parentScope == null) return null;
+		if (parentScope == null) {
+                        return null;
+                }
 		return parentScope.getComponent(name);
 	}
 
@@ -77,7 +85,9 @@ public class CascadingScope extends Scope {
 		assert component != null;
 
 		Object existingComponent = componentsByName.get(name);
-		if (existingComponent == component) return component;
+		if (existingComponent == component) {
+                        return component;
+                }
 
 		log.info("Putting component:", name);
 
@@ -90,7 +100,9 @@ public class CascadingScope extends Scope {
 	@Override
 	public List getAllComponents() {
 		List ret = new ArrayList();
-		if (parentScope != null) ret.addAll(parentScope.getAllComponents());
+		if (parentScope != null) {
+                        ret.addAll(parentScope.getAllComponents());
+                }
 		ret.addAll(getLocalComponents());
 		return ret;
 	}
@@ -103,7 +115,9 @@ public class CascadingScope extends Scope {
 	}
 
 	public synchronized List getLocalComponents() {
-		if (wiringRequired) wireComponents();
+		if (wiringRequired) {
+                        wireComponents();
+                }
 
 		List ret = new ArrayList();
 		ret.addAll(componentsByName.values());

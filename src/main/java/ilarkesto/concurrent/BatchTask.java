@@ -43,14 +43,18 @@ public final class BatchTask extends ATask {
 
 	@Override
 	public void abort() {
-		if (currentTask != null) currentTask.task.abort();
+		if (currentTask != null) {
+                        currentTask.task.abort();
+                }
 		super.abort();
 	}
 
 	@Override
 	public void reset() {
 		for (TaskWrapper taskWrapper : tasks) {
-			if (taskWrapper.task.isFinished()) continue;
+			if (taskWrapper.task.isFinished()) {
+                                continue;
+                        }
 			taskWrapper.task.abort();
 		}
 		super.reset();
@@ -63,7 +67,9 @@ public final class BatchTask extends ATask {
 
 	@Override
 	public float getProgress() {
-		if (currentTask == null) return super.getProgress();
+		if (currentTask == null) {
+                        return super.getProgress();
+                }
 		return progressed + (currentTask.effectiveWeight * currentTask.task.getProgress());
 	}
 

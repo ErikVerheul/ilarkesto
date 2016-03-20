@@ -28,7 +28,9 @@ public class TimeMonitor {
 	}
 
 	public void debugOut(String name) {
-		if (name == null) name = "TimeMonitor";
+		if (name == null) {
+                        name = "TimeMonitor";
+                }
 		Log.DEBUG(name, "->", this);
 	}
 

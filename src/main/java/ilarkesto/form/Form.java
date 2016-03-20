@@ -57,7 +57,9 @@ public class Form {
 	protected void initializeForm() {}
 
 	public final void initialize() {
-		if (initialized) return;
+		if (initialized) {
+                        return;
+                }
 		initialized = true;
 		initializeForm();
 	}
@@ -79,14 +81,18 @@ public class Form {
 		List<FormField> result = new ArrayList<FormField>();
 		for (FormField field : visibleFields) {
 			if (field instanceof ItemFormField) {
-				if (((ItemFormField) field).isAutoTrigger()) result.add(field);
+				if (((ItemFormField) field).isAutoTrigger()) {
+                                        result.add(field);
+                                }
 			}
 		}
 		return result;
 	}
 
 	public FormButton getMainSubmitButton() {
-		if (submitButtons.isEmpty()) return null;
+		if (submitButtons.isEmpty()) {
+                        return null;
+                }
 		return submitButtons.get(0);
 	}
 
@@ -118,7 +124,9 @@ public class Form {
 	}
 
 	public String getName() {
-		if (formName == null) formName = StrExtend.lowercaseFirstLetter(getClass().getSimpleName());
+		if (formName == null) {
+                        formName = StrExtend.lowercaseFirstLetter(getClass().getSimpleName());
+                }
 		return formName;
 	}
 
@@ -218,7 +226,9 @@ public class Form {
 			field.setLabel(getFieldLabel(name));
 			field.setHintText(getFieldTooltip(name));
 		}
-		if (beanProvider != null) beanProvider.autowire(field);
+		if (beanProvider != null) {
+                        beanProvider.autowire(field);
+                }
 		return field;
 	}
 
@@ -226,7 +236,9 @@ public class Form {
 		HiddenFormField field = new HiddenFormField(name);
 		field.setForm(this);
 		hiddenFields.add(field);
-		if (beanProvider != null) beanProvider.autowire(field);
+		if (beanProvider != null) {
+                        beanProvider.autowire(field);
+                }
 		return field;
 	}
 
@@ -239,7 +251,9 @@ public class Form {
 			button.setLabel(getFieldLabel("button." + name));
 			// button.setHintText(getFieldHintText("button." + name));
 		}
-		if (beanProvider != null) beanProvider.autowire(button);
+		if (beanProvider != null) {
+                        beanProvider.autowire(button);
+                }
 		return button;
 	}
 
@@ -287,8 +301,9 @@ public class Form {
 		}
 		if (name.startsWith(REMOVE_ITEM_BUTTON_NAME_PREFIX)) {
 			int idx = name.lastIndexOf('_');
-			if (idx < REMOVE_ITEM_BUTTON_NAME_PREFIX.length())
-				throw new RuntimeException("Unexpected button name: " + name);
+			if (idx < REMOVE_ITEM_BUTTON_NAME_PREFIX.length()) {
+                                throw new RuntimeException("Unexpected button name: " + name);
+                        }
 			String fieldName = name.substring(REMOVE_ITEM_BUTTON_NAME_PREFIX.length(), idx);
 			String id = name.substring(idx + 1);
 			return ((MultiItemFormField) getField(fieldName)).getRemoveButton(id);
@@ -306,16 +321,18 @@ public class Form {
 		}
 		if (name.startsWith(EDIT_COMPLEX_BUTTON_NAME_PREFIX)) {
 			int idx = name.lastIndexOf('_');
-			if (idx < EDIT_COMPLEX_BUTTON_NAME_PREFIX.length())
-				throw new RuntimeException("Unexpected button name: " + name);
+			if (idx < EDIT_COMPLEX_BUTTON_NAME_PREFIX.length()) {
+                                throw new RuntimeException("Unexpected button name: " + name);
+                        }
 			String fieldName = name.substring(EDIT_COMPLEX_BUTTON_NAME_PREFIX.length(), idx);
 			String id = name.substring(idx + 1);
 			return ((MultiComplexFormField) getField(fieldName)).getEditButton(id);
 		}
 		if (name.startsWith(REMOVE_COMPLEX_BUTTON_NAME_PREFIX)) {
 			int idx = name.lastIndexOf('_');
-			if (idx < REMOVE_COMPLEX_BUTTON_NAME_PREFIX.length())
-				throw new RuntimeException("Unexpected button name: " + name);
+			if (idx < REMOVE_COMPLEX_BUTTON_NAME_PREFIX.length()) {
+                                throw new RuntimeException("Unexpected button name: " + name);
+                        }
 			String fieldName = name.substring(REMOVE_COMPLEX_BUTTON_NAME_PREFIX.length(), idx);
 			String id = name.substring(idx + 1);
 			// DEBUG.out("fieldName: " + fieldName);
@@ -326,7 +343,9 @@ public class Form {
 		// submitButtons
 		for (Iterator iter = submitButtons.iterator(); iter.hasNext();) {
 			FormButton button = (FormButton) iter.next();
-			if (button.getName().equals(name)) return button;
+			if (button.getName().equals(name)) {
+                                return button;
+                        }
 		}
 
 		throw new RuntimeException("button does not exist: " + name);
@@ -341,7 +360,9 @@ public class Form {
 	}
 
 	public void update(Map<String, String> data, java.util.Collection<FileItem> uploadedFiles) {
-		if (uploadedFiles == null) return;
+		if (uploadedFiles == null) {
+                        return;
+                }
 		for (FormField field : visibleFields) {
                         field.update(data, uploadedFiles);
                 }
@@ -367,10 +388,14 @@ public class Form {
 
 	public FormField getField(String name) {
 		for (FormField field : visibleFields) {
-			if (field.getName().equals(name)) return field;
+			if (field.getName().equals(name)) {
+                                return field;
+                        }
 		}
 		for (FormField field : hiddenFields) {
-			if (field.getName().equals(name)) return field;
+			if (field.getName().equals(name)) {
+                                return field;
+                        }
 		}
 		return null;
 	}
@@ -386,12 +411,16 @@ public class Form {
 	// --- helper ---
 
 	protected String getFieldLabel(String name) {
-		if (localizer == null) throw new MissingDependencyException("localizer");
+		if (localizer == null) {
+                        throw new MissingDependencyException("localizer");
+                }
 		return localizer.string(getStringKeyPrefix() + "." + name);
 	}
 
 	protected String getFieldTooltip(String name) {
-		if (localizer == null) throw new MissingDependencyException("localizer");
+		if (localizer == null) {
+                        throw new MissingDependencyException("localizer");
+                }
 		return localizer.string(getStringKeyPrefix() + "." + name + ".hint");
 	}
 

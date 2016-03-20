@@ -42,7 +42,9 @@ public class GwtDaoGenerator extends AClassGenerator {
 		this.application = application;
 		this.entities = new ArrayList<EntityModel>();
 		for (EntityModel entity : entities) {
-			if (entity.isGwtSupport()) this.entities.add(entity);
+			if (entity.isGwtSupport()) {
+                                this.entities.add(entity);
+                        }
 		}
 	}
 
@@ -153,9 +155,15 @@ public class GwtDaoGenerator extends AClassGenerator {
 				String pName = p.getName();
 				String pNameUpper = StrExtend.uppercaseFirstLetter(pName);
 				String pType = p.getType();
-				if (pType.equals(Date.class.getName())) pType = ilarkesto.core.time.Date.class.getName();
-				if (pType.equals(Time.class.getName())) pType = ilarkesto.core.time.Time.class.getName();
-				if (pType.equals(DateAndTime.class.getName())) pType = ilarkesto.core.time.DateAndTime.class.getName();
+				if (pType.equals(Date.class.getName())) {
+                                        pType = ilarkesto.core.time.Date.class.getName();
+                                }
+				if (pType.equals(Time.class.getName())) {
+                                        pType = ilarkesto.core.time.Time.class.getName();
+                                }
+				if (pType.equals(DateAndTime.class.getName())) {
+                                        pType = ilarkesto.core.time.DateAndTime.class.getName();
+                                }
 				if (p.isReference()) {
 					if (pType.equals(AEntity.class.getName())) {
 						pType = AGwtEntity.class.getName();

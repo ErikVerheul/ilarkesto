@@ -29,7 +29,9 @@ public abstract class Serializer {
 	public abstract Object deserialize(InputStream in);
 
 	public final Object deserialize(String s) {
-		if (s == null || s.length() == 0) return null;
+		if (s == null || s.length() == 0) {
+                        return null;
+                }
 		StringInputStream in = new StringInputStream(s);
 		return deserialize(in);
 	}

@@ -83,8 +83,9 @@ public abstract class BeanModel extends AModel {
 	}
 
 	public CompositeModel addComposite(String type) {
-		if (!Character.isUpperCase(type.charAt(0)))
-			throw new RuntimeException("Type needs to start with uppercase character: " + type);
+		if (!Character.isUpperCase(type.charAt(0))) {
+                        throw new RuntimeException("Type needs to start with uppercase character: " + type);
+                }
 		return addComposite(type, StrExtend.lowercaseFirstLetter(type));
 	}
 
@@ -120,7 +121,9 @@ public abstract class BeanModel extends AModel {
 
 	public boolean containsDependency(String name) {
 		for (DependencyModel dm : dependencies) {
-			if (dm.getName().equals(name)) return true;
+			if (dm.getName().equals(name)) {
+                                return true;
+                        }
 		}
 		return false;
 	}
@@ -150,12 +153,16 @@ public abstract class BeanModel extends AModel {
 	}
 
 	public void setSuperbean(BeanModel superentity) {
-		if (superclass != null) throw new RuntimeException("superclass already set");
+		if (superclass != null) {
+                        throw new RuntimeException("superclass already set");
+                }
 		this.superbean = superentity;
 	}
 
 	public void setSuperclass(String superClass) {
-		if (superbean != null) throw new RuntimeException("superbean already set");
+		if (superbean != null) {
+                        throw new RuntimeException("superbean already set");
+                }
 		this.superclass = superClass;
 	}
 

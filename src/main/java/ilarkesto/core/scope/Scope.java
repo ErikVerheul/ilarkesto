@@ -44,7 +44,9 @@ public abstract class Scope {
 	// --- helper ---
 
 	public <T> T putComponent(T component) {
-		if (component == null) throw new IllegalArgumentException("component == null");
+		if (component == null) {
+                        throw new IllegalArgumentException("component == null");
+                }
 		return putComponent(ScopeUtil.getComponentName(component.getClass()), component);
 	}
 

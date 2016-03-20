@@ -75,7 +75,9 @@ public class MultiComplexFormField extends AFormField {
 
 	public RemoveButton getRemoveButton(String id) {
 		for (RemoveButton button : removeButtons.values()) {
-			if (button.getId().equals(id)) return button;
+			if (button.getId().equals(id)) {
+                                return button;
+                        }
 		}
 		throw new RuntimeException("remove button does not exist: " + id);
 	}
@@ -86,7 +88,9 @@ public class MultiComplexFormField extends AFormField {
 
 	public EditButton getEditButton(String id) {
 		for (EditButton button : editButtons.values()) {
-			if (button.getId().equals(id)) return button;
+			if (button.getId().equals(id)) {
+                                return button;
+                        }
 		}
 		throw new RuntimeException("edit button does not exist: " + id);
 	}
@@ -137,8 +141,9 @@ public class MultiComplexFormField extends AFormField {
 
 	@Override
 	public void validate() throws ValidationException {
-		if (isRequired() && (value == null || value.size() == 0))
-			throw new ValidationException("Auswahl erforderlich!");
+		if (isRequired() && (value == null || value.size() == 0)) {
+                        throw new ValidationException("Auswahl erforderlich!");
+                }
 	}
 
 	public MultiComplexFormField setComparator(Comparator comparator) {

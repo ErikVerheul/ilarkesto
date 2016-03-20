@@ -515,7 +515,9 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 	}
 
 	private void initialise() {
-		if (getBean() == null) return;
+		if (getBean() == null) {
+                        return;
+                }
 
 		Class beanClass = getBean().getClass();
 		try {

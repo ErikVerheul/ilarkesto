@@ -37,7 +37,9 @@ public class ImageThumbFactory {
 
 	public File getThumb(File imageFile, String folder, int size) {
 		File thumbFile = new File(thumbDir.getPath() + "/" + folder + "/" + size + "/" + imageFile.getName());
-		if (thumbFile.exists() && thumbFile.lastModified() == imageFile.lastModified()) return thumbFile;
+		if (thumbFile.exists() && thumbFile.lastModified() == imageFile.lastModified()) {
+                        return thumbFile;
+                }
 		createThumb(imageFile, thumbFile, size);
 		return thumbFile;
 	}

@@ -183,7 +183,9 @@ public class RequestWrapper<S extends AWebSession> {
 
 	public JsonObject readContentToJson() {
 		String s = readContentToString();
-		if (Str.isBlank(s)) throw new RuntimeException("Illegal request. Missing JSON content.");
+		if (Str.isBlank(s)) {
+                        throw new RuntimeException("Illegal request. Missing JSON content.");
+                }
 		return new JsonObject(s);
 	}
 
@@ -229,7 +231,9 @@ public class RequestWrapper<S extends AWebSession> {
 
 	public String getMandatory(String name) {
 		String value = get(name);
-		if (value == null) throw new RuntimeException("Missing mandatory request parameter: " + name);
+		if (value == null) {
+                        throw new RuntimeException("Missing mandatory request parameter: " + name);
+                }
 		return value;
 	}
 
@@ -280,7 +284,9 @@ public class RequestWrapper<S extends AWebSession> {
 	}
 
 	public S getSession() {
-		if (session == null) session = (S) AWebApplication.get().getWebSession(request);
+		if (session == null) {
+                        session = (S) AWebApplication.get().getWebSession(request);
+                }
 		return session;
 	}
 

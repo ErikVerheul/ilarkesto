@@ -46,7 +46,9 @@ public final class ImagePreloader {
 			public void run() {
 				while (true) {
 					try {
-						if (shutdown) return;
+						if (shutdown) {
+                                                        return;
+                                                }
 						ImageWrapper image = queue.poll(Long.MAX_VALUE, TimeUnit.SECONDS);
 						image.load();
 						log.debug("preloaded:", image.file);
@@ -63,7 +65,9 @@ public final class ImagePreloader {
 	public BufferedImage get(File file) {
 		synchronized (cache) {
 			for (ImageWrapper image : cache) {
-				if (image.getFile() != file) continue;
+				if (image.getFile() != file) {
+                                        continue;
+                                }
 				image.load();
 				return image.getImage();
 			}
@@ -76,10 +80,14 @@ public final class ImagePreloader {
 	public void add(File file) {
 		synchronized (cache) {
 			for (ImageWrapper image : cache) {
-				if (image.getFile() == file) return;
+				if (image.getFile() == file) {
+                                        return;
+                                }
 			}
 			ImageWrapper image = new ImageWrapper(file);
-			if (image.getSize() > maxSize) return;
+			if (image.getSize() > maxSize) {
+                                return;
+                        }
 			queue.add(image);
 			cache.add(image);
 			size += image.getSize();
@@ -91,7 +99,9 @@ public final class ImagePreloader {
 
 	private void unloadOne() {
 		synchronized (cache) {
-			if (cache.isEmpty()) return;
+			if (cache.isEmpty()) {
+                                return;
+                        }
 			ImageWrapper image = cache.iterator().next();
 			cache.remove(image);
 			size -= image.getSize();
@@ -100,7 +110,9 @@ public final class ImagePreloader {
 	}
 
 	public void setAutoScale(int maxWidth, int maxHeight) {
-		if (autoScale && maxWidth == this.maxWidth && maxHeight == this.maxHeight) return;
+		if (autoScale && maxWidth == this.maxWidth && maxHeight == this.maxHeight) {
+                        return;
+                }
 		clear();
 		this.maxWidth = maxWidth;
 		this.maxHeight = maxHeight;
@@ -137,9 +149,13 @@ public final class ImagePreloader {
 		}
 
 		public synchronized void load() {
-			if (isLoaded()) return;
+			if (isLoaded()) {
+                                return;
+                        }
 			image = IO.loadImage(file);
-			if (autoScale) scale();
+			if (autoScale) {
+                                scale();
+                        }
 		}
 
 		private void scale() {
@@ -166,7 +182,9 @@ public final class ImagePreloader {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (!(obj instanceof ImageWrapper)) return false;
+			if (!(obj instanceof ImageWrapper)) {
+                                return false;
+                        }
 			return file.equals(((ImageWrapper) obj).file);
 		}
 

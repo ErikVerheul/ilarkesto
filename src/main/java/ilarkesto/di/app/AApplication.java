@@ -148,10 +148,14 @@ public abstract class AApplication {
 			@Override
 			public void run() {
 				synchronized (getApplicationLock()) {
-					if (instance == null) throw new RuntimeException("Application not started yet.");
+					if (instance == null) {
+                                                throw new RuntimeException("Application not started yet.");
+                                        }
 					log.info("Shutdown initiated:", getApplicationName());
 
-					if (runOnShutdown) onShutdown();
+					if (runOnShutdown) {
+                                                onShutdown();
+                                        }
 
 					getTaskManager().shutdown(10000);
 					Set<ATask> tasks = getTaskManager().getRunningTasks();
@@ -161,9 +165,13 @@ public abstract class AApplication {
 					getEntityStore().lock();
 					shutdown = true;
 
-					if (context != null) context.destroy();
+					if (context != null) {
+                                                context.destroy();
+                                        }
 
-					if (exclusiveFileLock != null) exclusiveFileLock.release();
+					if (exclusiveFileLock != null) {
+                                                exclusiveFileLock.release();
+                                        }
 //					DefaultLogRecordHandler.stopLogging();
 				}
 			}
@@ -190,12 +198,24 @@ public abstract class AApplication {
 					if (dir.equals(dataDir)) {
 						// base dir
 						String name = file.getName();
-						if (name.equals(".lock")) return false;
-						if (name.equals("backups")) return false;
-						if (name.equals("entities-rescue")) return false;
-						if (name.equals("tmp")) return false;
-						if (name.startsWith("gwt-")) return false;
-						if (file.isDirectory()) log.info("    Zipping", file.getPath());
+						if (name.equals(".lock")) {
+                                                        return false;
+                                                }
+						if (name.equals("backups")) {
+                                                        return false;
+                                                }
+						if (name.equals("entities-rescue")) {
+                                                        return false;
+                                                }
+						if (name.equals("tmp")) {
+                                                        return false;
+                                                }
+						if (name.startsWith("gwt-")) {
+                                                        return false;
+                                                }
+						if (file.isDirectory()) {
+                                                        log.info("    Zipping", file.getPath());
+                                                }
 					}
 					return true;
 				}
@@ -208,14 +228,20 @@ public abstract class AApplication {
 	private void deleteOldApplicationDataDirBackups() {
 		File backupDir = new File(getApplicationDataDir() + "/backups");
 		File[] files = backupDir.listFiles();
-		if (files == null || files.length == 0) return;
+		if (files == null || files.length == 0) {
+                        return;
+                }
 
 		log.info("Deleting old backup files from", backupDir);
 		final long deadline = Tm.getCurrentTimeMillis() - Tm.DAY * 7;
 
 		for (File file : files) {
-			if (!file.getName().startsWith(getApplicationName())) continue;
-			if (file.lastModified() >= deadline && !file.getName().endsWith(".zip~")) continue;
+			if (!file.getName().startsWith(getApplicationName())) {
+                                continue;
+                        }
+			if (file.lastModified() >= deadline && !file.getName().endsWith(".zip~")) {
+                                continue;
+                        }
 			log.debug("    Deleting", file);
 			IO.delete(file);
 		}
@@ -238,7 +264,9 @@ public abstract class AApplication {
 	private static volatile AApplication instance;
 
 	public static AApplication get() {
-		if (instance == null) throw new RuntimeException("No application started yet");
+		if (instance == null) {
+                        throw new RuntimeException("No application started yet");
+                }
 		return instance;
 	}
 
@@ -311,15 +339,18 @@ public abstract class AApplication {
 	public String getReleaseLabel() {
 		if (releaseLabel == null) {
 			releaseLabel = getBuildProperties().getProperty("release.label");
-			if (releaseLabel == null || releaseLabel.equals("@release-label@"))
-				releaseLabel = "dev[" + getBuild() + "]";
+			if (releaseLabel == null || releaseLabel.equals("@release-label@")) {
+                                releaseLabel = "dev[" + getBuild() + "]";
+                        }
 		}
 		return releaseLabel;
 	}
 
 	public String getBuild() {
 		String date = getBuildProperties().getProperty("date");
-		if (date == null || "@build-date@".equals(date)) date = Time.now().toString();
+		if (date == null || "@build-date@".equals(date)) {
+                        date = Time.now().toString();
+                }
 		return date;
 	}
 
@@ -367,7 +398,9 @@ public abstract class AApplication {
 	private TaskManager taskManager;
 
 	public TaskManager getTaskManager() {
-		if (taskManager == null) taskManager = Context.get().autowire(new TaskManager());
+		if (taskManager == null) {
+                        taskManager = Context.get().autowire(new TaskManager());
+                }
 		return taskManager;
 	}
 
@@ -418,8 +451,9 @@ public abstract class AApplication {
 			daoService = new DaoService();
 			Context.get().autowire(daoService);
 			daoService.initialize(context);
-			for (DaoListener listener : Context.get().getBeansByType(DaoListener.class))
-				daoService.addListener(listener);
+			for (DaoListener listener : Context.get().getBeansByType(DaoListener.class)) {
+                                daoService.addListener(listener);
+                        }
 		}
 		return daoService;
 	}

@@ -60,14 +60,18 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		updatePropertiesMethod();
 		storePropertiesMethod();
 		backReferences();
-		if (bean.isSearchable()) searchable();
+		if (bean.isSearchable()) {
+                        searchable();
+                }
 
 	}
 
 	private void backReferences() {
 		Set<String> backRefs = new HashSet<String>();
 		for (BackReferenceModel br : bean.getBackReferences()) {
-			if (backRefs.contains(br.getName())) continue;
+			if (backRefs.contains(br.getName())) {
+                                continue;
+                        }
 			backRefs.add(br.getName());
 			backReference(br);
 		}
@@ -78,10 +82,14 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		PropertyModel ref = br.getReference();
 		BeanModel refEntity = ref.getBean();
 		if (refEntity instanceof EntityModel) {
-			if (!((EntityModel) refEntity).isGwtSupport()) return;
+			if (!((EntityModel) refEntity).isGwtSupport()) {
+                                return;
+                        }
 		}
 		String by = StrExtend.uppercaseFirstLetter(ref.getName());
-		if (ref.isCollection()) by = StrExtend.removeSuffix(by, "s");
+		if (ref.isCollection()) {
+                        by = StrExtend.removeSuffix(by, "s");
+                }
 		if (ref.isUnique()) {
 			ln("    public final " + refEntity.getBeanClass().replace(".server.", ".client.") + " get"
 					+ StrExtend.uppercaseFirstLetter(br.getName()) + "() {");
@@ -102,7 +110,9 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		ln("    public boolean matchesKey(String key) {");
 		ln("        if (super.matchesKey(key)) return true;");
 		for (PropertyModel p : bean.getProperties()) {
-			if (!p.isSearchable()) continue;
+			if (!p.isSearchable()) {
+                                continue;
+                        }
 			ln("        if (matchesKey(get" + StrExtend.uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
 		}
 		ln("        return false;");
@@ -110,14 +120,20 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 	}
 
 	private void editor(PropertyModel property) {
-		if (property.isCollection()) return;
-		if (property.isReference()) return;
+		if (property.isCollection()) {
+                        return;
+                }
+		if (property.isReference()) {
+                        return;
+                }
 		String modelProperty = property.getName() + "Model";
 		String nameUpper = StrExtend.uppercaseFirstLetter(property.getName());
 		String baseClassName = null;
 		String type = property.getType();
 		if (property.isOptionRestricted()) {
-			if (type.equals(int.class.getName())) type = Integer.class.getName();
+			if (type.equals(int.class.getName())) {
+                                type = Integer.class.getName();
+                        }
 			baseClassName = AOptionEditorModel.class.getName() + "<" + type + ">";
 		} else if (type.equals(int.class.getName()) || type.equals(Integer.class.getName())) {
 			baseClassName = AIntegerEditorModel.class.getName();
@@ -142,7 +158,9 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		} else if (type.equals(Boolean.class.getName())) {
 			baseClassName = ABooleanEditorModel.class.getName();
 		}
-		if (baseClassName == null) return;
+		if (baseClassName == null) {
+                        return;
+                }
 
 		ln();
 		ln("    private transient " + nameUpper + "Model " + modelProperty + ";");
@@ -365,9 +383,15 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		} else {
 			// simple (not collection)
 			String type = p.getType();
-			if (type.equals(Date.class.getName())) type = ilarkesto.core.time.Date.class.getName();
-			if (type.equals(Time.class.getName())) type = ilarkesto.core.time.Time.class.getName();
-			if (type.equals(DateAndTime.class.getName())) type = ilarkesto.core.time.DateAndTime.class.getName();
+			if (type.equals(Date.class.getName())) {
+                                type = ilarkesto.core.time.Date.class.getName();
+                        }
+			if (type.equals(Time.class.getName())) {
+                                type = ilarkesto.core.time.Time.class.getName();
+                        }
+			if (type.equals(DateAndTime.class.getName())) {
+                                type = ilarkesto.core.time.DateAndTime.class.getName();
+                        }
 			if (p.isReference()) {
 				// simple reference
 				String typeName;
@@ -426,7 +450,9 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 				ln("    }");
 				if (p.isOptionRestricted()) {
 					String optionType = type;
-					if (optionType.equals(int.class.getName())) optionType = Integer.class.getName();
+					if (optionType.equals(int.class.getName())) {
+                                                optionType = Integer.class.getName();
+                                        }
 					ln();
 					ln("    public abstract List<" + optionType + "> get" + nameUpper + "Options();");
 				}
@@ -478,8 +504,12 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 						ln("        " + p.getName(), " =  " + p.getName() + "AsString == null ? null : new "
 								+ ilarkesto.core.time.DateAndTime.class.getName() + "(" + p.getName() + "AsString);");
 					} else {
-						if (type.equals("boolean")) type = "Boolean";
-						if (type.equals("int")) type = "Integer";
+						if (type.equals("boolean")) {
+                                                        type = "Boolean";
+                                                }
+						if (type.equals("int")) {
+                                                        type = "Integer";
+                                                }
 						ln("        " + p.getName(), " = (" + type + ") props.get(\"" + p.getName() + "\");");
 					}
 				}

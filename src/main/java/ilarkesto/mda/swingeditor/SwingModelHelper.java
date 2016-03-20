@@ -40,8 +40,9 @@ public class SwingModelHelper {
 	public void removeNode(Node node) {
 		if (node.containsChildren()) {
 			String message = "Delete " + node.getLabel() + " with all its child nodes?";
-			if (JOptionPane.showConfirmDialog(dialogParent, message, "Confirm deletion", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
-				return;
+			if (JOptionPane.showConfirmDialog(dialogParent, message, "Confirm deletion", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+                                return;
+                        }
 		}
 		node.removeFromParent();
 
@@ -49,15 +50,21 @@ public class SwingModelHelper {
 
 	public void editNode(Node node) {
 		String value = queryNewNodeValue(node.getType(), node.getParent(), node.getValue());
-		if (value == null) return;
+		if (value == null) {
+                        return;
+                }
 		node.setValue(value);
 	}
 
 	public Node addNode(Node parent, Node template) {
 		String type = queryNewNodeType(parent, template);
-		if (type == null) return null;
+		if (type == null) {
+                        return null;
+                }
 		String value = queryNewNodeValue(type, parent, null);
-		if (value == null) return null;
+		if (value == null) {
+                        return null;
+                }
 		Node node = parent.addChild(type, value);
 		return node;
 	}
@@ -101,11 +108,15 @@ public class SwingModelHelper {
 	public String queryNewNodeType(Node parent, Node template) {
 		List<String> typesAvailableToAdd = modellingSession.getRuleSet().getAllowedChildTypes(parent);
 		Object[] options = typesAvailableToAdd.toArray();
-		if (options.length == 0) return null;
+		if (options.length == 0) {
+                        return null;
+                }
 		Object preselectedOption = options[0];
 		if (template != null) {
 			String type = template.getType();
-			if (typesAvailableToAdd.contains(type)) preselectedOption = type;
+			if (typesAvailableToAdd.contains(type)) {
+                                preselectedOption = type;
+                        }
 		}
 		String message = "Which node type would you like to add?";
 		String title = "Select node type";
@@ -119,7 +130,9 @@ public class SwingModelHelper {
 	}
 
 	public Component createValueComponent(Node node) {
-		if (node.isType(NodeTypes.EN, NodeTypes.DE)) return createHtmlValueComponent(node.getValue());
+		if (node.isType(NodeTypes.EN, NodeTypes.DE)) {
+                        return createHtmlValueComponent(node.getValue());
+                }
 		return createTextValueComponent(node.getValue());
 	}
 

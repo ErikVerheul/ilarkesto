@@ -29,12 +29,16 @@ public class SwitcherWidget extends AWidget {
 
 	@Override
 	protected final Widget onInitialization() {
-		if (height100) setHeight100();
+		if (height100) {
+                        setHeight100();
+                }
 		return new Label("Empty SwitcherWidget");
 	}
 
 	public <W extends Widget> W show(W widget) {
-		if (currentWidget == widget) return widget;
+		if (currentWidget == widget) {
+                        return widget;
+                }
 		currentWidget = widget;
 		replaceContent(currentWidget);
 		update();

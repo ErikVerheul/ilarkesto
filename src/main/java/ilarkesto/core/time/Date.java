@@ -46,7 +46,9 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public Date(String date) {
-		if (date.length() != 10) throw new RuntimeException("Illegal date format: " + date);
+		if (date.length() != 10) {
+                        throw new RuntimeException("Illegal date format: " + date);
+                }
 
 		int y = Integer.parseInt(date.substring(0, 4));
 		int m = Integer.parseInt(date.substring(5, 7));
@@ -136,7 +138,9 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public Date getMondayOfWeek() {
-		if (getWeekday() == Weekday.MONDAY) return this;
+		if (getWeekday() == Weekday.MONDAY) {
+                        return this;
+                }
 		return addDays(-1).getMondayOfWeek();
 	}
 
@@ -246,30 +250,50 @@ public class Date implements Comparable<Date>, Serializable {
 
 	@Override
 	public final boolean equals(Object obj) {
-                if (!(obj instanceof Date)) return false;
+                if (!(obj instanceof Date)) {
+                        return false;
+                }
 		Date other = (Date) obj;
 		return other.day == day && other.month == month && other.year == year;
 	}
 
 	public boolean equalsIgnoreYear(Date d) {
-		if (d == null) return false;
+		if (d == null) {
+                        return false;
+                }
 		return d.day == day && d.month == month;
 	}
 
 	public boolean equalsIgnoreDay(Date d) {
-		if (d == null) return false;
+		if (d == null) {
+                        return false;
+                }
 		return d.year == year && d.month == month;
 	}
 
 	@Override
 	public final int compareTo(Date other) {
-		if (other == null) return 1;
-		if (year > other.year) return 1;
-		if (year < other.year) return -1;
-		if (month > other.month) return 1;
-		if (month < other.month) return -1;
-		if (day > other.day) return 1;
-		if (day < other.day) return -1;
+		if (other == null) {
+                        return 1;
+                }
+		if (year > other.year) {
+                        return 1;
+                }
+		if (year < other.year) {
+                        return -1;
+                }
+		if (month > other.month) {
+                        return 1;
+                }
+		if (month < other.month) {
+                        return -1;
+                }
+		if (day > other.day) {
+                        return 1;
+                }
+		if (day < other.day) {
+                        return -1;
+                }
 		return 0;
 	}
 
@@ -326,12 +350,16 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public void formatDay(StringBuilder sb) {
-		if (day < 10) sb.append('0');
+		if (day < 10) {
+                        sb.append('0');
+                }
 		sb.append(day);
 	}
 
 	public void formatMonth(StringBuilder sb) {
-		if (month < 10) sb.append('0');
+		if (month < 10) {
+                        sb.append('0');
+                }
 		sb.append(month);
 	}
 
@@ -344,7 +372,9 @@ public class Date implements Comparable<Date>, Serializable {
 	public static Date latest(Date... dates) {
 		Date latest = null;
 		for (Date date : dates) {
-			if (latest == null || date.isAfter(latest)) latest = date;
+			if (latest == null || date.isAfter(latest)) {
+                                latest = date;
+                        }
 		}
 		return latest;
 	}
@@ -352,7 +382,9 @@ public class Date implements Comparable<Date>, Serializable {
 	public static Date earliest(Date... dates) {
 		Date earliest = null;
 		for (Date date : dates) {
-			if (earliest == null || date.isBefore(earliest)) earliest = date;
+			if (earliest == null || date.isBefore(earliest)) {
+                                earliest = date;
+                        }
 		}
 		return earliest;
 	}

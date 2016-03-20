@@ -71,7 +71,9 @@ public class CodemirrorEditorWidget extends AWidget {
 	}
 
 	private void createEditor() {
-		if (burned) return;
+		if (burned) {
+                        return;
+                }
 		if (editor == null) {
 			String text = textArea.getText();
 			// Log.DEBUG("Creating editor for:", text);
@@ -83,14 +85,20 @@ public class CodemirrorEditorWidget extends AWidget {
 	}
 
 	private String prepareText(String s) {
-		if (s == null) return "\n";
-		if (s.endsWith("\n")) return s;
+		if (s == null) {
+                        return "\n";
+                }
+		if (s.endsWith("\n")) {
+                        return s;
+                }
 		return s + "\n";
 	}
 
 	public void setText(String text) {
 		textArea.setText(text);
-		if (editor != null) setCode(editor, prepareText(text));
+		if (editor != null) {
+                        setCode(editor, prepareText(text));
+                }
 	}
 
 	public void focus() {
@@ -102,9 +110,13 @@ public class CodemirrorEditorWidget extends AWidget {
 	}
 
 	public String getText() {
-		if (!isReady()) return textArea.getText();
+		if (!isReady()) {
+                        return textArea.getText();
+                }
 		String text = editorGetCode(editor);
-		if (Str.isBlank(text)) text = null;
+		if (Str.isBlank(text)) {
+                        text = null;
+                }
 		textArea.setText(text);
 		return text;
 	}
@@ -123,7 +135,9 @@ public class CodemirrorEditorWidget extends AWidget {
 	}
 
 	public String getSelectedText() {
-		if (!isReady()) return null;
+		if (!isReady()) {
+                        return null;
+                }
 		return selection(editor);
 	}
 
@@ -215,7 +229,9 @@ public class CodemirrorEditorWidget extends AWidget {
 			editor = null;
 			burned = true;
 			super.onDetach();
-			if (observer != null) observer.onCodemirrorDetach();
+			if (observer != null) {
+                                observer.onCodemirrorDetach();
+                        }
 		}
 
 	}

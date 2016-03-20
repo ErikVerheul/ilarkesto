@@ -68,9 +68,10 @@ public class ConsoleTable {
 	public <T> ConsoleTable appendRowFromColumn(int fromCol, T... moreColumns) {
 		ArrayList<String> lastRow = lastRow();
 
-		if (fromCol < lastRow.size())
-			throw new IllegalArgumentException("Cannot append from column " + fromCol + ", because there are already "
-					+ lastRow.size() + " columns.");
+		if (fromCol < lastRow.size()) {
+                        throw new IllegalArgumentException("Cannot append from column " + fromCol + ", because there are already "
+                                + lastRow.size() + " columns.");
+                }
 
 		String[] emptyCols = new String[fromCol - lastRow.size() - 1];
 		Arrays.fill(emptyCols, "");

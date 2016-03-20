@@ -26,7 +26,9 @@ public abstract class ATableModel<T> extends AbstractTableModel {
 	private List<T> items = Collections.emptyList();
 
 	public ATableModel(String... columnNames) {
-		if (columnNames.length == 0) columnNames = new String[1];
+		if (columnNames.length == 0) {
+                        columnNames = new String[1];
+                }
 		this.columnNames = columnNames;
 	}
 

@@ -36,9 +36,13 @@ public class Model implements NodeTypes {
 
         @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "RV_RETURN_VALUE_IGNORED_INFERRED", justification = "Return value not needed")
 	public void addNode(String id, String parentId, String type, String value) {
-		if ("root".equals(id)) return;
+		if ("root".equals(id)) {
+                        return;
+                }
 		Node parent = getNodeById(parentId);
-		if (parent == null) throw new RuntimeException("Node does not exist: " + parentId);
+		if (parent == null) {
+                        throw new RuntimeException("Node does not exist: " + parentId);
+                }
 		parent.addChild(id, type, value);
 	}
 
@@ -47,10 +51,14 @@ public class Model implements NodeTypes {
 	}
 
 	private Node getNodeById(Node node, String id) {
-		if (node.getId().endsWith(id)) return node;
+		if (node.getId().endsWith(id)) {
+                        return node;
+                }
 		for (Node child : node.getChildren()) {
 			Node ret = getNodeById(child, id);
-			if (ret != null) return ret;
+			if (ret != null) {
+                                return ret;
+                        }
 		}
 		return null;
 	}

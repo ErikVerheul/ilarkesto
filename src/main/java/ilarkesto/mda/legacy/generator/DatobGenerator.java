@@ -67,7 +67,9 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 			// ln(" };");
 		}
 
-		if (isCopyConstructorEnabled()) writeCopyConstructor();
+		if (isCopyConstructorEnabled()) {
+                        writeCopyConstructor();
+                }
 
 		if (bean.isSearchable()) {
 			writeSearchable();
@@ -87,7 +89,9 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 			String propertyName = p.getName();
 			if (p.isReference()) {
 				propertyName += "Id";
-				if (p.isCollection()) propertyName += "s";
+				if (p.isCollection()) {
+                                        propertyName += "s";
+                                }
 			}
 			ln("            if (property.equals(\"" + propertyName + "\")) update"
 					+ StrExtend.uppercaseFirstLetter(p.getName()) + "(value);");
@@ -186,7 +190,9 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 								.s(".repairDeadReferences(entityId);");
 					}
 				}
-				if (!p.isReference()) continue;
+				if (!p.isReference()) {
+                                        continue;
+                                }
 				String nameUpper = StrExtend.uppercaseFirstLetter(p.getNameSingular());
 				s("        repairDead").s(nameUpper).s("Reference(entityId);").ln();
 			}
@@ -203,7 +209,9 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 		ln("    public boolean matchesKey(String key) {");
 		ln("        if (super.matchesKey(key)) return true;");
 		for (PropertyModel p : bean.getProperties()) {
-			if (!p.isSearchable()) continue;
+			if (!p.isSearchable()) {
+                                continue;
+                        }
 			ln("        if (matchesKey(get" + StrExtend.uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
 		}
 		ln("        return false;");
@@ -280,7 +288,9 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 		// --- setXxx ---
 		ln();
 		String type = p.getType();
-		if (p.isCollection()) type = "Collection<" + p.getContentType() + ">";
+		if (p.isCollection()) {
+                        type = "Collection<" + p.getContentType() + ">";
+                }
 		ln("    public final void set" + pNameUpper + "(" + type + " " + p.getName() + ") {");
 		ln("        " + p.getName() + " = " + "prepare" + pNameUpper + "(" + p.getName() + ");");
 		writeSetXxxContent(p);
@@ -644,8 +654,12 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 					+ ".getById((String)value));");
 		} else if (p.isPrimitive()) {
 			String type = p.getType();
-			if (type.equals("int")) type = Integer.class.getSimpleName();
-			if (type.equals("boolean")) type = Boolean.class.getSimpleName();
+			if (type.equals("int")) {
+                                type = Integer.class.getSimpleName();
+                        }
+			if (type.equals("boolean")) {
+                                type = Boolean.class.getSimpleName();
+                        }
 			ln("        set" + pNameUpper + "((" + type + ")value);");
 		} else {
 			String type = p.getType();

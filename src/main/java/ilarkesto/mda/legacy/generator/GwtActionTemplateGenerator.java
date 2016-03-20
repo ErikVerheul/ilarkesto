@@ -43,7 +43,9 @@ public class GwtActionTemplateGenerator extends AClassGenerator {
 
 	@Override
 	protected void writeContent() {
-		if (!action.getParameters().isEmpty()) writeConstructor();
+		if (!action.getParameters().isEmpty()) {
+                        writeConstructor();
+                }
 	}
 
 	private void writeConstructor() {

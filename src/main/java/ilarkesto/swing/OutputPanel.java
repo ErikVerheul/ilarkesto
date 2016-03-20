@@ -72,8 +72,9 @@ public class OutputPanel extends JPanel {
 			@Override
 			public void run() {
 				StringBuilder sb = new StringBuilder();
-				for (String s : strings)
-					sb.append(s);
+				for (String s : strings) {
+                                        sb.append(s);
+                                }
 				outputPane.setText(sb.toString());
 			}
 		});

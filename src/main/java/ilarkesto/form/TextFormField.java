@@ -95,7 +95,9 @@ public class TextFormField extends AFormField {
 	}
 
 	protected String preProcessValue(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		if (trim) {
 			s = s.trim();
 		}

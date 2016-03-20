@@ -22,7 +22,9 @@ public class WordTokenizer implements DiffTokenizer {
 	@Override
 	public List<String> tokenize(String s) {
 		List<String> ret = new LinkedList<String>();
-		if (s == null) return ret;
+		if (s == null) {
+                        return ret;
+                }
 		boolean word = false;
 		StringBuilder token = null;
 		int len = s.length();
@@ -54,7 +56,9 @@ public class WordTokenizer implements DiffTokenizer {
 				word = false;
 			}
 		}
-		if (token != null) ret.add(token.toString());
+		if (token != null) {
+                        ret.add(token.toString());
+                }
 		return ret;
 	}
 

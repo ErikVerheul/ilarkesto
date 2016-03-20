@@ -25,7 +25,9 @@ public class PasswordHasher {
 
 	public static String hashPassword(String password, String salt, String prefix) {
                 try {
-                        if (salt == null) salt = "";
+                        if (salt == null) {
+                                salt = "";
+                        }
                         MessageDigest md;
                         try {
                                 md = MessageDigest.getInstance(ALGORITHM);
@@ -37,7 +39,9 @@ public class PasswordHasher {
                         byte byteData[] = md.digest();
 
                         StringBuilder sb = new StringBuilder();
-                        if (prefix != null) sb.append(prefix);
+                        if (prefix != null) {
+                                sb.append(prefix);
+                        }
                         for (int i = 0; i < byteData.length; i++) {
                                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
                         }

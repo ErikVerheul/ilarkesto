@@ -46,7 +46,9 @@ public abstract class AWebApplication extends AApplication {
 
 	@Override
 	protected void onStart() {
-		if (!isDevelopmentMode()) Sys.setHeadless(true);
+		if (!isDevelopmentMode()) {
+                        Sys.setHeadless(true);
+                }
 		DefaultLogRecordHandler.setLogFile(new File(getApplicationDataDir() + "/error.log"));
 		LOG.info("Initializing web application");
 		onStartWebApplication();
@@ -67,7 +69,9 @@ public abstract class AWebApplication extends AApplication {
 
 	@Override
 	public String getApplicationName() {
-		if (applicationName != null) return applicationName;
+		if (applicationName != null) {
+                        return applicationName;
+                }
 		String name = super.getApplicationName();
 		name = StrExtend.removeSuffix(name, "Web");
 		applicationName = name;
@@ -77,10 +81,14 @@ public abstract class AWebApplication extends AApplication {
 	private static final String WEB_SESSION_SESSION_ATTRIBUTE = "_webSession";
 
 	public AWebSession getWebSession(HttpServletRequest httpRequest) {
-		if (isShuttingDown()) return null;
+		if (isShuttingDown()) {
+                        return null;
+                }
 		HttpSession httpSession = httpRequest.getSession();
 		AWebSession webSession = (AWebSession) httpSession.getAttribute(WEB_SESSION_SESSION_ATTRIBUTE);
-		if (webSession != null && webSession.isSessionInvalidated()) webSession = null;
+		if (webSession != null && webSession.isSessionInvalidated()) {
+                        webSession = null;
+                }
 		if (webSession == null) {
 			webSession = createWebSession(httpRequest);
 			httpSession.setAttribute(WEB_SESSION_SESSION_ATTRIBUTE, webSession);
@@ -142,7 +150,9 @@ public abstract class AWebApplication extends AApplication {
 	}
 
 	public JsonApiFactory getRestApiFactory() {
-		if (restApiFactory == null) restApiFactory = createRestApiFactory();
+		if (restApiFactory == null) {
+                        restApiFactory = createRestApiFactory();
+                }
 		return restApiFactory;
 	}
 

@@ -45,7 +45,9 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 	protected final void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
 			throws ServletException, IOException {
 		RequestWrapper<S> req = new RequestWrapper<S>(httpRequest, httpResponse);
-		if (!init(req)) return;
+		if (!init(req)) {
+                        return;
+                }
 		try {
 			onGet(req);
 		} catch (Throwable ex) {
@@ -57,7 +59,9 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 	protected final void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
 			throws ServletException, IOException {
 		RequestWrapper<S> req = new RequestWrapper<S>(httpRequest, httpResponse);
-		if (!init(req)) return;
+		if (!init(req)) {
+                        return;
+                }
 		try {
 			onPost(req);
 		} catch (Throwable ex) {
@@ -95,8 +99,9 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 		try {
 			onPreInit(config);
 			webApplication = (A) AWebApplication.get();
-			if (webApplication == null || webApplication.isStartupFailed())
-				throw new RuntimeException("Web application startup failed.");
+			if (webApplication == null || webApplication.isStartupFailed()) {
+                                throw new RuntimeException("Web application startup failed.");
+                        }
 			onInit(config);
 		} catch (Throwable ex) {
 			throw new ServletException(getClass().getSimpleName() + ".init(ServletConfig) failed.", ex);

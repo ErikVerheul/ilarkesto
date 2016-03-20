@@ -78,7 +78,9 @@ public class DateEditorWidget extends AViewEditWidget {
 	public final void setEditorValue(Date value) {
 		java.util.Date javaDate = value == null ? null : value.toJavaDate();
 		editor.setValue(javaDate);
-		if (javaDate != null) editor.setCurrentMonth(javaDate);
+		if (javaDate != null) {
+                        editor.setCurrentMonth(javaDate);
+                }
 	}
 
 	public final Date getEditorValue() {

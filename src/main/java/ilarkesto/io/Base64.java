@@ -309,11 +309,13 @@ public class Base64 {
 	 * no guarantee as to which one will be picked.
 	 */
 	private final static byte[] getAlphabet(int options) {
-		if ((options & URL_SAFE) == URL_SAFE)
-			return _URL_SAFE_ALPHABET;
-		else if ((options & ORDERED) == ORDERED)
-			return _ORDERED_ALPHABET;
-		else return _STANDARD_ALPHABET;
+		if ((options & URL_SAFE) == URL_SAFE) {
+                        return _URL_SAFE_ALPHABET;
+                } else if ((options & ORDERED) == ORDERED) {
+                        return _ORDERED_ALPHABET;
+                } else {
+                        return _STANDARD_ALPHABET;
+                }
 
 	} // end getAlphabet
 
@@ -323,11 +325,13 @@ public class Base64 {
 	 * no guarantee as to which one will be picked.
 	 */
 	private final static byte[] getDecodabet(int options) {
-		if ((options & URL_SAFE) == URL_SAFE)
-			return _URL_SAFE_DECODABET;
-		else if ((options & ORDERED) == ORDERED)
-			return _ORDERED_DECODABET;
-		else return _STANDARD_DECODABET;
+		if ((options & URL_SAFE) == URL_SAFE) {
+                        return _URL_SAFE_DECODABET;
+                } else if ((options & ORDERED) == ORDERED) {
+                        return _ORDERED_DECODABET;
+                } else {
+                        return _STANDARD_DECODABET;
+                }
 
 	} // end getAlphabet
 
@@ -511,7 +515,9 @@ public class Base64 {
 				gzos = new java.util.zip.GZIPOutputStream(b64os);
 				oos = new java.io.ObjectOutputStream(gzos);
 			} // end if: gzip
-			else oos = new java.io.ObjectOutputStream(b64os);
+			else {
+                                oos = new java.io.ObjectOutputStream(b64os);
+                        }
 
 			oos.writeObject(serializableObject);
 		} // end try
@@ -524,7 +530,9 @@ public class Base64 {
 				oos.close();
 			} catch (Exception e) {}
 			try {
-				if (gzos != null) gzos.close();
+				if (gzos != null) {
+                                        gzos.close();
+                                }
 			} catch (Exception e) {}
 			try {
 				b64os.close();
@@ -643,7 +651,9 @@ public class Base64 {
 			} // end catch
 			finally {
 				try {
-					if (gzos != null) gzos.close();
+					if (gzos != null) {
+                                                gzos.close();
+                                        }
 				} catch (Exception e) {}
 				try {
 					b64os.close();
@@ -818,7 +828,9 @@ public class Base64 {
 						b4Posn = 0;
 
 						// If that was the equals sign, break out of 'for' loop
-						if (sbiCrop == EQUALS_SIGN) break;
+						if (sbiCrop == EQUALS_SIGN) {
+                                                        break;
+                                                }
 					} // end if: quartet built
 
 				} // end if: equals sign or better
@@ -898,13 +910,19 @@ public class Base64 {
 				} // end catch
 				finally {
 					try {
-						if (baos != null) baos.close();
+						if (baos != null) {
+                                                        baos.close();
+                                                }
 					} catch (java.io.IOException e) {}
 					try {
-						if (gzis != null) gzis.close();
+						if (gzis != null) {
+                                                        gzis.close();
+                                                }
 					} catch (Exception e) {}
 					try {
-						if (bais != null) bais.close();
+						if (bais != null) {
+                                                        bais.close();
+                                                }
 					} catch (Exception e) {}
 				} // end finally
 
@@ -946,7 +964,9 @@ public class Base64 {
 		} // end catch
 		finally {
 			try {
-				if (bais != null) bais.close();
+				if (bais != null) {
+                                        bais.close();
+                                }
 			} catch (Exception e) {}
 			try {
 				ois.close();
@@ -1046,8 +1066,9 @@ public class Base64 {
 					Base64.DECODE);
 
 			// Read until done
-			while ((numBytes = bis.read(buffer, length, 4096)) >= 0)
-				length += numBytes;
+			while ((numBytes = bis.read(buffer, length, 4096)) >= 0) {
+                                length += numBytes;
+                        }
 
 			// Save in a variable to return
 			decodedData = new byte[length];
@@ -1059,7 +1080,9 @@ public class Base64 {
 		} // end catch: IOException
 		finally {
 			try {
-				if (bis != null) bis.close();
+				if (bis != null) {
+                                        bis.close();
+                                }
 			} catch (Exception e) {}
 		} // end finally
 
@@ -1090,8 +1113,9 @@ public class Base64 {
 					Base64.ENCODE);
 
 			// Read until done
-			while ((numBytes = bis.read(buffer, length, 4096)) >= 0)
-				length += numBytes;
+			while ((numBytes = bis.read(buffer, length, 4096)) >= 0) {
+                                length += numBytes;
+                        }
 
 			// Save in a variable to return
 			encodedData = new String(buffer, 0, length, Base64.PREFERRED_ENCODING);
@@ -1174,7 +1198,9 @@ public class Base64 {
 				in.close();
 			} catch (Exception exc) {}
 			try {
-				if (out != null) out.close();
+				if (out != null) {
+                                        out.close();
+                                }
 			} catch (Exception exc) {}
 		} // end finally
 
@@ -1273,7 +1299,9 @@ public class Base64 {
 						} // end try: read
 						catch (java.io.IOException e) {
 							// Only a problem if we got no data at all.
-							if (i == 0) throw e;
+							if (i == 0) {
+                                                                throw e;
+                                                        }
 
 						} // end catch
 					} // end for: each needed input byte
@@ -1299,7 +1327,9 @@ public class Base64 {
 							b = in.read();
 						} while (b >= 0 && decodabet[b & 0x7f] <= WHITE_SPACE_ENC);
 
-						if (b < 0) break; // Reads a -1 if end of stream
+						if (b < 0) {
+                                                        break; // Reads a -1 if end of stream
+                                                }
 
 						b4[i] = (byte) b;
 					} // end for: each needed input byte
@@ -1322,7 +1352,9 @@ public class Base64 {
 			// Got data?
 			if (position >= 0) {
 				// End of relevant data?
-				if ( /* !encode && */position >= numSigBytes) return -1;
+				if ( /* !encode && */position >= numSigBytes) {
+                                        return -1;
+                                }
 
 				if (encode && breakLines && lineLength >= MAX_LINE_LENGTH) {
 					lineLength = 0;
@@ -1335,7 +1367,9 @@ public class Base64 {
 
 					int b = buffer[position++];
 
-					if (position >= bufferLength) position = -1;
+					if (position >= bufferLength) {
+                                                position = -1;
+                                        }
 
 					return b & 0xFF; // This is how you "cast" a byte that's
 					// intended to be unsigned.
@@ -1369,11 +1403,13 @@ public class Base64 {
 				// if( b < 0 && i == 0 )
 				// return -1;
 
-				if (b >= 0)
-					dest[off + i] = (byte) b;
-				else if (i == 0)
-					return -1;
-				else break; // Out of 'for' loop
+				if (b >= 0) {
+                                        dest[off + i] = (byte) b;
+                                } else if (i == 0) {
+                                        return -1;
+                                } else {
+                                        break; // Out of 'for' loop
+                                }
 			} // end for: each byte read
 			return i;
 		} // end read

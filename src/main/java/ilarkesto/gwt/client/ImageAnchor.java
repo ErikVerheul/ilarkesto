@@ -25,7 +25,9 @@ public class ImageAnchor extends FocusWidget {
 	private AnchorElement a;
 
 	public ImageAnchor(Image image, String text, boolean spacerBetweenImageAndText) {
-		if (image == null && text == null) throw new IllegalArgumentException("image or text must be not null");
+		if (image == null && text == null) {
+                        throw new IllegalArgumentException("image or text must be not null");
+                }
 
 		a = AnchorElement.as(DOM.createAnchor());
 		setElement(a);

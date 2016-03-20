@@ -54,7 +54,9 @@ public class ConsoleApp {
 		for (Method m : methods) {
 			if (isPublicAndStatic(m) && !isMain(m)) {
 				// sort into buckets by name
-				if (methodsByName.get(m.getName()) == null) methodsByName.put(m.getName(), new ArrayList<Method>());
+				if (methodsByName.get(m.getName()) == null) {
+                                        methodsByName.put(m.getName(), new ArrayList<Method>());
+                                }
 
 				methodsByName.get(m.getName()).add(m);
 			}
@@ -84,13 +86,17 @@ public class ConsoleApp {
 	}
 
 	private void addCommand(Object object, String name, Method... methods) {
-		if (methods.length <= 0) throw new IllegalArgumentException("At least one method must be added.");
+		if (methods.length <= 0) {
+                        throw new IllegalArgumentException("At least one method must be added.");
+                }
 
-		if (methods.length > 1 && !assertOverloading(methods))
-			throw new IllegalArgumentException("Only overloaded actions should be added in one addAction call.");
+		if (methods.length > 1 && !assertOverloading(methods)) {
+                        throw new IllegalArgumentException("Only overloaded actions should be added in one addAction call.");
+                }
 
-		if (commands.containsKey(name))
-			throw new IllegalArgumentException("There is already a command named '" + name + "'.");
+		if (commands.containsKey(name)) {
+                        throw new IllegalArgumentException("There is already a command named '" + name + "'.");
+                }
 
 		commands.put(name, new Command(object, methods));
 	}
@@ -100,7 +106,9 @@ public class ConsoleApp {
 		String name = methods[0].getName();
 
 		for (Method m : methods) {
-			if (clazz != m.getDeclaringClass() || !name.equals(m.getName())) return false;
+			if (clazz != m.getDeclaringClass() || !name.equals(m.getName())) {
+                                return false;
+                        }
 		}
 
 		return true;
@@ -174,8 +182,12 @@ public class ConsoleApp {
 	}
 
 	public ConsoleApp setExecutionMode(ExecutionMode mode) {
-		if (this.mode == ExecutionMode.RUN_UNTIL_EXIT && this.mode != mode) removeExitCommand();
-		if (mode == ExecutionMode.RUN_UNTIL_EXIT) addExitCommand();
+		if (this.mode == ExecutionMode.RUN_UNTIL_EXIT && this.mode != mode) {
+                        removeExitCommand();
+                }
+		if (mode == ExecutionMode.RUN_UNTIL_EXIT) {
+                        addExitCommand();
+                }
 		this.mode = mode;
 		return this;
 	}
@@ -206,15 +218,18 @@ public class ConsoleApp {
 			System.out.print("> ");
 			String input = in.nextLine();
 
-			if (input.trim().isEmpty()) continue;
+			if (input.trim().isEmpty()) {
+                                continue;
+                        }
 
 			Command command = parseCommand(input);
 			if (command == null) {
 				System.out.println("Unknown command '" + parseCommandName(input) + "'.");
 			} else {
 				try {
-					if (!command.execute(stripCommandName(input)))
-						System.out.println("Invalid arguments for '" + parseCommandName(input) + "'.");
+					if (!command.execute(stripCommandName(input))) {
+                                                System.out.println("Invalid arguments for '" + parseCommandName(input) + "'.");
+                                        }
 				} catch (IllegalArgumentException e) {
 					System.out.println(e.getMessage());
 				}
@@ -251,7 +266,9 @@ public class ConsoleApp {
 
 	private String stripCommandName(String input) {
 		int firstSpace = input.indexOf(' ');
-		if (firstSpace == -1) return "";
+		if (firstSpace == -1) {
+                        return "";
+                }
 		return input.substring(input.indexOf(' ')).trim();
 	}
 
@@ -295,8 +312,12 @@ public class ConsoleApp {
 			input = input.trim();
 			int n = (input.isEmpty()) ? 0 : input.split(" ").length;
 			for (Method m : methods) {
-				if (numParams(m) > n) continue;
-				if (numParams(m) < n) break;
+				if (numParams(m) > n) {
+                                        continue;
+                                }
+				if (numParams(m) < n) {
+                                        break;
+                                }
 
 				Object[] parameters = ParameterMatcher.match(input, m.getParameterTypes());
 				if (parameters != null) {
@@ -312,10 +333,13 @@ public class ConsoleApp {
 						throw new RuntimeException(e);
 					} catch (InvocationTargetException e) {
 						// if it's caused by an IllegalArgumentException, rethrow IllegalArgumentException
-						if (e.getCause() != null && e.getCause() instanceof IllegalArgumentException)
-							throw (IllegalArgumentException) e.getCause();
+						if (e.getCause() != null && e.getCause() instanceof IllegalArgumentException) {
+                                                        throw (IllegalArgumentException) e.getCause();
+                                                }
 					}
-					if (m.getReturnType() != void.class) System.out.println(result);
+					if (m.getReturnType() != void.class) {
+                                                System.out.println(result);
+                                        }
 					return true;
 				}
 			}

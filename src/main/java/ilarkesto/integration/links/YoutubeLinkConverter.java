@@ -18,7 +18,9 @@ public class YoutubeLinkConverter implements LinkConverter {
 
 	@Override
 	public String convert(String href, int maxWidth) {
-		if (!isConvertable(href)) return href;
+		if (!isConvertable(href)) {
+                        return href;
+                }
 		String videoId = parseVideoId(href);
 		return createHtml(videoId, maxWidth);
 	}
@@ -36,29 +38,53 @@ public class YoutubeLinkConverter implements LinkConverter {
 		if (href.contains("/embed/")) {
 			int idx = href.lastIndexOf("/embed/") + 7;
 			int endIdx = href.indexOf("&", idx);
-			if (endIdx > 0) return href.substring(idx, endIdx);
+			if (endIdx > 0) {
+                                return href.substring(idx, endIdx);
+                        }
 			return href.substring(idx);
 		}
 		int idx = href.indexOf("v=") + 2;
 		int endIdx = href.indexOf("&", idx);
-		if (endIdx > 0) return href.substring(idx, endIdx);
+		if (endIdx > 0) {
+                        return href.substring(idx, endIdx);
+                }
 		return href.substring(idx);
 	}
 
 	private boolean isConvertable(String href) {
-		if (href == null) return false;
+		if (href == null) {
+                        return false;
+                }
 
-		if (href.startsWith("http://www.youtube.com/watch?")) return true;
-		if (href.startsWith("https://www.youtube.com/watch?")) return true;
-		if (href.startsWith("www.youtube.com/watch?")) return true;
+		if (href.startsWith("http://www.youtube.com/watch?")) {
+                        return true;
+                }
+		if (href.startsWith("https://www.youtube.com/watch?")) {
+                        return true;
+                }
+		if (href.startsWith("www.youtube.com/watch?")) {
+                        return true;
+                }
 
-		if (href.startsWith("http://www.youtu.be/watch?")) return true;
-		if (href.startsWith("https://www.youtu.be/watch?")) return true;
-		if (href.startsWith("www.youtu.be/watch?")) return true;
+		if (href.startsWith("http://www.youtu.be/watch?")) {
+                        return true;
+                }
+		if (href.startsWith("https://www.youtu.be/watch?")) {
+                        return true;
+                }
+		if (href.startsWith("www.youtu.be/watch?")) {
+                        return true;
+                }
 
-		if (href.startsWith("http://www.youtube-nocookie.com/embed/")) return true;
-		if (href.startsWith("https://www.youtube-nocookie.com/embed/")) return true;
-		if (href.startsWith("www.youtube-nocookie.com/embed/")) return true;
+		if (href.startsWith("http://www.youtube-nocookie.com/embed/")) {
+                        return true;
+                }
+		if (href.startsWith("https://www.youtube-nocookie.com/embed/")) {
+                        return true;
+                }
+		if (href.startsWith("www.youtube-nocookie.com/embed/")) {
+                        return true;
+                }
 
 		return false;
 	}

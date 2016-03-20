@@ -37,7 +37,9 @@ public final class BeanContainer extends ABeanProvider implements BeanStorage<Ob
 
 	public Class getBeanType(String beanName) {
 		Object bean = beans.get(beanName);
-		if (bean == null) return null;
+		if (bean == null) {
+                        return null;
+                }
 		return bean.getClass();
 	}
 

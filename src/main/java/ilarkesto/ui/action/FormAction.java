@@ -52,7 +52,9 @@ public final class FormAction<F extends Form> extends AAction {
 	@Override
 	protected void performAction() throws InterruptedException {
 		setAutoShowInfoDone(false);
-		if (form == null) throw new MissingDependencyException("form");
+		if (form == null) {
+                        throw new MissingDependencyException("form");
+                }
 		form.addHidden("actionId").setValue(getActionId());
 
 		for (FormField field : form.getAutoTriggerFields()) {
@@ -98,7 +100,9 @@ public final class FormAction<F extends Form> extends AAction {
 					LOG.debug("Form is not valid:", ex);
 					String message = ex.getMessage();
 					Throwable cause = ex.getCause();
-					if (cause != null) message += " " + StrExtend.format(cause);
+					if (cause != null) {
+                                                message += " " + StrExtend.format(cause);
+                                        }
 					form.setErrorMessage(message);
 					return true;
 				}
@@ -249,7 +253,9 @@ public final class FormAction<F extends Form> extends AAction {
 			return true;
 		}
 
-		if (button.isAbort()) throw new ActionAbortedException();
+		if (button.isAbort()) {
+                        throw new ActionAbortedException();
+                }
 
 		// user defined button
 		return false;

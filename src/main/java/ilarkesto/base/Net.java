@@ -27,7 +27,9 @@ public abstract class Net {
 		try {
 			for (InetAddress a : InetAddress.getAllByName(ip)) {
 				host = a.getHostName();
-				if (host.length() > 0 && !Character.isDigit(host.charAt(0))) break;
+				if (host.length() > 0 && !Character.isDigit(host.charAt(0))) {
+                                        break;
+                                }
 			}
 		} catch (UnknownHostException ex) {}
 		return host;

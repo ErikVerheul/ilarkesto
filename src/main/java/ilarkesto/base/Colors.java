@@ -28,7 +28,9 @@ public class Colors {
 	}
 
 	public static Color blend(Color one, Color two, float ratio) {
-		if (ratio < 0 || ratio > 1) throw new IllegalArgumentException("Color blend ratio r must be between 0 and 1.");
+		if (ratio < 0 || ratio > 1) {
+                        throw new IllegalArgumentException("Color blend ratio r must be between 0 and 1.");
+                }
 
 		float r1 = ratio;
 		float r2 = 1 - ratio;

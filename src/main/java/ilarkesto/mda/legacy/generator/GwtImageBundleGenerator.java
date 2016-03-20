@@ -37,7 +37,9 @@ public class GwtImageBundleGenerator extends AClassGenerator {
 	protected void writeContent() {
 		File folder = new File("src/main/java/" + packageName.replace('.', '/'));
 		File[] files = folder.listFiles();
-		if (files == null) throw new RuntimeException("Can not read folder contents: " + folder.getAbsolutePath());
+		if (files == null) {
+                        throw new RuntimeException("Can not read folder contents: " + folder.getAbsolutePath());
+                }
 		Arrays.sort(files, new FilenameComparator());
 		for (File file : files) {
 			String name = file.getName();

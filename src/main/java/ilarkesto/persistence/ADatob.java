@@ -41,19 +41,25 @@ public abstract class ADatob implements Searchable {
 
 	protected void updateLastModified() {
 		ADatobManager manager = getManager();
-		if (manager == null) return;
+		if (manager == null) {
+                        return;
+                }
 		manager.updateLastModified(this);
 	}
 
 	protected void fireModified(String comment) {
 		ADatobManager manager = getManager();
-		if (manager == null) return;
+		if (manager == null) {
+                        return;
+                }
 		manager.onDatobModified(this, comment);
 	}
 
 	protected final void repairMissingMaster() {
 		ADatobManager manager = getManager();
-		if (manager == null) return;
+		if (manager == null) {
+                        return;
+                }
 		manager.onMissingMaster(this);
 	}
 
@@ -108,8 +114,9 @@ public abstract class ADatob implements Searchable {
 	// --- helper ---
 
 	protected static void repairDeadReferencesOfValueObjects(Collection<? extends ADatob> valueObjects, String entityId) {
-		for (ADatob vo : valueObjects)
-			vo.repairDeadReferences(entityId);
+		for (ADatob vo : valueObjects) {
+                        vo.repairDeadReferences(entityId);
+                }
 	}
 
 	protected final <S extends AStructure> Set<S> cloneValueObjects(Collection<S> strucktures,
@@ -123,27 +130,33 @@ public abstract class ADatob implements Searchable {
 
 	protected static Set<String> getIdsAsSet(Collection<? extends AEntity> entities) {
 		Set<String> result = new HashSet<String>(entities.size());
-		for (AEntity entity : entities)
-			result.add(entity.getId());
+		for (AEntity entity : entities) {
+                        result.add(entity.getId());
+                }
 		return result;
 	}
 
 	protected static List<String> getIdsAsList(Collection<? extends AEntity> entities) {
 		List<String> result = new ArrayList<String>(entities.size());
-		for (AEntity entity : entities)
-			result.add(entity.getId());
+		for (AEntity entity : entities) {
+                        result.add(entity.getId());
+                }
 		return result;
 	}
 
 	protected static boolean matchesKey(Object object, String key) {
-		if (object == null) return false;
+		if (object == null) {
+                        return false;
+                }
 		if (object instanceof Searchable) { return ((Searchable) object).matchesKey(key); }
 		return object.toString().toLowerCase().indexOf(key) >= 0;
 	}
 
 	protected static boolean matchesKey(Collection objects, String key) {
 		for (Iterator iter = objects.iterator(); iter.hasNext();) {
-			if (matchesKey(iter.next(), key)) return true;
+			if (matchesKey(iter.next(), key)) {
+                                return true;
+                        }
 		}
 		return false;
 	}

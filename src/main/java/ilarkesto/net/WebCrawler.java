@@ -50,7 +50,9 @@ public class WebCrawler {
 	}
 
 	public void crawl(String url) {
-		if (filter == null) filter = new HostFilter(url);
+		if (filter == null) {
+                        filter = new HostFilter(url);
+                }
 		crawl(Utl.toList(url));
 	}
 
@@ -58,19 +60,25 @@ public class WebCrawler {
 		Set<String> newUrls = new HashSet<String>();
 		for (String url : urls) {
 			Set<String> parsedUrls = doCrawl(url);
-			if (!parsedUrls.isEmpty()) log.debug("  parsed", parsedUrls.size(), "URLs");
+			if (!parsedUrls.isEmpty()) {
+                                log.debug("  parsed", parsedUrls.size(), "URLs");
+                        }
 			newUrls.addAll(parsedUrls);
 		}
 		List<String> nextUrls = new ArrayList<String>();
 		for (String url : newUrls) {
-			if (crawledUrls.contains(url)) continue;
+			if (crawledUrls.contains(url)) {
+                                continue;
+                        }
 			if (filter != null && !filter.accept(url)) {
 				log.debug("  filtered out:", url);
 				continue;
 			}
 			nextUrls.add(url);
 		}
-		if (nextUrls.isEmpty()) return;
+		if (nextUrls.isEmpty()) {
+                        return;
+                }
 		crawl(nextUrls);
 	}
 
@@ -78,13 +86,17 @@ public class WebCrawler {
 		log.debug("Crawling:", url);
 		crawledUrls.add(url);
 		if (!isProbablyHtml(url)) {
-			if (consumer == null || consumer.skipNonHtml(url)) return Collections.emptySet();
+			if (consumer == null || consumer.skipNonHtml(url)) {
+                                return Collections.emptySet();
+                        }
 		}
 		URLConnection connection = IO.openUrlConnection(url, null, null);
 		String type;
 		try {
 			connection.connect();
-			if (consumer != null) consumer.onConnected(url, connection);
+			if (consumer != null) {
+                                consumer.onConnected(url, connection);
+                        }
 			type = connection.getContentType();
 		} catch (Exception ex) {
 			if (consumer != null) {
@@ -98,16 +110,22 @@ public class WebCrawler {
 				throw new RuntimeException(ex);
 			}
 		}
-		if (StrExtend.isBlank(type)) type = "application/unknown";
+		if (StrExtend.isBlank(type)) {
+                        type = "application/unknown";
+                }
 		if (type.startsWith("text/html")) {
 			String encoding = connection.getContentEncoding();
-			if (StrExtend.isBlank(encoding)) encoding = defaultEncoding;
+			if (StrExtend.isBlank(encoding)) {
+                                encoding = defaultEncoding;
+                        }
 			byte[] data;
 			try {
 				data = IO.readToByteArray(connection.getInputStream());
 			} catch (FileNotFoundException ex) {
 				log.debug("  not found:", url);
-				if (consumer != null) consumer.onNotFound(url);
+				if (consumer != null) {
+                                        consumer.onNotFound(url);
+                                }
 				return Collections.emptySet();
 			} catch (IOException ex) {
 				throw new RuntimeException("Loading URL failed: " + url, ex);
@@ -124,10 +142,14 @@ public class WebCrawler {
 					html = new String(data, charset);
 				} catch (UnsupportedEncodingException ex) {}
 			}
-			if (consumer != null) consumer.onHtml(url, html);
+			if (consumer != null) {
+                                consumer.onHtml(url, html);
+                        }
 			return parseUrls(html, url);
 		}
-		if (consumer != null) consumer.onUnknown(url, connection);
+		if (consumer != null) {
+                        consumer.onUnknown(url, connection);
+                }
 		return Collections.emptySet();
 	}
 
@@ -140,18 +162,32 @@ public class WebCrawler {
 		}
 		s = s.toLowerCase();
 		int idx = s.lastIndexOf('/');
-		if (idx > 0) s = s.substring(idx);
-		if (!s.contains(".")) return true;
-		if (s.endsWith(".html")) return true;
-		if (s.endsWith(".htm")) return true;
-		if (s.endsWith(".jsp")) return true;
-		if (s.endsWith(".php")) return true;
+		if (idx > 0) {
+                        s = s.substring(idx);
+                }
+		if (!s.contains(".")) {
+                        return true;
+                }
+		if (s.endsWith(".html")) {
+                        return true;
+                }
+		if (s.endsWith(".htm")) {
+                        return true;
+                }
+		if (s.endsWith(".jsp")) {
+                        return true;
+                }
+		if (s.endsWith(".php")) {
+                        return true;
+                }
 		return false;
 	}
 
 	static String normalizeUrl(String url) {
 		int idx = url.indexOf('#');
-		if (idx >= 0) url = url.substring(0, idx);
+		if (idx >= 0) {
+                        url = url.substring(0, idx);
+                }
 
 		url = url.replace("/./", "/");
 
@@ -173,7 +209,9 @@ public class WebCrawler {
 		String url;
 		while ((url = parser.nextUrl()) != null) {
 			url = normalizeUrl(url);
-			if (StrExtend.isBlank(url)) continue;
+			if (StrExtend.isBlank(url)) {
+                                continue;
+                        }
 			url = concatUrlWithRelative(sourceUrl, url);
 			url = normalizeUrl(url);
 			urls.add(url);
@@ -182,17 +220,25 @@ public class WebCrawler {
 	}
 
 	static String concatUrlWithRelative(String sourceUrl, String relativeUrl) {
-		if (relativeUrl.startsWith("http://") || relativeUrl.startsWith("https://")) return relativeUrl;
+		if (relativeUrl.startsWith("http://") || relativeUrl.startsWith("https://")) {
+                        return relativeUrl;
+                }
 		String baseUrl = getBaseUrl(sourceUrl);
 		return baseUrl + relativeUrl;
 	}
 
 	static String getBaseUrl(String url) {
 		int fromIdx = 7;
-		if (url.startsWith("https://")) fromIdx++;
+		if (url.startsWith("https://")) {
+                        fromIdx++;
+                }
 		int idx = url.lastIndexOf('/');
-		if (idx > fromIdx) url = url.substring(0, idx);
-		if (!url.endsWith("/")) url = url + '/';
+		if (idx > fromIdx) {
+                        url = url.substring(0, idx);
+                }
+		if (!url.endsWith("/")) {
+                        url = url + '/';
+                }
 		return url;
 	}
 
@@ -227,7 +273,9 @@ public class WebCrawler {
 
 		public String nextUrl() {
 			int idx = StrExtend.indexOf(html, new String[] { "href=", "src=" }, 0);
-			if (idx < 0) return null;
+			if (idx < 0) {
+                                return null;
+                        }
 			html = html.substring(idx);
 			if (html.startsWith("href=")) {
 				html = html.substring(5);
@@ -242,14 +290,20 @@ public class WebCrawler {
 
 		private String nextAttributeValue() {
 			int idx = StrExtend.indexOf(html, new String[] { "\"", "'" }, 0);
-			if (idx < 0) return nextUrl();
+			if (idx < 0) {
+                                return nextUrl();
+                        }
 			char quote = html.charAt(idx);
 			html = html.substring(idx + 1);
 			idx = html.indexOf(quote);
-			if (idx < 0) return nextUrl();
+			if (idx < 0) {
+                                return nextUrl();
+                        }
 			String url = html.substring(0, idx);
 			html = html.substring(idx + 1);
-			if (url.contains("\" + gaJsHost + \"")) return nextUrl();
+			if (url.contains("\" + gaJsHost + \"")) {
+                                return nextUrl();
+                        }
 			return url;
 		}
 	}
@@ -315,7 +369,9 @@ public class WebCrawler {
 		public void onHtml(String url, String html) {
 			File file = getFile(url);
 			log.info("Storing:", file);
-			if (encoding == null) encoding = StrExtend.getCharsetFromHtml(html, IO.UTF_8);
+			if (encoding == null) {
+                                encoding = StrExtend.getCharsetFromHtml(html, IO.UTF_8);
+                        }
 			IO.writeFile(file, html, encoding);
 		}
 
@@ -334,8 +390,12 @@ public class WebCrawler {
 				throw new RuntimeException(ex);
 			}
 			String path = u.getPath();
-			if (StrExtend.isBlank(path)) path = "/";
-			if (path.endsWith("/")) path = "_.html";
+			if (StrExtend.isBlank(path)) {
+                                path = "/";
+                        }
+			if (path.endsWith("/")) {
+                                path = "_.html";
+                        }
 			return new File(destinationDir + "/" + u.getHost() + "/" + path);
 		}
 

@@ -82,8 +82,12 @@ public abstract class AViewEditWidget extends AWidget {
 
         @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD", justification = "Assume this is OK")
 	public void switchToEditMode() {
-		if (isEditMode()) return;
-		if (!isEditable()) return;
+		if (isEditMode()) {
+                        return;
+                }
+		if (!isEditable()) {
+                        return;
+                }
 		Log.DEBUG("Switching to edit mode: " + toString());
 		ensureEditorInitialized();
 		viewMode = false;
@@ -97,8 +101,12 @@ public abstract class AViewEditWidget extends AWidget {
 		currentEditor = this;
 		updateEditor();
 		focusEditor();
-		if (modeSwitchHandler != null) modeSwitchHandler.onEditorActivated(this);
-		if (globalModeSwitchHandler != null) globalModeSwitchHandler.onEditorActivated(this);
+		if (modeSwitchHandler != null) {
+                        modeSwitchHandler.onEditorActivated(this);
+                }
+		if (globalModeSwitchHandler != null) {
+                        globalModeSwitchHandler.onEditorActivated(this);
+                }
 		onSwitchToEditModeCompleted();
 	}
 
@@ -115,14 +123,24 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	public void switchToViewMode(boolean update) {
-		if (isViewMode()) return;
+		if (isViewMode()) {
+                        return;
+                }
 		Log.DEBUG("Switching to view mode: " + toString());
 		viewMode = true;
 		onEditorClose();
-		if (currentEditor == this) currentEditor = null;
-		if (modeSwitchHandler != null) modeSwitchHandler.onViewerActivated(this);
-		if (globalModeSwitchHandler != null) globalModeSwitchHandler.onViewerActivated(this);
-		if (update) update();
+		if (currentEditor == this) {
+                        currentEditor = null;
+                }
+		if (modeSwitchHandler != null) {
+                        modeSwitchHandler.onViewerActivated(this);
+                }
+		if (globalModeSwitchHandler != null) {
+                        globalModeSwitchHandler.onViewerActivated(this);
+                }
+		if (update) {
+                        update();
+                }
 	}
 
 	public final boolean submitEditor() {
@@ -130,7 +148,9 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	public final boolean submitEditor(boolean switchToViewMode) {
-		if (!isEditMode()) throw new RuntimeException("submitEditor() not allowed. Not in edit mode: " + toString());
+		if (!isEditMode()) {
+                        throw new RuntimeException("submitEditor() not allowed. Not in edit mode: " + toString());
+                }
 		try {
 			onEditorSubmit();
 		} catch (Throwable ex) {
@@ -141,7 +161,9 @@ public abstract class AViewEditWidget extends AWidget {
 		setEditorError(null);
 		if (switchToViewMode || !editorWrapper.isAttached()) {
 			switchToViewMode();
-			if (isAttached()) updateAutoUpdateWidget();
+			if (isAttached()) {
+                                updateAutoUpdateWidget();
+                        }
 		}
 		return true;
 	}
@@ -151,7 +173,9 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	protected final void cancelEditor() {
-		if (!isEditMode()) throw new RuntimeException("cancelEditor() not allowed. Not in edit mode: " + toString());
+		if (!isEditMode()) {
+                        throw new RuntimeException("cancelEditor() not allowed. Not in edit mode: " + toString());
+                }
 		switchToViewMode();
 	}
 
@@ -162,12 +186,18 @@ public abstract class AViewEditWidget extends AWidget {
 	@Override
 	protected void onDetach() {
 		super.onDetach();
-		if (isEditMode()) closeEditor();
+		if (isEditMode()) {
+                        closeEditor();
+                }
 	}
 
 	private void initializeViewer() {
-		if (viewerInitialized) throw new RuntimeException("Viewer already initialized: " + toString());
-		if (viewerInitializing) throw new RuntimeException("Viewer already initializing: " + toString());
+		if (viewerInitialized) {
+                        throw new RuntimeException("Viewer already initialized: " + toString());
+                }
+		if (viewerInitializing) {
+                        throw new RuntimeException("Viewer already initializing: " + toString());
+                }
 		viewerInitializing = true;
 		// GwtLogger.DEBUG("Initializing Viewer: " + toString());
 		viewerWrapper = new FocusPanel();
@@ -180,10 +210,13 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	private void updateViewer() {
-		if (viewerInitializing)
-			throw new RuntimeException("Viewer initializing. Don't call update() within onViewerInitailization(): "
-					+ toString());
-		if (!viewerInitialized) initializeViewer();
+		if (viewerInitializing) {
+                        throw new RuntimeException("Viewer initializing. Don't call update() within onViewerInitailization(): "
+                                + toString());
+                }
+		if (!viewerInitialized) {
+                        initializeViewer();
+                }
 		// GwtLogger.DEBUG("Updating viewer: " + toString());
 		onViewerUpdate();
 		if (isEditable()) {
@@ -195,8 +228,12 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	private void initializeEditor() {
-		if (editorInitialized) throw new RuntimeException("Editor already initialized: " + toString());
-		if (editorInitializing) throw new RuntimeException("Editor already initializing: " + toString());
+		if (editorInitialized) {
+                        throw new RuntimeException("Editor already initialized: " + toString());
+                }
+		if (editorInitializing) {
+                        throw new RuntimeException("Editor already initializing: " + toString());
+                }
 		editorInitializing = true;
 		// GwtLogger.DEBUG("Initializing Editor: " + toString());
 
@@ -225,10 +262,13 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	protected final void ensureEditorInitialized() {
-		if (editorInitializing)
-			throw new RuntimeException("Editor initializing. Don't call update() within onEditorInitailization(): "
-					+ toString());
-		if (!editorInitialized) initializeEditor();
+		if (editorInitializing) {
+                        throw new RuntimeException("Editor initializing. Don't call update() within onEditorInitailization(): "
+                                + toString());
+                }
+		if (!editorInitialized) {
+                        initializeEditor();
+                }
 	}
 
 	private void updateEditor() {
@@ -271,7 +311,9 @@ public abstract class AViewEditWidget extends AWidget {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if (isEditable()) switchToEditMode();
+			if (isEditable()) {
+                                switchToEditMode();
+                        }
 			event.stopPropagation();
 		}
 

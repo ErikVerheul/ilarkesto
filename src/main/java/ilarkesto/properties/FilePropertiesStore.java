@@ -30,7 +30,9 @@ public class FilePropertiesStore extends APropertiesStore {
 
 	@Override
 	protected boolean isLoadedPropertiesChanged() {
-		if (!file.exists()) return false;
+		if (!file.exists()) {
+                        return false;
+                }
 		return file.lastModified() > lastModifiedOnLoad;
 	}
 

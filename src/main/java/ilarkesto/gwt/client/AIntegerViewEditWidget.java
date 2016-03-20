@@ -84,7 +84,9 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 	}
 
 	public final void setViewerText(String text) {
-		if (Str.isBlank(text)) text = ".";
+		if (Str.isBlank(text)) {
+                        text = ".";
+                }
 		viewer.setText(text);
 	}
 
@@ -96,7 +98,9 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 		String text = null;
 		if (value != null) {
 			text = value.toString();
-			if (suffix != null) text += " " + suffix;
+			if (suffix != null) {
+                                text += " " + suffix;
+                        }
 		}
 		setViewerText(text);
 	}
@@ -131,12 +135,16 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 	}
 
 	private void plus() {
-		if (!isEditable()) return;
+		if (!isEditable()) {
+                        return;
+                }
 		onPlusClicked();
 	}
 
 	private void minus() {
-		if (!isEditable()) return;
+		if (!isEditable()) {
+                        return;
+                }
 		onMinusClicked();
 	}
 

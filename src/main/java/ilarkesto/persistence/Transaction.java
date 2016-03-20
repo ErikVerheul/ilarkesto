@@ -47,15 +47,21 @@ class Transaction implements IdentifiableResolver<AEntity> {
 	}
 
 	synchronized void saveEntity(AEntity entity) {
-		if (entity == null) throw new NullPointerException("entity");
+		if (entity == null) {
+                        throw new NullPointerException("entity");
+                }
 		entity.getId();
-		if (entitiesToSave.contains(entity) || entitiesToDelete.contains(entity)) return;
+		if (entitiesToSave.contains(entity) || entitiesToDelete.contains(entity)) {
+                        return;
+                }
 		log.debug("SAVE", toStringWithType(entity), "@", this);
 		entitiesToSave.add(entity);
 	}
 
 	synchronized void deleteEntity(AEntity entity) {
-		if (entitiesToDelete.contains(entity)) return;
+		if (entitiesToDelete.contains(entity)) {
+                        return;
+                }
 		log.debug("DELETE", toStringWithType(entity), "@", this);
 		entitiesToDelete.add(entity);
 		entitiesToSave.remove(entity);
@@ -68,7 +74,9 @@ class Transaction implements IdentifiableResolver<AEntity> {
 	private boolean committed;
 
 	synchronized void commit() {
-		if (committed) throw new RuntimeException("Transaction already committed: " + this);
+		if (committed) {
+                        throw new RuntimeException("Transaction already committed: " + this);
+                }
 		committed = true;
 
 		if (entitiesToDelete.isEmpty() && entitiesToSave.isEmpty()) {
@@ -89,7 +97,9 @@ class Transaction implements IdentifiableResolver<AEntity> {
 				log.debug("  Entities changed after ensuring integrity:", tmp);
 			}
 
-			if (loopcount > 1000) throw new RuntimeException("Maximum loops reached while commiting:" + this);
+			if (loopcount > 1000) {
+                                throw new RuntimeException("Maximum loops reached while commiting:" + this);
+                        }
 
 			entitiesToSave.removeAll(entitiesToDelete);
 			for (AEntity entity : new HashSet<AEntity>(entitiesToSave)) {
@@ -113,10 +123,14 @@ class Transaction implements IdentifiableResolver<AEntity> {
 
 	synchronized boolean isPersistent(String id) {
 		AEntity result = entityStore.getById(id);
-		if (result != null) return true;
+		if (result != null) {
+                        return true;
+                }
 
 		for (AEntity entity : entitiesToSave) {
-			if (id.equals(entity.getId())) return true;
+			if (id.equals(entity.getId())) {
+                                return true;
+                        }
 		}
 
 		// ignore registeredEntities!
@@ -142,7 +156,9 @@ class Transaction implements IdentifiableResolver<AEntity> {
 				}
 			}
 		}
-		if (result != null && entitiesToDelete.contains(result)) return null;
+		if (result != null && entitiesToDelete.contains(result)) {
+                        return null;
+                }
 		return result;
 	}
 
@@ -168,10 +184,14 @@ class Transaction implements IdentifiableResolver<AEntity> {
 	synchronized Set<AEntity> getEntities(Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
 		Set<AEntity> result = entityStore.getEntities(typeFilter, entityFilter);
 		for (AEntity entity : entitiesToSave) {
-			if (Persist.test(entity, typeFilter, entityFilter)) result.add(entity);
+			if (Persist.test(entity, typeFilter, entityFilter)) {
+                                result.add(entity);
+                        }
 		}
 		for (AEntity entity : entitiesRegistered) {
-			if (Persist.test(entity, typeFilter, entityFilter)) result.add(entity);
+			if (Persist.test(entity, typeFilter, entityFilter)) {
+                                result.add(entity);
+                        }
 		}
 		result.removeAll(entitiesToDelete);
 		return result;
@@ -185,15 +205,19 @@ class Transaction implements IdentifiableResolver<AEntity> {
 		AEntity result = entityStore.getEntity(typeFilter, entityFilter);
 		if (result == null) {
 			for (AEntity entity : entitiesToSave) {
-				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity))
-					return entity;
+				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
+                                        return entity;
+                                }
 			}
 			for (AEntity entity : entitiesRegistered) {
-				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity))
-					return entity;
+				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
+                                        return entity;
+                                }
 			}
 		} else {
-			if (entitiesToDelete.contains(result)) return null;
+			if (entitiesToDelete.contains(result)) {
+                                return null;
+                        }
 		}
 		return result;
 	}

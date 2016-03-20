@@ -32,13 +32,17 @@ public enum Weekday {
 
 	public int getDayOfWeekAssumeMondayIs1st() {
 		int ret = dayOfWeek - 1;
-		if (ret == 0) ret = 7;
+		if (ret == 0) {
+                        ret = 7;
+                }
 		return ret;
 	}
 
 	public static Weekday get(int dayOfWeek) {
 		for (Weekday weekday : Weekday.values()) {
-			if (weekday.dayOfWeek == dayOfWeek) return weekday;
+			if (weekday.dayOfWeek == dayOfWeek) {
+                                return weekday;
+                        }
 		}
 		throw new RuntimeException("Weekday does not exist: " + dayOfWeek);
 	}

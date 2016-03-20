@@ -73,7 +73,9 @@ public class RichtextEditorWidget extends AViewEditWidget {
 
 	@Override
 	protected void onEditorUpdate() {
-		if (editor != null && editor.isBurned()) editor = null;
+		if (editor != null && editor.isBurned()) {
+                        editor = null;
+                }
 		if (editor == null) {
 			editor = new CodemirrorEditorWidget();
 			// editor.setObserver(new CodemirrorEditorWidget.Observer() {
@@ -90,12 +92,16 @@ public class RichtextEditorWidget extends AViewEditWidget {
 			editor.ensureDebugId("richtext-id");
 			editor.setStyleName("ARichtextViewEditWidget-editor");
 			// editor.setWidth("97%");
-			if (editorHeight != null) editor.setHeight(editorHeight);
+			if (editorHeight != null) {
+                                editor.setHeight(editorHeight);
+                        }
 			editor.initialize();
 
 			String text = model.getValue();
 			String template = model.getTemplate();
-			if (template != null && Str.isBlank(text)) text = template;
+			if (template != null && Str.isBlank(text)) {
+                                text = template;
+                        }
 			editor.setText(text);
 			editorWrapper.setWidget(editor);
 		}
@@ -106,7 +112,9 @@ public class RichtextEditorWidget extends AViewEditWidget {
 
 	@Override
 	protected void focusEditor() {
-		if (editor != null) editor.focus();
+		if (editor != null) {
+                        editor.focus();
+                }
 	}
 
 	@Override
@@ -159,7 +167,9 @@ public class RichtextEditorWidget extends AViewEditWidget {
 			@Override
 			public String getLabel() {
 				String label = applyButtonLabel;
-				if (Str.isBlank(label)) label = autosave ? "Finish" : "Apply";
+				if (Str.isBlank(label)) {
+                                        label = autosave ? "Finish" : "Apply";
+                                }
 				return label;
 			}
 
@@ -188,13 +198,17 @@ public class RichtextEditorWidget extends AViewEditWidget {
 
 		FlowPanel editorPanel = new FlowPanel();
 		editorPanel.setStyleName("AEditableTextareaWidget-editorPanel");
-		if (!editorToolbar.isEmpty()) editorPanel.add(editorToolbar.update());
+		if (!editorToolbar.isEmpty()) {
+                        editorPanel.add(editorToolbar.update());
+                }
 
 		editorPanel.add(editorWrapper);
 		editorPanel.add(bottomToolbar.update());
 
 		Initializer<RichtextEditorWidget> initializer = Gwt.getRichtextEditorEditInitializer();
-		if (initializer != null) initializer.initialize(this);
+		if (initializer != null) {
+                        initializer.initialize(this);
+                }
 
 		return editorPanel;
 	}
@@ -242,9 +256,13 @@ public class RichtextEditorWidget extends AViewEditWidget {
 	}
 
 	public final String getEditorText() {
-		if (editor == null) return null;
+		if (editor == null) {
+                        return null;
+                }
 		String text = editor.getText();
-		if (Str.isBlank(text)) return null;
+		if (Str.isBlank(text)) {
+                        return null;
+                }
 		return text;
 	}
 

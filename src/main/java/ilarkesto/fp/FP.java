@@ -106,7 +106,9 @@ public abstract class FP {
 	public static <T> List<T> filterList(Predicate<T> predicate, Collection<T> list) {
 		List<T> result = new ArrayList<T>();
 		for (T element : list) {
-			if (predicate.test(element)) result.add(element);
+			if (predicate.test(element)) {
+                                result.add(element);
+                        }
 		}
 		return result;
 	}
@@ -121,7 +123,9 @@ public abstract class FP {
 	public static <T> Set<T> filterSet(Predicate<T> predicate, Collection<T> list) {
 		Set<T> result = new HashSet<T>();
 		for (T element : list) {
-			if (predicate.test(element)) result.add(element);
+			if (predicate.test(element)) {
+                                result.add(element);
+                        }
 		}
 		return result;
 	}
@@ -136,8 +140,9 @@ public abstract class FP {
 	 */
 	public static <K, V> List<V> values(Collection<K> keys, Map<K, V> map) {
 		List<V> result = new ArrayList<V>();
-		for (K key : keys)
-			result.add(map.get(key));
+		for (K key : keys) {
+                        result.add(map.get(key));
+                }
 		return result;
 	}
 

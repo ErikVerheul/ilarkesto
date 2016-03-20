@@ -59,7 +59,9 @@ public class HttpRequest<S> {
 
 	public Integer getHeaderAsInteger(String name) {
 		String value = getHeader(name);
-		if (value == null) return null;
+		if (value == null) {
+                        return null;
+                }
 		return Integer.parseInt(value);
 	}
 
@@ -93,7 +95,9 @@ public class HttpRequest<S> {
 
 	public void setResponseStatus(HttpStatusCode code, String message) {
 		String text = code.getText();
-		if (!Str.isBlank(message)) text += ": " + message;
+		if (!Str.isBlank(message)) {
+                        text += ": " + message;
+                }
 		responseStatusLine = PROTOCOL_VERSION + " " + code.getCode() + " " + text;
 	}
 
@@ -108,9 +112,10 @@ public class HttpRequest<S> {
 	}
 
 	public void sendResponseHeaders() {
-		if (responseHeadersSent)
-			throw new IllegalStateException("Response headers already sent: " + responseStatusLine + " -> "
-					+ toString());
+		if (responseHeadersSent) {
+                        throw new IllegalStateException("Response headers already sent: " + responseStatusLine + " -> "
+                                + toString());
+                }
 		if (responseStatusLine == null) {
 			setResponseStatus(HttpStatusCode.INTERNAL_SERVER_ERROR, null);
 			log.error("sendHeaders() responseStatusLine==null");
@@ -131,7 +136,9 @@ public class HttpRequest<S> {
 
 	private void completeResponseHeader(String name, String defaultValue) {
 		name = formatHeaderName(name);
-		if (!responseHeaders.containsKey(name)) responseHeaders.put(name, defaultValue);
+		if (!responseHeaders.containsKey(name)) {
+                        responseHeaders.put(name, defaultValue);
+                }
 	}
 
 	private void sendLine(String line) {

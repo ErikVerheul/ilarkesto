@@ -61,7 +61,9 @@ public class MoneyFormField extends AFormField {
 
 	public void validate() throws ValidationException {
 		if (value == null) {
-			if (isRequired()) throw new ValidationException("Eingabe erforderlich");
+			if (isRequired()) {
+                                throw new ValidationException("Eingabe erforderlich");
+                        }
 		} else {
 			try {
 				new Money(value, currency);

@@ -48,7 +48,9 @@ public class CsvFileModelSource implements ModelSource {
 	}
 
 	private void writeNode(Node node, CsvWriter out) {
-		if (node.isTransient()) return;
+		if (node.isTransient()) {
+                        return;
+                }
 		out.writeField(node.getId());
 		out.writeField(node.getParentId());
 		out.writeField(node.getType());
@@ -74,11 +76,21 @@ public class CsvFileModelSource implements ModelSource {
 		}
 
 		List<String> record = parser.nextRecord();
-		if (record == null) throw new RuntimeException("Illegal model file format");
-		if (!"id".equals(record.get(0))) throw new RuntimeException("Illegal model file format");
-		if (!"parentId".equals(record.get(1))) throw new RuntimeException("Illegal model file format");
-		if (!"type".equals(record.get(2))) throw new RuntimeException("Illegal model file format");
-		if (!"value".equals(record.get(3))) throw new RuntimeException("Illegal model file format");
+		if (record == null) {
+                        throw new RuntimeException("Illegal model file format");
+                }
+		if (!"id".equals(record.get(0))) {
+                        throw new RuntimeException("Illegal model file format");
+                }
+		if (!"parentId".equals(record.get(1))) {
+                        throw new RuntimeException("Illegal model file format");
+                }
+		if (!"type".equals(record.get(2))) {
+                        throw new RuntimeException("Illegal model file format");
+                }
+		if (!"value".equals(record.get(3))) {
+                        throw new RuntimeException("Illegal model file format");
+                }
 
 		while ((record = parser.nextRecord()) != null) {
 			String id = record.get(0);

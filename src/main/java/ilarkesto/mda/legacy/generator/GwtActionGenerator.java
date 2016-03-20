@@ -51,7 +51,9 @@ public class GwtActionGenerator extends AClassGenerator {
 		writeConstructor();
 		writeIsExecutable();
 		List<ParameterModel> parameters = action.getParameters();
-		if (!parameters.isEmpty()) writeGetId(parameters);
+		if (!parameters.isEmpty()) {
+                        writeGetId(parameters);
+                }
 	}
 
 	private void writeInstanceVariables() {

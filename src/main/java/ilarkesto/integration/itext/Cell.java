@@ -92,8 +92,9 @@ public class Cell extends ACell implements ItextElement {
 		cell.setIndent(0);
 
 		cell.setColspan(getColspan());
-		for (ItextElement element : elements)
-			cell.addElement(element.getITextElement());
+		for (ItextElement element : elements) {
+                        cell.addElement(element.getITextElement());
+                }
 		return cell;
 	}
 

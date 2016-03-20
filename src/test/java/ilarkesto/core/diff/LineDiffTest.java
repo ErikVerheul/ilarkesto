@@ -372,7 +372,9 @@ public class LineDiffTest extends ATest {
 		String computedDiff = diff.toString();
 		long end = Tm.getCurrentTimeMillis();
 		long duration = end - begin;
-		if (duration > 1000) fail("Computing diff took longer than a second: " + duration + "ms.");
+		if (duration > 1000) {
+                        fail("Computing diff took longer than a second: " + duration + "ms.");
+                }
 		assertEquals(computedDiff, expectedDiff);
 	}
 

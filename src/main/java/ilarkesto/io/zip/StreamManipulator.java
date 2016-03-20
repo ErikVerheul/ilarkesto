@@ -86,8 +86,9 @@ class StreamManipulator
   {
     if (bits_in_buffer < n)
       {
-	if (window_start == window_end)
-	  return -1;
+	if (window_start == window_end) {
+                return -1;
+        }
 	buffer |= (window[window_start++] & 0xff
 		   | (window[window_start++] & 0xff) << 8) << bits_in_buffer;
 	bits_in_buffer += 16;
@@ -113,8 +114,9 @@ class StreamManipulator
   public final int getBits(int n)
   {
     int bits = peekBits(n);
-    if (bits >= 0)
-      dropBits(n);
+    if (bits >= 0) {
+            dropBits(n);
+    }
     return bits;
   }
   /**
@@ -159,11 +161,13 @@ class StreamManipulator
    */
   public int copyBytes(byte[] output, int offset, int length)
   {
-    if (length < 0)
-      throw new IllegalArgumentException("length negative");
-    if ((bits_in_buffer & 7) != 0)  
-      /* bits_in_buffer may only be 0 or 8 */
-      throw new IllegalStateException("Bit buffer is not aligned!");
+    if (length < 0) {
+            throw new IllegalArgumentException("length negative");
+    }
+    if ((bits_in_buffer & 7) != 0) {
+            /* bits_in_buffer may only be 0 or 8 */
+            throw new IllegalStateException("Bit buffer is not aligned!");
+    }
 
     int count = 0;
     while (bits_in_buffer > 0 && length > 0)
@@ -174,12 +178,14 @@ class StreamManipulator
 	length--;
 	count++;
       }
-    if (length == 0)
-      return count;
+    if (length == 0) {
+            return count;
+    }
 
     int avail = window_end - window_start;
-    if (length > avail)
-      length = avail;
+    if (length > avail) {
+            length = avail;
+    }
     System.arraycopy(window, window_start, output, offset, length);
     window_start += length;
 
@@ -203,17 +209,19 @@ class StreamManipulator
 
   public void setInput(byte[] buf, int off, int len)
   {
-    if (window_start < window_end)
-      throw new IllegalStateException
-	("Old input was not completely processed");
+    if (window_start < window_end) {
+            throw new IllegalStateException
+                ("Old input was not completely processed");
+    }
 
     int end = off + len;
 
     /* We want to throw an ArrayIndexOutOfBoundsException early.  The
      * check is very tricky: it also handles integer wrap around.  
      */
-    if (0 > off || off > end || end > buf.length)
-      throw new ArrayIndexOutOfBoundsException();
+    if (0 > off || off > end || end > buf.length) {
+            throw new ArrayIndexOutOfBoundsException();
+    }
     
     if ((len & 1) != 0)
       {

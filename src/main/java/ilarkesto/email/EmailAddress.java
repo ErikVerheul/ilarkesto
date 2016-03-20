@@ -31,29 +31,41 @@ public final class EmailAddress {
 	private String label;
 
 	public EmailAddress(String emailAddress) {
-		if (emailAddress == null) throw new IllegalArgumentException("emailAddress == null");
+		if (emailAddress == null) {
+                        throw new IllegalArgumentException("emailAddress == null");
+                }
 		this.address = formatAddress(emailAddress, true);
 		validatePlainAddress(this.address);
 		int idx = emailAddress.indexOf("<");
 		if (idx >= 0) {
 			label = emailAddress.substring(0, idx).trim();
 			if (label.length() >= 2) {
-				if (label.startsWith("\"") || label.startsWith("'")) label = label.substring(1);
-				if (label.endsWith("\"") || label.endsWith("'")) label = label.substring(0, label.length() - 1);
+				if (label.startsWith("\"") || label.startsWith("'")) {
+                                        label = label.substring(1);
+                                }
+				if (label.endsWith("\"") || label.endsWith("'")) {
+                                        label = label.substring(0, label.length() - 1);
+                                }
 			}
-			if (label.length() == 0) label = null;
+			if (label.length() == 0) {
+                                label = null;
+                        }
 		}
 	}
 
 	public EmailAddress(String email, String label) {
-		if (email == null) throw new IllegalArgumentException("email == null");
+		if (email == null) {
+                        throw new IllegalArgumentException("email == null");
+                }
 		validatePlainAddress(email);
 		this.address = email;
 		this.label = label;
 	}
 
 	public String getDomain() {
-		if (address == null) return null;
+		if (address == null) {
+                        return null;
+                }
 		return Str.cutFrom(address, "@");
 	}
 
@@ -83,8 +95,12 @@ public final class EmailAddress {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) return false;
-		if (!(obj instanceof EmailAddress)) return false;
+		if (obj == null) {
+                        return false;
+                }
+		if (!(obj instanceof EmailAddress)) {
+                        return false;
+                }
 		EmailAddress other = (EmailAddress) obj;
 		return address.equals(other.address); // && Utl.equals(label, other.label);
 	}
@@ -99,11 +115,15 @@ public final class EmailAddress {
 	}
 
 	public static String formatAddress(String email, boolean removeText) {
-		if (email == null) return null;
+		if (email == null) {
+                        return null;
+                }
 		email = email.trim();
 		if (email.endsWith(">")) {
 			int idx = email.indexOf("<");
-			if (idx < 0) throw new RuntimeException("Illegal EmailAddress: " + email);
+			if (idx < 0) {
+                                throw new RuntimeException("Illegal EmailAddress: " + email);
+                        }
 			if (removeText) {
 				email = email.substring(idx);
 				email = formatPlainAddress(email);
@@ -113,8 +133,12 @@ public final class EmailAddress {
 				} else {
 					String label = email.substring(0, idx).trim();
 					if (label.length() >= 2) {
-						if (label.startsWith("\"")) label = label.substring(1);
-						if (label.endsWith("\"")) label = label.substring(0, label.length() - 1);
+						if (label.startsWith("\"")) {
+                                                        label = label.substring(1);
+                                                }
+						if (label.endsWith("\"")) {
+                                                        label = label.substring(0, label.length() - 1);
+                                                }
 					}
 					String address = formatPlainAddress(email.substring(idx));
 					email = label + " <" + address + ">";
@@ -127,33 +151,57 @@ public final class EmailAddress {
 	}
 
 	public static final String formatPlainAddress(String email) {
-		if (email == null) return null;
+		if (email == null) {
+                        return null;
+                }
 		email = email.trim();
 		email = email.toLowerCase();
-		if (email.startsWith("<")) email = email.substring(1);
+		if (email.startsWith("<")) {
+                        email = email.substring(1);
+                }
 		int closerIdx = email.indexOf('>');
-		if (closerIdx > 0) email = email.substring(0, closerIdx);
+		if (closerIdx > 0) {
+                        email = email.substring(0, closerIdx);
+                }
 		email = email.trim();
 		int idx = email.indexOf(' ');
-		if (idx > 0) email = email.substring(0, idx);
+		if (idx > 0) {
+                        email = email.substring(0, idx);
+                }
 		return email;
 	}
 
 	public static final void validatePlainAddress(String email) {
 		String msg = "Illegal email address: " + email;
-		if (email.length() < 5) throw new RuntimeException(msg);
-		if (email.contains(" ") || email.contains("\n") || email.contains("\t")) throw new RuntimeException(msg);
+		if (email.length() < 5) {
+                        throw new RuntimeException(msg);
+                }
+		if (email.contains(" ") || email.contains("\n") || email.contains("\t")) {
+                        throw new RuntimeException(msg);
+                }
 		int idx = email.indexOf('@');
-		if (idx < 1) throw new RuntimeException(msg);
-		if (idx >= email.length() - 3) throw new RuntimeException(msg);
+		if (idx < 1) {
+                        throw new RuntimeException(msg);
+                }
+		if (idx >= email.length() - 3) {
+                        throw new RuntimeException(msg);
+                }
 		int idx2 = email.lastIndexOf('.');
-		if (idx2 < 3) throw new RuntimeException(msg);
-		if (idx2 <= idx) throw new RuntimeException(msg);
-		if (idx2 >= email.length() - 1) throw new RuntimeException(msg);
+		if (idx2 < 3) {
+                        throw new RuntimeException(msg);
+                }
+		if (idx2 <= idx) {
+                        throw new RuntimeException(msg);
+                }
+		if (idx2 >= email.length() - 1) {
+                        throw new RuntimeException(msg);
+                }
 	}
 
 	public static final List<EmailAddress> parseList(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		List<EmailAddress> result = new ArrayList<EmailAddress>();
 		StringTokenizer st = new StringTokenizer(s, ";");
 		while (st.hasMoreTokens()) {
@@ -175,11 +223,15 @@ public final class EmailAddress {
 	}
 
 	public static final String toString(Collection<EmailAddress> addresses) {
-		if (addresses == null) return null;
+		if (addresses == null) {
+                        return null;
+                }
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (EmailAddress ea : addresses) {
-			if (ea == null) continue;
+			if (ea == null) {
+                                continue;
+                        }
 			if (first) {
 				first = false;
 			} else {

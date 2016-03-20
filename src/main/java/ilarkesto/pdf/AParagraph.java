@@ -62,7 +62,9 @@ public abstract class AParagraph extends APdfElement {
 	}
 
 	public AParagraph text(Object text, FontStyle fontStyle) {
-		if (text == null) return this;
+		if (text == null) {
+                        return this;
+                }
 		elements.add(new TextChunk(this).text(text).setFontStyle(fontStyle));
 		return this;
 	}

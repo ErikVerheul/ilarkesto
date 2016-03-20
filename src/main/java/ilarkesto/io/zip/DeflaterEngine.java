@@ -197,9 +197,10 @@ class DeflaterEngine implements DeflaterConstants {
 
     if (DeflaterConstants.COMPR_FUNC[lvl] != comprFunc) 
       {
-	if (DeflaterConstants.DEBUGGING)
-	  System.err.println("Change from "+comprFunc +" to "
-			     + DeflaterConstants.COMPR_FUNC[lvl]);
+	if (DeflaterConstants.DEBUGGING) {
+                System.err.println("Change from "+comprFunc +" to "
+                        + DeflaterConstants.COMPR_FUNC[lvl]);
+        }
 	             switch (comprFunc) {
                       case DEFLATE_STORED:
                               if (strstart > blockStart) {
@@ -236,8 +237,9 @@ class DeflaterEngine implements DeflaterConstants {
   }
 
   private void updateHash() {
-    if (DEBUGGING)
-      System.err.println("updateHash: "+strstart);
+    if (DEBUGGING) {
+            System.err.println("updateHash: "+strstart);
+    }
     ins_h = (window[strstart] << HASH_SHIFT) ^ window[strstart + 1];
   }    
 
@@ -254,11 +256,12 @@ class DeflaterEngine implements DeflaterConstants {
       {
 	if (hash != (((window[strstart] << (2*HASH_SHIFT))
 		      ^ (window[strstart + 1] << HASH_SHIFT)
-		      ^ (window[strstart + 2])) & HASH_MASK))
-	  throw new InternalError("hash inconsistent: "+hash+"/"
-				  +window[strstart]+","
-				  +window[strstart+1]+","
-				  +window[strstart+2]+","+HASH_SHIFT);
+		      ^ (window[strstart + 2])) & HASH_MASK)) {
+                throw new InternalError("hash inconsistent: "+hash+"/"
+                        +window[strstart]+","
+                        +window[strstart+1]+","
+                        +window[strstart+2]+","+HASH_SHIFT);
+        }
       }
 
     prev[strstart & WMASK] = match = head[hash];
@@ -304,8 +307,9 @@ class DeflaterEngine implements DeflaterConstants {
     /* If the window is almost full and there is insufficient lookahead,
      * move the upper half to the lower one to make room in the upper half.
      */
-    if (strstart >= WSIZE + MAX_DIST)
-      slideWindow();
+    if (strstart >= WSIZE + MAX_DIST) {
+            slideWindow();
+    }
 
     /* If there is not enough lookahead, but still some input left,
      * read in the input
@@ -314,8 +318,9 @@ class DeflaterEngine implements DeflaterConstants {
       {
 	int more = 2*WSIZE - lookahead - strstart;
 	
-	if (more > inputEnd - inputOff)
-	  more = inputEnd - inputOff;
+	if (more > inputEnd - inputOff) {
+                more = inputEnd - inputOff;
+        }
 
 	System.arraycopy(inputBuf, inputOff, 
 			 window, strstart + lookahead, more);
@@ -325,8 +330,9 @@ class DeflaterEngine implements DeflaterConstants {
 	lookahead += more;
       }
 
-    if (lookahead >= MIN_MATCH) 
-      updateHash();
+    if (lookahead >= MIN_MATCH) {
+            updateHash();
+    }
   }
 
   /**
@@ -356,27 +362,32 @@ class DeflaterEngine implements DeflaterConstants {
     byte scan_end  = window[best_end];
 
     /* Do not waste too much time if we already have a good match: */
-    if (best_len >= this.goodLength)
-      chainLength >>= 2;
+    if (best_len >= this.goodLength) {
+            chainLength >>= 2;
+    }
 
     /* Do not look for matches beyond the end of the input. This is necessary
      * to make deflate deterministic.
      */
-    if (niceLength > lookahead)
-      niceLength = lookahead;
+    if (niceLength > lookahead) {
+            niceLength = lookahead;
+    }
 
     if (DeflaterConstants.DEBUGGING 
-	&& strstart > 2*WSIZE - MIN_LOOKAHEAD)
-      throw new InternalError("need lookahead");
+	&& strstart > 2*WSIZE - MIN_LOOKAHEAD) {
+            throw new InternalError("need lookahead");
+    }
     
     do {
-      if (DeflaterConstants.DEBUGGING && curMatch >= strstart)
-	throw new InternalError("future match");
+      if (DeflaterConstants.DEBUGGING && curMatch >= strstart) {
+              throw new InternalError("future match");
+      }
       if (window[curMatch + best_len] != scan_end
 	  || window[curMatch + best_len - 1] != scan_end1
 	  || window[curMatch] != window[scan]
-	  || window[curMatch+1] != window[scan + 1])
-	continue;
+	  || window[curMatch+1] != window[scan + 1]) {
+              continue;
+      }
 
       match = curMatch + 2;      
       scan += 2;
@@ -400,8 +411,9 @@ class DeflaterEngine implements DeflaterConstants {
 	matchStart = curMatch;
 	best_end = scan;
 	best_len = scan - strstart;
-	if (best_len >= niceLength)
-	  break;
+	if (best_len >= niceLength) {
+                break;
+        }
 
 	scan_end1  = window[best_end-1];
 	scan_end   = window[best_end];
@@ -415,11 +427,13 @@ class DeflaterEngine implements DeflaterConstants {
   }
 
   void setDictionary(byte[] buffer, int offset, int length) {
-    if (DeflaterConstants.DEBUGGING && strstart != 1)
-      throw new IllegalStateException("strstart not 1");
+    if (DeflaterConstants.DEBUGGING && strstart != 1) {
+            throw new IllegalStateException("strstart not 1");
+    }
     adler.update(buffer, offset, length);
-    if (length < MIN_MATCH)
-      return;
+    if (length < MIN_MATCH) {
+            return;
+    }
     if (length > MAX_DIST) {
       offset += length - MAX_DIST;
       length = MAX_DIST;
@@ -440,8 +454,9 @@ class DeflaterEngine implements DeflaterConstants {
     
   private boolean deflateStored(boolean flush, boolean finish)
   {
-    if (!flush && lookahead == 0)
-      return false;
+    if (!flush && lookahead == 0) {
+            return false;
+    }
 
     strstart += lookahead;
     lookahead = 0;
@@ -461,8 +476,9 @@ class DeflaterEngine implements DeflaterConstants {
 	    lastBlock = false;
 	  }
 
-	if (DeflaterConstants.DEBUGGING)
-	  System.err.println("storedBlock["+storedLen+","+lastBlock+"]");
+	if (DeflaterConstants.DEBUGGING) {
+                System.err.println("storedBlock["+storedLen+","+lastBlock+"]");
+        }
 
 	huffman.flushStoredBlock(window, blockStart, storedLen, lastBlock);
 	blockStart += storedLen;
@@ -473,8 +489,9 @@ class DeflaterEngine implements DeflaterConstants {
 
   private boolean deflateFast(boolean flush, boolean finish)
   {
-    if (lookahead < MIN_LOOKAHEAD && !flush)
-      return false;
+    if (lookahead < MIN_LOOKAHEAD && !flush) {
+            return false;
+    }
 
     while (lookahead >= MIN_LOOKAHEAD || flush)
       {
@@ -508,8 +525,9 @@ class DeflaterEngine implements DeflaterConstants {
 	      {
 		for (int i = 0 ; i < matchLen; i++)
 		  {
-		    if (window[strstart+i] != window[matchStart + i])
-		      throw new InternalError();
+		    if (window[strstart+i] != window[matchStart + i]) {
+                            throw new InternalError();
+                    }
 		  }
 	      }
 	    huffman.tallyDist(strstart - matchStart, matchLen);
@@ -527,8 +545,9 @@ class DeflaterEngine implements DeflaterConstants {
 	    else
 	      {
 		strstart += matchLen;
-		if (lookahead >= MIN_MATCH - 1)
-		  updateHash();
+		if (lookahead >= MIN_MATCH - 1) {
+                        updateHash();
+                }
 	      }
 	    matchLen = MIN_MATCH - 1;
 	    continue;
@@ -555,20 +574,23 @@ class DeflaterEngine implements DeflaterConstants {
 
   private boolean deflateSlow(boolean flush, boolean finish)
   {
-    if (lookahead < MIN_LOOKAHEAD && !flush)
-      return false;
+    if (lookahead < MIN_LOOKAHEAD && !flush) {
+            return false;
+    }
 
     while (lookahead >= MIN_LOOKAHEAD || flush)
       {
 	if (lookahead == 0)
 	  {
-	    if (prevAvailable)
-	      huffman.tallyLit(window[strstart-1] & 0xff);
+	    if (prevAvailable) {
+                    huffman.tallyLit(window[strstart-1] & 0xff);
+            }
 	    prevAvailable = false;
 
 	    /* We are flushing everything */
-	    if (DeflaterConstants.DEBUGGING && !flush)
-	      throw new InternalError("Not flushing, but no lookahead");
+	    if (DeflaterConstants.DEBUGGING && !flush) {
+                    throw new InternalError("Not flushing, but no lookahead");
+            }
 	    huffman.flushBlock(window, blockStart, strstart - blockStart,
 			       finish);
 	    blockStart = strstart;
@@ -612,8 +634,9 @@ class DeflaterEngine implements DeflaterConstants {
 	      {
 		for (int i = 0 ; i < matchLen; i++)
 		  {
-		    if (window[strstart-1+i] != window[prevMatch + i])
-		      throw new InternalError();
+		    if (window[strstart-1+i] != window[prevMatch + i]) {
+                            throw new InternalError();
+                    }
 		  }
 	      }
 	    huffman.tallyDist(strstart - 1 - prevMatch, prevLen);
@@ -622,8 +645,9 @@ class DeflaterEngine implements DeflaterConstants {
 	      {
 		strstart++;
 		lookahead--;
-		if (lookahead >= MIN_MATCH)
-		  insertString();
+		if (lookahead >= MIN_MATCH) {
+                        insertString();
+                }
 	      }
 	    while (--prevLen > 0);
 	    strstart ++;
@@ -633,8 +657,9 @@ class DeflaterEngine implements DeflaterConstants {
 	  }
 	else
 	  {
-	    if (prevAvailable)
-	      huffman.tallyLit(window[strstart-1] & 0xff);
+	    if (prevAvailable) {
+                    huffman.tallyLit(window[strstart-1] & 0xff);
+            }
 	    prevAvailable = true;
 	    strstart++;
 	    lookahead--;
@@ -643,8 +668,9 @@ class DeflaterEngine implements DeflaterConstants {
 	if (huffman.isFull())
 	  {
 	    int len = strstart - blockStart;
-	    if (prevAvailable)
-	      len--;
+	    if (prevAvailable) {
+                    len--;
+            }
 	    boolean lastBlock = (finish && lookahead == 0 && !prevAvailable);
 	    huffman.flushBlock(window, blockStart, len, lastBlock);
 	    blockStart += len;
@@ -661,9 +687,10 @@ class DeflaterEngine implements DeflaterConstants {
       {
 	fillWindow();
 	boolean canFlush = flush && inputOff == inputEnd;
-	if (DeflaterConstants.DEBUGGING)
-	  System.err.println("window: ["+blockStart+","+strstart+","
-			     +lookahead+"], "+comprFunc+","+canFlush);
+	if (DeflaterConstants.DEBUGGING) {
+                System.err.println("window: ["+blockStart+","+strstart+","
+                        +lookahead+"], "+comprFunc+","+canFlush);
+        }
 	switch (comprFunc)
 	  {
 	  case DEFLATE_STORED:
@@ -687,17 +714,19 @@ class DeflaterEngine implements DeflaterConstants {
 
   public void setInput(byte[] buf, int off, int len)
   {
-    if (inputOff < inputEnd)
-      throw new IllegalStateException
-	("Old input was not completely processed");
+    if (inputOff < inputEnd) {
+            throw new IllegalStateException
+                ("Old input was not completely processed");
+    }
 
     int end = off + len;
 
     /* We want to throw an ArrayIndexOutOfBoundsException early.  The
      * check is very tricky: it also handles integer wrap around.  
      */
-    if (0 > off || off > end || end > buf.length)
-      throw new ArrayIndexOutOfBoundsException();
+    if (0 > off || off > end || end > buf.length) {
+            throw new ArrayIndexOutOfBoundsException();
+    }
 
     inputBuf = buf;
     inputOff = off;

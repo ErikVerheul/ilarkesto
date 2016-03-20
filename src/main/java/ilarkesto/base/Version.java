@@ -33,11 +33,17 @@ public final class Version implements Comparable<Version> {
 
 	public Version(String s) {
 		StringTokenizer tok = new StringTokenizer(s, ".");
-		if (!tok.hasMoreElements()) return;
+		if (!tok.hasMoreElements()) {
+                        return;
+                }
 		major = Integer.parseInt(tok.nextToken());
-		if (!tok.hasMoreElements()) return;
+		if (!tok.hasMoreElements()) {
+                        return;
+                }
 		minor = Integer.parseInt(tok.nextToken());
-		if (!tok.hasMoreElements()) return;
+		if (!tok.hasMoreElements()) {
+                        return;
+                }
 		build = Integer.parseInt(tok.nextToken());
 	}
 
@@ -59,9 +65,15 @@ public final class Version implements Comparable<Version> {
 
 	@Override
 	public int compareTo(Version o) {
-		if (major != o.major) return Integer.valueOf(major).compareTo(Integer.valueOf(o.major));
-		if (minor != o.minor) return Integer.valueOf(minor).compareTo(Integer.valueOf(o.minor));
-		if (build != o.build) return Integer.valueOf(build).compareTo(Integer.valueOf(o.build));
+		if (major != o.major) {
+                        return Integer.valueOf(major).compareTo(Integer.valueOf(o.major));
+                }
+		if (minor != o.minor) {
+                        return Integer.valueOf(minor).compareTo(Integer.valueOf(o.minor));
+                }
+		if (build != o.build) {
+                        return Integer.valueOf(build).compareTo(Integer.valueOf(o.build));
+                }
 		return 0;
 	}
 
@@ -72,7 +84,9 @@ public final class Version implements Comparable<Version> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Version)) return false;
+		if (!(obj instanceof Version)) {
+                        return false;
+                }
 		Version o = (Version) obj;
 		return major == o.major && minor == o.minor && build == o.build;
 	}

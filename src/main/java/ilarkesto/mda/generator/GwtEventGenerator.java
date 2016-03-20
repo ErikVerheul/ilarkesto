@@ -85,7 +85,9 @@ public class GwtEventGenerator extends AJavaClassGenerator implements NodeTypes 
 	}
 
 	private Collection<String> getInterfaces() {
-		if (event.containsChild(Flag, QUIET_FLAG)) return Arrays.asList(Quiet.class.getName());
+		if (event.containsChild(Flag, QUIET_FLAG)) {
+                        return Arrays.asList(Quiet.class.getName());
+                }
 		return Collections.emptyList();
 	}
 

@@ -33,9 +33,12 @@ public abstract class Localizer {
 	}
 
 	public final String string(Class scope, String key, Object... parameters) {
-		if (scope == null) return string(key, parameters);
-		if (AEntity.class.isAssignableFrom(scope))
-			return string("entity." + StrExtend.lowercaseFirstLetter(scope.getSimpleName()) + "." + key, parameters);
+		if (scope == null) {
+                        return string(key, parameters);
+                }
+		if (AEntity.class.isAssignableFrom(scope)) {
+                        return string("entity." + StrExtend.lowercaseFirstLetter(scope.getSimpleName()) + "." + key, parameters);
+                }
 		return string(key, parameters);
 	}
 

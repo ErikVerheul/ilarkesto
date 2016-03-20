@@ -26,7 +26,9 @@ public class ChangeIndicator {
 	}
 
 	public boolean update(Object newObject) {
-		if (Utl.equals(newObject, cachedObject)) return false;
+		if (Utl.equals(newObject, cachedObject)) {
+                        return false;
+                }
 		cachedObject = newObject;
 		return true;
 	}

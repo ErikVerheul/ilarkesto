@@ -33,9 +33,15 @@ public class ToStringComparator implements Comparator {
 	public int compare(Object a, Object b) {
 		String as = a.toString();
 		String bs = b.toString();
-		if (as == null && bs == null) return 0;
-		if (as == null) return 1;
-		if (bs == null) return -1;
+		if (as == null && bs == null) {
+                        return 0;
+                }
+		if (as == null) {
+                        return 1;
+                }
+		if (bs == null) {
+                        return -1;
+                }
 		if (ignoreCase) {
 			return as.compareToIgnoreCase(bs);
 		} else {

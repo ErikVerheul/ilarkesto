@@ -44,7 +44,9 @@ public class TaskManager {
 	public void waitForRunningTasks(long maxWaitTime) {
 		long now = Tm.getCurrentTimeMillis();
 		long tryUntilTime = now + maxWaitTime;
-		if (tryUntilTime < now) tryUntilTime = Long.MAX_VALUE;
+		if (tryUntilTime < now) {
+                        tryUntilTime = Long.MAX_VALUE;
+                }
 		Set<ATask> tasks;
 		while ((!(tasks = getRunningTasks()).isEmpty()) && Tm.getCurrentTimeMillis() < tryUntilTime) {
 			LOG.info("Waiting for running tasks:", tasks);
@@ -107,7 +109,9 @@ public class TaskManager {
 	}
 
 	public void unscheduleAllTasks() {
-		if (!scheduledTasks.isEmpty()) LOG.info("Removing scheduled tasks:", scheduledTasks);
+		if (!scheduledTasks.isEmpty()) {
+                        LOG.info("Removing scheduled tasks:", scheduledTasks);
+                }
 		scheduledTasks.clear();
 	}
 
@@ -140,7 +144,9 @@ public class TaskManager {
 			}
 			// LOG.debug("Task finished:", task);
 			runningTasks.remove(task);
-			if (repeating) task.reset();
+			if (repeating) {
+                                task.reset();
+                        }
 			context.destroy();
 			synchronized (TaskManager.this) {
 				TaskManager.this.notifyAll();

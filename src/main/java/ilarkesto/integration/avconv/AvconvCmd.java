@@ -14,7 +14,9 @@ public class AvconvCmd {
 	private String output;
 
 	public void execute() {
-		if (proc == null) throw new IllegalStateException("avconv already executed");
+		if (proc == null) {
+                        throw new IllegalStateException("avconv already executed");
+                }
 		proc.start();
 		proc.waitFor();
 		returnCode = proc.getReturnCode();
@@ -28,13 +30,17 @@ public class AvconvCmd {
 		while (tokenizer.hasMoreTokens()) {
 			String line = tokenizer.nextToken();
 			line = line.trim();
-			if (line.startsWith("Stream #")) ret.add(line);
+			if (line.startsWith("Stream #")) {
+                                ret.add(line);
+                        }
 		}
 		return ret;
 	}
 
 	public String getOutput() {
-		if (proc != null) throw new IllegalStateException("avconv not executed yet");
+		if (proc != null) {
+                        throw new IllegalStateException("avconv not executed yet");
+                }
 		return output;
 	}
 
@@ -43,7 +49,9 @@ public class AvconvCmd {
 	}
 
 	public int getReturnCode() {
-		if (proc != null) throw new IllegalStateException("avconv not executed yet");
+		if (proc != null) {
+                        throw new IllegalStateException("avconv not executed yet");
+                }
 		return returnCode;
 	}
 

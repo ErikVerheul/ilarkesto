@@ -126,12 +126,15 @@ public class InflaterInputStream extends FilterInputStream
     super(in);
     this.len = 0;
 
-    if (in == null)
-      throw new NullPointerException ("in may not be null");
-    if (inf == null)
-      throw new NullPointerException ("inf may not be null");
-    if (size < 0)
-      throw new IllegalArgumentException ("size may not be negative");
+    if (in == null) {
+            throw new NullPointerException ("in may not be null");
+    }
+    if (inf == null) {
+            throw new NullPointerException ("inf may not be null");
+    }
+    if (size < 0) {
+            throw new IllegalArgumentException ("size may not be negative");
+    }
     
     this.inf = inf;
     this.buf = new byte [size];
@@ -155,8 +158,9 @@ public class InflaterInputStream extends FilterInputStream
   @Override
   public synchronized void close() throws IOException
   {
-    if (in != null)
-      in.close();
+    if (in != null) {
+            in.close();
+    }
     in = null;
   }
 
@@ -165,13 +169,15 @@ public class InflaterInputStream extends FilterInputStream
    */
   protected void fill() throws IOException
   {
-    if (in == null)
-      throw new ZipException ("InflaterInputStream is closed");
+    if (in == null) {
+            throw new ZipException ("InflaterInputStream is closed");
+    }
     
     len = in.read(buf, 0, buf.length);
 
-    if (len < 0)
-      throw new ZipException("Deflated stream ends early.");
+    if (len < 0) {
+            throw new ZipException("Deflated stream ends early.");
+    }
     
     inf.setInput(buf, 0, len);
   }
@@ -186,8 +192,9 @@ public class InflaterInputStream extends FilterInputStream
   { 
     int nread = read(onebytebuffer, 0, 1); //read one byte
     
-    if (nread > 0)
-      return onebytebuffer[0] & 0xff;
+    if (nread > 0) {
+            return onebytebuffer[0] & 0xff;
+    }
     
     return -1;
   }
@@ -203,8 +210,9 @@ public class InflaterInputStream extends FilterInputStream
   @Override
   public int read(byte[] b, int off, int len) throws IOException
   {
-    if (len == 0)
-      return 0;
+    if (len == 0) {
+            return 0;
+    }
 
     for (;;)
       {
@@ -219,16 +227,18 @@ public class InflaterInputStream extends FilterInputStream
 	    throw new ZipException(dfe.getMessage());
 	  }
 
-	if (count > 0)
-	  return count;
+	if (count > 0) {
+                return count;
+        }
 	
 	if (inf.needsDictionary()
-	    | inf.finished())
-	  return -1;
-	else if (inf.needsInput())
-	  fill();
-	else
-	  throw new InternalError("Don't know what to do");
+	    | inf.finished()) {
+                return -1;
+        } else if (inf.needsInput()) {
+                fill();
+        } else {
+                throw new InternalError("Don't know what to do");
+        }
       }
   }
 
@@ -240,11 +250,13 @@ public class InflaterInputStream extends FilterInputStream
   @Override
   public long skip(long n) throws IOException
   {
-    if (n < 0)
-      throw new IllegalArgumentException();
+    if (n < 0) {
+            throw new IllegalArgumentException();
+    }
 
-    if (n == 0)
-      return 0;
+    if (n == 0) {
+            return 0;
+    }
 
     // Implementation copied from InputStream
     // Throw away n bytes by reading them into a temp byte[].
@@ -256,8 +268,9 @@ public class InflaterInputStream extends FilterInputStream
     while (n > 0L)
       {
 	int numread = read(tmpbuf, 0, n > buflen ? buflen : (int) n);
-	if (numread <= 0)
-	  break;
+	if (numread <= 0) {
+                break;
+        }
 	n -= numread;
       }
 

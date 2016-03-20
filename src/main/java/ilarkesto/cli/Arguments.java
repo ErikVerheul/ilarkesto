@@ -78,13 +78,17 @@ public class Arguments {
 			for (Iterator iter = parameters.iterator(); iter.hasNext();) {
 				AParameter parameter = (AParameter) iter.next();
 				String name = parameter.getName();
-				if (name.length() > len) len = name.length();
+				if (name.length() > len) {
+                                        len = name.length();
+                                }
 				parameterNameUsageMap.put(name, parameter.getDescription());
 			}
 			for (Iterator iter = remainderParameterDescriptionMap.entrySet().iterator(); iter.hasNext();) {
 				Map.Entry entry = (Entry) iter.next();
 				String name = (String) entry.getKey();
-				if (name.length() > len) len = name.length();
+				if (name.length() > len) {
+                                        len = name.length();
+                                }
 				parameterNameUsageMap.put(name, entry.getValue());
 			}
 			len += 3;
@@ -103,7 +107,9 @@ public class Arguments {
 			for (Iterator iter = options.iterator(); iter.hasNext();) {
 				AOption option = (AOption) iter.next();
 				String name = option.getUsageSyntax();
-				if (name.length() > len) len = name.length();
+				if (name.length() > len) {
+                                        len = name.length();
+                                }
 				optionNameUsageMap.put(name, option.getUsageDescription());
 			}
 			len += 3;
@@ -118,7 +124,9 @@ public class Arguments {
 	}
 
 	public void update(String[] args) throws BadSyntaxException {
-		if (args == null) args = new String[0];
+		if (args == null) {
+                        args = new String[0];
+                }
 
 		int i = 0;
 		if (!optionsDisabled) {
@@ -130,7 +138,9 @@ public class Arguments {
 					AOption option = getOption(arg.substring(1));
 					if (option == null) { throw new BadSyntaxException(command, "Unsupported option: " + arg); }
 					if (option instanceof ValueOption) {
-						if (nextArg == null) throw new BadSyntaxException(command, "Option needs argument: " + arg);
+						if (nextArg == null) {
+                                                        throw new BadSyntaxException(command, "Option needs argument: " + arg);
+                                                }
 						i++;
 					}
 					option.setValue(nextArg);
@@ -143,7 +153,9 @@ public class Arguments {
 		// parameters
 		for (Iterator iter = parameters.iterator(); iter.hasNext();) {
 			AParameter parameter = (AParameter) iter.next();
-			if (i >= args.length) throw new BadSyntaxException(command, "Missing parameter: " + parameter.getName());
+			if (i >= args.length) {
+                                throw new BadSyntaxException(command, "Missing parameter: " + parameter.getName());
+                        }
 			parameter.setValue(args[i]);
 			i++;
 		}
@@ -153,7 +165,9 @@ public class Arguments {
 			remainder = new String[args.length - i];
 			System.arraycopy(args, i, remainder, 0, args.length - i);
 		} else {
-			if (i < args.length - 1) throw new BadSyntaxException(command, "Too much parameters");
+			if (i < args.length - 1) {
+                                throw new BadSyntaxException(command, "Too much parameters");
+                        }
 		}
 	}
 
@@ -163,7 +177,9 @@ public class Arguments {
 	}
 
 	public String getRemainderAsString() {
-		if (remainder.length == 0) return null;
+		if (remainder.length == 0) {
+                        return null;
+                }
 		return StrExtend.concat(remainder, " ");
 	}
 
@@ -186,7 +202,9 @@ public class Arguments {
 	private AOption getOption(String name) {
 		for (Iterator iter = options.iterator(); iter.hasNext();) {
 			AOption option = (AOption) iter.next();
-			if (name.equals(option.getName())) return option;
+			if (name.equals(option.getName())) {
+                                return option;
+                        }
 		}
 		return null;
 	}

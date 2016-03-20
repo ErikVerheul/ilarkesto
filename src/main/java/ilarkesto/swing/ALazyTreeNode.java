@@ -30,7 +30,9 @@ public abstract class ALazyTreeNode extends DefaultMutableTreeNode {
 	}
 
 	private synchronized void loadChildrenInternal() {
-		if (childrenLoaded) return;
+		if (childrenLoaded) {
+                        return;
+                }
 		childrenLoaded = true;
 		loadChildren();
 	}

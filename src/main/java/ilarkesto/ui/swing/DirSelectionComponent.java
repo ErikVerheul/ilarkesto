@@ -77,9 +77,13 @@ public class DirSelectionComponent extends AComponent {
 		protected void loadChildren() {
 			LOG.debug("Listing", dir.getPath());
 			File[] files = dir.listFiles();
-			if (files == null || files.length == 0) return;
+			if (files == null || files.length == 0) {
+                                return;
+                        }
 			for (File file : files) {
-				if (!file.isDirectory()) continue;
+				if (!file.isDirectory()) {
+                                        continue;
+                                }
 				add(new DirNode(file));
 			}
 		}

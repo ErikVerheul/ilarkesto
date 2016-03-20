@@ -31,7 +31,9 @@ public class ReferencePropertyModel extends SimplePropertyModel {
 	}
 
 	public ReferencePropertyModel createBackReference(String name) {
-		if (!getBean().isEntity()) return this;
+		if (!getBean().isEntity()) {
+                        return this;
+                }
 		backReference = new BackReferenceModel(name, this);
 		referencedEntity.addBackReference(backReference);
 		return this;
@@ -43,8 +45,9 @@ public class ReferencePropertyModel extends SimplePropertyModel {
 	}
 
 	public ReferencePropertyModel setMaster(boolean master) {
-		if (master && (!isReference() || isCollection()))
-			throw new RuntimeException("Only a simple reference property can be a master");
+		if (master && (!isReference() || isCollection())) {
+                        throw new RuntimeException("Only a simple reference property can be a master");
+                }
 		this.master = master;
 		setMandatory(master);
 		return this;

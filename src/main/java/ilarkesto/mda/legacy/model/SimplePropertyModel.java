@@ -80,9 +80,15 @@ public class SimplePropertyModel extends PropertyModel {
 
 	@Override
 	public boolean isPrimitive() {
-		if (isBoolean()) return true;
-		if (int.class.getName().equals(type)) return true;
-		if (long.class.getName().equals(type)) return true;
+		if (isBoolean()) {
+                        return true;
+                }
+		if (int.class.getName().equals(type)) {
+                        return true;
+                }
+		if (long.class.getName().equals(type)) {
+                        return true;
+                }
 		return false;
 	}
 

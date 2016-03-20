@@ -42,22 +42,32 @@ public class FileIterator implements Iterator<File> {
 	public boolean hasNext() {
 		if (iterator != null) {
 			boolean hasNext = iterator.hasNext();
-			if (hasNext) return true;
+			if (hasNext) {
+                                return true;
+                        }
 			iterator = null;
 		}
-		if (files == null) return false;
-		if (index >= files.length) return false;
+		if (files == null) {
+                        return false;
+                }
+		if (index >= files.length) {
+                        return false;
+                }
 		return true;
 	}
 
         @Override
 	public File next() {
-		if (iterator != null) return iterator.next();
+		if (iterator != null) {
+                        return iterator.next();
+                }
 		currentFile = files[index++];
 		if (currentFile.isDirectory()) {
 			iterator = new FileIterator();
 			iterator.setFiles(currentFile.listFiles());
-			if (hasNext()) return next();
+			if (hasNext()) {
+                                return next();
+                        }
 		}
 		return currentFile;
 	}

@@ -42,7 +42,9 @@ public class ChangeIndicator {
 	}
 
 	public void addChangeListener(ChangeListener listener) {
-		if (changeListeners == null) changeListeners = new ArrayList<ChangeListener>(1);
+		if (changeListeners == null) {
+                        changeListeners = new ArrayList<ChangeListener>(1);
+                }
 		changeListeners.add(listener);
 	}
 

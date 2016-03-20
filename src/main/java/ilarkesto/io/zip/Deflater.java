@@ -204,10 +204,11 @@ public class Deflater
    */
   public Deflater(int lvl, boolean nowrap)
   {
-    if (lvl == DEFAULT_COMPRESSION)
-      lvl = 6;
-    else if (lvl < NO_COMPRESSION || lvl > BEST_COMPRESSION)
-      throw new IllegalArgumentException();
+    if (lvl == DEFAULT_COMPRESSION) {
+            lvl = 6;
+    } else if (lvl < NO_COMPRESSION || lvl > BEST_COMPRESSION) {
+            throw new IllegalArgumentException();
+    }
 
     pending = new DeflaterPending();
     engine = new DeflaterEngine(pending);
@@ -350,8 +351,9 @@ public class Deflater
    */
   public void setInput(byte[] input, int off, int len)
   {
-    if ((state & IS_FINISHING) != 0)
-      throw new IllegalStateException("finish()/end() already called");
+    if ((state & IS_FINISHING) != 0) {
+            throw new IllegalStateException("finish()/end() already called");
+    }
     engine.setInput(input, off, len);
   }
 
@@ -364,10 +366,11 @@ public class Deflater
    */
   public void setLevel(int lvl)
   {
-    if (lvl == DEFAULT_COMPRESSION)
-      lvl = 6;
-    else if (lvl < NO_COMPRESSION || lvl > BEST_COMPRESSION)
-      throw new IllegalArgumentException();
+    if (lvl == DEFAULT_COMPRESSION) {
+            lvl = 6;
+    } else if (lvl < NO_COMPRESSION || lvl > BEST_COMPRESSION) {
+            throw new IllegalArgumentException();
+    }
 
 
     if (level != lvl)
@@ -387,8 +390,9 @@ public class Deflater
   public void setStrategy(int stgy)
   {
     if (stgy != DEFAULT_STRATEGY && stgy != FILTERED
-	&& stgy != HUFFMAN_ONLY)
-      throw new IllegalArgumentException();
+	&& stgy != HUFFMAN_ONLY) {
+            throw new IllegalArgumentException();
+    }
     engine.setStrategy(stgy);
   }
 
@@ -418,8 +422,9 @@ public class Deflater
   {
     int origLength = length;
 
-    if (state == CLOSED_STATE)
-      throw new IllegalStateException("Deflater closed");
+    if (state == CLOSED_STATE) {
+            throw new IllegalStateException("Deflater closed");
+    }
 
     if (state < BUSY_STATE)
       {
@@ -427,12 +432,14 @@ public class Deflater
 	int header = (DEFLATED + 
 		      ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
 	int level_flags = (level - 1) >> 1;
-	if (level_flags < 0 || level_flags > 3) 
-	  level_flags = 3;
+	if (level_flags < 0 || level_flags > 3) {
+                level_flags = 3;
+        }
 	header |= level_flags << 6;
-	if ((state & IS_SETDICT) != 0)
-	  /* Dictionary was set */
-	  header |= DeflaterConstants.PRESET_DICT;
+	if ((state & IS_SETDICT) != 0) {
+                /* Dictionary was set */
+                header |= DeflaterConstants.PRESET_DICT;
+        }
 	header += 31 - (header % 31);
 
 	pending.writeShortMSB(header);
@@ -453,16 +460,17 @@ public class Deflater
 	offset += count;
 	totalOut += count;
 	length -= count;
-	if (length == 0 || state == FINISHED_STATE)
-	  break;
+	if (length == 0 || state == FINISHED_STATE) {
+                break;
+        }
 
 	if (!engine.deflate((state & IS_FLUSHING) != 0, 
 			    (state & IS_FINISHING) != 0))
 	  {
-	    if (state == BUSY_STATE)
-	      /* We need more input now */
-	      return origLength - length;
-	    else if (state == FLUSHING_STATE)
+	    if (state == BUSY_STATE) {
+                    /* We need more input now */
+                    return origLength - length;
+            } else if (state == FLUSHING_STATE)
 	      {
 		if (level != NO_COMPRESSION)
 		  {
@@ -528,8 +536,9 @@ public class Deflater
    */
   public void setDictionary(byte[] dict, int offset, int length)
   {
-    if (state != INIT_STATE)
-      throw new IllegalStateException();
+    if (state != INIT_STATE) {
+            throw new IllegalStateException();
+    }
 
     state = SETDICT_STATE;
     engine.setDictionary(dict, offset, length);

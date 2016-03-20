@@ -68,11 +68,15 @@ public final class LearningLocalizer extends Localizer {
 
 	@Override
 	public String string(String key, Object... parameters) {
-		if (!developmentMode) locale = Locale.GERMAN;
+		if (!developmentMode) {
+                        locale = Locale.GERMAN;
+                }
 
 		if (parameters != null) {
 			for (int i = 0; i < parameters.length; i++) {
-				if (parameters[i] instanceof Throwable) parameters[i] = StrExtend.format(parameters[i]);
+				if (parameters[i] instanceof Throwable) {
+                                        parameters[i] = StrExtend.format(parameters[i]);
+                                }
 			}
 		}
 
@@ -91,10 +95,14 @@ public final class LearningLocalizer extends Localizer {
 
 	private String getTemplate(Locale locale, String key) {
 		String template = getTemplates(locale).getProperty(key);
-		if (template != null) return template;
+		if (template != null) {
+                        return template;
+                }
 		if (developmentMode) {
 			template = learnTemplate(key);
-			if (template != null) return template;
+			if (template != null) {
+                                return template;
+                        }
 		} else {
 			LOG.error("missing " + locale + "-local string: ", key);
 		}
@@ -116,7 +124,9 @@ public final class LearningLocalizer extends Localizer {
 	private Properties getTemplates(Locale locale) {
 		if (templates == null) {
 			String localeSuffix = locale.toString();
-			if (localeSuffix.length() > 2) localeSuffix = localeSuffix.substring(0, 2);
+			if (localeSuffix.length() > 2) {
+                                localeSuffix = localeSuffix.substring(0, 2);
+                        }
 			String resource = RESOURCE_BUNDLE + "_" + localeSuffix + ".properties";
 			ClassLoader classLoader = getClass().getClassLoader();
 			LOG.debug("Loading localizer data:", resource, classLoader);
@@ -126,19 +136,27 @@ public final class LearningLocalizer extends Localizer {
 	}
 
 	private String learnTemplate(String key) {
-		if (frame == null) frame = new JFrame(getClass().getSimpleName());
+		if (frame == null) {
+                        frame = new JFrame(getClass().getSimpleName());
+                }
 		Swing.center(frame);
 		frame.setVisible(true);
 		String template = JOptionPane.showInputDialog(frame, key, "Lokalisierung", JOptionPane.QUESTION_MESSAGE);
 		frame.setVisible(false);
-		if (template == null) return null;
+		if (template == null) {
+                        return null;
+                }
 		template = template.trim();
-		if (template.length() == 0) template = null;
+		if (template.length() == 0) {
+                        template = null;
+                }
 
 		if (template != null) {
 			templates.put(key, template);
 			String localeSuffix = locale.toString();
-			if (localeSuffix.length() > 2) localeSuffix = localeSuffix.substring(0, 2);
+			if (localeSuffix.length() > 2) {
+                                localeSuffix = localeSuffix.substring(0, 2);
+                        }
 			try {
 				IO.appendLine("src/main/java/" + RESOURCE_BUNDLE + "_" + localeSuffix + ".properties",
 					key + "=" + StrExtend.replaceUnicodeCharsWithJavaNotation(template));

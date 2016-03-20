@@ -31,7 +31,9 @@ public class DynamicClassLoader extends ClassLoader {
 	public DynamicClassLoader(ClassLoader parent, String... packages) {
 		super(parent);
 		this.packages = packages;
-		if (packages.length == 0) throw new IllegalArgumentException("At least one package required");
+		if (packages.length == 0) {
+                        throw new IllegalArgumentException("At least one package required");
+                }
 	}
 
 	@Override
@@ -42,7 +44,9 @@ public class DynamicClassLoader extends ClassLoader {
 				URL url = getParent().getResource(typeName);
 				String fileName = url.getFile();
 				File file = new File(fileName);
-				if (!file.exists()) throw new RuntimeException("File does not exist: " + file.getPath());
+				if (!file.exists()) {
+                                        throw new RuntimeException("File does not exist: " + file.getPath());
+                                }
 
 				// Long lastModified = typeModificationTimes.get(name);
 				// if (lastModified != null && lastModified == file.lastModified()) {

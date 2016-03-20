@@ -23,14 +23,20 @@ public class TextChunk extends AParagraphElement {
 	}
 
 	public TextChunk text(Object s) {
-		if (s == null) return this;
-		if (text == null) text = new StringBuilder();
+		if (s == null) {
+                        return this;
+                }
+		if (text == null) {
+                        text = new StringBuilder();
+                }
 		text.append(s);
 		return this;
 	}
 
 	public String getText() {
-		if (text == null) return null;
+		if (text == null) {
+                        return null;
+                }
 		return text.toString();
 	}
 

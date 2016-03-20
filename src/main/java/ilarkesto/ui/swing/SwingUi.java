@@ -78,7 +78,9 @@ public class SwingUi extends AUi {
 		frame.pack();
 		frame.setMinimumSize(frame.getPreferredSize());
 		Swing.center(frame);
-		if (!frame.isVisible()) frame.setVisible(true);
+		if (!frame.isVisible()) {
+                        frame.setVisible(true);
+                }
 	}
 
 	@Override
@@ -98,7 +100,9 @@ public class SwingUi extends AUi {
 
 	private Component getJavaComponent(String id) {
 		Object view = Reflect.getProperty(application, id);
-		if (view == null) throw new RuntimeException("Component does not exist: " + id);
+		if (view == null) {
+                        throw new RuntimeException("Component does not exist: " + id);
+                }
 		Component javaComponent = null;
 		if (view instanceof Component) {
 			javaComponent = (Component) view;

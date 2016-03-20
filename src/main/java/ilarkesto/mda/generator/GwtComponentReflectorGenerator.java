@@ -66,7 +66,9 @@ public class GwtComponentReflectorGenerator extends AJavaClassGenerator implemen
 
 	private void printInjections(JavaPrinter out) {
 		for (Node dependency : component.getChildrenByType(Dependency)) {
-			if (dependency.containsChildByTypeAndValueFalse(Inject)) continue;
+			if (dependency.containsChildByTypeAndValueFalse(Inject)) {
+                                continue;
+                        }
 			String type = getDependencyType(dependency);
 			out.assignment("component." + dependency.getValue(), "(" + type + ") scope.getComponent(\""
 					+ dependency.getValue() + "\")");

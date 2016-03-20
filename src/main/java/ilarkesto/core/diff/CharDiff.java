@@ -47,7 +47,9 @@ public class CharDiff {
 		while (skipBurn || (lcsLen > 0 && leftLen > 0 && rightLen > 0)) {
 			burnNext();
 		}
-		if (leftLen == 0 && rightLen == 0) return this;
+		if (leftLen == 0 && rightLen == 0) {
+                        return this;
+                }
 		if (leftLen == 0) {
 			out.append(marker.added(right));
 			return this;
@@ -66,7 +68,9 @@ public class CharDiff {
 	}
 
 	private void burnNext() {
-		if (!nextChar()) return;
+		if (!nextChar()) {
+                        return;
+                }
 		if (chLcs == chLeft && chLcs == chRight) {
 			burnSame();
 			return;
@@ -82,7 +86,9 @@ public class CharDiff {
 		StringBuilder sb = new StringBuilder();
 		while (chLcs != chLeft) {
 			sb.append(chLeft);
-			if (!nextCharLeft()) break;
+			if (!nextCharLeft()) {
+                                break;
+                        }
 		}
 		out.append(marker.removed(sb.toString()));
 		skipBurn = true;
@@ -92,7 +98,9 @@ public class CharDiff {
 		StringBuilder sb = new StringBuilder();
 		while (chLcs == chLeft && chLcs != chRight) {
 			sb.append(chRight);
-			if (!nextCharRight()) break;
+			if (!nextCharRight()) {
+                                break;
+                        }
 		}
 		out.append(marker.added(sb.toString()));
 		skipBurn = true;
@@ -104,10 +112,14 @@ public class CharDiff {
 		while (chLcs == chLeft && chLcs == chRight) {
 			sb.append(chLcs);
 			nextCharAvailable = nextChar();
-			if (!nextCharAvailable) break;
+			if (!nextCharAvailable) {
+                                break;
+                        }
 		}
 		out.append(marker.same(sb.toString()));
-		if (nextCharAvailable) skipBurn = true;
+		if (nextCharAvailable) {
+                        skipBurn = true;
+                }
 	}
 
 	private boolean nextChar() {
@@ -116,9 +128,15 @@ public class CharDiff {
 			return true;
 		}
 
-		if (lcsLen == 0) return false;
-		if (leftLen == 0) return false;
-		if (rightLen == 0) return false;
+		if (lcsLen == 0) {
+                        return false;
+                }
+		if (leftLen == 0) {
+                        return false;
+                }
+		if (rightLen == 0) {
+                        return false;
+                }
 
 		chLcs = lcs.charAt(0);
 		chLeft = left.charAt(0);
@@ -136,7 +154,9 @@ public class CharDiff {
 	}
 
 	private boolean nextCharRight() {
-		if (rightLen == 0) return false;
+		if (rightLen == 0) {
+                        return false;
+                }
 
 		chRight = right.charAt(0);
 
@@ -148,7 +168,9 @@ public class CharDiff {
 	}
 
 	private boolean nextCharLeft() {
-		if (leftLen == 0) return false;
+		if (leftLen == 0) {
+                        return false;
+                }
 
 		chLeft = left.charAt(0);
 

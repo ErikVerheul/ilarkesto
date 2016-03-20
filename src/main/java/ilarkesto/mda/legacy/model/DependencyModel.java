@@ -29,7 +29,9 @@ public class DependencyModel extends AModel {
 
         @Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof DependencyModel)) return false;
+		if (obj == null || !(obj instanceof DependencyModel)) {
+                        return false;
+                }
 		return getName().equals(((DependencyModel) obj).getName());
 	}
 

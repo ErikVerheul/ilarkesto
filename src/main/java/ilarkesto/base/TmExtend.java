@@ -148,8 +148,12 @@ public final class TmExtend extends ilarkesto.core.time.Tm {
 	}
 
 	public static int year(int year) {
-		if (year < (getCurrentYear() + 23 - 2000)) return year + 2000;
-		if (year < 1000) return year + 1900;
+		if (year < (getCurrentYear() + 23 - 2000)) {
+                        return year + 2000;
+                }
+		if (year < 1000) {
+                        return year + 1900;
+                }
 		return year;
 	}
 
@@ -172,22 +176,30 @@ public final class TmExtend extends ilarkesto.core.time.Tm {
 		}
 
 		public synchronized String format(Date date) {
-			if (date == null) return null;
+			if (date == null) {
+                                return null;
+                        }
 			return format.format(date);
 		}
 
 		public String format(ilarkesto.core.time.Date date) {
-			if (date == null) return null;
+			if (date == null) {
+                                return null;
+                        }
 			return format(date.toJavaDate());
 		}
 
 		public String format(DateAndTime dateAndTime) {
-			if (dateAndTime == null) return null;
+			if (dateAndTime == null) {
+                                return null;
+                        }
 			return format(dateAndTime.toJavaDate());
 		}
 
 		public String format(Time time) {
-			if (time == null) return null;
+			if (time == null) {
+                                return null;
+                        }
 			return format(time.getJavaDateOn(ilarkesto.core.time.Date.today()));
 		}
 

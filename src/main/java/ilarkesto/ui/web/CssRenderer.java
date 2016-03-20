@@ -144,7 +144,9 @@ public class CssRenderer {
 	}
 
 	private void endStartedStyle() {
-		if (style == null) return;
+		if (style == null) {
+                        return;
+                }
 		out.println(" }");
 		style = null;
 	}

@@ -61,34 +61,52 @@ public final class Url implements BeanStorage<String>, Cloneable {
 
 	@Override
 	public Url putAll(Map<String, ? extends String> parameters) {
-		if (immutable) throw new RuntimeException("Url is immutable");
-		if (parameters == null || parameters.isEmpty()) return this;
-		if (this.parameters == null) this.parameters = new HashMap<String, String>();
+		if (immutable) {
+                        throw new RuntimeException("Url is immutable");
+                }
+		if (parameters == null || parameters.isEmpty()) {
+                        return this;
+                }
+		if (this.parameters == null) {
+                        this.parameters = new HashMap<String, String>();
+                }
 		this.parameters.putAll(parameters);
 		return this;
 	}
 
 	@Override
 	public Url put(String name, String value) {
-		if (immutable) throw new RuntimeException("Url is immutable");
-		if (value == null) return this;
-		if (parameters == null) parameters = new HashMap<String, String>();
+		if (immutable) {
+                        throw new RuntimeException("Url is immutable");
+                }
+		if (value == null) {
+                        return this;
+                }
+		if (parameters == null) {
+                        parameters = new HashMap<String, String>();
+                }
 		parameters.put(name, value);
 		return this;
 	}
 
 	public Url put(String name, Boolean value) {
-		if (value == null) return this;
+		if (value == null) {
+                        return this;
+                }
 		return put(name, value.toString());
 	}
 
 	public Url put(String name, Integer value) {
-		if (value == null) return this;
+		if (value == null) {
+                        return this;
+                }
 		return put(name, value.toString());
 	}
 
 	public Url put(String name, Long value) {
-		if (value == null) return this;
+		if (value == null) {
+                        return this;
+                }
 		return put(name, value.toString());
 	}
 

@@ -46,7 +46,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	public void onDatobModified(E entity, String comment) {
 		// don's save new entities
 		boolean persistent = isPersistent(entity);
-		if (!persistent) return;
+		if (!persistent) {
+                        return;
+                }
 
 		LOG.info("Entity modified:", UtlExtend.toStringWithType(entity), "->", comment);
 		saveEntity(entity);
@@ -95,7 +97,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	public String getIcon() {
 		if (icon == null) {
 			icon = (String) Reflect.getFieldValue(getEntityClass(), "ICON");
-			if (icon == null) icon = getEntityName();
+			if (icon == null) {
+                                icon = getEntityName();
+                        }
 		}
 		return icon;
 	}
@@ -119,9 +123,13 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 	@Override
 	public E getById(String id) {
-		if (id == null) throw new RuntimeException("id must not be null");
+		if (id == null) {
+                        throw new RuntimeException("id must not be null");
+                }
 		E entity = (E) transactionService.getById(id);
-		if (entity == null) throw new EntityDoesNotExistException(id);
+		if (entity == null) {
+                        throw new EntityDoesNotExistException(id);
+                }
 		return entity;
 	}
 
@@ -180,7 +188,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 	public E newEntityInstance(AUser user) {
 		E entity = newEntityInstance();
-		if (entity instanceof Ownable) ((Ownable) entity).setOwner(user);
+		if (entity instanceof Ownable) {
+                        ((Ownable) entity).setOwner(user);
+                }
 		return entity;
 	}
 
@@ -205,7 +215,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	}
 
 	public void ensureIntegrity() {
-		if (!initialized) throw new RuntimeException("Not initialized!");
+		if (!initialized) {
+                        throw new RuntimeException("Not initialized!");
+                }
 		Class clazz = getEntityClass();
 		LOG.info("Ensuring integrity:", clazz.getSimpleName());
 		for (E entity : getEntities()) {
@@ -237,7 +249,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 	@Override
 	public void feed(final SearchResultsConsumer searchBox) {
-		if (!Searchable.class.isAssignableFrom(getEntityClass())) return;
+		if (!Searchable.class.isAssignableFrom(getEntityClass())) {
+                        return;
+                }
 
 		for (AEntity entity : getEntities(new Predicate<E>() {
 
@@ -266,7 +280,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	@Override
 	public String toString() {
 		String entityName = getEntityName();
-		if (entityName == null) return "?Dao";
+		if (entityName == null) {
+                        return "?Dao";
+                }
 		return getClass().getName();
 	}
 
@@ -277,17 +293,22 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	private volatile boolean initialized;
 
 	public synchronized final void initialize(Context context) {
-		if (initialized) throw new RuntimeException("Already initialized!");
+		if (initialized) {
+                        throw new RuntimeException("Already initialized!");
+                }
 
 		Class entityClass = getEntityClass();
 		context.autowireClass(entityClass);
-		for (Class c : getValueObjectClasses())
-			context.autowireClass(c);
+		for (Class c : getValueObjectClasses()) {
+                        context.autowireClass(c);
+                }
 		Field daoField;
 		try {
 			daoField = entityClass.getDeclaredField("dao");
 			boolean accessible = daoField.isAccessible();
-			if (!accessible) daoField.setAccessible(true);
+			if (!accessible) {
+                                daoField.setAccessible(true);
+                        }
 			try {
 				daoField.set(null, this);
 			} catch (IllegalArgumentException ex) {
@@ -297,7 +318,9 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 			} catch (NullPointerException ex) {
 				throw new RuntimeException("Setting dao field failed. Is it static?", ex);
 			}
-			if (!accessible) daoField.setAccessible(false);
+			if (!accessible) {
+                                daoField.setAccessible(false);
+                        }
 		} catch (SecurityException ex) {
 			throw new RuntimeException(ex);
 		} catch (NoSuchFieldException ex) {

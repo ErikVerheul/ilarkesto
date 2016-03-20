@@ -36,7 +36,9 @@ public class Node implements Comparable<Node> {
 		this.type = type;
 		this.value = value;
 
-		if (this.id == null) this.id = UUID.randomUUID().toString();
+		if (this.id == null) {
+                        this.id = UUID.randomUUID().toString();
+                }
 	}
 
 	public Model getModel() {
@@ -59,7 +61,9 @@ public class Node implements Comparable<Node> {
 
 	public boolean isType(String... types) {
 		for (String local_type : types) {
-			if (isType(local_type)) return true;
+			if (isType(local_type)) {
+                                return true;
+                        }
 		}
 		return false;
 	}
@@ -75,24 +79,32 @@ public class Node implements Comparable<Node> {
 
 	public Node getChildRecursive(String type, String value) {
 		for (Node child : getChildrenByType(type)) {
-			if (value.equals(child.getValue())) return child;
+			if (value.equals(child.getValue())) {
+                                return child;
+                        }
 		}
 		for (Node child : getChildren()) {
 			Node ret = child.getChildRecursive(type, value);
-			if (ret != null) return ret;
+			if (ret != null) {
+                                return ret;
+                        }
 		}
 		return null;
 	}
 
 	public Node getChildOrCreate(String type, String value) {
 		Node child = getChild(type, value);
-		if (child == null) child = addChild(type, value);
+		if (child == null) {
+                        child = addChild(type, value);
+                }
 		return child;
 	}
 
 	public Node getChild(String type, String value) {
 		for (Node child : getChildrenByType(type)) {
-			if (value.equals(child.getValue())) return child;
+			if (value.equals(child.getValue())) {
+                                return child;
+                        }
 		}
 		return null;
 	}
@@ -100,7 +112,9 @@ public class Node implements Comparable<Node> {
 	public List<Node> getChildrenByType(String type) {
 		List<Node> ret = new ArrayList<Node>();
 		for (Node child : getChildren()) {
-			if (child.isType(type)) ret.add(child);
+			if (child.isType(type)) {
+                                ret.add(child);
+                        }
 		}
 		return ret;
 	}
@@ -108,7 +122,9 @@ public class Node implements Comparable<Node> {
 	public List<Node> getChildrenByTypeRecursive(String type) {
 		List<Node> ret = new ArrayList<Node>();
 		for (Node child : getChildren()) {
-			if (child.isType(type)) ret.add(child);
+			if (child.isType(type)) {
+                                ret.add(child);
+                        }
 			ret.addAll(child.getChildrenByTypeRecursive(type));
 		}
 		return ret;
@@ -121,7 +137,9 @@ public class Node implements Comparable<Node> {
 
 	public Node getChildByType(String type) {
 		for (Node child : getChildren()) {
-			if (child.isType(type)) return child;
+			if (child.isType(type)) {
+                                return child;
+                        }
 		}
 		return null;
 	}
@@ -132,19 +150,25 @@ public class Node implements Comparable<Node> {
 
 	public boolean containsChildByTypeAndValue(String type, String value) {
 		Node child = getChildByType(type);
-		if (child == null) return false;
+		if (child == null) {
+                        return false;
+                }
 		return child.isValue(value);
 	}
 
 	public boolean containsChildByTypeAndValueTrue(String type) {
 		Node child = getChildByType(type);
-		if (child == null) return false;
+		if (child == null) {
+                        return false;
+                }
 		return child.isValueTrue();
 	}
 
 	public boolean containsChildByTypeAndValueFalse(String type) {
 		Node child = getChildByType(type);
-		if (child == null) return false;
+		if (child == null) {
+                        return false;
+                }
 		return child.isValueFalse();
 	}
 
@@ -197,9 +221,15 @@ public class Node implements Comparable<Node> {
 	}
 
 	public boolean isValue(String test) {
-		if (value == null && test == null) return true;
-		if (value == null) return false;
-		if (test == null) return false;
+		if (value == null && test == null) {
+                        return true;
+                }
+		if (value == null) {
+                        return false;
+                }
+		if (test == null) {
+                        return false;
+                }
 		return value.equals(test);
 	}
 
@@ -237,15 +267,21 @@ public class Node implements Comparable<Node> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Node)) return false;
+		if (!(obj instanceof Node)) {
+                        return false;
+                }
 		return id.equals(((Node) obj).id);
 	}
 
 	// --- helper ---
 
 	public Node getSuperparentByType(String type) {
-		if (parent == null) return null;
-		if (parent.isType(type)) return parent;
+		if (parent == null) {
+                        return null;
+                }
+		if (parent.isType(type)) {
+                        return parent;
+                }
 		return parent.getSuperparentByType(type);
 	}
 

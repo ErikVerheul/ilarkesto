@@ -80,7 +80,9 @@ public class HttpUnit {
 	public static WebConversation createWebConversation(boolean acceptCookies, String proxyHost, Integer proxyPort) {
 		HttpUnitOptions.setScriptingEnabled(false);
 		WebConversation webConversation = new WebConversation();
-		if (proxyHost != null) webConversation.setProxyServer(proxyHost, proxyPort == null ? 3128 : proxyPort);
+		if (proxyHost != null) {
+                        webConversation.setProxyServer(proxyHost, proxyPort == null ? 3128 : proxyPort);
+                }
 		ClientProperties props = webConversation.getClientProperties();
 		props.setAcceptGzip(false);
 		props.setAcceptCookies(acceptCookies);

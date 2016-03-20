@@ -52,7 +52,9 @@ public abstract class Servlet {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (in == null) return null;
+		if (in == null) {
+                        return null;
+                }
 		return IO.readToString(in);
 	}
 
@@ -62,7 +64,9 @@ public abstract class Servlet {
 		int offset = url.indexOf("//") + 2;
 		int idx = context.length() == 0 ? url.indexOf('/') : url.indexOf(context, offset);
 		String baseUrl = url.substring(0, idx + context.length());
-		if (!baseUrl.endsWith("/")) baseUrl += "/";
+		if (!baseUrl.endsWith("/")) {
+                        baseUrl += "/";
+                }
 		return baseUrl;
 	}
 
@@ -73,7 +77,9 @@ public abstract class Servlet {
 	public static String getWebappUrl(ServletConfig servletConfig, int port, boolean ssl) {
 		String protocol = ssl ? "https" : "http";
 		String host = IO.getHostName();
-		if (port != 80) host += ":" + port;
+		if (port != 80) {
+                        host += ":" + port;
+                }
 		String context = servletConfig.getServletContext().getServletContextName();
 		return protocol + "://" + host + "/" + context;
 	}
@@ -147,7 +153,9 @@ public abstract class Servlet {
 
 		httpResponse.setContentType("application/octet-stream");
 		httpResponse.setContentLength((int) file.length());
-		if (setFilename) Servlet.setFilename(file.getName(), httpResponse);
+		if (setFilename) {
+                        Servlet.setFilename(file.getName(), httpResponse);
+                }
 		try {
 			IO.copyFile(file, httpResponse.getOutputStream());
 		} catch (IOException ex) {
@@ -174,11 +182,19 @@ public abstract class Servlet {
 		// servletContext.getContextPath()
 
 		path = path.trim();
-		if (path.startsWith("/")) path = path.substring(1);
-		if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+		if (path.startsWith("/")) {
+                        path = path.substring(1);
+                }
+		if (path.endsWith("/")) {
+                        path = path.substring(0, path.length() - 1);
+                }
 		path = path.trim();
-		if (path.length() == 0) return null;
-		if (path.equals("ROOT")) return null;
+		if (path.length() == 0) {
+                        return null;
+                }
+		if (path.equals("ROOT")) {
+                        return null;
+                }
 		return path;
 	}
 
@@ -200,7 +216,9 @@ public abstract class Servlet {
 	public static String getUriWithoutContext(HttpServletRequest httpRequest) {
 		String uri = httpRequest.getRequestURI();
 		String context = httpRequest.getContextPath();
-		if (uri.length() <= context.length() + 1) return "";
+		if (uri.length() <= context.length() + 1) {
+                        return "";
+                }
 		return uri.substring(context.length() + 1);
 	}
 
@@ -289,15 +307,21 @@ public abstract class Servlet {
 
 	public static String getCookieValue(HttpServletRequest request, String cookieName) {
 		Cookie cookie = getCookie(request, cookieName);
-		if (cookie == null) return null;
+		if (cookie == null) {
+                        return null;
+                }
 		return cookie.getValue();
 	}
 
 	public static Cookie getCookie(HttpServletRequest request, String name) {
 		Cookie[] cookies = request.getCookies();
-		if (cookies == null) return null;
+		if (cookies == null) {
+                        return null;
+                }
 		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals(name)) return cookies[i];
+			if (cookies[i].getName().equals(name)) {
+                                return cookies[i];
+                        }
 		}
 		return null;
 	}

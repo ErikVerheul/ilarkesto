@@ -23,7 +23,9 @@ public class APdfElement {
 	}
 
 	protected APdfBuilder getPdf() {
-		if (parent instanceof APdfBuilder) return (APdfBuilder) parent;
+		if (parent instanceof APdfBuilder) {
+                        return (APdfBuilder) parent;
+                }
 		return parent.getPdf();
 	}
 }

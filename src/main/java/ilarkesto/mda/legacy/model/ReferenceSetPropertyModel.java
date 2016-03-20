@@ -25,7 +25,9 @@ public class ReferenceSetPropertyModel extends SetPropertyModel {
 	}
 
 	public ReferenceSetPropertyModel createBackReference(String name) {
-		if (!getBean().isEntity()) return this;
+		if (!getBean().isEntity()) {
+                        return this;
+                }
 		backReference = new BackReferenceModel(name, this);
 		referencedEntity.addBackReference(backReference);
 		return this;

@@ -34,7 +34,9 @@ public class AnchorPanel extends ComplexPanel {
 
 	@Override
 	public void add(Widget w) {
-		if (w == null) return;
+		if (w == null) {
+                        return;
+                }
 		add(w, getElement());
 	}
 

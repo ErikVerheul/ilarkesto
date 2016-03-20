@@ -47,9 +47,13 @@ public class DatobModel extends BeanModel {
 	}
 
 	public final boolean isSearchable() {
-		if (searchable) return true;
+		if (searchable) {
+                        return true;
+                }
 		for (PropertyModel p : getProperties()) {
-			if (p.isSearchable()) return true;
+			if (p.isSearchable()) {
+                                return true;
+                        }
 		}
 		return false;
 	}
@@ -103,9 +107,10 @@ public class DatobModel extends BeanModel {
 		propertyModel.setAbstract(type.isAbstract());
 		properties.add(propertyModel);
 		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className) && !type.isAbstract()
-				&& !type.equals(this))
-			addDependency("addReference", type.getPackageName() + "." + type.getName() + "Dao",
-				StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+				&& !type.equals(this)) {
+                        addDependency("addReference", type.getPackageName() + "." + type.getName() + "Dao",
+                                StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+                }
 		propertyModel.createBackReference(StrExtend.lowercaseFirstLetter(getName()));
 		return propertyModel;
 	}
@@ -115,9 +120,10 @@ public class DatobModel extends BeanModel {
 		ReferenceSetPropertyModel propertyModel = new ReferenceSetPropertyModel(this, name, type);
 		propertyModel.setAbstract(type.isAbstract());
 		properties.add(propertyModel);
-		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className))
-			addDependency("addSetReference", type.getPackageName() + "." + type.getName() + "Dao",
-				StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className)) {
+                        addDependency("addSetReference", type.getPackageName() + "." + type.getName() + "Dao",
+                                StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+                }
 		propertyModel.createBackReference(StrExtend.lowercaseFirstLetter(getName()));
 		return propertyModel;
 	}
@@ -127,9 +133,10 @@ public class DatobModel extends BeanModel {
 		ListPropertyModel propertyModel = new ListPropertyModel(this, name, true, false, className);
 		propertyModel.setAbstract(type.isAbstract());
 		properties.add(propertyModel);
-		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className))
-			addDependency("addListReference", type.getPackageName() + "." + type.getName() + "Dao",
-				StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className)) {
+                        addDependency("addListReference", type.getPackageName() + "." + type.getName() + "Dao",
+                                StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+                }
 		return propertyModel;
 	}
 }

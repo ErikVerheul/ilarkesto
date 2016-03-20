@@ -41,7 +41,9 @@ public class VelocityLogging implements LogChute {
 
 	@Override
 	public boolean isLevelEnabled(int level) {
-		if (level > DEBUG_ID) return true;
+		if (level > DEBUG_ID) {
+                        return true;
+                }
 		return log.isDebugEnabled();
 	}
 

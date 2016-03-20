@@ -60,7 +60,9 @@ public class HorizontalBarPanel extends JPanel {
 		LOG.debug("removeColumnsAfter:", component);
 		int count = grid.getComponentCount();
 		for (int i = count - 1; i >= 0; i--) {
-			if (grid.getComponent(i) == component) break;
+			if (grid.getComponent(i) == component) {
+                                break;
+                        }
 			grid.remove(i);
 		}
 		grid.updateUI();

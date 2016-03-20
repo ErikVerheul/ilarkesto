@@ -50,8 +50,12 @@ public class LogRecord {
 		sb.append(new Date(time)).append(" ");
 
 		// level
-		if ((level != Level.DEBUG) && (level != Level.INFO)) sb.append("\n    ");
-		if (level != Level.DEBUG) sb.append(level);
+		if ((level != Level.DEBUG) && (level != Level.INFO)) {
+                        sb.append("\n    ");
+                }
+		if (level != Level.DEBUG) {
+                        sb.append(level);
+                }
 
 		// logger
 		sb.append(" ").append(nameFormated);
@@ -60,10 +64,14 @@ public class LogRecord {
 		sb.append(Str.fillUpRight(getParametersAsString(), " ", 100));
 
 		// context
-		if (context != null) sb.append(" | ").append(context);
+		if (context != null) {
+                        sb.append(" | ").append(context);
+                }
 
 		// extra line for high prio logs
-		if ((level != Level.DEBUG) && (level != Level.INFO)) sb.append('\n');
+		if ((level != Level.DEBUG) && (level != Level.INFO)) {
+                        sb.append('\n');
+                }
 
 		return sb.toString();
 	}
@@ -90,17 +98,27 @@ public class LogRecord {
 
 	@Override
 	public int hashCode() {
-		if (hashcode == 0) hashcode = Utl.hashCode(level, name, parameters);
+		if (hashcode == 0) {
+                        hashcode = Utl.hashCode(level, name, parameters);
+                }
 		return hashcode;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof LogRecord)) return false;
+		if (!(obj instanceof LogRecord)) {
+                        return false;
+                }
 		LogRecord other = (LogRecord) obj;
-		if (!level.equals(other.level)) return false;
-		if (name == null ? other.name != null : !name.equals(other.name)) return false;
-		if (!Utl.equals(parameters, other.parameters)) return false;
+		if (!level.equals(other.level)) {
+                        return false;
+                }
+		if (name == null ? other.name != null : !name.equals(other.name)) {
+                        return false;
+                }
+		if (!Utl.equals(parameters, other.parameters)) {
+                        return false;
+                }
 		return true;
 	}
 

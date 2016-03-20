@@ -38,7 +38,9 @@ public class ImageAnalyzer {
 	public int findColorFromEast(int color, int x, int y) {
 		for (; x >= 0; x--) {
 			int c = image.getRGB(x, y);
-			if (c == color) return x;
+			if (c == color) {
+                                return x;
+                        }
 		}
 		return -1;
 	}

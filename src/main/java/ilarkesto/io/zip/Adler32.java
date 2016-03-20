@@ -185,8 +185,9 @@ public class Adler32 implements Checksum
 	// s1 maximally grows from 65521 to 65521 + 255 * 3800
 	// s2 maximally grows by 3800 * median(s1) = 2090079800 < 2^31
 	int n = 3800;
-	if (n > len)
-	  n = len;
+	if (n > len) {
+                n = len;
+        }
 	len -= n;
 	while (--n >= 0)
 	  {

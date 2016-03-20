@@ -26,12 +26,16 @@ public class NodeByIndexComparator implements Comparator<Node>, NodeTypes {
 	public int compare(Node a, Node b) {
 		int ai = parse(a.getChildValueByType(Index));
 		int bi = parse(b.getChildValueByType(Index));
-		if (ai == bi) return 0;
+		if (ai == bi) {
+                        return 0;
+                }
 		return ai > bi ? 1 : -1;
 	}
 
 	private int parse(String value) {
-		if (value == null) return Integer.MAX_VALUE;
+		if (value == null) {
+                        return Integer.MAX_VALUE;
+                }
 		try {
 			return Integer.parseInt(value);
 		} catch (NumberFormatException ex) {

@@ -66,7 +66,9 @@ public class FloatFormField extends AFormField {
 			return;
 		}
 		Float f = parse(sValue);
-		if (f != null) fValue = f;
+		if (f != null) {
+                        fValue = f;
+                }
 	}
 
 	private Float parse(String s) {
@@ -86,17 +88,25 @@ public class FloatFormField extends AFormField {
 	@Override
 	public void update(Map<String, String> data, Collection<FileItem> uploadedFiles) {
 		sValue = data.get(getName());
-		if (sValue != null) sValue = sValue.trim();
-		if (sValue != null && sValue.length() == 0) sValue = null;
+		if (sValue != null) {
+                        sValue = sValue.trim();
+                }
+		if (sValue != null && sValue.length() == 0) {
+                        sValue = null;
+                }
 		updateFValue();
 	}
 
 	@Override
 	public void validate() throws ValidationException {
 		if (sValue == null) {
-			if (isRequired()) throw new ValidationException("Eingabe erforderlich");
+			if (isRequired()) {
+                                throw new ValidationException("Eingabe erforderlich");
+                        }
 		} else {
-			if (parse(sValue) == null) throw new ValidationException("Zahl wurde nicht erkannt: " + sValue);
+			if (parse(sValue) == null) {
+                                throw new ValidationException("Zahl wurde nicht erkannt: " + sValue);
+                        }
 		}
 	}
 

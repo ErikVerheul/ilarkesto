@@ -42,18 +42,22 @@ public abstract class AClassGenerator {
 
 	public final void generate() {
 		File file = getFile();
-		if (file.exists() && !isOverwrite()) return;
+		if (file.exists() && !isOverwrite()) {
+                        return;
+                }
 		stringWriter = new StringWriter();
 		out = new PrintWriter(stringWriter);
 
 		if (isOverwrite()) {
-			for (int i = 0; i < 10; i++)
-				ln();
+			for (int i = 0; i < 10; i++) {
+                                ln();
+                        }
 			ln("// ----------> GENERATED FILE - DON'T TOUCH! <----------");
 			ln();
 			ln("// generator: " + getClass().getName());
-			for (int i = 0; i < 10; i++)
-				ln();
+			for (int i = 0; i < 10; i++) {
+                                ln();
+                        }
 		}
 
 		ln("package " + getPackage() + ";");
@@ -121,7 +125,9 @@ public abstract class AClassGenerator {
 	}
 
 	private boolean isSame(String a, String b) {
-		if (!a.equals(b)) return false;
+		if (!a.equals(b)) {
+                        return false;
+                }
 		// if (!a.equals(b)) {
 		// if (a.length() != b.length()) return false;
 		// int len = a.length();
@@ -203,12 +209,16 @@ public abstract class AClassGenerator {
 	public void dependency(String type, String name, boolean statik, boolean getter) {
 		ln();
 		s("    ");
-		if (statik) s("static ");
+		if (statik) {
+                        s("static ");
+                }
 		s(type).s(" ").s(name).s(";").ln();
 		ln();
                 ln("    @edu.umd.cs.findbugs.annotations.SuppressWarnings(\"URF_UNREAD_FIELD\")");
 		s("    public ");
-		if (statik) s("static final ");
+		if (statik) {
+                        s("static final ");
+                }
 		s("void set").sU(name).s("(").s(type).s(" ").s(name).s(") {").ln();
 		s("        ");
 		if (statik) {
@@ -222,7 +232,9 @@ public abstract class AClassGenerator {
 		if (getter) {
 			ln();
 			s("    public ");
-			if (statik) s("static final ");
+			if (statik) {
+                                s("static final ");
+                        }
 			s(type).s(" get").sU(name).s("() {").ln();
 			s("        return ");
 			if (statik) {
@@ -237,7 +249,9 @@ public abstract class AClassGenerator {
 
 	private String getGenericAsString() {
 		String generic = getGeneric();
-		if (generic == null) return "";
+		if (generic == null) {
+                        return "";
+                }
 		return "<" + generic + ">";
 	}
 

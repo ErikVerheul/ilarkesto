@@ -60,12 +60,16 @@ public class ItemFormField<T> extends AFormField {
 
     public Collection getSelectableItems() {
         Set<T> result = new HashSet<T>(selectableItems);
-        if (value != null) result.remove(value);
+        if (value != null) {
+                result.remove(value);
+        }
         return result;
     }
 
     public ClearButton getClearButton() {
-        if (isRequired() || value == null) return null;
+        if (isRequired() || value == null) {
+                return null;
+        }
         return clearButton;
     }
 
@@ -90,7 +94,9 @@ public class ItemFormField<T> extends AFormField {
     public void update(Map<String, String> data, Collection<FileItem> uploadedFiles) {}
 
     public void validate() throws ValidationException {
-        if (isRequired() && value == null) throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+        if (isRequired() && value == null) {
+                throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+        }
     }
 
     public class SelectButton extends FormButton {

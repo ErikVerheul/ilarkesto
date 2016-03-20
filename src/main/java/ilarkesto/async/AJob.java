@@ -23,21 +23,29 @@ public abstract class AJob<R> implements Job<R> {
 
 	@Override
 	public final AJob<R> setCallback(Callback<R> callback) {
-		if (this.callback != null) throw new IllegalStateException("Callback is already set");
-		if (executed) throw new IllegalStateException("Job already executed: " + toString());
+		if (this.callback != null) {
+                        throw new IllegalStateException("Callback is already set");
+                }
+		if (executed) {
+                        throw new IllegalStateException("Job already executed: " + toString());
+                }
 		this.callback = callback;
 		return this;
 	}
 
 	@Override
 	public R runJob() {
-		if (executed) throw new IllegalStateException("Job already executed: " + toString());
+		if (executed) {
+                        throw new IllegalStateException("Job already executed: " + toString());
+                }
 		executed = true;
 		return null;
 	}
 
 	public final void start() {
-		if (executed) throw new IllegalStateException("Job already executed: " + toString());
+		if (executed) {
+                        throw new IllegalStateException("Job already executed: " + toString());
+                }
 		Async.start(this);
 	}
 

@@ -40,11 +40,21 @@ public class JqueryMobileDownloader {
 	}
 
 	public static boolean isInstalled(String version, File destinationDir) {
-		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".min.js").exists()) return false;
-		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".js").exists()) return false;
-		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".min.css").exists()) return false;
-		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".css").exists()) return false;
-		if (!new File(destinationDir.getPath() + "/images").exists()) return false;
+		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".min.js").exists()) {
+                        return false;
+                }
+		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".js").exists()) {
+                        return false;
+                }
+		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".min.css").exists()) {
+                        return false;
+                }
+		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".css").exists()) {
+                        return false;
+                }
+		if (!new File(destinationDir.getPath() + "/images").exists()) {
+                        return false;
+                }
 		return true;
 	}
 
@@ -71,7 +81,9 @@ public class JqueryMobileDownloader {
 		File unzipdir = zipfile.getParentFile();
 		IO.unzip(zipfile, unzipdir);
 		File[] unzippedFiles = unzipdir.listFiles();
-		if (unzippedFiles == null) throw new RuntimeException("JQM .zip package contains no files");
+		if (unzippedFiles == null) {
+                        throw new RuntimeException("JQM .zip package contains no files");
+                }
 		for (File file : unzippedFiles) {
 			if (file.getName().startsWith("jquery.mobile")) { return file; }
 		}

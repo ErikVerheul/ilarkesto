@@ -31,8 +31,12 @@ public class Utl {
 	}
 
 	public static String getUserMessage(Throwable ex) {
-		if (ex instanceof NullPointerException) return "NullPointerException";
-		if (ex instanceof RuntimeException) return ex.getMessage();
+		if (ex instanceof NullPointerException) {
+                        return "NullPointerException";
+                }
+		if (ex instanceof RuntimeException) {
+                        return ex.getMessage();
+                }
 		return Str.getSimpleName(ex.getClass()) + ": " + ex.getMessage();
 	}
 
@@ -83,7 +87,9 @@ public class Utl {
 	public static int hashCode(Object... objects) {
 		int hashCode = 23;
 		for (Object object : objects) {
-			if (object == null) continue;
+			if (object == null) {
+                                continue;
+                        }
 			if (object instanceof Object[]) {
 				hashCode = hashCode * 37 + hashCode((Object[]) object);
 			} else {
@@ -106,7 +112,9 @@ public class Utl {
 		Iterator iterator = collection.iterator();
 		while (iterator.hasNext()) {
 			Object object = iterator.next();
-			if (!set.add(object)) iterator.remove();
+			if (!set.add(object)) {
+                                iterator.remove();
+                        }
 		}
 	}
 
@@ -115,10 +123,14 @@ public class Utl {
 	}
 
 	public static <T> List<T> toList(T... elements) {
-		if (elements == null) return null;
+		if (elements == null) {
+                        return null;
+                }
 		List<T> ret = new ArrayList<T>(elements.length);
 		for (T element : elements) {
-			if (element == null) continue;
+			if (element == null) {
+                                continue;
+                        }
 			ret.add(element);
 		}
 		return ret;
@@ -129,20 +141,30 @@ public class Utl {
 	 */
 	public static boolean equalsAny(Object o, Object... others) {
 		for (Object other : others) {
-			if (o.equals(other)) return true;
+			if (o.equals(other)) {
+                                return true;
+                        }
 		}
 		return false;
 	}
 
 	public static boolean equals(Object a, Object b) {
-		if (a == null && b == null) return true;
-		if (a == null || b == null) return false;
+		if (a == null && b == null) {
+                        return true;
+                }
+		if (a == null || b == null) {
+                        return false;
+                }
 		if (a instanceof Object[] && b instanceof Object[]) {
 			Object[] aa = (Object[]) a;
 			Object[] ba = (Object[]) b;
-			if (aa.length != ba.length) return false;
+			if (aa.length != ba.length) {
+                                return false;
+                        }
 			for (int i = 0; i < aa.length; i++) {
-				if (!equals(aa[i], ba[i])) return false;
+				if (!equals(aa[i], ba[i])) {
+                                        return false;
+                                }
 			}
 			return true;
 		}
@@ -150,15 +172,25 @@ public class Utl {
 	}
 
 	public static int compare(int i1, int i2) {
-		if (i1 > i2) return 1;
-		if (i1 < i2) return -1;
+		if (i1 > i2) {
+                        return 1;
+                }
+		if (i1 < i2) {
+                        return -1;
+                }
 		return 0;
 	}
 
 	public static int compare(Comparable a, Comparable b) {
-		if (a == null && b == null) return 0;
-		if (a == null) return -1;
-		if (b == null) return 1;
+		if (a == null && b == null) {
+                        return 0;
+                }
+		if (a == null) {
+                        return -1;
+                }
+		if (b == null) {
+                        return 1;
+                }
 		return a.compareTo(b);
 	}
 
@@ -186,7 +218,9 @@ public class Utl {
 	}
 
 	public static <T> List<T> toList(Enumeration<T> e) {
-		if (e == null) return null;
+		if (e == null) {
+                        return null;
+                }
 		List<T> ret = new ArrayList<T>();
 		while (e.hasMoreElements()) {
 			ret.add(e.nextElement());

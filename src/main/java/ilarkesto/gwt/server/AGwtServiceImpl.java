@@ -77,8 +77,9 @@ public abstract class AGwtServiceImpl extends RemoteServiceServlet {
 
 		// destroy session, if invalidated
 		AWebSession session = getSession();
-		if (session.isSessionInvalidated())
-			getWebApplication().destroyWebSession(session, getThreadLocalRequest().getSession());
+		if (session.isSessionInvalidated()) {
+                        getWebApplication().destroyWebSession(session, getThreadLocalRequest().getSession());
+                }
 	}
 
 	@Override
@@ -90,7 +91,9 @@ public abstract class AGwtServiceImpl extends RemoteServiceServlet {
 
 	protected final AWebSession getSession() {
 		AWebApplication webApplication = getWebApplication();
-		if (webApplication.isShutdown()) throw new RuntimeException("Application shut down");
+		if (webApplication.isShutdown()) {
+                        throw new RuntimeException("Application shut down");
+                }
 		return webApplication.getWebSession(getThreadLocalRequest());
 	}
 

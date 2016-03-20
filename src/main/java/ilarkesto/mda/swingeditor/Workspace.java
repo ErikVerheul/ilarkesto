@@ -78,7 +78,9 @@ public class Workspace extends JPanel {
 				final int option = JOptionPane.showConfirmDialog(frame,
 					"You are exiting the modeller WITHOUT SAVING your changes.", "Exit without saving?",
 					JOptionPane.OK_CANCEL_OPTION);
-				if (option == JOptionPane.OK_OPTION) System.exit(0);
+				if (option == JOptionPane.OK_OPTION) {
+                                        System.exit(0);
+                                }
 			}
 		});
 	}

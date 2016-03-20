@@ -109,7 +109,9 @@ public class TextEditorWidget extends AViewEditWidget {
 
 	public final String getEditorText() {
 		String text = editor.getText();
-		if (Str.isBlank(text)) return null;
+		if (Str.isBlank(text)) {
+                        return null;
+                }
 		return text;
 	}
 
@@ -118,7 +120,9 @@ public class TextEditorWidget extends AViewEditWidget {
 	}
 
 	public TextEditorWidget switchToEditModeIfNull() {
-		if (isEditable() && Str.isBlank(model.getValue())) switchToEditMode();
+		if (isEditable() && Str.isBlank(model.getValue())) {
+                        switchToEditMode();
+                }
 		return this;
 	}
 

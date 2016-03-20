@@ -26,7 +26,9 @@ public class DateConverter extends AbstractSingleValueConverter {
 
 	@Override
 	public Object fromString(String str) {
-		if (str == null || str.length() == 0) return null;
+		if (str == null || str.length() == 0) {
+                        return null;
+                }
 		return new Date(str);
 	}
 

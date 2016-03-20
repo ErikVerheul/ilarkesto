@@ -39,29 +39,34 @@ public class GwtComponentsReflectorGenerator extends AJavaClassGenerator impleme
 		out.package_(getBasePackageName());
 		out.beginClass(getClassName(), null, Arrays.asList(ComponentReflector.class.getName()));
 
-		for (Node component : components)
-			printField(out, component);
+		for (Node component : components) {
+                        printField(out, component);
+                }
 
 		out.beginProcedure("injectComponents", Arrays.asList("Object component", Scope.class.getName() + " scope"));
-		for (Node component : components)
-			out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
-					+ "Reflector.injectComponents(component, scope)");
+		for (Node component : components) {
+                        out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
+                                + "Reflector.injectComponents(component, scope)");
+                }
 		out.endProcedure();
 
 		out.beginProcedure("callInitializationMethods", Arrays.asList("Object component"));
-		for (Node component : components)
-			out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
-					+ "Reflector.callInitializationMethods(component)");
+		for (Node component : components) {
+                        out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
+                                + "Reflector.callInitializationMethods(component)");
+                }
 		out.endProcedure();
 
 		out.beginProcedure("outjectComponents", Arrays.asList("Object component", Scope.class.getName() + " scope"));
-		for (Node component : components)
-			out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
-					+ "Reflector.outjectComponents(component, scope)");
+		for (Node component : components) {
+                        out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
+                                + "Reflector.outjectComponents(component, scope)");
+                }
 		out.endProcedure();
 
-		for (Node component : components)
-			printCreateMethod(out, component);
+		for (Node component : components) {
+                        printCreateMethod(out, component);
+                }
 
 		out.endClass();
 	}

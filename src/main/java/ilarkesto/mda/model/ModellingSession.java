@@ -70,7 +70,9 @@ public class ModellingSession {
 	}
 
 	public void save() {
-		if (source == null) throw new IllegalStateException("source == null");
+		if (source == null) {
+                        throw new IllegalStateException("source == null");
+                }
 		source.save(model);
 	}
 

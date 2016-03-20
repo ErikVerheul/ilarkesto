@@ -33,7 +33,9 @@ public enum Month {
 
 	public static Month get(int monthOfYear) {
 		for (Month month : Month.values()) {
-			if (month.monthOfYear == monthOfYear) return month;
+			if (month.monthOfYear == monthOfYear) {
+                                return month;
+                        }
 		}
 		throw new RuntimeException("Month does not exist: " + monthOfYear);
 	}

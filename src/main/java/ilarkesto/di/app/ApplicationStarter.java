@@ -47,7 +47,9 @@ public class ApplicationStarter {
 
 		try {
 			A application = applicationClass.newInstance();
-			if (beanProvider != null) beanProvider.autowire(application);
+			if (beanProvider != null) {
+                                beanProvider.autowire(application);
+                        }
 			DefaultLogRecordHandler.setLogFile(new File(application.getApplicationDataDir() + "/error.log"));
 			JavaLogging.redirectToLoggers();
 			try {

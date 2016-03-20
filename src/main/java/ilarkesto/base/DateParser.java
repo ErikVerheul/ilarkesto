@@ -23,11 +23,17 @@ import java.text.ParseException;
 public class DateParser {
 
 	public static Date parseDate(String s) throws ParseException {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		s = s.trim();
 		String[] sa = StrExtend.tokenize(s, ".,- ");
-		if (sa.length == 0) throw new ParseException("Not a Date: " + s, -1);
-		if (sa.length > 3) throw new ParseException("Not a Date: " + s, -1);
+		if (sa.length == 0) {
+                        throw new ParseException("Not a Date: " + s, -1);
+                }
+		if (sa.length > 3) {
+                        throw new ParseException("Not a Date: " + s, -1);
+                }
 		int[] ia = new int[sa.length];
 		for (int i = 0; i < ia.length; i++) {
 			try {
@@ -37,7 +43,9 @@ public class DateParser {
 			}
 		}
 
-		if (ia.length == 3) return new Date(TmExtend.year(ia[2]), ia[1], ia[0]);
+		if (ia.length == 3) {
+                        return new Date(TmExtend.year(ia[2]), ia[1], ia[0]);
+                }
 
 		Date today = Date.today();
 		int todayDay = today.getDay();
@@ -45,11 +53,15 @@ public class DateParser {
 		int todayYear = today.getYear();
 
 		if (ia.length == 2) {
-			if (ia[1] > 12) return new Date(TmExtend.year(ia[1]), ia[0], todayDay);
+			if (ia[1] > 12) {
+                                return new Date(TmExtend.year(ia[1]), ia[0], todayDay);
+                        }
 			return new Date(todayYear, ia[1], ia[0]);
 		}
 
-		if (ia[0] > 31) return new Date(TmExtend.year(ia[0]), todayMonth, todayDay);
+		if (ia[0] > 31) {
+                        return new Date(TmExtend.year(ia[0]), todayMonth, todayDay);
+                }
 		return new Date(todayYear, todayMonth, ia[0]);
 	}
 

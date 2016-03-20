@@ -30,7 +30,9 @@ public class ChildTypeRuleByParentType implements ChildTypeRule {
 
 	@Override
 	public List<String> getAllowedTypes(Node parent) {
-		if (parent.isType(parentType)) return childTypes;
+		if (parent.isType(parentType)) {
+                        return childTypes;
+                }
 		return Collections.emptyList();
 	}
 

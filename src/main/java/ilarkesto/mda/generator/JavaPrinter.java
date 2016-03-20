@@ -89,7 +89,9 @@ public class JavaPrinter {
 
 	public void field(String modifiers, String type, String name, String value) {
 		s(modifiers + " " + type + " " + name);
-		if (value != null) s(" = " + value);
+		if (value != null) {
+                        s(" = " + value);
+                }
 		ln(";");
 		ln();
 	}
@@ -126,23 +128,33 @@ public class JavaPrinter {
 
 	public void beginMethod(String returnType, String name, List<String> parameters) {
 		s("public " + returnType + " " + name + "(");
-		if (parameters != null && !parameters.isEmpty()) s(StrExtend.concat(parameters, ", "));
+		if (parameters != null && !parameters.isEmpty()) {
+                        s(StrExtend.concat(parameters, ", "));
+                }
 		ln(") {");
 		in();
 	}
 
 	public void abstractMethod(String returnType, String name, List<String> parameters) {
-		if (returnType == null) returnType = "void";
+		if (returnType == null) {
+                        returnType = "void";
+                }
 		s("public abstract " + returnType + " " + name + "(");
-		if (parameters != null && !parameters.isEmpty()) s(StrExtend.concat(parameters, ", "));
+		if (parameters != null && !parameters.isEmpty()) {
+                        s(StrExtend.concat(parameters, ", "));
+                }
 		ln(");");
 		ln();
 	}
 
 	public void interfaceMethod(String returnType, String name, List<String> parameters) {
-		if (returnType == null) returnType = "void";
+		if (returnType == null) {
+                        returnType = "void";
+                }
 		s(returnType + " " + name + "(");
-		if (parameters != null && !parameters.isEmpty()) s(StrExtend.concat(parameters, ", "));
+		if (parameters != null && !parameters.isEmpty()) {
+                        s(StrExtend.concat(parameters, ", "));
+                }
 		ln(");");
 		ln();
 	}
@@ -158,7 +170,9 @@ public class JavaPrinter {
 	}
 
 	public void beginInterface(String name, Collection<String> interfaces) {
-		if (className == null) className = name;
+		if (className == null) {
+                        className = name;
+                }
 		s("public interface " + name);
 		if (interfaces != null && !interfaces.isEmpty()) {
 			s(" extends ");
@@ -222,12 +236,20 @@ public class JavaPrinter {
 	}
 
 	public void beginClass(boolean abstract_, String name, String superclassName, Collection<String> interfaces) {
-		if (className == null) className = name;
+		if (className == null) {
+                        className = name;
+                }
 		s("public");
-		if (abstract_) s(" abstract");
+		if (abstract_) {
+                        s(" abstract");
+                }
 		s(" class " + name);
-		if (superclassName != null) s(" extends " + superclassName);
-		if (interfaces != null && !interfaces.isEmpty()) s(" implements " + StrExtend.concat(interfaces, ", "));
+		if (superclassName != null) {
+                        s(" extends " + superclassName);
+                }
+		if (interfaces != null && !interfaces.isEmpty()) {
+                        s(" implements " + StrExtend.concat(interfaces, ", "));
+                }
 		ln(" {");
 		in();
 		ln();
@@ -254,7 +276,9 @@ public class JavaPrinter {
 	}
 
 	public void package_(String name) {
-		if (packageName == null) packageName = name;
+		if (packageName == null) {
+                        packageName = name;
+                }
 		ln("package " + name + ";");
 		ln();
 	}
@@ -280,12 +304,16 @@ public class JavaPrinter {
 	}
 
 	public void in() {
-		if (!lineStart) throw new IllegalStateException("lineStart == false");
+		if (!lineStart) {
+                        throw new IllegalStateException("lineStart == false");
+                }
 		depth++;
 	}
 
 	public void out() {
-		if (depth == 0) throw new IllegalStateException("depth == 0");
+		if (depth == 0) {
+                        throw new IllegalStateException("depth == 0");
+                }
 		depth--;
 	}
 
@@ -301,8 +329,12 @@ public class JavaPrinter {
 	}
 
 	public void writeToFile(String basePath, boolean overwrite) {
-		if (packageName == null) throw new IllegalStateException("packageName == null");
-		if (className == null) throw new IllegalStateException("className == null");
+		if (packageName == null) {
+                        throw new IllegalStateException("packageName == null");
+                }
+		if (className == null) {
+                        throw new IllegalStateException("className == null");
+                }
 		String path = basePath + "/" + packageName.replace('.', '/') + "/" + className + ".java";
 		File file = new File(path);
 		writeToFile(file, overwrite);

@@ -184,7 +184,9 @@ public class SelectorTask extends ALoopTask {
 	private TcpConnection getConnectionByChannel(SelectableChannel channel) {
 		synchronized (connections) {
 			for (TcpConnection connection : connections) {
-				if (connection.socketChannel == channel) return connection;
+				if (connection.socketChannel == channel) {
+                                        return connection;
+                                }
 			}
 		}
 		throw new IllegalStateException("No TcpConnection found for channel " + channel);

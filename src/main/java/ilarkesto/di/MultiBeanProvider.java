@@ -35,7 +35,9 @@ public final class MultiBeanProvider extends ABeanProvider {
 	private Map<String, BeanProvider> beanToBeanProvider = new HashMap<String, BeanProvider>();
 
 	public synchronized void addBeanProvider(Object object) {
-		if (object == null) throw new IllegalArgumentException("object == null");
+		if (object == null) {
+                        throw new IllegalArgumentException("object == null");
+                }
 
 		// identify object and create beanProvider
 		BeanProvider beanProvider;
@@ -50,12 +52,15 @@ public final class MultiBeanProvider extends ABeanProvider {
 		}
 
 		// get objectStringMapper from beanProvider
-		if (objectStringMapper == null && beanProvider instanceof ABeanProvider)
-			objectStringMapper = ((ABeanProvider) beanProvider).objectStringMapper;
+		if (objectStringMapper == null && beanProvider instanceof ABeanProvider) {
+                        objectStringMapper = ((ABeanProvider) beanProvider).objectStringMapper;
+                }
 
 		// register beanProvider for its beans
 		for (String beanName : beanProvider.beanNames()) {
-			if ("beanProvider".equals(beanName)) throw new RuntimeException("Forbidden bean: beanProvider");
+			if ("beanProvider".equals(beanName)) {
+                                throw new RuntimeException("Forbidden bean: beanProvider");
+                        }
 			beanToBeanProvider.put(beanName, beanProvider);
 		}
 
@@ -69,13 +74,17 @@ public final class MultiBeanProvider extends ABeanProvider {
 
 	public <T> Object getBean(String beanName) {
 		BeanProvider provider = beanToBeanProvider.get(beanName);
-		if (provider == null) throw new BeanDoesNotExisException(beanName);
+		if (provider == null) {
+                        throw new BeanDoesNotExisException(beanName);
+                }
 		return provider.getBean(beanName);
 	}
 
 	public Class getBeanType(String beanName) {
 		BeanProvider provider = beanToBeanProvider.get(beanName);
-		if (provider == null) throw new BeanDoesNotExisException(beanName);
+		if (provider == null) {
+                        throw new BeanDoesNotExisException(beanName);
+                }
 		return provider.getBeanType(beanName);
 	}
 

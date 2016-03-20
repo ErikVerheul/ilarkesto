@@ -89,7 +89,9 @@ public class StaticMenuTest extends Assert {
 
 		@Override
 		public void run() {
-			if (executed) throw new IllegalStateException("EventMock already executed");
+			if (executed) {
+                                throw new IllegalStateException("EventMock already executed");
+                        }
 			executed = true;
 		}
 	}

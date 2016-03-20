@@ -112,7 +112,9 @@ public abstract class PropertyModel {
 	}
 
 	public String getDaoName() {
-		if (!isReference()) throw new UnsupportedOperationException("not a reference: " + getContentType());
+		if (!isReference()) {
+                        throw new UnsupportedOperationException("not a reference: " + getContentType());
+                }
 
 		return StrExtend.lowercaseFirstLetter(getContentTypeName()) + "Dao";
 	}

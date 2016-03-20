@@ -44,11 +44,17 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	}
 
 	public static StackTraceElement getFirstNonDefaultElement(StackTraceElement[] elements) {
-		if (elements == null || elements.length == 0) return null;
+		if (elements == null || elements.length == 0) {
+                        return null;
+                }
 		for (StackTraceElement element : elements) {
 			String cls = element.getClassName();
-			if (cls.startsWith("java.")) continue;
-			if (cls.startsWith("sun.")) continue;
+			if (cls.startsWith("java.")) {
+                                continue;
+                        }
+			if (cls.startsWith("sun.")) {
+                                continue;
+                        }
 			return element;
 		}
 		return elements[elements.length - 1];
@@ -67,7 +73,9 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 			}
 			sb.append(element.getClassName()).append(".").append(element.getMethodName()).append("()");
 			int line = element.getLineNumber();
-			if (line >= 0) sb.append(":").append(line);
+			if (line >= 0) {
+                                sb.append(":").append(line);
+                        }
 		}
 		return sb.toString();
 	}
@@ -79,7 +87,9 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	public static File getFirstExistingFile(String... paths) {
 		for (String path : paths) {
 			File file = new File(path);
-			if (file.exists()) return file;
+			if (file.exists()) {
+                                return file;
+                        }
 		}
 		return null;
 	}
@@ -87,7 +97,9 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	public static <T> T getElement(Collection<T> collection, int index) {
 		int i = 0;
 		for (T t : collection) {
-			if (i == index) return t;
+			if (i == index) {
+                                return t;
+                        }
 			i++;
 		}
 		return null;
@@ -110,23 +122,32 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 			if (first == null) {
 				first = o;
 			} else {
-				if (!first.equals(o)) return false;
+				if (!first.equals(o)) {
+                                        return false;
+                                }
 			}
 		}
 		return true;
 	}
 
 	public static boolean isEmpty(String s) {
-		if (s == null) return true;
-		if (s.length() == 0) return true;
-		if (s.trim().length() == 0) return true;
+		if (s == null) {
+                        return true;
+                }
+		if (s.length() == 0) {
+                        return true;
+                }
+		if (s.trim().length() == 0) {
+                        return true;
+                }
 		return false;
 	}
 
 	public static <K, V> Map<K, V> subMap(Map<K, V> source, K... keys) {
 		Map<K, V> ret = new HashMap<K, V>();
-		for (K key : keys)
-			ret.put(key, source.get(key));
+		for (K key : keys) {
+                        ret.put(key, source.get(key));
+                }
 		return ret;
 	}
 
@@ -135,7 +156,9 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	}
 
 	public static String toString(Object o) {
-		if (o == null) return null;
+		if (o == null) {
+                        return null;
+                }
 		try {
 			return o.toString();
 		} catch (Throwable ex) {
@@ -196,8 +219,9 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 		// TODO performance optimization: sort not necessary
 		List<T> list = sort(collection, comparator);
 		List<T> result = new ArrayList<T>(count);
-		for (int i = 0; i < count && i < list.size(); i++)
-			result.add(list.get(i));
+		for (int i = 0; i < count && i < list.size(); i++) {
+                        result.add(list.get(i));
+                }
 		return result;
 	}
 

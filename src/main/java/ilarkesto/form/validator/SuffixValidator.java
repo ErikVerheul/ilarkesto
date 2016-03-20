@@ -41,11 +41,13 @@ public class SuffixValidator implements Validator {
 
 	public String validate(String text) throws ValidationException {
 		if (ignoreCase) {
-			if (!text.toLowerCase().endsWith(suffix))
-				throw new ValidationException(failureMessage);
+			if (!text.toLowerCase().endsWith(suffix)) {
+                                throw new ValidationException(failureMessage);
+                        }
 		} else {
-			if (!text.endsWith(suffix))
-				throw new ValidationException(failureMessage);
+			if (!text.endsWith(suffix)) {
+                                throw new ValidationException(failureMessage);
+                        }
 		}
 		return text;
 	}

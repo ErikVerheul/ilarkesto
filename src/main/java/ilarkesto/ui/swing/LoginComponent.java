@@ -48,9 +48,13 @@ public class LoginComponent extends AComponent {
 	@Override
 	protected void initializeControls() {
 		loginField = new JTextField(15);
-		if (loginActionListener != null) loginField.addActionListener(loginActionListener);
+		if (loginActionListener != null) {
+                        loginField.addActionListener(loginActionListener);
+                }
 		passwordField = new JPasswordField(15);
-		if (loginActionListener != null) passwordField.addActionListener(loginActionListener);
+		if (loginActionListener != null) {
+                        passwordField.addActionListener(loginActionListener);
+                }
 		savePasswordCheckbox = new JCheckBox();
 		savePasswordCheckbox.setSelected(false);
 		savePasswordCheckbox.setText(string("savePasswordCheckbox.text"));

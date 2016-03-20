@@ -35,7 +35,9 @@ public class StaticSubmenu extends StaticMenuItem implements Submenu<StaticMenuI
 
 		@Override
 		public void run() {
-			if (submenu.getSelectedItem() == null) submenu.selectFirstItem();
+			if (submenu.getSelectedItem() == null) {
+                                submenu.selectFirstItem();
+                        }
 		}
 	}
 

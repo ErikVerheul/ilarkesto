@@ -35,7 +35,9 @@ public class And<E> implements Predicate<E> {
 
 	public boolean test(E parameter) {
 		for (Predicate<E> predicate : predicates) {
-			if (!predicate.test(parameter)) return false;
+			if (!predicate.test(parameter)){
+                                return false;
+                        };
 		}
 		return true;
 	}

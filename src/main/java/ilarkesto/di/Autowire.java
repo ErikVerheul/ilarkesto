@@ -45,9 +45,13 @@ public class Autowire {
 		Set<String> availableBeansNames = beanProvider.beanNames();
 		Method[] methods = clazz.getMethods();
 		for (int i = 0; i < methods.length; i++) {
-			if (!Modifier.isStatic(methods[i].getModifiers())) continue;
+			if (!Modifier.isStatic(methods[i].getModifiers())) {
+                                continue;
+                        }
 			String methodName = methods[i].getName();
-			if (!methodName.startsWith("set")) continue;
+			if (!methodName.startsWith("set")) {
+                                continue;
+                        }
 			String name = Character.toLowerCase(methodName.charAt(3)) + methodName.substring(4);
 			if (availableBeansNames.contains(name)) {
 				invokeSetter(null, methods[i], beanProvider.getBean(name), objectStringMapper);
@@ -58,8 +62,9 @@ public class Autowire {
 			}
 		}
 		Class<? extends Object> superclass = clazz.getSuperclass();
-		if (superclass != null && !Object.class.equals(superclass))
-			autowireClass(superclass, beanProvider, objectStringMapper);
+		if (superclass != null && !Object.class.equals(superclass)) {
+                        autowireClass(superclass, beanProvider, objectStringMapper);
+                }
 		return clazz;
 	}
 
@@ -91,7 +96,9 @@ public class Autowire {
 					// if ("parentContext".equals(name)) continue;
 					Method writeMethod = propertyDescriptor.getWriteMethod();
 					if (writeMethod != null) {
-						if (writeMethod.getAnnotation(AutowireHostile.class) != null) continue;
+						if (writeMethod.getAnnotation(AutowireHostile.class) != null) {
+                                                        continue;
+                                                }
 						if (availableBeanNames.contains(name)) {
 							invokeSetter(bean, writeMethod, beanProvider.getBean(name), objectStringMapper);
 						} else if ("beanProvider".equals(name)) {
@@ -106,9 +113,13 @@ public class Autowire {
 
 			@Override
 			public void handle(Annotation annotation, Field field, Object object) {
-				if (!(annotation instanceof In)) return;
+				if (!(annotation instanceof In)) {
+                                        return;
+                                }
 				String name = field.getName();
-				if (!availableBeanNames.contains(name)) return;
+				if (!availableBeanNames.contains(name)) {
+                                        return;
+                                }
 				field.setAccessible(true);
 				Object value = beanProvider.getBean(name);
 				Class paramType = field.getType();

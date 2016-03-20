@@ -35,7 +35,9 @@ public final class Context {
 		this.name = name;
 
 		beanProvider = new MultiBeanProvider();
-		if (parent != null) beanProvider.addBeanProvider(parent.beanProvider);
+		if (parent != null) {
+                        beanProvider.addBeanProvider(parent.beanProvider);
+                }
 	}
 
 	public final void setName(String name) {
@@ -77,12 +79,16 @@ public final class Context {
 	}
 
 	public final void bindCurrentThread() {
-		if (threadLocal != null) threadLocal.set(this);
+		if (threadLocal != null) {
+                        threadLocal.set(this);
+                }
 		Thread.currentThread().setName(toString());
 	}
 
 	private void releaseCurrentThread() {
-		if (threadLocal != null) threadLocal.set(null);
+		if (threadLocal != null) {
+                        threadLocal.set(null);
+                }
 		Thread.currentThread().setName("<no context>");
 	}
 
@@ -92,12 +98,16 @@ public final class Context {
 	}
 
 	public static Context getRootContext() {
-		if (rootContext == null) throw new RuntimeException("Root context does not exist. Call createRootContext()");
+		if (rootContext == null) {
+                        throw new RuntimeException("Root context does not exist. Call createRootContext()");
+                }
 		return rootContext;
 	}
 
 	public static synchronized Context createRootContext(String name) {
-		if (rootContext != null) throw new RuntimeException("Root context already exists: " + rootContext);
+		if (rootContext != null) {
+                        throw new RuntimeException("Root context already exists: " + rootContext);
+                }
 		rootContext = new Context(null, name);
 		rootContext.bindCurrentThread();
 		return rootContext;
@@ -105,7 +115,9 @@ public final class Context {
 
 	public static Context get() {
 		Context context = threadLocal.get();
-		if (context == null) context = getRootContext();
+		if (context == null) {
+                        context = getRootContext();
+                }
 		return context;
 	}
 

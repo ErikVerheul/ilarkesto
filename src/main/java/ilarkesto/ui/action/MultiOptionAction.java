@@ -72,20 +72,28 @@ public final class MultiOptionAction<T> extends AAction {
 		form.addAbortSubmitButton();
 		showFormDialog(form);
 		selectedOptions = optionsField.getValue();
-		if (groupOptionsField != null) selectedOptions.addAll(groupOptionsField.getValue());
+		if (groupOptionsField != null) {
+                        selectedOptions.addAll(groupOptionsField.getValue());
+                }
 	}
 
 	public void addOption(Option<T> option) {
-		if (options == null) options = new ArrayList<Option<T>>();
+		if (options == null) {
+                        options = new ArrayList<Option<T>>();
+                }
 		options.add(option);
 	}
 
 	// --- helper ---
 
 	public Option<T> getOption(String key) {
-		if (Option.KEY_CANCEL.equals(key)) return null;
+		if (Option.KEY_CANCEL.equals(key)) {
+                        return null;
+                }
 		for (Option<T> option : options) {
-			if (option.getKey().equals(key)) return option;
+			if (option.getKey().equals(key)) {
+                                return option;
+                        }
 		}
 		return null;
 	}
@@ -93,7 +101,9 @@ public final class MultiOptionAction<T> extends AAction {
 	private IdGenerator payloadIdGenerator;
 
 	public void addPayloads(Collection<T> payloads) {
-		if (payloadIdGenerator == null) payloadIdGenerator = new CountingIdGenerator("p");
+		if (payloadIdGenerator == null) {
+                        payloadIdGenerator = new CountingIdGenerator("p");
+                }
 		for (T o : payloads) {
 			String icon = o instanceof Iconized ? ((Iconized) o).getIcon() : "item";
 			addOption(new Option<T>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));

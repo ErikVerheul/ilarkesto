@@ -24,8 +24,9 @@ public class ParameterMatcher {
 	public static Object[] match(String input, Class<?>[] parameterTypes) {
 		input = input.trim();
 		int n = (input.isEmpty()) ? 0 : input.split(" ").length;
-		if (n != parameterTypes.length)
-			throw new IllegalArgumentException("Number of parameters differs in input and type list.");
+		if (n != parameterTypes.length) {
+                        throw new IllegalArgumentException("Number of parameters differs in input and type list.");
+                }
 
 		if (n == 0) { return new Object[] {}; }
 

@@ -36,15 +36,21 @@ public class EmailAddressFormField extends AFormField {
         @Override
 	public void update(Map<String, String> data, Collection<FileItem> uploadedFiles) {
 		String newValue = prepareValue(data.get(getName()));
-		if (value == null ? newValue == null : value.equals(newValue)) return;
+		if (value == null ? newValue == null : value.equals(newValue)) {
+                        return;
+                }
 		value = newValue;
 		fireFieldValueChanged();
 	}
 
 	private static String prepareValue(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		s = s.trim();
-		if (s.length() == 0) return null;
+		if (s.length() == 0) {
+                        return null;
+                }
 		try {
 			return new EmailAddress(s).toString();
 		} catch (Throwable ex) {
@@ -55,7 +61,9 @@ public class EmailAddressFormField extends AFormField {
         @Override
 	public void validate() throws ValidationException {
 		if (value == null) {
-			if (isRequired()) throw new ValidationException("Eingabe erforderlich");
+			if (isRequired()) {
+                                throw new ValidationException("Eingabe erforderlich");
+                        }
 		} else {
 			try {
 				new EmailAddress(value);

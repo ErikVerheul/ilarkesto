@@ -93,7 +93,9 @@ public class PdfBuilder extends APdfBuilder {
                                         document.newPage();
                                 } else {
                                         Element iTextElement = element.getITextElement();
-					if (iTextElement != null) document.add(iTextElement);
+					if (iTextElement != null) {
+                                                document.add(iTextElement);
+                                        }
                                         }
                         } catch (DocumentException ex) {
                                 throw new RuntimeException(ex);

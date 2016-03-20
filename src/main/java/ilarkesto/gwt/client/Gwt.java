@@ -63,28 +63,38 @@ public class Gwt {
 	public static boolean contains(HasWidgets container, Widget widget) {
 		Iterator<Widget> iterator = container.iterator();
 		while (iterator.hasNext()) {
-			if (iterator.next() == widget) return true;
+			if (iterator.next() == widget) {
+                                return true;
+                        }
 		}
 		return false;
 	}
 
 	public static String formatWeekdayMonthDay(Date date) {
-		if (dtfWeekdayMonthDay == null) dtfWeekdayMonthDay = DateTimeFormat.getFormat("EEEE, MMMM d.");
+		if (dtfWeekdayMonthDay == null) {
+                        dtfWeekdayMonthDay = DateTimeFormat.getFormat("EEEE, MMMM d.");
+                }
 		return dtfWeekdayMonthDay.format(date);
 	}
 
 	public static String formatHourMinute(Date date) {
-		if (dtfHourMinute == null) dtfHourMinute = DateTimeFormat.getFormat("HH:mm");
+		if (dtfHourMinute == null) {
+                        dtfHourMinute = DateTimeFormat.getFormat("HH:mm");
+                }
 		return dtfHourMinute.format(date);
 	}
 
 	public static String formatDay(Date date) {
-		if (dtfDay == null) dtfDay = DateTimeFormat.getFormat("dd.");
+		if (dtfDay == null) {
+                        dtfDay = DateTimeFormat.getFormat("dd.");
+                }
 		return dtfDay.format(date);
 	}
 
 	public static String formatWeekdayShort(Date date) {
-		if (dtfWeekdayShort == null) dtfWeekdayShort = DateTimeFormat.getFormat("EEE");
+		if (dtfWeekdayShort == null) {
+                        dtfWeekdayShort = DateTimeFormat.getFormat("EEE");
+                }
 		return dtfWeekdayShort.format(date);
 	}
 
@@ -149,8 +159,12 @@ public class Gwt {
 	}
 
 	public static boolean equals(Object a, Object b) {
-		if (a == b) return true;
-		if (a != null) return a.equals(b);
+		if (a == b) {
+                        return true;
+                }
+		if (a != null) {
+                        return a.equals(b);
+                }
 		return false;
 	}
 
@@ -212,14 +226,20 @@ public class Gwt {
 	public static HTML createHyperlink(String href, String text, boolean targetBlank) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<a href='").append(href).append("'");
-		if (targetBlank) sb.append(" target='_blank'");
+		if (targetBlank) {
+                        sb.append(" target='_blank'");
+                }
 		sb.append(">").append(text).append("</a>"); // TODO escape html
 		return new HTML(sb.toString());
 	}
 
 	public static String toString(Object o) {
-		if (o == null) return "<null>";
-		if (o instanceof List) return o.toString();
+		if (o == null) {
+                        return "<null>";
+                }
+		if (o instanceof List) {
+                        return o.toString();
+                }
 		return o.toString();
 	}
 
@@ -273,8 +293,12 @@ public class Gwt {
 	}
 
 	public static String toString(Widget widget) {
-		if (widget == null) return "<null>";
-		if (widget instanceof AWidget) return widget.toString();
+		if (widget == null) {
+                        return "<null>";
+                }
+		if (widget instanceof AWidget) {
+                        return widget.toString();
+                }
 		if (widget instanceof HasWidgets) {
 			StringBuilder sb = new StringBuilder();
 			boolean first = true;
@@ -293,8 +317,12 @@ public class Gwt {
 	}
 
 	public static String formatHours(Integer i) {
-		if (i == null || i == 0) return "nothing";
-		if (i == 1) return "1 hour";
+		if (i == null || i == 0) {
+                        return "nothing";
+                }
+		if (i == 1) {
+                        return "1 hour";
+                }
 		return i + " hours";
 	}
 
@@ -306,8 +334,12 @@ public class Gwt {
 
 	public static void update(Collection<Widget> widgets) {
 		for (Widget widget : widgets) {
-			if (widget == null) continue;
-			if (widget instanceof AWidget) ((Updatable) widget).update();
+			if (widget == null) {
+                                continue;
+                        }
+			if (widget instanceof AWidget) {
+                                ((Updatable) widget).update();
+                        }
 		}
 	}
 
@@ -324,7 +356,9 @@ public class Gwt {
 	}
 
 	public static <W extends Widget> W update(W widget) {
-		if (widget == null) return null;
+		if (widget == null) {
+                        return null;
+                }
 		if (widget instanceof AWidget) {
 			// GwtLogger.DEBUG("Updating:", widget);
 			((Updatable) widget).update();
@@ -344,7 +378,9 @@ public class Gwt {
 	}
 
 	public static <O extends Object> List<O> toList(Collection<O> collection) {
-		if (collection instanceof List) return (List<O>) collection;
+		if (collection instanceof List) {
+                        return (List<O>) collection;
+                }
 		return new ArrayList<O>(collection);
 	}
 
@@ -404,7 +440,9 @@ public class Gwt {
 
 	public static FlowPanel createFlowPanel(String styleName, String elementStyleName, Widget... widgets) {
 		FlowPanel panel = new FlowPanel();
-		if (styleName != null) panel.setStyleName(styleName);
+		if (styleName != null) {
+                        panel.setStyleName(styleName);
+                }
 		for (Widget widget : widgets) {
 			panel.add(elementStyleName == null ? widget : createDiv(elementStyleName, widget));
 		}
@@ -416,7 +454,9 @@ public class Gwt {
 	}
 
 	public static Set<String> getIdsAsSet(Collection<? extends AGwtEntity> entities) {
-		if (entities == null) return Collections.emptySet();
+		if (entities == null) {
+                        return Collections.emptySet();
+                }
 		Set<String> ret = new HashSet<String>(entities.size());
 		for (AGwtEntity entity : entities) {
 			ret.add(entity.getId());
@@ -433,7 +473,9 @@ public class Gwt {
 	}
 
 	public static void scrollTo(Widget w) {
-		if (w == null) return;
+		if (w == null) {
+                        return;
+                }
 		w.getElement().scrollIntoView();
 	}
 
@@ -477,7 +519,9 @@ public class Gwt {
 	}
 
 	public static Widget createDiv(String styleName, String labelText) {
-		if (labelText == null) return createEmptyDiv(styleName);
+		if (labelText == null) {
+                        return createEmptyDiv(styleName);
+                }
 		return createDiv(styleName, new Label(labelText));
 	}
 

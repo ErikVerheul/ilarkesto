@@ -125,13 +125,17 @@ public abstract class JavaLogging {
 
 		@Override
 		public void flush() {
-			if (out == null) return;
+			if (out == null) {
+                                return;
+                        }
 			out.flush();
 		}
 
 		@Override
 		public void publish(LogRecord record) {
-			if (out == null) createOut();
+			if (out == null) {
+                                createOut();
+                        }
 			String loggerName = record.getLoggerName();
 			int idx = loggerName.lastIndexOf('.');
 			if (idx > 0) {

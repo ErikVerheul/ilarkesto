@@ -77,7 +77,9 @@ public final class EntityModel extends DatobModel {
 		BeanModel superbean = getSuperbean();
 		if (superbean != null) {
 			if (superbean instanceof EntityModel) {
-				if (((EntityModel) superbean).isOwnable()) return true;
+				if (((EntityModel) superbean).isOwnable()) {
+                                        return true;
+                                }
 			}
 		}
 		return ownable;
@@ -99,7 +101,9 @@ public final class EntityModel extends DatobModel {
 		BeanModel superbean = getSuperbean();
 		if (superbean != null) {
 			if (superbean instanceof EntityModel) {
-				if (((EntityModel) superbean).isViewProtected()) return true;
+				if (((EntityModel) superbean).isViewProtected()) {
+                                        return true;
+                                }
 			}
 		}
 		return viewProtected;
@@ -113,7 +117,9 @@ public final class EntityModel extends DatobModel {
 		BeanModel superbean = getSuperbean();
 		if (superbean != null) {
 			if (superbean instanceof EntityModel) {
-				if (((EntityModel) superbean).isEditProtected()) return true;
+				if (((EntityModel) superbean).isEditProtected()) {
+                                        return true;
+                                }
 			}
 		}
 
@@ -130,7 +136,9 @@ public final class EntityModel extends DatobModel {
 		BeanModel superbean = getSuperbean();
 		if (superbean != null) {
 			if (superbean instanceof EntityModel) {
-				if (((EntityModel) superbean).isDeleteProtected()) return true;
+				if (((EntityModel) superbean).isDeleteProtected()) {
+                                        return true;
+                                }
 			}
 		}
 

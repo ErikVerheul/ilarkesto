@@ -156,7 +156,9 @@ public abstract class SwingWorker {
 			}
 
 			public void finished() {
-				if (swing != null) swing.run();
+				if (swing != null) {
+                                        swing.run();
+                                }
 			}
 
 		}.start();

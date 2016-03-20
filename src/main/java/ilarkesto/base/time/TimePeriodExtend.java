@@ -67,7 +67,9 @@ public final class TimePeriodExtend extends ilarkesto.core.time.TimePeriod {
 		StringBuilder sb = new StringBuilder();
 		sb.append(hours);
 		sb.append(':');
-		if (minutes < 10) sb.append('0');
+		if (minutes < 10) {
+                        sb.append('0');
+                }
 		sb.append(minutes);
 		return sb.toString();
 	}

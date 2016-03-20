@@ -49,7 +49,9 @@ public class FileField extends JPanel {
 	}
 
 	public void addFileSelectionListener(FileSelectionListener listener) {
-		if (fileSelectionListener != null) throw new IllegalStateException("fileSelectionListener already set");
+		if (fileSelectionListener != null) {
+                        throw new IllegalStateException("fileSelectionListener already set");
+                }
 		fileSelectionListener = listener;
 	}
 
@@ -67,12 +69,15 @@ public class FileField extends JPanel {
 
 	public void select() {
 		File file = getFile();
-		if (file != null) fileChooser.setSelectedFile(file);
+		if (file != null) {
+                        fileChooser.setSelectedFile(file);
+                }
 		if (JFileChooser.APPROVE_OPTION == fileChooser.showDialog(getFileChooser(), "OK")) {
 			File selectedFile = fileChooser.getSelectedFile();
 			setFile(selectedFile);
-			if (selectedFile != null && fileSelectionListener != null)
-				fileSelectionListener.onFileSelected(selectedFile);
+			if (selectedFile != null && fileSelectionListener != null) {
+                                fileSelectionListener.onFileSelected(selectedFile);
+                        }
 		}
 	}
 
@@ -87,7 +92,9 @@ public class FileField extends JPanel {
 
 	public String getPath() {
 		String path = textField.getText().trim();
-		if (path.length() == 0) return null;
+		if (path.length() == 0) {
+                        return null;
+                }
 		return path;
 	}
 

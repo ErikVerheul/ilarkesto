@@ -8,8 +8,12 @@ import java.util.Map;
 public class Json {
 
 	public static String valueToString(Object value) {
-		if (value == null) return "null";
-		if (value instanceof String) return '"' + escapeString((String) value) + '"';
+		if (value == null) {
+                        return "null";
+                }
+		if (value instanceof String) {
+                        return '"' + escapeString((String) value) + '"';
+                }
 		if (value instanceof Iterable) {
 			StringBuilder sb = new StringBuilder();
 			sb.append('[');
@@ -30,7 +34,9 @@ public class Json {
 	}
 
 	public static String escapeString(String s) {
-		if (s == null) return "";
+		if (s == null) {
+                        return "";
+                }
 		s = s.replace("\"", "\\\"");
 		s = s.replace("\t", "\\\t");
 		s = s.replace("\r", "\\\r");
@@ -58,7 +64,9 @@ public class Json {
 	}
 
 	public static Number parseNumber(String s) throws NumberFormatException {
-		if (s.contains(".")) return Double.parseDouble(s);
+		if (s.contains(".")) {
+                        return Double.parseDouble(s);
+                }
 		return Long.parseLong(s);
 	}
 
@@ -67,13 +75,27 @@ public class Json {
 	}
 
 	static Object convertValue(Object value) {
-		if (value == null) return null;
-		if (value instanceof String) return value;
-		if (value instanceof JsonObject) return value;
-		if (value instanceof List) return value;
-		if (value instanceof Boolean) return value;
-		if (value instanceof Number) return value;
-		if (value instanceof Collection) return new ArrayList((Collection) value);
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof String) {
+                        return value;
+                }
+		if (value instanceof JsonObject) {
+                        return value;
+                }
+		if (value instanceof List) {
+                        return value;
+                }
+		if (value instanceof Boolean) {
+                        return value;
+                }
+		if (value instanceof Number) {
+                        return value;
+                }
+		if (value instanceof Collection) {
+                        return new ArrayList((Collection) value);
+                }
 		if (value instanceof Iterable) {
 			List ret = new ArrayList();
 			for (Object element : (Iterable) value) {
@@ -81,14 +103,18 @@ public class Json {
 			}
 			return ret;
 		}
-		if (value instanceof Map) return new JsonObject((Map) value);
+		if (value instanceof Map) {
+                        return new JsonObject((Map) value);
+                }
 		return value.toString();
 	}
 
 	static int getFirstNonWhitespaceIndex(String s, int offset) {
 		int len = s.length();
 		for (int i = offset; i < len; i++) {
-			if (!isWhitespace(s.charAt(i))) return i;
+			if (!isWhitespace(s.charAt(i))) {
+                                return i;
+                        }
 		}
 		return -1;
 	}
@@ -101,7 +127,9 @@ public class Json {
 				i++;
 				continue;
 			}
-			if (ch == '"') return i;
+			if (ch == '"') {
+                                return i;
+                        }
 		}
 		return -1;
 	}

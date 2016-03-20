@@ -28,7 +28,9 @@ public abstract class AEventBus implements EventBus {
 
 	@Override
 	public void fireEvent(Event event) {
-		if (!(event instanceof Quiet)) log.debug("Firing event:", event);
+		if (!(event instanceof Quiet)) {
+                        log.debug("Firing event:", event);
+                }
 		for (Object handler : getPotentialEventHandlers()) {
 			event.tryToGetHandled(handler);
 		}

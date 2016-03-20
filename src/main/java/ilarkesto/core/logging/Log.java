@@ -33,7 +33,9 @@ public class Log {
 	}
 
 	public void log(Level level, Object... parameters) {
-		if (logRecordHandler == null) return;
+		if (logRecordHandler == null) {
+                        return;
+                }
 //		if (level.isDebug() && !isDebugEnabled()) return; log all for now TODO: reset this
 		logRecordHandler.log(new LogRecord(Tm.getCurrentTimeMillis(), name, level, parameters));
 	}
@@ -82,7 +84,9 @@ public class Log {
 	 * @see #isDebugEnabled()
 	 */
 	public void debug(Object... s) {
-		if (!isDebugEnabled()) return;
+		if (!isDebugEnabled()) {
+                        return;
+                }
 		log(Level.DEBUG, s);
 	}
 
@@ -102,7 +106,9 @@ public class Log {
 	}
 
 	public static void setDebugEnabled(boolean debugEnabled) {
-		if (Log.debugEnabled == debugEnabled) return;
+		if (Log.debugEnabled == debugEnabled) {
+                        return;
+                }
 		Log.debugEnabled = debugEnabled;
 		if (debugEnabled) {
 			Log.get(Log.class).info("Debug-logging enabled.");

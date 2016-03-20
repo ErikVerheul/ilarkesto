@@ -31,10 +31,14 @@ public class Table extends ATable implements ItextElement {
 		Cell c = new Cell(this);
 
 		Float defaultCellPadding = getDefaultCellPadding();
-		if (defaultCellPadding != null) c.setPadding(defaultCellPadding);
+		if (defaultCellPadding != null) {
+                        c.setPadding(defaultCellPadding);
+                }
 
 		FontStyle defaultFontStyle = getDefaultFontStyle();
-		if (defaultFontStyle != null) c.setFontStyle(defaultFontStyle);
+		if (defaultFontStyle != null) {
+                        c.setFontStyle(defaultFontStyle);
+                }
 
 		cells.add(c);
 		return c;
@@ -48,7 +52,9 @@ public class Table extends ATable implements ItextElement {
 		t.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
 
 		Float width = getWidth();
-		if (width != null) t.setWidthPercentage(width);
+		if (width != null) {
+                        t.setWidthPercentage(width);
+                }
 
 		for (Cell cell : cells) {
 			t.addCell((PdfPCell) cell.getITextElement());
@@ -64,10 +70,14 @@ public class Table extends ATable implements ItextElement {
 		int col = 0;
 		int row = 0;
 		for (Cell cell : cells) {
-			if (row == 0) cell.setBorderTop(color, width);
+			if (row == 0) {
+                                cell.setBorderTop(color, width);
+                        }
 			cell.setBorderRight(color, width);
 			cell.setBorderBottom(color, width);
-			if (col == 0) cell.setBorderLeft(color, width);
+			if (col == 0) {
+                                cell.setBorderLeft(color, width);
+                        }
 			col += cell.getColspan();
 			if (col >= cols) {
 				col = 0;
@@ -82,7 +92,9 @@ public class Table extends ATable implements ItextElement {
 		ARow row = new ARow(this);
 
 		FontStyle defaultFontStyle = getDefaultFontStyle();
-		if (defaultFontStyle != null) row.setDefaultFontStyle(defaultFontStyle);
+		if (defaultFontStyle != null) {
+                        row.setDefaultFontStyle(defaultFontStyle);
+                }
 
 		return row;
 	}
@@ -90,8 +102,9 @@ public class Table extends ATable implements ItextElement {
 	@Override
 	public ARow row(Object... cellTexts) {
 		ARow row = row();
-		for (Object text : cellTexts)
-			row.cell(text);
+		for (Object text : cellTexts) {
+                        row.cell(text);
+                }
 		return row;
 	}
 

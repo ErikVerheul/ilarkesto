@@ -38,10 +38,13 @@ public abstract class AAction extends AbstractAction {
 	}
 
 	protected final Icon loadIconFromResource(String resourceName) {
-		if (resourceName == null) return null;
+		if (resourceName == null) {
+                        return null;
+                }
 		URL url = getClass().getResource(resourceName);
-		if (url == null)
-			throw new RuntimeException("Resource not found: " + getClass().getPackage().getName() + "/" + resourceName);
+		if (url == null) {
+                        throw new RuntimeException("Resource not found: " + getClass().getPackage().getName() + "/" + resourceName);
+                }
 		return new ImageIcon(url);
 	}
 

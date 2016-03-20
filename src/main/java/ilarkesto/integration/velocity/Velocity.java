@@ -48,11 +48,15 @@ public class Velocity {
 		Velocity velocity = new Velocity(templateDir);
 
 		File[] files = templateDir.listFiles();
-		if (files == null) return;
+		if (files == null) {
+                        return;
+                }
 		IO.createDirectory(outputDir);
 		for (File templateFile : files) {
 			String name = templateFile.getName();
-			if (name.equals(LIB_TEMPLATE_NAME)) continue;
+			if (name.equals(LIB_TEMPLATE_NAME)) {
+                                continue;
+                        }
 			log.debug("   ", name);
 			boolean velocityTemplate = name.endsWith(".vm");
 			if (velocityTemplate) {

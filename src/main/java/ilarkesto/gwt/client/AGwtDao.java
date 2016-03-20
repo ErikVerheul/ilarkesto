@@ -51,7 +51,9 @@ public abstract class AGwtDao extends AComponent {
 	}
 
 	String getNewEntityId() {
-		if (entityIdBase == null) throw new RuntimeException("No entityIdBase received yet.");
+		if (entityIdBase == null) {
+                        throw new RuntimeException("No entityIdBase received yet.");
+                }
 		return entityIdBase + "-" + ++entityIdCounter;
 	}
 
@@ -106,7 +108,9 @@ public abstract class AGwtDao extends AComponent {
 	public final AGwtEntity getEntity(String id) throws EntityDoesNotExistException {
 		for (Map<String, ? extends AGwtEntity> entityMap : getEntityMaps()) {
 			AGwtEntity entity = entityMap.get(id);
-			if (entity != null) return entity;
+			if (entity != null) {
+                                return entity;
+                        }
 		}
 		throw new EntityDoesNotExistException(id);
 	}

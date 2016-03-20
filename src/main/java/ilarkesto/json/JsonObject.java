@@ -82,36 +82,56 @@ public class JsonObject {
 
 	public Integer getInteger(String name) {
 		Number value = getNumber(name);
-		if (value == null) return null;
-		if (value instanceof Integer) return (Integer) value;
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof Integer) {
+                        return (Integer) value;
+                }
 		return value.intValue();
 	}
 
 	public Long getLong(String name) {
 		Number value = getNumber(name);
-		if (value == null) return null;
-		if (value instanceof Long) return (Long) value;
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof Long) {
+                        return (Long) value;
+                }
 		return value.longValue();
 	}
 
 	public Double getDouble(String name) {
 		Number value = getNumber(name);
-		if (value == null) return null;
-		if (value instanceof Double) return (Double) value;
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof Double) {
+                        return (Double) value;
+                }
 		return value.doubleValue();
 	}
 
 	public Float getFloat(String name) {
 		Number value = getNumber(name);
-		if (value == null) return null;
-		if (value instanceof Float) return (Float) value;
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof Float) {
+                        return (Float) value;
+                }
 		return value.floatValue();
 	}
 
 	public Byte getByte(String name) {
 		Number value = getNumber(name);
-		if (value == null) return null;
-		if (value instanceof Byte) return (Byte) value;
+		if (value == null) {
+                        return null;
+                }
+		if (value instanceof Byte) {
+                        return (Byte) value;
+                }
 		return value.byteValue();
 	}
 
@@ -121,7 +141,9 @@ public class JsonObject {
 
 	public boolean isTrue(String name) {
 		Boolean value = getBoolean(name);
-		if (value == null) return false;
+		if (value == null) {
+                        return false;
+                }
 		return value.booleanValue();
 	}
 
@@ -136,7 +158,9 @@ public class JsonObject {
 	// --- manipulating ---
 
 	public <V> V put(String name, V value) {
-		if (name == null || name.length() == 0) throw new RuntimeException("name required");
+		if (name == null || name.length() == 0) {
+                        throw new RuntimeException("name required");
+                }
 		elements.put(name, Json.convertValue(value));
 		return value;
 	}
@@ -152,7 +176,9 @@ public class JsonObject {
 	}
 
 	public Object remove(String name) {
-		if (name == null || name.length() == 0) throw new RuntimeException("name required");
+		if (name == null || name.length() == 0) {
+                        throw new RuntimeException("name required");
+                }
 		return elements.remove(name);
 	}
 
@@ -165,7 +191,9 @@ public class JsonObject {
 	String toString(int indentation) {
 		StringBuilder sb = new StringBuilder();
 		sb.append('{');
-		if (indentation >= 0) indentation++;
+		if (indentation >= 0) {
+                        indentation++;
+                }
 		boolean first = true;
 		for (Map.Entry<String, Object> element : elements.entrySet()) {
 			if (first) {
@@ -173,10 +201,14 @@ public class JsonObject {
 			} else {
 				sb.append(',');
 			}
-			if (indentation >= 0) sb.append('\n');
+			if (indentation >= 0) {
+                                sb.append('\n');
+                        }
 			Json.indent(sb, indentation);
 			sb.append('"').append(Json.escapeString(element.getKey())).append("\":");
-			if (indentation >= 0) sb.append(' ');
+			if (indentation >= 0) {
+                                sb.append(' ');
+                        }
 			sb.append(Json.valueToString(element.getValue(), indentation));
 		}
 		if (indentation >= 0) {
@@ -202,7 +234,9 @@ public class JsonObject {
 	private int parse(String json, int offset) {
 		idx = offset;
 		parseWhitespace(json, "'{'");
-		if (json.charAt(idx) != '{') throw new ParseException("Expecting '{'", json, idx);
+		if (json.charAt(idx) != '{') {
+                        throw new ParseException("Expecting '{'", json, idx);
+                }
 		idx++;
 		parseWhitespace(json, "elements or '}'");
 		boolean first = true;
@@ -225,19 +259,27 @@ public class JsonObject {
 
 	private void parseWhitespace(String json, String expectation) {
 		idx = Json.getFirstNonWhitespaceIndex(json, idx);
-		if (idx < 0) throw new ParseException("Expecting " + expectation, json, idx);
+		if (idx < 0) {
+                        throw new ParseException("Expecting " + expectation, json, idx);
+                }
 	}
 
 	private void parseElement(String json) {
 		parseWhitespace(json, "\"");
-		if (json.charAt(idx) != '"') throw new ParseException("Expecting '\"'", json, idx);
+		if (json.charAt(idx) != '"') {
+                        throw new ParseException("Expecting '\"'", json, idx);
+                }
 		idx++;
 		int nameEndIdx = Json.getFirstQuoting(json, idx);
-		if (nameEndIdx < 0) throw new ParseException("Unclosed element name", json, idx);
+		if (nameEndIdx < 0) {
+                        throw new ParseException("Unclosed element name", json, idx);
+                }
 		String name = json.substring(idx, nameEndIdx);
 		idx = nameEndIdx + 1;
 		parseWhitespace(json, "':'");
-		if (json.charAt(idx) != ':') throw new ParseException("Expecting ':'", json, idx);
+		if (json.charAt(idx) != ':') {
+                        throw new ParseException("Expecting ':'", json, idx);
+                }
 		idx++;
 		parseWhitespace(json, "element value");
 		Object value = parseValue(json);
@@ -257,7 +299,9 @@ public class JsonObject {
 		} else if (json.charAt(idx) == '"') {
 			idx++;
 			int valueEndIdx = Json.getFirstQuoting(json, idx);
-			if (valueEndIdx < 0) throw new ParseException("Unclosed element string value", json, idx);
+			if (valueEndIdx < 0) {
+                                throw new ParseException("Unclosed element string value", json, idx);
+                        }
 			String value = json.substring(idx, valueEndIdx);
 			idx = valueEndIdx + 1;
 			return Json.parseString(value);
@@ -270,12 +314,18 @@ public class JsonObject {
 			idx++;
 			while (true) {
 				parseWhitespace(json, "array");
-				if (json.charAt(idx) == ']') break;
+				if (json.charAt(idx) == ']') {
+                                        break;
+                                }
 				Object value = parseValue(json);
 				list.add(value);
 				parseWhitespace(json, "array");
-				if (json.charAt(idx) == ']') break;
-				if (json.charAt(idx) != ',') throw new ParseException("Expecting array separator ','", json, idx);
+				if (json.charAt(idx) == ']') {
+                                        break;
+                                }
+				if (json.charAt(idx) != ',') {
+                                        throw new ParseException("Expecting array separator ','", json, idx);
+                                }
 				idx++;
 			}
 			idx++;

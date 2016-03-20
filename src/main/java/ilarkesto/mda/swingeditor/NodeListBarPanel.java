@@ -78,7 +78,9 @@ public class NodeListBarPanel extends JPanel implements Observer, ModelChangedHa
 		bar.removeColumnsAfter(nodeListPanel);
 		if (selectedNode != null) {
 			if (!selectedNode.containsChildren()) {
-				if (!modellingSession.getRuleSet().containsAllowedChildTypes(selectedNode)) return;
+				if (!modellingSession.getRuleSet().containsAllowedChildTypes(selectedNode)) {
+                                        return;
+                                }
 			}
 			bar.addColumn(createNodeList(selectedNode));
 		}

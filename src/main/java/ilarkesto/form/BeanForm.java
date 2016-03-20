@@ -65,7 +65,9 @@ public class BeanForm<O> extends Form {
 		OutputFormField field = addOutput(name);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setText(value.toString());
+		if (value != null) {
+                        field.setText(value.toString());
+                }
 
 		return field;
 	}
@@ -77,7 +79,9 @@ public class BeanForm<O> extends Form {
 		field.setOptions(options);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue(value.toString());
+		if (value != null) {
+                        field.setValue(value.toString());
+                }
 
 		return field;
 	}
@@ -126,8 +130,9 @@ public class BeanForm<O> extends Form {
 
 	public DropdownFormField addDropdownProperty(String name, Object[] selectableItems) {
 		Collection items = new ArrayList(selectableItems.length);
-		for (Object item : selectableItems)
-			items.add(item);
+		for (Object item : selectableItems) {
+                        items.add(item);
+                }
 		return addDropdownProperty(name, items);
 	}
 
@@ -138,7 +143,9 @@ public class BeanForm<O> extends Form {
 		field.setSelectableItems(selectableItems);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue(value);
+		if (value != null) {
+                        field.setValue(value);
+                }
 
 		return field;
 	}
@@ -158,7 +165,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue(value.toString());
+		if (value != null) {
+                        field.setValue(value.toString());
+                }
 
 		return field;
 	}
@@ -168,7 +177,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((Float) value);
+		if (value != null) {
+                        field.setValue((Float) value);
+                }
 
 		return field;
 	}
@@ -178,7 +189,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue(value.toString());
+		if (value != null) {
+                        field.setValue(value.toString());
+                }
 
 		return field;
 	}
@@ -188,7 +201,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Integer value = (Integer) beanMap.get(name);
-		if (value != null) field.setValue(value);
+		if (value != null) {
+                        field.setValue(value);
+                }
 
 		return field;
 	}
@@ -199,7 +214,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue(value.toString());
+		if (value != null) {
+                        field.setValue(value.toString());
+                }
 
 		return field;
 	}
@@ -209,7 +226,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((Money) value);
+		if (value != null) {
+                        field.setValue((Money) value);
+                }
 
 		return field;
 	}
@@ -219,7 +238,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((EmailAddress) value);
+		if (value != null) {
+                        field.setValue((EmailAddress) value);
+                }
 
 		return field;
 	}
@@ -229,7 +250,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((Date) value);
+		if (value != null) {
+                        field.setValue((Date) value);
+                }
 
 		return field;
 	}
@@ -239,7 +262,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((Time) value);
+		if (value != null) {
+                        field.setValue((Time) value);
+                }
 
 		return field;
 	}
@@ -249,7 +274,9 @@ public class BeanForm<O> extends Form {
 		beanFields.add(field);
 
 		Object value = beanMap.get(name);
-		if (value != null) field.setValue((TimePeriod) value);
+		if (value != null) {
+                        field.setValue((TimePeriod) value);
+                }
 
 		return field;
 	}

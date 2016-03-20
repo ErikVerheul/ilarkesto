@@ -63,14 +63,18 @@ public class NodeListPanel extends JPanel {
 
 	public void addNode() {
 		Node newNode = swingModelHelper.addNode(node, getSelectedNode());
-		if (newNode == null) return;
+		if (newNode == null) {
+                        return;
+                }
 		tableModel.update();
 		selectNode(newNode);
 	}
 
 	public void editNode() {
 		Node selectedNode = getSelectedNode();
-		if (selectedNode == null) return;
+		if (selectedNode == null) {
+                        return;
+                }
 		swingModelHelper.editNode(selectedNode);
 		tableModel.update();
 		selectNode(selectedNode);
@@ -78,14 +82,18 @@ public class NodeListPanel extends JPanel {
 
 	public void removeNode() {
 		Node selectedNode = getSelectedNode();
-		if (selectedNode == null) return;
+		if (selectedNode == null) {
+                        return;
+                }
 		swingModelHelper.removeNode(selectedNode);
 		tableModel.update();
 	}
 
 	public void selectNode(Node nodeToSelect) {
 		int index = tableModel.nodes.indexOf(nodeToSelect);
-		if (index < 0) return;
+		if (index < 0) {
+                        return;
+                }
 		table.getSelectionModel().setSelectionInterval(index, index);
 	}
 
@@ -187,11 +195,15 @@ public class NodeListPanel extends JPanel {
 
 		@Override
 		public void valueChanged(ListSelectionEvent evt) {
-			if (evt.getValueIsAdjusting()) return;
+			if (evt.getValueIsAdjusting()) {
+                                return;
+                        }
 			Node selectedNode = getSelectedNode();
 			LOG.debug("selection changed:", selectedNode);
 			updateToolbar(selectedNode);
-			if (observer != null) observer.onNodeSelectionChanged(NodeListPanel.this, selectedNode);
+			if (observer != null) {
+                                observer.onNodeSelectionChanged(NodeListPanel.this, selectedNode);
+                        }
 		}
 
 	}

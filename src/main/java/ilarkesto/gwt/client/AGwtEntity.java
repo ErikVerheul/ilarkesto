@@ -68,10 +68,18 @@ public abstract class AGwtEntity {
 	}
 
 	protected final void propertyChanged(String property, Object value) {
-		if (inCreation) return;
-		if (value instanceof Date) value = value.toString();
-		if (value instanceof Time) value = value.toString();
-		if (value instanceof DateAndTime) value = value.toString();
+		if (inCreation) {
+                        return;
+                }
+		if (value instanceof Date) {
+                        value = value.toString();
+                }
+		if (value instanceof Time) {
+                        value = value.toString();
+                }
+		if (value instanceof DateAndTime) {
+                        value = value.toString();
+                }
 		getDao().entityPropertyChanged(this, property, value);
 		updateLocalModificationTime();
 	}
@@ -97,8 +105,12 @@ public abstract class AGwtEntity {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof AGwtEntity)) return false;
-		if (this == obj) return true;
+		if (!(obj instanceof AGwtEntity)) {
+                        return false;
+                }
+		if (this == obj) {
+                        return true;
+                }
 		return id.equals(((AGwtEntity) obj).id);
 	}
 
@@ -110,7 +122,9 @@ public abstract class AGwtEntity {
 	// --- helper ---
 
 	protected static boolean matchesKey(Object object, String key) {
-		if (object == null) return false;
+		if (object == null) {
+                        return false;
+                }
 		return object.toString().toLowerCase().indexOf(key) >= 0;
 	}
 
@@ -123,14 +137,22 @@ public abstract class AGwtEntity {
 	}
 
 	protected final boolean equals(Object a, Object b) {
-		if (a == b) return true;
-		if (a == null || b == null) return false;
+		if (a == b) {
+                        return true;
+                }
+		if (a == null || b == null) {
+                        return false;
+                }
 		return a.equals(b);
 	}
 
 	protected final boolean equals(String id, AGwtEntity entity) {
-		if (id == null && entity == null) return true;
-		if (id == null || entity == null) return false;
+		if (id == null && entity == null) {
+                        return true;
+                }
+		if (id == null || entity == null) {
+                        return false;
+                }
 		return id.equals(entity.getId());
 	}
 

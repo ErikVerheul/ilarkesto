@@ -29,7 +29,9 @@ public class WebCrawlerTest extends ATest {
 
 			@Override
 			public boolean accept(String url) {
-				if (url.contains("animalprogress.strefa.pl")) return true;
+				if (url.contains("animalprogress.strefa.pl")) {
+                                        return true;
+                                }
 				// if (url.contains("animalprogress.strefa.pl")) return true;
 				return false;
 			}

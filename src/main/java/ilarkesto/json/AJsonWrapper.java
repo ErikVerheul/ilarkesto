@@ -27,7 +27,9 @@ public abstract class AJsonWrapper implements JsonWrapper {
 	protected final JsonObject json;
 
 	public AJsonWrapper(JsonObject json) {
-		if (json == null) throw new IllegalArgumentException("json == null");
+		if (json == null) {
+                        throw new IllegalArgumentException("json == null");
+                }
 		this.json = json;
 	}
 
@@ -65,7 +67,9 @@ public abstract class AJsonWrapper implements JsonWrapper {
 
 	protected <T extends AJsonWrapper> List<T> createFromArray(String name, Class<T> type) {
 		List<JsonObject> array = json.getArrayOfObjects(name);
-		if (array == null || array.isEmpty()) return Collections.emptyList();
+		if (array == null || array.isEmpty()) {
+                        return Collections.emptyList();
+                }
 
 		List<T> wrappers = new ArrayList<T>(array.size());
 		for (JsonObject object : array) {
@@ -78,7 +82,9 @@ public abstract class AJsonWrapper implements JsonWrapper {
 
 	protected <T extends AJsonWrapper> T createFromObject(String name, Class<T> type) {
 		JsonObject object = json.getObject(name);
-		if (object == null) return null;
+		if (object == null) {
+                        return null;
+                }
 		return createWrapper(object, type);
 	}
 

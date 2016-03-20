@@ -26,7 +26,9 @@ public class EmailAddressConverter extends AbstractSingleValueConverter {
 
 	@Override
 	public Object fromString(String str) {
-		if (str == null || str.length() == 0) return null;
+		if (str == null || str.length() == 0) {
+                        return null;
+                }
 		return new EmailAddress(str);
 	}
 

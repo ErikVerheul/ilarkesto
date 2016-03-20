@@ -34,7 +34,9 @@ public abstract class AGwtApplication implements EntryPoint {
 	protected abstract AGwtDao getDao();
 
 	public AGwtApplication() {
-		if (singleton != null) throw new RuntimeException("GWT application already instantiated: " + singleton);
+		if (singleton != null) {
+                        throw new RuntimeException("GWT application already instantiated: " + singleton);
+                }
 		singleton = this;
 		Log.setLogRecordHandler(new GwtLogRecordHandler());
 		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {

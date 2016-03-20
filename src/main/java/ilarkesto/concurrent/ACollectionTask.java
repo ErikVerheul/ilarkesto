@@ -31,7 +31,9 @@ public abstract class ACollectionTask<E> extends ATask {
 	@Override
 	protected final void perform() throws InterruptedException {
 		Collection<E> elements = prepare();
-		if (elements == null) elements = Collections.emptyList();
+		if (elements == null) {
+                        elements = Collections.emptyList();
+                }
 		count = elements.size();
 		index = 0;
 		for (E local_element : elements) {
@@ -40,9 +42,13 @@ public abstract class ACollectionTask<E> extends ATask {
 				perform(local_element);
 			} catch (Throwable ex) {
 				Throwable rootCause = UtlExtend.getRootCause(ex);
-				if (!(rootCause instanceof InterruptedException)) onElementError(local_element, ex);
+				if (!(rootCause instanceof InterruptedException)) {
+                                        onElementError(local_element, ex);
+                                }
 			}
-			if (isAbortRequested()) break;
+			if (isAbortRequested()) {
+                                break;
+                        }
 			index++;
 		}
 		cleanup();
@@ -69,8 +75,12 @@ public abstract class ACollectionTask<E> extends ATask {
 
 	@Override
 	public final float getProgress() {
-		if (count == 0) return 1;
-		if (index == 0) return 0;
+		if (count == 0) {
+                        return 1;
+                }
+		if (index == 0) {
+                        return 0;
+                }
 		return (float) index / (float) count;
 	}
 

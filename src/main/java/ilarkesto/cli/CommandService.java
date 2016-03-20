@@ -32,14 +32,18 @@ public class CommandService {
 	public Object execute(String commandLine) throws NoSuchCommandException, CommandExecutionFailedException,
 			LoginRequiredException {
 		String[] sa = StrExtend.tokenize(commandLine);
-		if (sa.length < 1) throw new NoSuchCommandException(commandLine);
+		if (sa.length < 1) {
+                        throw new NoSuchCommandException(commandLine);
+                }
 		return execute(sa[0], StrExtend.subarray(sa, 1));
 	}
 
 	public Object execute(String command, String[] arguments) throws NoSuchCommandException,
 			CommandExecutionFailedException, LoginRequiredException {
 		ACommand c = getCommand(command);
-		if (c == null) throw new NoSuchCommandException(command);
+		if (c == null) {
+                        throw new NoSuchCommandException(command);
+                }
 
 		return execute(c, arguments);
 	}
@@ -55,9 +59,13 @@ public class CommandService {
 	public ACommand getCommand(String name) {
 		for (Iterator iter = commands.iterator(); iter.hasNext();) {
 			ACommand command = (ACommand) iter.next();
-			if (name.equals(command.getName())) return command;
+			if (name.equals(command.getName())) {
+                                return command;
+                        }
 			for (Iterator iterator = command.getAliases().iterator(); iterator.hasNext();) {
-				if (name.equals(iterator.next())) return command;
+				if (name.equals(iterator.next())) {
+                                        return command;
+                                }
 			}
 		}
 		return getCommandByShortcut(name);
@@ -66,9 +74,13 @@ public class CommandService {
 	private ACommand getCommandByShortcut(String name) {
 		for (Iterator iter = commands.iterator(); iter.hasNext();) {
 			ACommand command = (ACommand) iter.next();
-			if (command.getName().startsWith(name)) return command;
+			if (command.getName().startsWith(name)) {
+                                return command;
+                        }
 			for (Iterator iterator = command.getAliases().iterator(); iterator.hasNext();) {
-				if (((String) iterator.next()).startsWith(name)) return command;
+				if (((String) iterator.next()).startsWith(name)) {
+                                        return command;
+                                }
 			}
 		}
 		return null;

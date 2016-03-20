@@ -63,7 +63,9 @@ class OutputWindow {
 	private int window_filled = 0;
 
 	public void write(int abyte) {
-		if (window_filled++ == WINDOW_SIZE) throw new IllegalStateException("Window full");
+		if (window_filled++ == WINDOW_SIZE) {
+                        throw new IllegalStateException("Window full");
+                }
 		window[window_end++] = (byte) abyte;
 		window_end &= WINDOW_MASK;
 	}
@@ -77,7 +79,9 @@ class OutputWindow {
 	}
 
 	public void repeat(int len, int dist) {
-		if ((window_filled += len) > WINDOW_SIZE) throw new IllegalStateException("Window full");
+		if ((window_filled += len) > WINDOW_SIZE) {
+                        throw new IllegalStateException("Window full");
+                }
 
 		int rep_start = (window_end - dist) & WINDOW_MASK;
 		int border = WINDOW_SIZE - len;
@@ -89,10 +93,13 @@ class OutputWindow {
 				/*
 				 * We have to copy manually, since the repeat pattern overlaps.
 				 */
-				while (len-- > 0)
-					window[window_end++] = window[rep_start++];
+				while (len-- > 0) {
+                                        window[window_end++] = window[rep_start++];
+                                }
 			}
-		} else slowRepeat(rep_start, len, dist);
+		} else {
+                        slowRepeat(rep_start, len, dist);
+                }
 	}
 
 	public int copyStored(StreamManipulator input, int len) {
@@ -102,8 +109,12 @@ class OutputWindow {
 		int tailLen = WINDOW_SIZE - window_end;
 		if (len > tailLen) {
 			copied = input.copyBytes(window, window_end, tailLen);
-			if (copied == tailLen) copied += input.copyBytes(window, 0, len - tailLen);
-		} else copied = input.copyBytes(window, window_end, len);
+			if (copied == tailLen) {
+                                copied += input.copyBytes(window, 0, len - tailLen);
+                        }
+		} else {
+                        copied = input.copyBytes(window, window_end, len);
+                }
 
 		window_end = (window_end + copied) & WINDOW_MASK;
 		window_filled += copied;
@@ -111,7 +122,9 @@ class OutputWindow {
 	}
 
 	public void copyDict(byte[] dict, int offset, int len) {
-		if (window_filled > 0) throw new IllegalStateException();
+		if (window_filled > 0) {
+                        throw new IllegalStateException();
+                }
 
 		if (len > WINDOW_SIZE) {
 			offset += len - WINDOW_SIZE;
@@ -131,9 +144,11 @@ class OutputWindow {
 
 	public int copyOutput(byte[] output, int offset, int len) {
 		int copy_end = window_end;
-		if (len > window_filled)
-			len = window_filled;
-		else copy_end = (window_end - window_filled + len) & WINDOW_MASK;
+		if (len > window_filled) {
+                        len = window_filled;
+                } else {
+                        copy_end = (window_end - window_filled + len) & WINDOW_MASK;
+                }
 
 		int copied = len;
 		int tailLen = len - copy_end;
@@ -145,7 +160,9 @@ class OutputWindow {
 		}
 		System.arraycopy(window, copy_end - len, output, offset, len);
 		window_filled -= copied;
-		if (window_filled < 0) throw new IllegalStateException();
+		if (window_filled < 0) {
+                        throw new IllegalStateException();
+                }
 		return copied;
 	}
 

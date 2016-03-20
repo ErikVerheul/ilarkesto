@@ -30,7 +30,9 @@ public class InputAction extends AAction {
 		inputField = form.addText("input");
 		inputField.setRequired(true);
 		inputField.setValue(initialValue);
-		if (validator != null) inputField.setValidator(validator);
+		if (validator != null) {
+                        inputField.setValidator(validator);
+                }
 		form.addSubmitButton("ok");
 		form.addAbortSubmitButton();
 		showFormDialog(form);

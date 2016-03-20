@@ -33,13 +33,17 @@ public class ErrorWrapper implements Serializable, IsSerializable {
 
 	@Override
 	public String toString() {
-		if (message == null) return name;
+		if (message == null) {
+                        return name;
+                }
 		return name + ": " + message;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof ErrorWrapper)) return false;
+		if (!(obj instanceof ErrorWrapper)) {
+                        return false;
+                }
 		ErrorWrapper other = (ErrorWrapper) obj;
 		return (name == null ? (other.name) == null : name.equals(other.name)) && 
                         (message == null ? other.message == null : message.equals(other.message));

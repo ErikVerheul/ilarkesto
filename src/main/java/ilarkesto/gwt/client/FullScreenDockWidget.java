@@ -106,7 +106,9 @@ public class FullScreenDockWidget extends AWidget {
 	private class DockResizeHandler implements ResizeHandler {
 
 		public void onResize(ResizeEvent event) {
-			if (dock == null) return;
+			if (dock == null) {
+                                return;
+                        }
 			updateCenterSize();
 		}
 	}

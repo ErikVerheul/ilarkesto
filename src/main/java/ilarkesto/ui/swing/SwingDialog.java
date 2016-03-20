@@ -114,7 +114,9 @@ public class SwingDialog {
 		JPanel panel = new JPanel(new BorderLayout(10, 10));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.add(headerPanel, BorderLayout.NORTH);
-		if (icon128 != null) panel.add(new JLabel(Swing.getIcon128(icon128)), BorderLayout.WEST);
+		if (icon128 != null) {
+                        panel.add(new JLabel(Swing.getIcon128(icon128)), BorderLayout.WEST);
+                }
 		panel.add(component, BorderLayout.CENTER);
 		panel.add(buttons, BorderLayout.SOUTH);
 

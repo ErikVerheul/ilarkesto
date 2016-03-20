@@ -42,7 +42,9 @@ public class ReflectionJsonApiFactory implements JsonApiFactory {
 	@Override
 	public AJsonApi createApi(RequestWrapper req, String path) {
 		AJsonApi api = createApiInstance(path);
-		if (api == null) return null;
+		if (api == null) {
+                        return null;
+                }
 
 		AWebSession session = req.getSession();
 		session.getContext().autowire(api);

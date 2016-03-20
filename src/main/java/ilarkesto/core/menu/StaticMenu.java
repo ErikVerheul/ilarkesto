@@ -31,18 +31,24 @@ public class StaticMenu implements Menu<StaticMenuItem>, HasChangeIndicator {
 	@Override
 	public StaticMenuItem getSelectedItem() {
 		for (StaticMenuItem item : items) {
-			if (item.isSelected()) return item;
+			if (item.isSelected()) {
+                                return item;
+                        }
 		}
 		return null;
 	}
 
 	public StaticMenuItem getItemByPayload(Object payload) {
 		for (StaticMenuItem item : items) {
-			if (item.isPayload(payload)) return item;
+			if (item.isPayload(payload)) {
+                                return item;
+                        }
 			if (item instanceof StaticSubmenu) {
 				StaticSubmenu subMenu = (StaticSubmenu) item;
 				StaticMenuItem foundItem = subMenu.getMenu().getItemByPayload(payload);
-				if (foundItem != null) return foundItem;
+				if (foundItem != null) {
+                                        return foundItem;
+                                }
 			}
 		}
 		return null;
@@ -56,12 +62,15 @@ public class StaticMenu implements Menu<StaticMenuItem>, HasChangeIndicator {
 	}
 
 	public void deselectAll() {
-		for (StaticMenuItem item : items)
-			item.deselect();
+		for (StaticMenuItem item : items) {
+                        item.deselect();
+                }
 	}
 
 	public void selectFirstItem() {
-		if (items.isEmpty()) return;
+		if (items.isEmpty()) {
+                        return;
+                }
 		items.get(0).select();
 	}
 

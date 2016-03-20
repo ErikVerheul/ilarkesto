@@ -38,7 +38,9 @@ public class Time implements Comparable<Time>, Serializable {
 			hour = Integer.parseInt(timeString.substring(0, idx));
 			timeString = timeString.substring(idx + 1);
 		} else {
-			if (timeString.trim().length() == 0) return; // 0:00:00
+			if (timeString.trim().length() == 0) {
+                                return; // 0:00:00
+                        }
 			hour = Integer.parseInt(timeString);
 			return;
 		}
@@ -129,7 +131,9 @@ public class Time implements Comparable<Time>, Serializable {
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (!(obj instanceof Time)) return false;
+		if (!(obj instanceof Time)) {
+                        return false;
+                }
 		Time other = (Time) obj;
 		return hour == other.hour && minute == other.minute && second == other.second;
 	}
@@ -165,7 +169,9 @@ public class Time implements Comparable<Time>, Serializable {
 		formatHour(sb);
 		sb.append(":");
 		formatMinute(sb);
-		if (skipSecondIfZero && second == 0) return sb.toString();
+		if (skipSecondIfZero && second == 0) {
+                        return sb.toString();
+                }
 		sb.append(":");
 		formatSecond(sb);
 		return sb.toString();
@@ -177,17 +183,23 @@ public class Time implements Comparable<Time>, Serializable {
 	}
 
 	public void formatSecond(StringBuilder sb) {
-		if (second < 10) sb.append("0");
+		if (second < 10) {
+                        sb.append("0");
+                }
 		sb.append(second);
 	}
 
 	public void formatMinute(StringBuilder sb) {
-		if (minute < 10) sb.append("0");
+		if (minute < 10) {
+                        sb.append("0");
+                }
 		sb.append(minute);
 	}
 
 	public void formatHour(StringBuilder sb) {
-		if (hour < 10) sb.append("0");
+		if (hour < 10) {
+                        sb.append("0");
+                }
 		sb.append(hour);
 	}
 
@@ -198,12 +210,24 @@ public class Time implements Comparable<Time>, Serializable {
 
 	@Override
 	public final int compareTo(Time other) {
-		if (hour > other.hour) return 1;
-		if (hour < other.hour) return -1;
-		if (minute > other.minute) return 1;
-		if (minute < other.minute) return -1;
-		if (second > other.second) return 1;
-		if (second < other.second) return -1;
+		if (hour > other.hour) {
+                        return 1;
+                }
+		if (hour < other.hour) {
+                        return -1;
+                }
+		if (minute > other.minute) {
+                        return 1;
+                }
+		if (minute < other.minute) {
+                        return -1;
+                }
+		if (second > other.second) {
+                        return 1;
+                }
+		if (second < other.second) {
+                        return -1;
+                }
 		return 0;
 	}
 
@@ -214,7 +238,9 @@ public class Time implements Comparable<Time>, Serializable {
 	}
 
 	public static String toStringBeginEnd(Time begin, Time end) {
-		if (begin == null && end == null) return null;
+		if (begin == null && end == null) {
+                        return null;
+                }
 		StringBuilder sb = new StringBuilder();
 		if (begin != null) {
 			sb.append(begin);

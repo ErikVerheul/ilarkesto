@@ -46,7 +46,9 @@ public class TcpConnection {
 	}
 
 	public void sendData(byte[] data) {
-		if (closed) throw new IllegalStateException("Connection already closed: " + toString());
+		if (closed) {
+                        throw new IllegalStateException("Connection already closed: " + toString());
+                }
 		server.sendChangeRequestForWrite(socketChannel);
 		pendingData.add(data == null ? CLOSE_CONNECTION : ByteBuffer.wrap(data));
 		server.wakeupSelector();
@@ -81,7 +83,9 @@ public class TcpConnection {
 
 	@Override
 	public boolean equals(Object other) {
-		if (!(other instanceof TcpConnection)) return false;
+		if (!(other instanceof TcpConnection)) {
+                        return false;
+                }
 		return socketChannel.equals(((TcpConnection) other).socketChannel);
 	}
 

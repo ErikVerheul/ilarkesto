@@ -45,7 +45,9 @@ public final class Tuple<A, B> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof Tuple)) return false;
+		if (obj == null || !(obj instanceof Tuple)) {
+                        return false;
+                }
 		Tuple<A, B> other = (Tuple<A, B>) obj;
 		return Sys.equals(a, other.a) && Sys.equals(b, other.b);
 	}

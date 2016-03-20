@@ -124,7 +124,9 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 		ln("    protected Set<Class> getValueObjectClasses() {");
 		ln("        Set<Class> ret = new HashSet<Class>(super.getValueObjectClasses());");
 		for (PropertyModel property : bean.getProperties()) {
-			if (!property.isValueObject()) continue;
+			if (!property.isValueObject()) {
+                                continue;
+                        }
 			String className = property.getContentType();
 			// int idx = className.lastIndexOf('.');
 			// className = className.substring(0, idx) + "." + className.substring(idx + 2);
@@ -150,9 +152,13 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 	}
 
 	private void writeAliases(DatobModel bean) {
-		if (bean == null) return;
+		if (bean == null) {
+                        return;
+                }
 		for (PropertyModel p : bean.getProperties()) {
-			if (!p.isValueObject()) continue;
+			if (!p.isValueObject()) {
+                                continue;
+                        }
 			ln("        aliases.put(\"" + StrExtend.getLastToken(p.getContentType(), ".") + "\", " + p.getContentType()
 					+ ".class);");
 		}
@@ -178,9 +184,15 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 			ln("    }");
 		} else {
 			if (p.isPrimitive()) {
-				if (pType.equals("boolean")) pType = "Boolean";
-				if (pType.equals("int")) pType = "Integer";
-				if (pType.equals("long")) pType = "Long";
+				if (pType.equals("boolean")) {
+                                        pType = "Boolean";
+                                }
+				if (pType.equals("int")) {
+                                        pType = "Integer";
+                                }
+				if (pType.equals("long")) {
+                                        pType = "Long";
+                                }
 			}
 			String cacheVarName = StrExtend.lowercaseFirstLetter(bean.getName()) + "sBy" + pNameUpper + "Cache";
 			String generic = "<" + pType + ",Set<" + bean.getName() + ">>";
@@ -253,8 +265,12 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 
 	protected final String getUserClassName() {
 		EntityModel userModel = bean.getUserModel();
-		if (userModel == null && bean.getName().equals("User")) userModel = bean;
-		if (userModel == null) return null;
+		if (userModel == null && bean.getName().equals("User")) {
+                        userModel = bean;
+                }
+		if (userModel == null) {
+                        return null;
+                }
 		return userModel.getPackageName() + "." + userModel.getName();
 	}
 
@@ -265,7 +281,9 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 
 	@Override
 	protected String getSuperclass() {
-		if ("User".equals(bean.getName())) return AUserDao.class.getName() + "<" + bean.getName() + ">";
+		if ("User".equals(bean.getName())) {
+                        return AUserDao.class.getName() + "<" + bean.getName() + ">";
+                }
 		return ADao.class.getName() + "<" + bean.getName() + ">";
 	}
 

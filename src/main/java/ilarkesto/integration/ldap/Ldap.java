@@ -49,7 +49,9 @@ public class Ldap {
 			throw new RuntimeException(ex);
 		}
 		SearchResult searchResult = searchResultEnum.nextElement();
-		if (searchResult == null) throw new AuthenticationFailedException("User does not exist.");
+		if (searchResult == null) {
+                        throw new AuthenticationFailedException("User does not exist.");
+                }
 
 		try {
 			Ldap.createDirContext(url, searchResult.getName() + "," + baseDn, password);
@@ -59,7 +61,9 @@ public class Ldap {
 
 		try {
 			Attribute mailAttribute = searchResult.getAttributes().get("mail");
-			if (mailAttribute != null) return mailAttribute.get().toString();
+			if (mailAttribute != null) {
+                                return mailAttribute.get().toString();
+                        }
 		} catch (NamingException ex) {
 			log.info(ex);
 			// mail field not handled by ldap tree. can happen on some ldap server or with specific structures
@@ -91,13 +95,21 @@ public class Ldap {
 			sb.append("Creating InitialDirContext failed.");
 			sb.append("\n    URL: ").append(url);
 			String explanation = ex.getExplanation();
-			if (!Str.isBlank(explanation)) sb.append("\n    explanation: ").append(explanation);
+			if (!Str.isBlank(explanation)) {
+                                sb.append("\n    explanation: ").append(explanation);
+                        }
 			Name remainingName = ex.getRemainingName();
-			if (remainingName != null) sb.append("\n    remaining name: ").append(remainingName.toString());
+			if (remainingName != null) {
+                                sb.append("\n    remaining name: ").append(remainingName.toString());
+                        }
 			Name resolvedName = ex.getResolvedName();
-			if (resolvedName != null) sb.append("\n    resolved name: ").append(resolvedName.toString());
+			if (resolvedName != null) {
+                                sb.append("\n    resolved name: ").append(resolvedName.toString());
+                        }
 			Object resolvedObj = ex.getResolvedObj();
-			if (resolvedObj != null) sb.append("\n    resolved object: ").append(resolvedObj.toString());
+			if (resolvedObj != null) {
+                                sb.append("\n    resolved object: ").append(resolvedObj.toString());
+                        }
 			sb.append("\n  Exception:");
 			throw new RuntimeException(sb.toString(), ex);
 		}

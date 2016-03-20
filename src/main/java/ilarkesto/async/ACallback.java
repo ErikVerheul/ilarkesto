@@ -38,7 +38,9 @@ public abstract class ACallback<R> implements Callback<R> {
 
 	@Override
 	public void onSuccess(R result) {
-		if (called) throw new IllegalStateException("Callback already called: " + this);
+		if (called) {
+                        throw new IllegalStateException("Callback already called: " + this);
+                }
 		called = true;
 		Object callbackResult;
 		if (resultConverter != null) {
@@ -51,7 +53,9 @@ public abstract class ACallback<R> implements Callback<R> {
 
 	@Override
 	public void onError(Throwable error) {
-		if (called) throw new IllegalStateException("Callback already called: " + this);
+		if (called) {
+                        throw new IllegalStateException("Callback already called: " + this);
+                }
 		called = true;
 		parentCallback.onError(error);
 	}

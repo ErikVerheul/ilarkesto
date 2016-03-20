@@ -33,15 +33,21 @@ public class IntegerEditorWidget extends AIntegerViewEditWidget {
 	@Override
 	protected void onMinusClicked() {
 		Integer value = model.getValue();
-		if (value == null || value <= model.getMin()) return;
+		if (value == null || value <= model.getMin()) {
+                        return;
+                }
 		model.decrement();
 	}
 
 	@Override
 	protected void onPlusClicked() {
 		Integer value = model.getValue();
-		if (value != null && value >= model.getMax()) return;
-		if (value == null) model.setValue(0);
+		if (value != null && value >= model.getMax()) {
+                        return;
+                }
+		if (value == null) {
+                        model.setValue(0);
+                }
 		model.increment();
 	}
 

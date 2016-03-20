@@ -77,7 +77,9 @@ public class Tm {
 		int year = getYear(date);
 		if (getMonth(date) == 12 && getDay(date) > 28) {
 			Date dateOfFirstWeek = getDateOfFirstWeek(year + 1);
-			if (getYear(dateOfFirstWeek) == year) return 1;
+			if (getYear(dateOfFirstWeek) == year) {
+                                return 1;
+                        }
 		}
 
 		Date dateOfFirstWeek = getDateOfFirstWeek(year);
@@ -87,10 +89,14 @@ public class Tm {
 
 	public static TmLocalizer getLocalizer(String language) {
 		if (language.equals("de")) {
-			if (tmLocalizerDe == null) tmLocalizerDe = new TmLocalizerDe();
+			if (tmLocalizerDe == null) {
+                                tmLocalizerDe = new TmLocalizerDe();
+                        }
 			return tmLocalizerDe;
 		}
-		if (tmLocalizer == null) tmLocalizer = new TmLocalizer();
+		if (tmLocalizer == null) {
+                        tmLocalizer = new TmLocalizer();
+                }
 		return tmLocalizer;
 	}
 

@@ -48,14 +48,22 @@ public final class ActionPerformer {
 	}
 
 	static void unregisterAction(String actionId) {
-		if (actions == null) return;
-		if (actionId == null) return;
+		if (actions == null) {
+                        return;
+                }
+		if (actionId == null) {
+                        return;
+                }
 		actions.remove(actionId);
 	}
 
 	static void registerAction(AAction action) {
-		if (actions == null) return;
-		if (action == null) return;
+		if (actions == null) {
+                        return;
+                }
+		if (action == null) {
+                        return;
+                }
 		actions.put(action.getActionId(), action);
 	}
 
@@ -75,7 +83,9 @@ public final class ActionPerformer {
 
 		Throwable exception = action.getException();
 		if (exception != null) {
-			if (exception instanceof RuntimeException) throw (RuntimeException) exception;
+			if (exception instanceof RuntimeException) {
+                                throw (RuntimeException) exception;
+                        }
 			throw new RuntimeException(exception);
 		}
 	}
@@ -107,8 +117,12 @@ public final class ActionPerformer {
 	}
 
 	private void autowireAction(AAction action, AUi ui, BeanProvider userParameters) {
-		if (action == null) return;
-		if (userParameters != null) userParameters.autowire(action);
+		if (action == null) {
+                        return;
+                }
+		if (userParameters != null) {
+                        userParameters.autowire(action);
+                }
 		Context.get().autowire(action);
 		action.setUi(ui);
 		autowireAction(action.getParentAction(), ui, userParameters); // autowire parents recursively

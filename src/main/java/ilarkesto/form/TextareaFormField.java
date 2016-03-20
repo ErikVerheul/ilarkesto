@@ -24,19 +24,31 @@ public class TextareaFormField extends TextFormField {
 
 	@Override
 	protected String preProcessValue(String s) {
-		if (s == null) return null;
-		if (!html) return super.preProcessValue(s);
+		if (s == null) {
+                        return null;
+                }
+		if (!html) {
+                        return super.preProcessValue(s);
+                }
 		if (s.startsWith("<html")) {
 			String plain = StrExtend.removeHtmlTags(s).trim();
-			if (plain.length() == 0 && !s.toLowerCase().contains("<img")) s = plain;
-			if (s.length() > 0) s = "<html>" + cleanupEditorsHtml(s);
+			if (plain.length() == 0 && !s.toLowerCase().contains("<img")) {
+                                s = plain;
+                        }
+			if (s.length() > 0) {
+                                s = "<html>" + cleanupEditorsHtml(s);
+                        }
 		}
 		return super.preProcessValue(s);
 	}
 
 	private String cleanupEditorsHtml(String s) {
-		if (s == null) return null;
-		if (s.length() == 0) return s;
+		if (s == null) {
+                        return null;
+                }
+		if (s.length() == 0) {
+                        return s;
+                }
 		s = StrExtend.cutHtmlAndHeaderAndBody(s);
 		s = s.replace("<title></title>", "");
 		return s;
@@ -65,7 +77,9 @@ public class TextareaFormField extends TextFormField {
 	}
 
 	public TextareaFormField setForceHtml(boolean forceHtml) {
-		if (forceHtml) setHtml(true);
+		if (forceHtml) {
+                        setHtml(true);
+                }
 		return this;
 	}
 

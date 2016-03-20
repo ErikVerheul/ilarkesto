@@ -49,7 +49,9 @@ public class TextOutputWidget extends AWidget {
 			viewer.setText(text);
 		}
 		String tooltip = getTooltip();
-		if (!Str.isBlank(tooltip)) Gwt.addTooltipHtml(viewer, tooltip);
+		if (!Str.isBlank(tooltip)) {
+                        Gwt.addTooltipHtml(viewer, tooltip);
+                }
 	}
 
 	public String getTooltip() {

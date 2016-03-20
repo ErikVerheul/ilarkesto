@@ -35,15 +35,21 @@ public class Navigator {
 	}
 
 	public void execute(Item item) {
-		if (item == null) return;
+		if (item == null) {
+                        return;
+                }
 		log.info("execute:", item);
 		Plugin plugin = item.getPlugin();
-		if (plugin == null) return;
+		if (plugin == null) {
+                        return;
+                }
 		plugin.execute(this, item);
 	}
 
 	public void goBack() {
-		if (pages.size() <= 1) return;
+		if (pages.size() <= 1) {
+                        return;
+                }
 		pages.remove(0);
 		firePageChanged();
 	}
@@ -80,13 +86,17 @@ public class Navigator {
 	}
 
 	private void firePageChanged() {
-		if (observer != null) observer.onPageChanged(this);
+		if (observer != null) {
+                        observer.onPageChanged(this);
+                }
 	}
 
 	public void addPlugin(Plugin plugin) {
 		plugins.add(plugin);
 		plugin.initialize(this);
-		if (getPage() == rootPage) firePageChanged();
+		if (getPage() == rootPage) {
+                        firePageChanged();
+                }
 	}
 
 	@Override

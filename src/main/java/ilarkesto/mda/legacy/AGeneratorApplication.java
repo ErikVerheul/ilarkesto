@@ -39,7 +39,9 @@ public abstract class AGeneratorApplication extends AApplication {
 		BeanProvider beanProvider = Context.get().getBeanProvider();
 
 		for (BeanModel beanModel : beanProvider.getBeansByType(BeanModel.class)) {
-			if (beanModel.getPackageName().startsWith("ilarkesto")) continue;
+			if (beanModel.getPackageName().startsWith("ilarkesto")) {
+                                continue;
+                        }
 			onBeanGeneration(beanModel);
 		}
 
@@ -60,7 +62,9 @@ public abstract class AGeneratorApplication extends AApplication {
 			new ApplicationGenerator(am).generate();
 		} else if (beanModel instanceof ComponentModel) {
 			ComponentModel cm = (ComponentModel) beanModel;
-			if (cm.isGwt()) return;
+			if (cm.isGwt()) {
+                                return;
+                        }
 			new ComponentGenerator(cm).generate();
 			new BeanTemplateGenerator(cm).generate();
 		} else {
@@ -144,8 +148,12 @@ public abstract class AGeneratorApplication extends AApplication {
 		for (Iterator iterator = Context.get().getBeanProvider().getBeansByType(EntityModel.class).iterator(); iterator
 				.hasNext();) {
 			EntityModel local_entityModel = (EntityModel) iterator.next();
-			if (excludeUser && local_entityModel == getUserModel()) continue;
-			if (local_entityModel == getEntityModel()) continue;
+			if (excludeUser && local_entityModel == getUserModel()) {
+                                continue;
+                        }
+			if (local_entityModel == getEntityModel()) {
+                                continue;
+                        }
 			entityModels.add(local_entityModel);
 		}
 		Collections.sort(entityModels);
@@ -155,7 +163,9 @@ public abstract class AGeneratorApplication extends AApplication {
 	public final List<EntityModel> getFinalEntityModels(boolean excludeUser) {
 		List<EntityModel> result = new ArrayList<EntityModel>();
 		for (EntityModel em : getEntityModels(excludeUser)) {
-			if (!em.isAbstract()) result.add(em);
+			if (!em.isAbstract()) {
+                                result.add(em);
+                        }
 		}
 		return result;
 	}
@@ -188,7 +198,9 @@ public abstract class AGeneratorApplication extends AApplication {
 	protected EntityModel createEntityModel(String name, String packageName) {
 		EntityModel model = new EntityModel(name, getBasePackageName() + "." + packageName);
 		model.setSuperbean(getAbstractEntityModel());
-		if (!name.equals("User")) model.setUserModel(getUserModel());
+		if (!name.equals("User")) {
+                        model.setUserModel(getUserModel());
+                }
 		return model;
 	}
 

@@ -80,7 +80,9 @@ public class DateAndTimeEditorWidget extends AViewEditWidget {
 
 	public final DateAndTime getEditorValue() {
 		String s = editor.getText();
-		if (Str.isBlank(s)) return null;
+		if (Str.isBlank(s)) {
+                        return null;
+                }
 		try {
 			return new DateAndTime(s);
 		} catch (Exception ex) {

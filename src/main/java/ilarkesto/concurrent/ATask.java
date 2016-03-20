@@ -79,8 +79,12 @@ public abstract class ATask {
 	}
 
 	public final long getRunTime() {
-		if (startTime < 0) return -1;
-		if (isFinished()) return finishTime - startTime;
+		if (startTime < 0) {
+                        return -1;
+                }
+		if (isFinished()) {
+                        return finishTime - startTime;
+                }
 		return Tm.getCurrentTimeMillis() - startTime;
 	}
 
@@ -103,7 +107,9 @@ public abstract class ATask {
         @SuppressWarnings("NN_NAKED_NOTIFY")
 	public final void run() {
 		this.thread = Thread.currentThread();
-		if (started) throw new RuntimeException("Task already started: " + this);
+		if (started) {
+                        throw new RuntimeException("Task already started: " + this);
+                }
 		started = true;
 		startTime = Tm.getCurrentTimeMillis();
 		try {
@@ -149,7 +155,9 @@ public abstract class ATask {
 	}
 
 	public final String getThreadName() {
-		if (thread == null) return null;
+		if (thread == null) {
+                        return null;
+                }
 		return thread.getName();
 	}
 

@@ -64,7 +64,9 @@ public class TokenDiff {
 			out.append(marker.removed(removed));
 			removed = null;
 		}
-		if (leftLen == 0 && rightLen == 0) return this;
+		if (leftLen == 0 && rightLen == 0) {
+                        return this;
+                }
 		if (leftLen == 0) {
 			out.append(marker.added(tokenizer.concat(right)));
 			return this;
@@ -82,7 +84,9 @@ public class TokenDiff {
 	}
 
 	private void burnNext() {
-		if (!nextChar()) return;
+		if (!nextChar()) {
+                        return;
+                }
 		if (chLcs.equals(chLeft) && chLcs.equals(chRight)) {
 			if (removed != null) {
 				out.append(marker.removed(removed));
@@ -102,7 +106,9 @@ public class TokenDiff {
 		StringBuilder sb = new StringBuilder();
 		while (!chLcs.equals(chLeft)) {
 			sb.append(chLeft);
-			if (!nextCharLeft()) break;
+			if (!nextCharLeft()) {
+                                break;
+                        }
 		}
 		removed = sb.toString();
 		skipBurn = true;
@@ -112,7 +118,9 @@ public class TokenDiff {
 		StringBuilder sb = new StringBuilder();
 		while (chLcs.equals(chLeft) && !chLcs.equals(chRight)) {
 			sb.append(chRight);
-			if (!nextCharRight()) break;
+			if (!nextCharRight()) {
+                                break;
+                        }
 		}
 		String added = sb.toString();
 		if (removed != null) {
@@ -140,10 +148,14 @@ public class TokenDiff {
 		while (chLcs.equals(chLeft) && chLcs.equals(chRight)) {
 			sb.append(chLcs);
 			nextCharAvailable = nextChar();
-			if (!nextCharAvailable) break;
+			if (!nextCharAvailable) {
+                                break;
+                        }
 		}
 		out.append(marker.same(sb.toString()));
-		if (nextCharAvailable) skipBurn = true;
+		if (nextCharAvailable) {
+                        skipBurn = true;
+                }
 	}
 
 	private boolean nextChar() {
@@ -152,9 +164,15 @@ public class TokenDiff {
 			return true;
 		}
 
-		if (lcsLen == 0) return false;
-		if (leftLen == 0) return false;
-		if (rightLen == 0) return false;
+		if (lcsLen == 0) {
+                        return false;
+                }
+		if (leftLen == 0) {
+                        return false;
+                }
+		if (rightLen == 0) {
+                        return false;
+                }
 
 		chLcs = lcs.get(0);
 		chLeft = left.get(0);
@@ -172,7 +190,9 @@ public class TokenDiff {
 	}
 
 	private boolean nextCharRight() {
-		if (rightLen == 0) return false;
+		if (rightLen == 0) {
+                        return false;
+                }
 
 		chRight = right.get(0);
 
@@ -184,7 +204,9 @@ public class TokenDiff {
 	}
 
 	private boolean nextCharLeft() {
-		if (leftLen == 0) return false;
+		if (leftLen == 0) {
+                        return false;
+                }
 
 		chLeft = left.get(0);
 

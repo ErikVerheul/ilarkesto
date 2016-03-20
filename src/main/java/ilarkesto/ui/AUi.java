@@ -78,7 +78,9 @@ public abstract class AUi {
 	}
 
 	public final void showView(AEntity entity, Object model) {
-		if (entity == null) throw new IllegalArgumentException("entity == null");
+		if (entity == null) {
+                        throw new IllegalArgumentException("entity == null");
+                }
 		MultiBeanProvider multiBeanProvider = new MultiBeanProvider();
 		multiBeanProvider.addBeanProvider(new ReflectionBeanProvider(model));
 		multiBeanProvider.addBeanProvider(new BeanContainer().put("entity", entity));
@@ -175,7 +177,9 @@ public abstract class AUi {
 
 	public static String getViewIcon(Class<? extends AView> viewClass) {
 		String icon = (String) Reflect.getFieldValue(viewClass, "ICON");
-		if (icon != null) return icon;
+		if (icon != null) {
+                        return icon;
+                }
 		return getViewId(viewClass);
 	}
 

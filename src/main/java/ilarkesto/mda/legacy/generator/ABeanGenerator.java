@@ -47,7 +47,9 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
 
         @SuppressWarnings("SBSC_USE_STRINGBUFFER_CONCATENATION")
 	private void writeEvents() {
-		if (bean.getEvents().isEmpty()) return;
+		if (bean.getEvents().isEmpty()) {
+                        return;
+                }
 		section("events");
 		List<String> multiEventListenerLines = new ArrayList<String>();
 		for (EventModel event : bean.getEvents()) {
@@ -103,7 +105,9 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
 	}
 
 	protected void writeDependencies() {
-		if (bean.getDependencies().isEmpty()) return;
+		if (bean.getDependencies().isEmpty()) {
+                        return;
+                }
 		ln();
 		section("dependencies");
 		for (DependencyModel dependencyModel : bean.getDependencies()) {
@@ -112,7 +116,9 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
 	}
 
 	private void writeComposites() {
-		if (bean.getComposites().isEmpty()) return;
+		if (bean.getComposites().isEmpty()) {
+                        return;
+                }
 		ln();
 		section("composites");
 

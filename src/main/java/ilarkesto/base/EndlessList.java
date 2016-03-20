@@ -38,7 +38,9 @@ public class EndlessList<T> implements Iterator<T>, Iterable<T> {
 			idx = -1;
 			return false;
 		}
-		if (list.size() < 1) return false;
+		if (list.size() < 1) {
+                        return false;
+                }
 		if (idx >= list.size()) {
 			idx = -1;
 			return false;

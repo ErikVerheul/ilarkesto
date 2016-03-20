@@ -33,8 +33,12 @@ public class BetterTextArea extends TextArea {
 		String text = getText();
 		int from = getCursorPos();
 		int to = from + getSelectionLength();
-		if (from < 0) from = 0;
-		if (to > text.length()) to = text.length() - 1;
+		if (from < 0) {
+                        from = 0;
+                }
+		if (to > text.length()) {
+                        to = text.length() - 1;
+                }
 		if (from > to && from >= 0) {
 			int x = to;
 			to = from;
@@ -52,13 +56,17 @@ public class BetterTextArea extends TextArea {
 		}
 		setCursorPos(cursorPosition);
 
-		if (isCursorAtBottom()) scrollToBottom();
+		if (isCursorAtBottom()) {
+                        scrollToBottom();
+                }
 	}
 
 	private boolean isCursorAtBottom() {
 		String text = getText();
 		int len = text.length();
-		if (len < 500) return false;
+		if (len < 500) {
+                        return false;
+                }
 		return cursorPosition >= len - 500;
 	}
 

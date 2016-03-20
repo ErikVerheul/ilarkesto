@@ -49,7 +49,9 @@ public class ExclusiveFileLock {
 			throw new RuntimeException(ex);
 		}
 
-		if (lock == null) throw new FileLockedException();
+		if (lock == null) {
+                        throw new FileLockedException();
+                }
 	}
 
 	public void release() {

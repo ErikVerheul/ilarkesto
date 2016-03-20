@@ -23,7 +23,9 @@ public abstract class AJsonWrapper {
 	protected final JsonObject json;
 
 	public AJsonWrapper(JsonObject json) {
-		if (json == null) throw new IllegalArgumentException("json == null");
+		if (json == null) {
+                        throw new IllegalArgumentException("json == null");
+                }
 		this.json = json;
 	}
 

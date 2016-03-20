@@ -23,7 +23,9 @@ public class GwtLogRecordHandler implements LogRecordHandler {
 
 	@Override
 	public void log(LogRecord record) {
-		if (GWT.isScript()) return;
+		if (GWT.isScript()) {
+                        return;
+                }
 		System.out.println(record.toString());
 	}
 

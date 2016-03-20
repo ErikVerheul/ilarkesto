@@ -26,7 +26,9 @@ public class SelectAllListener implements FocusListener {
 
     public void focusGained(FocusEvent e) {
         Component c = e.getComponent();
-        if (c == null) return;
+        if (c == null) {
+                return;
+        }
         if (c instanceof JTextField) {
             ((JTextField) c).selectAll();
             return;

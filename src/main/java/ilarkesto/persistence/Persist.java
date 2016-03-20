@@ -44,22 +44,31 @@ public abstract class Persist {
 	}
 
 	public static boolean test(AEntity entity, Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
-		if (typeFilter != null && !typeFilter.test(entity.getClass())) return false;
-		if (entityFilter != null && !entityFilter.test(entity)) return false;
+		if (typeFilter != null && !typeFilter.test(entity.getClass())) {
+                        return false;
+                }
+		if (entityFilter != null && !entityFilter.test(entity)) {
+                        return false;
+                }
 		return true;
 	}
 
 	public static boolean matchesKeys(Searchable e, Collection<String> keys) {
 		for (String key : keys) {
-			if (!e.matchesKey(key)) return false;
+			if (!e.matchesKey(key)) {
+                                return false;
+                        }
 		}
 		return true;
 	}
 
 	public static List<AEntity> getVisible(Collection<AEntity> entities, AUser user) {
 		List<AEntity> result = new ArrayList<AEntity>(entities.size());
-		for (AEntity entity : entities)
-			if (Auth.isVisible(entity, user)) result.add(entity);
+		for (AEntity entity : entities) {
+                        if (Auth.isVisible(entity, user)) {
+                                result.add(entity);
+                        }
+                }
 		return result;
 	}
 

@@ -34,8 +34,9 @@ public class LengthValidator implements Validator {
 	// overriding
 	public String validate(String text) throws ValidationException {
 		int len = text.length();
-		if (len < min || len > max)
-				throw new ValidationException(getMessage());
+		if (len < min || len > max) {
+                        throw new ValidationException(getMessage());
+                }
 		return text;
 	}
 

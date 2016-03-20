@@ -35,29 +35,41 @@ public final class Money implements Comparable<Money> {
 	public Money(long value, long cent, String currency) {
 		this.cent = (value * 100) + cent;
 		this.currency = currency;
-		if (this.currency == null) throw new RuntimeException("currency == null");
+		if (this.currency == null) {
+                        throw new RuntimeException("currency == null");
+                }
 	}
 
 	public Money(String s) {
 		StringTokenizer tokenizer = new StringTokenizer(s, " ");
-		if (!tokenizer.hasMoreTokens()) throw new RuntimeException("Illegal money format: " + s);
+		if (!tokenizer.hasMoreTokens()) {
+                        throw new RuntimeException("Illegal money format: " + s);
+                }
 		String amount = tokenizer.nextToken();
 		this.cent = Math.round(Double.parseDouble(amount.replace(',', '.')) * 100);
-		if (!tokenizer.hasMoreTokens()) throw new RuntimeException("Illegal money format (missing currency): " + s);
+		if (!tokenizer.hasMoreTokens()) {
+                        throw new RuntimeException("Illegal money format (missing currency): " + s);
+                }
 		this.currency = tokenizer.nextToken();
-		if (this.currency == null) throw new RuntimeException("currency == null");
+		if (this.currency == null) {
+                        throw new RuntimeException("currency == null");
+                }
 	}
 
 	public Money(String amount, String currency) {
 		this.cent = Math.round(Double.parseDouble(amount.replace(',', '.')) * 100);
 		this.currency = currency;
-		if (this.currency == null) throw new RuntimeException("currency == null");
+		if (this.currency == null) {
+                        throw new RuntimeException("currency == null");
+                }
 	}
 
 	public Money(double value, String currency) {
 		this.cent = Math.round(value * 100);
 		this.currency = currency;
-		if (this.currency == null) throw new RuntimeException("currency == null");
+		if (this.currency == null) {
+                        throw new RuntimeException("currency == null");
+                }
 	}
 
 	public String getCurrency() {
@@ -89,16 +101,22 @@ public final class Money implements Comparable<Money> {
 	}
 
 	public Money substract(Money money) {
-		if (money == null) return this;
-		if (!currency.equals(money.currency))
-			throw new RuntimeException("Cannot subtract " + money.currency + " from " + currency + ".");
+		if (money == null) {
+                        return this;
+                }
+		if (!currency.equals(money.currency)) {
+                        throw new RuntimeException("Cannot subtract " + money.currency + " from " + currency + ".");
+                }
 		return new Money(0, cent - money.cent, currency);
 	}
 
 	public Money add(Money money) {
-		if (money == null) return this;
-		if (!currency.equals(money.currency))
-			throw new RuntimeException("Cannot add " + money.currency + " to " + currency + ".");
+		if (money == null) {
+                        return this;
+                }
+		if (!currency.equals(money.currency)) {
+                        throw new RuntimeException("Cannot add " + money.currency + " to " + currency + ".");
+                }
 		return new Money(0, cent + money.cent, currency);
 	}
 
@@ -128,18 +146,23 @@ public final class Money implements Comparable<Money> {
 		long value = c / 100;
 		long rest = c - (value * 100);
 		StringBuilder sb = new StringBuilder();
-		if (neg) sb.append("-");
+		if (neg) {
+                        sb.append("-");
+                }
 		sb.append(StrExtend.formatWithThousandsSeparator(value, thousandsSeparator));
 		sb.append(decimalSeparator);
-		if (rest < 10) sb.append('0');
+		if (rest < 10) {
+                        sb.append('0');
+                }
 		sb.append(rest);
 		return sb.toString();
 	}
 
 	public String toString(Locale locale) {
 		if (locale != null) {
-			if (locale.equals(Locale.GERMAN) || locale.equals(Locale.GERMANY))
-				return getAmountAsString(',', ".") + ' ' + currency;
+			if (locale.equals(Locale.GERMAN) || locale.equals(Locale.GERMANY)) {
+                                return getAmountAsString(',', ".") + ' ' + currency;
+                        }
 		}
 		return toString('.');
 	}
@@ -190,8 +213,12 @@ public final class Money implements Comparable<Money> {
 
         @Override
 	public int compareTo(Money o) {
-		if (cent > o.cent) return 1;
-		if (cent < o.cent) return -1;
+		if (cent > o.cent) {
+                        return 1;
+                }
+		if (cent < o.cent) {
+                        return -1;
+                }
 		return 0;
 	}
 
@@ -211,8 +238,9 @@ public final class Money implements Comparable<Money> {
 
 	public static Money[] createArray(int size, Money initialValue) {
 		Money[] moneys = new Money[size];
-		for (int i = 0; i < size; i++)
-			moneys[i] = initialValue;
+		for (int i = 0; i < size; i++) {
+                        moneys[i] = initialValue;
+                }
 		return moneys;
 	}
 

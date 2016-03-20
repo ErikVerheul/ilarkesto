@@ -126,7 +126,9 @@ public class MultiItemFormField<T> extends AFormField {
 
 	public RemoveButton<T> getRemoveButton(String id) {
 		for (RemoveButton<T> button : removeButtons.values()) {
-			if (button.getId().equals(id)) return button;
+			if (button.getId().equals(id)) {
+                                return button;
+                        }
 		}
 		throw new RuntimeException("button does not exist: " + id);
 	}
@@ -181,8 +183,9 @@ public class MultiItemFormField<T> extends AFormField {
 
 	@Override
 	public void validate() throws ValidationException {
-		if (isRequired() && (value == null || value.isEmpty()))
-			throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+		if (isRequired() && (value == null || value.isEmpty())) {
+                        throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+                }
 	}
 
 	public class AddButton extends FormButton {

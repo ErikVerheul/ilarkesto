@@ -40,15 +40,20 @@ public abstract class AFormField implements FormField {
 
         @Override
     public final FormField addFormFieldChangeListener(FormFieldChangeListener listener) {
-        if (listeners == null) listeners = new ArrayList(1);
+        if (listeners == null) {
+                listeners = new ArrayList(1);
+        }
         listeners.add(listener);
         return this;
     }
 
     protected final void fireFieldValueChanged() {
-        if (listeners == null) return;
-        for (FormFieldChangeListener listener : listeners)
-            listener.fieldValueChanged(this);
+        if (listeners == null) {
+                return;
+        }
+        for (FormFieldChangeListener listener : listeners) {
+                listener.fieldValueChanged(this);
+        }
     }
 
         @Override

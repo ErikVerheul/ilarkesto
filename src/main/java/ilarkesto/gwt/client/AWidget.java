@@ -31,8 +31,9 @@ public abstract class AWidget extends Composite implements Updatable {
 
 	public AWidget() {
 		wrapper = new Wrapper();
-		if (!GWT.isScript())
-			wrapper.setContent(Gwt.createBugMarker(getClass().getName() + " is not initialized. -> call update()"));
+		if (!GWT.isScript()) {
+                        wrapper.setContent(Gwt.createBugMarker(getClass().getName() + " is not initialized. -> call update()"));
+                }
 		initWidget(wrapper);
 	}
 
@@ -43,7 +44,9 @@ public abstract class AWidget extends Composite implements Updatable {
 	protected void onUpdate() {
 		Element element = wrapper.getElement();
 		String newId = getId();
-		if (!element.getId().equals(newId)) element.setId(newId);
+		if (!element.getId().equals(newId)) {
+                        element.setId(newId);
+                }
 		Gwt.update(wrapper.getWidget());
 	}
 
@@ -53,10 +56,14 @@ public abstract class AWidget extends Composite implements Updatable {
 	public final void initialize() {
 
 		// check if already initialized
-		if (initialized) return;
+		if (initialized) {
+                        return;
+                }
 
 		// check if initializing and prevent endless loop
-		if (initializing) throw new RuntimeException("Widget already initializing: " + toString());
+		if (initializing) {
+                        throw new RuntimeException("Widget already initializing: " + toString());
+                }
 		initializing = true;
 
 		// GwtLogger.DEBUG("Initializing widget: " + toString());
@@ -80,9 +87,13 @@ public abstract class AWidget extends Composite implements Updatable {
 
 	@Override
 	public final AWidget update() {
-		if (isResetRequired()) reset();
+		if (isResetRequired()) {
+                        reset();
+                }
 		initialize();
-		if (!isUpdateRequired()) return this;
+		if (!isUpdateRequired()) {
+                        return this;
+                }
 		onUpdate();
 		return this;
 	}

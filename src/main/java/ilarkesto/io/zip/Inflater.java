@@ -310,11 +310,13 @@ public class Inflater
   public int inflate (byte[] buf, int off, int len) throws DataFormatException
   {
     /* Special case: len may be zero */
-    if (len == 0)
-      return 0;
+    if (len == 0) {
+            return 0;
+    }
     /* Check for correct buff, off, len triple */
-    if (0 > off || off > off + len || off + len > buf.length)
-      throw new ArrayIndexOutOfBoundsException();
+    if (0 > off || off > off + len || off + len > buf.length) {
+            throw new ArrayIndexOutOfBoundsException();
+    }
     int count = 0;
     int more;
     do
@@ -334,8 +336,9 @@ public class Inflater
 	    count += more;
 	    totalOut += more;
 	    len -= more;
-	    if (len == 0)
-	      return count;
+	    if (len == 0) {
+                    return count;
+            }
 	  }
       }
     while (decode() || (outputWindow.getAvailable() > 0
@@ -409,12 +412,14 @@ public class Inflater
    */
   public void setDictionary (byte[] buffer, int off, int len)
   {
-    if (!needsDictionary())
-      throw new IllegalStateException();
+    if (!needsDictionary()) {
+            throw new IllegalStateException();
+    }
 
     adler.update(buffer, off, len);
-    if ((int) adler.getValue() != readAdler)
-      throw new IllegalArgumentException("Wrong adler checksum");
+    if ((int) adler.getValue() != readAdler) {
+            throw new IllegalArgumentException("Wrong adler checksum");
+    }
     adler.reset();
     outputWindow.copyDict(buffer, off, len);
     mode = DECODE_BLOCKS;
@@ -454,17 +459,20 @@ public class Inflater
   private boolean decodeHeader () throws DataFormatException
   {
     int header = input.peekBits(16);
-    if (header < 0)
-      return false;
+    if (header < 0) {
+            return false;
+    }
     input.dropBits(16);
     
     /* The header is written in "wrong" byte order */
     header = ((header << 8) | (header >> 8)) & 0xffff;
-    if (header % 31 != 0)
-      throw new DataFormatException("Header checksum illegal");
+    if (header % 31 != 0) {
+            throw new DataFormatException("Header checksum illegal");
+    }
     
-    if ((header & 0x0f00) != (Deflater.DEFLATED << 8))
-      throw new DataFormatException("Compression Method unknown");
+    if ((header & 0x0f00) != (Deflater.DEFLATED << 8)) {
+            throw new DataFormatException("Compression Method unknown");
+    }
 
     /* Maximum size of the backwards window in bits. 
      * We currently ignore this, but we could use it to make the
@@ -494,8 +502,9 @@ public class Inflater
     while (neededBits > 0)
       {
 	int dictByte = input.peekBits(8);
-	if (dictByte < 0)
-	  return false;
+	if (dictByte < 0) {
+                return false;
+        }
 	input.dropBits(8);
 	readAdler = (readAdler << 8) | dictByte;
 	neededBits -= 8;
@@ -523,14 +532,15 @@ public class Inflater
 	    while (((symbol = litlenTree.getSymbol(input)) & ~0xff) == 0)
 	      {
 		outputWindow.write(symbol);
-		if (--free < 258)
-		  return true;
+		if (--free < 258) {
+                        return true;
+                }
 	      } 
 	    if (symbol < 257)
 	      {
-		if (symbol < 0)
-		  return false;
-		else
+		if (symbol < 0) {
+                        return false;
+                } else
 		  {
 		    /* symbol == 256: end of block */
 		    distTree = null;
@@ -555,8 +565,9 @@ public class Inflater
 	      {
 		mode = DECODE_HUFFMAN_LENBITS;
 		int i = input.peekBits(neededBits);
-		if (i < 0)
-		  return false;
+		if (i < 0) {
+                        return false;
+                }
 		input.dropBits(neededBits);
 		repLength += i;
 	      }
@@ -564,8 +575,9 @@ public class Inflater
 	    /* fall through */
 	  case DECODE_HUFFMAN_DIST:
 	    symbol = distTree.getSymbol(input);
-	    if (symbol < 0)
-	      return false;
+	    if (symbol < 0) {
+                    return false;
+        }
 	    try 
 	      {
 		repDist = CPDIST[symbol];
@@ -581,8 +593,9 @@ public class Inflater
 	      {
 		mode = DECODE_HUFFMAN_DISTBITS;
 		int i = input.peekBits(neededBits);
-		if (i < 0)
-		  return false;
+		if (i < 0) {
+                        return false;
+                }
 		input.dropBits(neededBits);
 		repDist += i;
 	      }
@@ -607,16 +620,18 @@ public class Inflater
     while (neededBits > 0)
       {
 	int chkByte = input.peekBits(8);
-	if (chkByte < 0)
-	  return false;
+	if (chkByte < 0) {
+                return false;
+        }
 	input.dropBits(8);
 	readAdler = (readAdler << 8) | chkByte;
 	neededBits -= 8;
       }
-    if ((int) adler.getValue() != readAdler)
-      throw new DataFormatException("Adler chksum doesn't match: "
-				    +Integer.toHexString((int)adler.getValue())
-				    +" vs. "+Integer.toHexString(readAdler));
+    if ((int) adler.getValue() != readAdler) {
+            throw new DataFormatException("Adler chksum doesn't match: "
+                    +Integer.toHexString((int)adler.getValue())
+                    +" vs. "+Integer.toHexString(readAdler));
+    }
     mode = FINISHED;
     return false;
   }
@@ -656,12 +671,14 @@ public class Inflater
 	  }
 
 	int type = input.peekBits(3);
-	if (type < 0)
-	  return false;
+	if (type < 0) {
+                return false;
+    }
 	input.dropBits(3);
 
-	if ((type & 1) != 0)
-	  isLastBlock = true;
+	if ((type & 1) != 0) {
+                isLastBlock = true;
+    }
 	switch (type >> 1)
 	  {
 	  case DeflaterConstants.STORED_BLOCK:
@@ -684,8 +701,9 @@ public class Inflater
 
       case DECODE_STORED_LEN1:
 	{
-	  if ((uncomprLen = input.peekBits(16)) < 0)
-	    return false;
+	  if ((uncomprLen = input.peekBits(16)) < 0) {
+                  return false;
+          }
 	  input.dropBits(16);
 	  mode = DECODE_STORED_LEN2;
 	}
@@ -693,11 +711,13 @@ public class Inflater
       case DECODE_STORED_LEN2:
 	{
 	  int nlen = input.peekBits(16);
-	  if (nlen < 0)
-	    return false;
+	  if (nlen < 0) {
+                  return false;
+          }
 	  input.dropBits(16);
-	  if (nlen != (uncomprLen ^ 0xffff))
-	    throw new DataFormatException("broken uncompressed block");
+	  if (nlen != (uncomprLen ^ 0xffff)) {
+                  throw new DataFormatException("broken uncompressed block");
+          }
 	  mode = DECODE_STORED;
 	}
 	/* fall through */
@@ -714,8 +734,9 @@ public class Inflater
 	}
 
       case DECODE_DYN_HEADER:
-	if (!dynHeader.decode(input))
-	  return false;
+	if (!dynHeader.decode(input)) {
+                return false;
+    }
 	litlenTree = dynHeader.buildLitLenTree();
 	distTree = dynHeader.buildDistTree();
 	mode = DECODE_HUFFMAN;

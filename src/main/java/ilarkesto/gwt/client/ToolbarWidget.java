@@ -29,20 +29,26 @@ public class ToolbarWidget extends AWidget {
 	}
 
 	public void clear() {
-		if (panel != null) panel.clear();
+		if (panel != null) {
+                        panel.clear();
+                }
 	}
 
 	public <W extends Widget> W add(W widget) {
 		initialize();
 		panel.add(widget);
-		if (isInitialized()) update();
+		if (isInitialized()) {
+                        update();
+                }
 		return widget;
 	}
 
 	public <W extends Widget> W insert(W widget, int index) {
 		initialize();
 		panel.insert(widget, index);
-		if (isInitialized()) update();
+		if (isInitialized()) {
+                        update();
+                }
 		return widget;
 	}
 

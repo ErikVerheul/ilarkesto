@@ -28,7 +28,9 @@ public abstract class AEditorModel<T> extends AFieldModel<T> {
 
 	public void changeValue(T newValue) {
 		T oldValue = getValue();
-		if (Utl.equals(oldValue, newValue)) return;
+		if (Utl.equals(oldValue, newValue)) {
+                        return;
+                }
 		onChangeValue(oldValue, newValue);
 		setValue(newValue);
 	}

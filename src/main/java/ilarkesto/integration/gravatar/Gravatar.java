@@ -34,31 +34,43 @@ public class Gravatar {
 
 	public static final Profile loadProfile(String email) {
 		String url = createJsonProfileUrl(email);
-		if (Str.isBlank(url)) return null;
+		if (Str.isBlank(url)) {
+                        return null;
+                }
 		log.debug("Loading Gravatar profile for", email, "->", email);
 		String json = IO.downloadUrlToString(url);
-		if (Str.isBlank(json)) return null;
+		if (Str.isBlank(json)) {
+                        return null;
+                }
 		return new Profile(new JsonObject(json));
 	}
 
 	public static final String createJsonProfileUrl(String email) {
 		String url = createProfileUrl(email);
-		if (Str.isBlank(url)) return null;
+		if (Str.isBlank(url)) {
+                        return null;
+                }
 		return url + ".json";
 	}
 
 	public static final String createProfileUrl(String email) {
-		if (Str.isBlank(email)) return null;
+		if (Str.isBlank(email)) {
+                        return null;
+                }
 		return "https://secure.gravatar.com/" + createHash(email);
 	}
 
 	public static final String createAvatarUrl(String email) {
-		if (Str.isBlank(email)) return null;
+		if (Str.isBlank(email)) {
+                        return null;
+                }
 		return "https://secure.gravatar.com/avatar/" + createHash(email);
 	}
 
 	public static final String createHash(String email) {
-		if (Str.isBlank(email)) return null;
+		if (Str.isBlank(email)) {
+                        return null;
+                }
 		return MD5Util.md5Hex(email.trim().toLowerCase());
 	}
 

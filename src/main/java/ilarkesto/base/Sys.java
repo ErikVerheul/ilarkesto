@@ -53,8 +53,9 @@ public final class Sys {
 	}
 
 	public static long getStartupTime() {
-		if (startupTime == 0)
-			throw new RuntimeException("Startup unknown. Sys.storeStartupTime() needs to be called.");
+		if (startupTime == 0) {
+                        throw new RuntimeException("Startup unknown. Sys.storeStartupTime() needs to be called.");
+                }
 		return startupTime;
 	}
 
@@ -129,13 +130,17 @@ public final class Sys {
 
 	public static String getHttpProxyHost() {
 		String value = System.getProperty("http.proxyHost");
-		if (StrExtend.isBlank(value)) return null;
+		if (StrExtend.isBlank(value)) {
+                        return null;
+                }
 		return value;
 	}
 
 	public static Integer getHttpProxyPort() {
 		String value = System.getProperty("http.proxyPort");
-		if (StrExtend.isBlank(value)) return null;
+		if (StrExtend.isBlank(value)) {
+                        return null;
+                }
 		return Integer.parseInt(value);
 	}
 
@@ -183,7 +188,9 @@ public final class Sys {
 		ThreadGroup g = Thread.currentThread().getThreadGroup();
 		while (true) {
 			ThreadGroup parent = g.getParent();
-			if (parent == null) break;
+			if (parent == null) {
+                                break;
+                        }
 			g = parent;
 		}
 		return g;
@@ -198,14 +205,20 @@ public final class Sys {
 	}
 
 	public static boolean equals(Object a, Object b) {
-                if (a == b) return true;
-		if (a != null) return a.equals(b);
+                if (a == b) {
+                        return true;
+                }
+		if (a != null) {
+                        return a.equals(b);
+                }
 		return false;
 	}
 
 	public static <T> int compare(Comparable<T> a, Comparable<T> b) {
 		if (a == null || b == null) {
-			if (a == null && b == null) return 0;
+			if (a == null && b == null) {
+                                return 0;
+                        }
 			if (a == null) {
 				return -1;
 			} else {

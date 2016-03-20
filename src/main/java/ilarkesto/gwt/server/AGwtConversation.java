@@ -72,7 +72,9 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	public final void clearRemoteEntitiesByType(Class<? extends AEntity> type) {
 		List<AEntity> toRemove = new ArrayList<AEntity>();
 		for (AEntity entity : remoteEntityModificationTimes.keySet()) {
-			if (entity.getClass().equals(type)) toRemove.add(entity);
+			if (entity.getClass().equals(type)) {
+                                toRemove.add(entity);
+                        }
 		}
 		for (AEntity entity : toRemove) {
 			remoteEntityModificationTimes.remove(entity);
@@ -90,14 +92,18 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	}
 
 	public synchronized void sendToClient(AEntity entity) {
-		if (entity == null) return;
+		if (entity == null) {
+                        return;
+                }
 
 		if (!transactionService.isPersistent(entity.getId())) {
 			getNextData().addDeletedEntity(entity.getId());
 			return;
 		}
 
-		if (!isEntityVisible(entity)) throw new PermissionDeniedException(entity + " is not visible");
+		if (!isEntityVisible(entity)) {
+                        throw new PermissionDeniedException(entity + " is not visible");
+                }
 
 		DateAndTime timeRemote = remoteEntityModificationTimes.get(entity);
 		DateAndTime timeLocal = entity.getLastModified();
@@ -116,13 +122,18 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	}
 
 	public final void sendToClient(Collection<? extends AEntity> entities) {
-		if (entities == null) return;
-		for (AEntity entity : entities)
-			sendToClient(entity);
+		if (entities == null) {
+                        return;
+                }
+		for (AEntity entity : entities) {
+                        sendToClient(entity);
+                }
 	}
 
 	public final ADataTransferObject popNextData() {
-		if (nextData == null) return null;
+		if (nextData == null) {
+                        return null;
+                }
 		synchronized (nextDataLock) {
 			ADataTransferObject ret = nextData;
 			nextData = createDataTransferObject();

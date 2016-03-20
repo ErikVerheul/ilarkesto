@@ -35,7 +35,9 @@ public abstract class AJsonDb {
 		List<JsonObject> result = new ArrayList<JsonObject>();
 		for (DocumentReference reference : references) {
 			JsonObject document = loadDocumentByReference(reference);
-			if (filter.matches(document)) result.add(document);
+			if (filter.matches(document)) {
+                                result.add(document);
+                        }
 		}
 		return result;
 	}

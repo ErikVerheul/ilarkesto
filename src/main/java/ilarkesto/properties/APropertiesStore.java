@@ -41,8 +41,12 @@ public abstract class APropertiesStore {
 
 	public final String get(String name, String defaultValue) {
 		String value = getProperties().getProperty(name);
-		if (value != null) return value;
-		if (defaults != null) return defaults.getProperty(name, defaultValue);
+		if (value != null) {
+                        return value;
+                }
+		if (defaults != null) {
+                        return defaults.getProperty(name, defaultValue);
+                }
 		return defaultValue;
 	}
 
@@ -52,7 +56,9 @@ public abstract class APropertiesStore {
 
 	public final void set(String name, String value) {
 		String oldValue = get(name);
-		if (value == null ? oldValue == null : value.equals(oldValue)) return;
+		if (value == null ? oldValue == null : value.equals(oldValue)) {
+                        return;
+                }
 		Properties p = getProperties();
 		if (value == null) {
 			p.remove(name);
@@ -79,7 +85,9 @@ public abstract class APropertiesStore {
 
 	public final Integer getInteger(String name) {
 		String s = get(name);
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		return Integer.parseInt(s);
 	}
 
@@ -106,7 +114,9 @@ public abstract class APropertiesStore {
 
 	public final String getMandatoryCrypted(String name) {
 		String s = getCrypted(name);
-		if (s == null) throw new RuntimeException("Missing mandatory property '" + name + "' in " + this);
+		if (s == null) {
+                        throw new RuntimeException("Missing mandatory property '" + name + "' in " + this);
+                }
 		return s;
 	}
 
@@ -123,7 +133,9 @@ public abstract class APropertiesStore {
 
 	public final File getFile(String name, File defaultValue) {
 		String path = get(name);
-		if (path == null) return defaultValue;
+		if (path == null) {
+                        return defaultValue;
+                }
 		return new File(path); // TODO cache file
 	}
 
@@ -148,7 +160,9 @@ public abstract class APropertiesStore {
 
 	public final String getMandatory(String name) {
 		String value = get(name);
-		if (value == null) throw new RuntimeException("Missing mandatory property '" + name + "' in " + this);
+		if (value == null) {
+                        throw new RuntimeException("Missing mandatory property '" + name + "' in " + this);
+                }
 		return value;
 	}
 
@@ -162,7 +176,9 @@ public abstract class APropertiesStore {
 	}
 
 	public void setDefaults(Properties defaults) {
-		if (properties != null) throw new IllegalStateException("Can not set defaults. Already loaded.");
+		if (properties != null) {
+                        throw new IllegalStateException("Can not set defaults. Already loaded.");
+                }
 		this.defaults = defaults;
 	}
 

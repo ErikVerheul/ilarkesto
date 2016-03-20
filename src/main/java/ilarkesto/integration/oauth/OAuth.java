@@ -39,7 +39,9 @@ public class OAuth {
 		service.signRequest(token, request);
 		Response response = request.send();
 		int code = response.getCode();
-		if (code != 200) throw new RuntimeException("Loading OAuth URL failed: " + url + "\n" + response.getBody());
+		if (code != 200) {
+                        throw new RuntimeException("Loading OAuth URL failed: " + url + "\n" + response.getBody());
+                }
 		return response;
 	}
 
@@ -53,7 +55,9 @@ public class OAuth {
 		ServiceBuilder builder = new ServiceBuilder();
 		builder.provider(api);
 		builder.apiKey(apiKey).apiSecret(apiSecret);
-		if (callbackUri != null) builder.callback(callbackUri);
+		if (callbackUri != null) {
+                        builder.callback(callbackUri);
+                }
 		OAuthService service = builder.build();
 		return service;
 	}

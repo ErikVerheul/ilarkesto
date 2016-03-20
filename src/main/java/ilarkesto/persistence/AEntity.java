@@ -59,7 +59,9 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 
 	@Override
 	public final String getId() {
-		if (id == null) id = UUID.randomUUID().toString();
+		if (id == null) {
+                        id = UUID.randomUUID().toString();
+                }
 		return id;
 	}
 
@@ -76,18 +78,24 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 	}
 
 	public final AUser getLastEditor() {
-		if (this.lastEditorId == null) return null;
+		if (this.lastEditorId == null) {
+                        return null;
+                }
 		return (AUser) userDao.getById(this.lastEditorId);
 	}
 
 	public final void setLastEditor(AUser lastEditor) {
-		if (isLastEditor(lastEditor)) return;
+		if (isLastEditor(lastEditor)) {
+                        return;
+                }
 		this.lastEditorId = lastEditor == null ? null : lastEditor.getId();
 		fireModified("lastEditor=" + lastEditor);
 	}
 
 	public final boolean isLastEditor(AUser user) {
-		if (this.lastEditorId == null && user == null) return true;
+		if (this.lastEditorId == null && user == null) {
+                        return true;
+                }
 		return user != null && user.getId().equals(this.lastEditorId);
 	}
 
@@ -108,7 +116,9 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 	@Override
 	public void ensureIntegrity() {
 		super.ensureIntegrity();
-		if (lastModified == null) fireModified("lastModified!=null");
+		if (lastModified == null) {
+                        fireModified("lastModified!=null");
+                }
 	}
 
 	@Override
@@ -119,9 +129,15 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null) return false;
-		if (!getClass().equals(o.getClass())) return false;
+		if (this == o) {
+                        return true;
+                }
+		if (o == null) {
+                        return false;
+                }
+		if (!getClass().equals(o.getClass())) {
+                        return false;
+                }
                 AEntity ae  = (AEntity)o;
 		return getId().equals(ae.getId());
 	}

@@ -45,7 +45,9 @@ public class AppearAnimation extends Animation {
 	@Override
 	protected void onUpdate(double progress) {
 		int height = (int) (progress * this.totalHeight);
-		if (height < minHeight) height = minHeight;
+		if (height < minHeight) {
+                        height = minHeight;
+                }
 		widget.getElement().getStyle().setProperty("height", height + "px");
 	}
 

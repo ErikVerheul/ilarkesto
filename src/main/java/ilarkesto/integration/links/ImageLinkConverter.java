@@ -18,7 +18,9 @@ public class ImageLinkConverter implements LinkConverter {
 
 	@Override
 	public String convert(String href, int maxWidth) {
-		if (!isConvertable(href)) return href;
+		if (!isConvertable(href)) {
+                        return href;
+                }
 		return createHtml(href, maxWidth);
 	}
 
@@ -33,11 +35,21 @@ public class ImageLinkConverter implements LinkConverter {
 
 	private boolean isConvertable(String href) {
 		String hrefLower = href.toLowerCase();
-		if (hrefLower.endsWith(".jpg")) return true;
-		if (hrefLower.endsWith(".gif")) return true;
-		if (hrefLower.endsWith(".png")) return true;
-		if (hrefLower.endsWith(".jpeg")) return true;
-		if (href.contains(".ggpht.com/")) return true;
+		if (hrefLower.endsWith(".jpg")) {
+                        return true;
+                }
+		if (hrefLower.endsWith(".gif")) {
+                        return true;
+                }
+		if (hrefLower.endsWith(".png")) {
+                        return true;
+                }
+		if (hrefLower.endsWith(".jpeg")) {
+                        return true;
+                }
+		if (href.contains(".ggpht.com/")) {
+                        return true;
+                }
 		return false;
 	}
 

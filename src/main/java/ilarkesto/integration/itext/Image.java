@@ -67,7 +67,9 @@ public class Image extends AImage implements ItextElement {
 		}
 		image.setWidthPercentage(0.1f);
 
-		if (align != null) image.setAlignment(convertAlign(align));
+		if (align != null) {
+                        image.setAlignment(convertAlign(align));
+                }
 
 		return image;
 	}

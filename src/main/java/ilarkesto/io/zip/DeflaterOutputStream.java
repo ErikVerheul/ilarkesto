@@ -97,13 +97,15 @@ public class DeflaterOutputStream extends FilterOutputStream
 	int len = def.deflate(buf, 0, buf.length);
 
 	//	System.err.println("DOS deflated " + len + " out of " + buf.length);
-	if (len <= 0)
-	  break;
+	if (len <= 0) {
+                break;
+        }
 	out.write(buf, 0, len);
       }
 
-    if (! def.needsInput())
-      throw new InternalError("Can't deflate all input?");
+    if (! def.needsInput()) {
+            throw new InternalError("Can't deflate all input?");
+    }
   }
 
   /** 
@@ -138,8 +140,9 @@ public class DeflaterOutputStream extends FilterOutputStream
   public DeflaterOutputStream(OutputStream out, Deflater defl, int bufsize)
   {
     super (out);
-    if (bufsize <= 0)
-      throw new IllegalArgumentException("bufsize <= 0");
+    if (bufsize <= 0) {
+            throw new IllegalArgumentException("bufsize <= 0");
+    }
     buf = new byte[bufsize];
     def = defl;
   }
@@ -168,12 +171,14 @@ public class DeflaterOutputStream extends FilterOutputStream
     while (! def.finished ())
       {
 	int len = def.deflate(buf, 0, buf.length);
-	if (len <= 0)
-	  break;
+	if (len <= 0) {
+                break;
+        }
 	out.write(buf, 0, len);
       }
-    if (! def.finished())
-      throw new InternalError("Can't deflate all input?");
+    if (! def.finished()) {
+            throw new InternalError("Can't deflate all input?");
+    }
     out.flush();
   }
 

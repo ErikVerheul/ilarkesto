@@ -24,8 +24,9 @@ public class EventModel extends AModel {
 
 	public EventModel(String name) {
 		super(name);
-		if (!Character.isUpperCase(name.charAt(0)))
-			throw new RuntimeException("First letter of event name needs to be uppercase: " + name);
+		if (!Character.isUpperCase(name.charAt(0))) {
+                        throw new RuntimeException("First letter of event name needs to be uppercase: " + name);
+                }
 	}
 
 	public EventModel addParameter(String name, String type) {

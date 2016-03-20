@@ -48,7 +48,9 @@ public abstract class ACollectionPropertyModel extends PropertyModel {
 	@Override
 	public String getNameSingular() {
 		String name = getName();
-		if (!name.endsWith("s")) throw new RuntimeException("property name must end with 's', but does not: " + name);
+		if (!name.endsWith("s")) {
+                        throw new RuntimeException("property name must end with 's', but does not: " + name);
+                }
 		return name.substring(0, name.length() - 1);
 	}
 

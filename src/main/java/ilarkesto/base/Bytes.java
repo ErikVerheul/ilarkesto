@@ -35,9 +35,15 @@ public class Bytes implements Comparable<Bytes> {
         }
 
         public String toRoundedString() {
-		if (bytes > 10000000000l) return String.valueOf(Math.round(bytes / 1000000000f)) + " GB";
-		if (bytes > 10000000) return String.valueOf(Math.round(bytes / 1000000f)) + " MB";
-		if (bytes > 10000) return String.valueOf(Math.round(bytes / 1000f)) + " KB";
+		if (bytes > 10000000000l) {
+                        return String.valueOf(Math.round(bytes / 1000000000f)) + " GB";
+                }
+		if (bytes > 10000000) {
+                        return String.valueOf(Math.round(bytes / 1000000f)) + " MB";
+                }
+		if (bytes > 10000) {
+                        return String.valueOf(Math.round(bytes / 1000f)) + " KB";
+                }
                 return toString();
         }
 

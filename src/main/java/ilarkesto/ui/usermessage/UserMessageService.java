@@ -25,7 +25,9 @@ public class UserMessageService {
 	private List<UserMessageListener> listeners;
 
 	public synchronized void addListener(UserMessageListener listener) {
-		if (listeners == null) listeners = new ArrayList<UserMessageListener>(1);
+		if (listeners == null) {
+                        listeners = new ArrayList<UserMessageListener>(1);
+                }
 		listeners.add(listener);
 	}
 
@@ -43,7 +45,9 @@ public class UserMessageService {
 
 	public synchronized void addMessage(UserMessage message) {
 		this.messages.add(message);
-		if (listeners == null) return;
+		if (listeners == null) {
+                        return;
+                }
 		List<UserMessage> loacal_messages = new ArrayList<UserMessage>(1);
 		loacal_messages.add(message);
 		for (UserMessageListener listener : listeners) {
@@ -53,7 +57,9 @@ public class UserMessageService {
 
 	public synchronized void addMessages(List<UserMessage> messages) {
 		this.messages.addAll(messages);
-		if (listeners == null) return;
+		if (listeners == null) {
+                        return;
+                }
 		for (UserMessageListener listener : listeners) {
 			listener.onUserMessages(messages);
 		}

@@ -112,7 +112,9 @@ public class Swing {
 	}
 
 	public static void assertEventDispatchThread() {
-		if (!isEventDispatchThread()) throw new RuntimeException("Thread is not the EventDispatchThread");
+		if (!isEventDispatchThread()) {
+                        throw new RuntimeException("Thread is not the EventDispatchThread");
+                }
 	}
 
 	public static boolean isEventDispatchThread() {
@@ -120,7 +122,9 @@ public class Swing {
 	}
 
 	public static boolean isBlank(JTextField field) {
-		if (field == null) return true;
+		if (field == null) {
+                        return true;
+                }
 		return StrExtend.isBlank(field.getText());
 	}
 
@@ -180,9 +184,13 @@ public class Swing {
 	}
 
 	public static JComponent createMessageComponent(String message, int preferredWidth, Color color) {
-		if (message != null && !message.startsWith("<html")) message = "<html>" + StrExtend.replaceForHtml(message);
+		if (message != null && !message.startsWith("<html")) {
+                        message = "<html>" + StrExtend.replaceForHtml(message);
+                }
 		JEditorPane editor = new JEditorPane("text/html", message);
-		if (color != null) editor.setForeground(color);
+		if (color != null) {
+                        editor.setForeground(color);
+                }
 		editor.setOpaque(false);
 		editor.setEditable(false);
 		int lines = editor.getPreferredSize().width / preferredWidth;
@@ -203,7 +211,9 @@ public class Swing {
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(640, 480));
 		if (JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(parent, scrollPane, title,
-			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null)) return null;
+			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null)) {
+                        return null;
+                }
 		return textArea.getText();
 	}
 
@@ -279,13 +289,17 @@ public class Swing {
 	 */
 	public static BufferedImage captureScreen(GraphicsDevice screen, Window windowToHide) {
 		DisplayMode mode = screen.getDisplayMode();
-		if (windowToHide != null) windowToHide.setVisible(false);
+		if (windowToHide != null) {
+                        windowToHide.setVisible(false);
+                }
 		try {
 			return new Robot().createScreenCapture(new Rectangle(mode.getWidth(), mode.getHeight()));
 		} catch (AWTException ex) {
 			throw new RuntimeException(ex);
 		} finally {
-			if (windowToHide != null) windowToHide.setVisible(true);
+			if (windowToHide != null) {
+                                windowToHide.setVisible(true);
+                        }
 		}
 	}
 
@@ -301,7 +315,9 @@ public class Swing {
 	public static JFrame showInJFrame(final Component component, final String title, final Image icon,
 			final boolean exitOnClose) {
 		final JFrame frame = new JFrame(title);
-		if (icon != null) frame.setIconImage(icon);
+		if (icon != null) {
+                        frame.setIconImage(icon);
+                }
 		frame.setDefaultCloseOperation(exitOnClose ? JFrame.EXIT_ON_CLOSE : JFrame.HIDE_ON_CLOSE);
 		frame.add(component);
 		frame.pack();
@@ -320,8 +336,12 @@ public class Swing {
 	}
 
 	public static Window getWindow(Component component) {
-		if (component == null) return null;
-		if (component instanceof Window) return (Window) component;
+		if (component == null) {
+                        return null;
+                }
+		if (component instanceof Window) {
+                        return (Window) component;
+                }
 		return SwingUtilities.windowForComponent(component);
 	}
 
@@ -374,7 +394,9 @@ public class Swing {
 	}
 
 	public static ImageIcon getIcon(String path, Integer size) {
-		if (icons.containsKey(path)) return icons.get(path);
+		if (icons.containsKey(path)) {
+                        return icons.get(path);
+                }
 		ImageIcon result = new ImageIcon(getImage(path, size));
 		icons.put(path, result);
 		return result;
@@ -388,7 +410,9 @@ public class Swing {
 
 	public static Image getImage(String path, Integer size) {
 		BufferedImage im = IO.loadImage(path);
-		if (size == null) return im;
+		if (size == null) {
+                        return im;
+                }
 		return IO.getScaled(im, size, size);
 	}
 

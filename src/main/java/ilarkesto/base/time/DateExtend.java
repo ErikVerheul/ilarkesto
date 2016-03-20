@@ -84,7 +84,9 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public DateExtend getMondayOfWeek() {
-		if (getWeekday() == Weekday.MONDAY) return this;
+		if (getWeekday() == Weekday.MONDAY) {
+                        return this;
+                }
 		return addDays(-1).getMondayOfWeek();
 	}
 
@@ -150,10 +152,14 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 
 	private String toDe() {
 		StringBuilder sb = new StringBuilder();
-		if (day < 10) sb.append('0');
+		if (day < 10) {
+                        sb.append('0');
+                }
 		sb.append(day);
 		sb.append(".");
-		if (month < 10) sb.append('0');
+		if (month < 10) {
+                        sb.append('0');
+                }
 		sb.append(month);
 		sb.append(".");
 		sb.append(year);
@@ -169,7 +175,9 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public String toString(Locale locale) {
-		if (locale.equals(Locale.GERMANY)) return toDe();
+		if (locale.equals(Locale.GERMANY)) {
+                        return toDe();
+                }
 		return toInt();
 	}
 
@@ -197,7 +205,9 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	public static DateExtend latest(DateExtend... dates) {
 		DateExtend latest = null;
 		for (DateExtend date : dates) {
-			if (latest == null || date.isAfter(latest)) latest = date;
+			if (latest == null || date.isAfter(latest)) {
+                                latest = date;
+                        }
 		}
 		return latest;
 	}
@@ -205,7 +215,9 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	public static DateExtend earliest(DateExtend... dates) {
 		DateExtend earliest = null;
 		for (DateExtend date : dates) {
-			if (earliest == null || date.isBefore(earliest)) earliest = date;
+			if (earliest == null || date.isBefore(earliest)) {
+                                earliest = date;
+                        }
 		}
 		return earliest;
 	}
@@ -237,8 +249,12 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	public static DateExtend parseTolerant(String s) throws ParseException {
 		s = s.trim();
 		String[] sa = StrExtend.tokenize(s, ".,- ");
-		if (sa.length == 0) throw new ParseException("Not a Date: " + s, -1);
-		if (sa.length > 3) throw new ParseException("Not a Date: " + s, -1);
+		if (sa.length == 0) {
+                        throw new ParseException("Not a Date: " + s, -1);
+                }
+		if (sa.length > 3) {
+                        throw new ParseException("Not a Date: " + s, -1);
+                }
 		int[] ia = new int[sa.length];
 		for (int i = 0; i < ia.length; i++) {
 			try {
@@ -248,27 +264,37 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 			}
 		}
 
-		if (ia.length == 3) return new DateExtend(TmExtend.year(ia[2]), ia[1], ia[0]);
+		if (ia.length == 3) {
+                        return new DateExtend(TmExtend.year(ia[2]), ia[1], ia[0]);
+                }
 
 		DateExtend local_today = today();
 		if (ia.length == 2) {
-			if (ia[1] > 12) return new DateExtend(TmExtend.year(ia[1]), ia[0], local_today.day);
+			if (ia[1] > 12) {
+                                return new DateExtend(TmExtend.year(ia[1]), ia[0], local_today.day);
+                        }
 			return new DateExtend(local_today.year, ia[1], ia[0]);
 		}
 
-		if (ia[0] > 31) return new DateExtend(TmExtend.year(ia[0]), local_today.month, local_today.day);
+		if (ia[0] > 31) {
+                        return new DateExtend(TmExtend.year(ia[0]), local_today.month, local_today.day);
+                }
 		return new DateExtend(local_today.year, local_today.month, ia[0]);
 	}
 
 	// --- Object ---
 
 	public boolean equalsIgnoreYear(DateExtend d) {
-		if (d == null) return false;
+		if (d == null) {
+                        return false;
+                }
 		return d.day == day && d.month == month;
 	}
 
 	public boolean equalsIgnoreDay(DateExtend d) {
-		if (d == null) return false;
+		if (d == null) {
+                        return false;
+                }
 		return d.year == year && d.month == month;
 	}
 

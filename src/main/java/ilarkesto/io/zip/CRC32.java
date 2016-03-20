@@ -88,10 +88,11 @@ public class CRC32 implements Checksum
 	int c = n;
 	for (int k = 8;  --k >= 0; )
 	  {
-	    if ((c & 1) != 0)
-	      c = 0xedb88320 ^ (c >>> 1);
-	    else
-	      c = c >>> 1;
+	    if ((c & 1) != 0) {
+                    c = 0xedb88320 ^ (c >>> 1);
+            } else {
+                    c = c >>> 1;
+            }
 	  }
 	crc_table[n] = c;
       }
@@ -134,8 +135,9 @@ public class CRC32 implements Checksum
   public void update (byte[] buf, int off, int len)
   {
     int c = ~crc;
-    while (--len >= 0)
-      c = crc_table[(c ^ buf[off++]) & 0xff] ^ (c >>> 8);
+    while (--len >= 0) {
+            c = crc_table[(c ^ buf[off++]) & 0xff] ^ (c >>> 8);
+    }
     crc = ~c;
   }
 

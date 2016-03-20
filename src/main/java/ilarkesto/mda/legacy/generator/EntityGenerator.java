@@ -54,7 +54,9 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 		ln();
 		ln("    protected void repairDeadDatob(" + ADatob.class.getSimpleName() + " datob) {");
 		for (PropertyModel p : bean.getProperties()) {
-			if (!p.isValueObject()) continue;
+			if (!p.isValueObject()) {
+                                continue;
+                        }
 			if (p.isCollection()) {
 				ln("        if (" + getFieldName(p) + ".contains(datob)) {");
 				ln("            " + getFieldName(p) + ".remove(datob);");
@@ -127,7 +129,9 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 
 		Set<String> backRefs = new HashSet<String>();
 		for (BackReferenceModel br : bean.getBackReferences()) {
-			if (backRefs.contains(br.getName())) continue;
+			if (backRefs.contains(br.getName())) {
+                                continue;
+                        }
 			backRefs.add(br.getName());
 			writeBackReference(br);
 		}
@@ -140,7 +144,9 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 		PropertyModel ref = br.getReference();
 		EntityModel refEntity = ref.getEntity();
 		String by = StrExtend.uppercaseFirstLetter(ref.getName());
-		if (ref.isCollection()) by = StrExtend.removeSuffix(by, "s");
+		if (ref.isCollection()) {
+                        by = StrExtend.removeSuffix(by, "s");
+                }
 		if (ref.isUnique()) {
 			ln("    public final " + refEntity.getBeanClass() + " get" + StrExtend.uppercaseFirstLetter(br.getName())
 					+ "() {");
@@ -160,19 +166,35 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 	protected Set<String> getSuperinterfaces() {
 		Set<String> result = new LinkedHashSet<String>();
 		result.addAll(super.getSuperinterfaces());
-		if (bean.isViewProtected()) result.add(ViewProtected.class.getName() + "<" + getUserClassName() + ">");
-		if (bean.isEditProtected()) result.add(EditProtected.class.getName() + "<" + getUserClassName() + ">");
-		if (bean.isDeleteProtected()) result.add(DeleteProtected.class.getName() + "<" + getUserClassName() + ">");
-		if (bean.isOwnable()) result.add(Ownable.class.getName() + "<" + getUserClassName() + ">");
-		if (bean.isSearchable()) result.add(Searchable.class.getName());
-		if (!bean.isAbstract()) result.add(Comparable.class.getName() + "<" + bean.getName() + ">");
+		if (bean.isViewProtected()) {
+                        result.add(ViewProtected.class.getName() + "<" + getUserClassName() + ">");
+                }
+		if (bean.isEditProtected()) {
+                        result.add(EditProtected.class.getName() + "<" + getUserClassName() + ">");
+                }
+		if (bean.isDeleteProtected()) {
+                        result.add(DeleteProtected.class.getName() + "<" + getUserClassName() + ">");
+                }
+		if (bean.isOwnable()) {
+                        result.add(Ownable.class.getName() + "<" + getUserClassName() + ">");
+                }
+		if (bean.isSearchable()) {
+                        result.add(Searchable.class.getName());
+                }
+		if (!bean.isAbstract()) {
+                        result.add(Comparable.class.getName() + "<" + bean.getName() + ">");
+                }
 		return result;
 	}
 
 	protected final String getUserClassName() {
 		EntityModel userModel = bean.getUserModel();
-		if (userModel == null && bean.getName().equals("User")) userModel = bean;
-		if (userModel == null) return null;
+		if (userModel == null && bean.getName().equals("User")) {
+                        userModel = bean;
+                }
+		if (userModel == null) {
+                        return null;
+                }
 		return userModel.getPackageName() + "." + userModel.getName();
 	}
 
@@ -187,10 +209,16 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 		for (BackReferenceModel br : bean.getBackReferences()) {
 			EntityModel refEntity = br.getReference().getEntity();
 			String refDaoName = refEntity.getDaoName();
-			if (refDaoName.equals(daoName)) continue;
-			if (refDaos.contains(refDaoName)) continue;
+			if (refDaoName.equals(daoName)) {
+                                continue;
+                        }
+			if (refDaos.contains(refDaoName)) {
+                                continue;
+                        }
 			refDaos.add(refDaoName);
-			if (bean.containsDependency(refDaoName)) continue;
+			if (bean.containsDependency(refDaoName)) {
+                                continue;
+                        }
 			dependency(refEntity.getDaoClass(), refDaoName, true, false);
 		}
 	}

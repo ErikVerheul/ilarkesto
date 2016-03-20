@@ -150,7 +150,9 @@ public class Eml {
 	public static Message getMessageById(String id, Folder folder) {
 		try {
 			for (Message message : folder.getMessages()) {
-				if (id.equals(getMessageId(message))) return message;
+				if (id.equals(getMessageId(message))) {
+                                        return message;
+                                }
 			}
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
@@ -175,7 +177,9 @@ public class Eml {
 				}
 			} else {
 				String filename = part.getFileName();
-				if (filename != null) result.add(StrExtend.decodeQuotedPrintable(filename));
+				if (filename != null) {
+                                        result.add(StrExtend.decodeQuotedPrintable(filename));
+                                }
 			}
 			return result;
 		} catch (Exception ex) {
@@ -185,14 +189,18 @@ public class Eml {
 
 	public static InputStream getAttachment(Part part, String filename) {
 		try {
-			if (filename.equals(StrExtend.decodeQuotedPrintable(part.getFileName()))) return part.getInputStream();
+			if (filename.equals(StrExtend.decodeQuotedPrintable(part.getFileName()))) {
+                                return part.getInputStream();
+                        }
 			if (part.getContentType().toLowerCase().startsWith("multipart")) {
 				MimeMultipart multipart;
 				multipart = (MimeMultipart) part.getContent();
 				int count = multipart.getCount();
 				for (int i = 0; i < count; i++) {
 					InputStream in = getAttachment(multipart.getBodyPart(i), filename);
-					if (in != null) return in;
+					if (in != null) {
+                                                return in;
+                                        }
 				}
 			}
 		} catch (Throwable ex) {
@@ -206,7 +214,9 @@ public class Eml {
 		if (result == null) {
 			result = StrExtend.html2text(getHtmlTextContent(part));
 		} else {
-			if (result.trim().startsWith("<!DOCTYPE HTML")) result = StrExtend.html2text(result);
+			if (result.trim().startsWith("<!DOCTYPE HTML")) {
+                                result = StrExtend.html2text(result);
+                        }
 		}
 		return result;
 	}
@@ -224,7 +234,9 @@ public class Eml {
 	}
 
 	public static String getTextContent(Part part, String type) {
-		if (part == null) return null;
+		if (part == null) {
+                        return null;
+                }
 		try {
 			String contentType;
 			try {
@@ -237,12 +249,20 @@ public class Eml {
 				// String charset = ct.getParameter("charset");
 				try {
 					Object content = part.getContent();
-					if (content == null) return null;
-					if (content instanceof String) return (String) content;
+					if (content == null) {
+                                                return null;
+                                        }
+					if (content instanceof String) {
+                                                return (String) content;
+                                        }
 					if (content instanceof InputStream) {
 						String encoding = charset;
-						if (contentType.toLowerCase().contains("UTF")) encoding = IO.UTF_8;
-						if (contentType.toLowerCase().contains("ISO")) encoding = IO.ISO_LATIN_1;
+						if (contentType.toLowerCase().contains("UTF")) {
+                                                        encoding = IO.UTF_8;
+                                                }
+						if (contentType.toLowerCase().contains("ISO")) {
+                                                        encoding = IO.ISO_LATIN_1;
+                                                }
 						return IO.readToString((InputStream) content, encoding);
 					}
 					return UtlExtend.toStringWithType(content);
@@ -276,9 +296,13 @@ public class Eml {
 				for (int i = 0; i < count; i++) {
 					BodyPart subPart = multipart.getBodyPart(i);
 					String filename = subPart.getFileName();
-					if (filename != null) continue;
+					if (filename != null) {
+                                                continue;
+                                        }
 					String text = getTextContent(subPart, type);
-					if (text != null) return text.trim();
+					if (text != null) {
+                                                return text.trim();
+                                        }
 				}
 				return null;
 			}
@@ -340,8 +364,12 @@ public class Eml {
 			throw new RuntimeException("Copying message " + toString(message) + " from " + name + " to "
 					+ destination.getName() + " failed.", ex);
 		} finally {
-			if (sourceOpened) closeFolder(source, false);
-			if (destinationOpened) closeFolder(destination, false);
+			if (sourceOpened) {
+                                closeFolder(source, false);
+                        }
+			if (destinationOpened) {
+                                closeFolder(destination, false);
+                        }
 		}
 	}
 
@@ -362,7 +390,9 @@ public class Eml {
 		Address[] aa = msg.getRecipients(Message.RecipientType.TO);
 		for (int i = 0; i < aa.length; i++) {
 			sb.append(aa[i].toString());
-			if (i < aa.length - 1) sb.append(", ");
+			if (i < aa.length - 1) {
+                                sb.append(", ");
+                        }
 		}
 		return sb.toString();
 	}
@@ -374,7 +404,9 @@ public class Eml {
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (aa == null) return null;
+		if (aa == null) {
+                        return null;
+                }
 		if (aa.length > 0) { return StrExtend.decodeQuotedPrintable(aa[0].toString()); }
 		return null;
 	}
@@ -389,12 +421,16 @@ public class Eml {
 
 	public static List<String> getHeaderListUnsubscribeParsed(Message msg) {
 		String s = getHeaderListUnsubscribe(msg);
-		if (StrExtend.isBlank(s)) return Collections.emptyList();
+		if (StrExtend.isBlank(s)) {
+                        return Collections.emptyList();
+                }
 		String[] hrefs = StrExtend.tokenize(s, ",");
 		List<String> ret = new ArrayList<String>(hrefs.length);
 		for (String href : hrefs) {
 			href = href.trim();
-			if (href.startsWith("<") && href.endsWith(">")) href = href.substring(1, href.length() - 2);
+			if (href.startsWith("<") && href.endsWith(">")) {
+                                href = href.substring(1, href.length() - 2);
+                        }
 		}
 		return ret;
 	}
@@ -412,7 +448,9 @@ public class Eml {
 		} else {
 			for (int i = 0; i < aa.length; i++) {
 				sb.append(StrExtend.decodeQuotedPrintable(aa[i].toString()));
-				if (i < aa.length - 1) sb.append(", ");
+				if (i < aa.length - 1) {
+                                        sb.append(", ");
+                                }
 			}
 		}
 		return sb.toString();
@@ -449,9 +487,13 @@ public class Eml {
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (date == null) return null;
+		if (date == null) {
+                        return null;
+                }
 		DateAndTime result = new DateAndTime(date);
-		if (result.isFuture()) result = DateAndTime.now();
+		if (result.isFuture()) {
+                        result = DateAndTime.now();
+                }
 		return result;
 	}
 
@@ -572,22 +614,34 @@ public class Eml {
 	}
 
 	public static Session createSmtpSession(String host, Integer port, boolean tls, String user, String password) {
-		if (StrExtend.isBlank(host)) throw new IllegalArgumentException("host ist blank");
+		if (StrExtend.isBlank(host)) {
+                        throw new IllegalArgumentException("host ist blank");
+                }
 
-		if (StrExtend.isBlank(user)) user = null;
-		if (StrExtend.isBlank(password)) password = null;
+		if (StrExtend.isBlank(user)) {
+                        user = null;
+                }
+		if (StrExtend.isBlank(password)) {
+                        password = null;
+                }
 
 		Properties p = new Properties();
 		p.setProperty("mail.mime.charset", charset);
 		p.setProperty("mail.transport.protocol", "smtp");
 		p.setProperty("mail.smtp.host", host);
-		if (port != null) p.put("mail.smtp.port", port.toString());
+		if (port != null) {
+                        p.put("mail.smtp.port", port.toString());
+                }
 		p.put("mail.smtp.starttls.enable", String.valueOf(tls));
 
 		boolean auth = user != null && password != null;
 		p.setProperty("mail.smtp.auth", String.valueOf(auth));
-		if (user != null) p.setProperty("mail.smtp.auth.user", user);
-		if (password != null) p.setProperty("mail.smtp.auth.password", password);
+		if (user != null) {
+                        p.setProperty("mail.smtp.auth.user", user);
+                }
+		if (password != null) {
+                        p.setProperty("mail.smtp.auth.password", password);
+                }
 
 		Session session = Session.getInstance(p);
 
@@ -618,7 +672,9 @@ public class Eml {
 		Properties properties = session.getProperties();
 		String host = properties.getProperty("mail.smtp.host");
 		String port = properties.getProperty("mail.smtp.port");
-		if (port == null) port = "25";
+		if (port == null) {
+                        port = "25";
+                }
 		String user = properties.getProperty("mail.smtp.auth.user");
 		String password = properties.getProperty("mail.smtp.auth.password");
 		trans.connect(host, Integer.parseInt(port), user, password);
@@ -652,7 +708,9 @@ public class Eml {
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (header == null) return null;
+		if (header == null) {
+                        return null;
+                }
 		return StrExtend.decodeQuotedPrintable(header[0]);
 	}
 
@@ -716,7 +774,9 @@ public class Eml {
 	}
 
 	public static void closeStore(Store store) {
-		if (store == null) return;
+		if (store == null) {
+                        return;
+                }
 		try {
 			store.close();
 		} catch (MessagingException ex) {
@@ -731,7 +791,9 @@ public class Eml {
 			String firstName = name.substring(0, sepIdx);
 			String lastName = name.substring(sepIdx + 1);
 			Folder parent = getFolder(store, firstName, autoCreate);
-			if (parent == null) return null;
+			if (parent == null) {
+                                return null;
+                        }
 			return getFolder(parent, lastName, autoCreate);
 		}
 
@@ -748,14 +810,18 @@ public class Eml {
 			throw new RuntimeException("Querying folder for existence failed: " + name, ex);
 		}
 		if (!folderExists) {
-			if (!autoCreate) return null;
+			if (!autoCreate) {
+                                return null;
+                        }
 			boolean created;
 			try {
 				created = folder.create(Folder.HOLDS_MESSAGES);
 			} catch (MessagingException ex) {
 				throw new RuntimeException("Creating folder failed: " + name, ex);
 			}
-			if (!created) throw new RuntimeException("Creating folder failed: " + name);
+			if (!created) {
+                                throw new RuntimeException("Creating folder failed: " + name);
+                        }
 			LOG.info("Mailbox folder created:", name);
 		}
 		return folder;
@@ -767,7 +833,9 @@ public class Eml {
 			String firstName = name.substring(0, sepIdx);
 			String lastName = name.substring(sepIdx + 1);
 			Folder parent = getFolder(store, firstName, autoCreate);
-			if (parent == null) return null;
+			if (parent == null) {
+                                return null;
+                        }
 			return getFolder(parent, lastName, autoCreate);
 		}
 
@@ -784,26 +852,36 @@ public class Eml {
 			throw new RuntimeException("Querying folder for existence failed: " + name, ex);
 		}
 		if (!folderExists) {
-			if (!autoCreate) return null;
+			if (!autoCreate) {
+                                return null;
+                        }
 			boolean created;
 			try {
 				created = folder.create(Folder.HOLDS_MESSAGES);
 			} catch (MessagingException ex) {
 				throw new RuntimeException("Creating folder failed: " + name, ex);
 			}
-			if (!created) throw new RuntimeException("Creating folder failed: " + name);
+			if (!created) {
+                                throw new RuntimeException("Creating folder failed: " + name);
+                        }
 			LOG.info("Mailbox folder created:", name);
 		}
 		return folder;
 	}
 
 	public static void closeFolder(Folder folder, boolean delete) {
-		if (folder == null) return;
-		if (!folder.isOpen()) return;
+		if (folder == null) {
+                        return;
+                }
+		if (!folder.isOpen()) {
+                        return;
+                }
 		try {
 			folder.close(delete);
 		} catch (MessagingException ex) {
-			if (delete) throw new RuntimeException(ex);
+			if (delete) {
+                                throw new RuntimeException(ex);
+                        }
 		}
 	}
 
@@ -844,12 +922,16 @@ public class Eml {
 	}
 
 	public static Attachment[] createAttachmentsFromDirContents(File dir) {
-		if (dir == null || !dir.exists()) return null;
+		if (dir == null || !dir.exists()) {
+                        return null;
+                }
 		return toAttachments(dir.listFiles());
 	}
 
 	public static Attachment[] toAttachments(File... files) {
-		if (files == null) return null;
+		if (files == null) {
+                        return null;
+                }
 		Attachment[] attachments = new Attachment[files.length];
 		for (int i = 0; i < files.length; i++) {
 			attachments[i] = new Attachment(files[i]);

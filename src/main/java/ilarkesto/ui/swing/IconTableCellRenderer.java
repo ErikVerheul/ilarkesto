@@ -25,7 +25,9 @@ public class IconTableCellRenderer extends DefaultTableCellRenderer {
 
 	@Override
 	protected void setValue(Object value) {
-		if (value instanceof String) value = Swing.getIcon16((String) value);
+		if (value instanceof String) {
+                        value = Swing.getIcon16((String) value);
+                }
 		setIcon((Icon) value);
 	}
 }

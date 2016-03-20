@@ -42,7 +42,9 @@ public class RuleSet implements NodeTypes {
 	}
 
 	public List<String> getAllowedChildTypes(Node parent) {
-		if (parent == null) return Collections.emptyList();
+		if (parent == null) {
+                        return Collections.emptyList();
+                }
 		Set<String> types = new HashSet<String>();
 		for (ChildTypeRule rule : childTypeRules) {
 			types.addAll(rule.getAllowedTypes(parent));
@@ -51,7 +53,9 @@ public class RuleSet implements NodeTypes {
 	}
 
 	public boolean containsAllowedChildTypes(Node parent) {
-		if (parent == null) return false;
+		if (parent == null) {
+                        return false;
+                }
 		return !getAllowedChildTypes(parent).isEmpty();
 	}
 

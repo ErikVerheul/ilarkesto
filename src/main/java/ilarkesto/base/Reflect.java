@@ -36,7 +36,9 @@ public abstract class Reflect {
 	 */
 	public static void invokeInitializeIfThere(Object o) {
 		Method m = getDeclaredMethod(o.getClass(), "initialize");
-		if (m == null) return;
+		if (m == null) {
+                        return;
+                }
 		try {
 			m.invoke(o);
 		} catch (IllegalArgumentException ex) {
@@ -54,10 +56,13 @@ public abstract class Reflect {
 		if (method == null) {
 			method = getDeclaredMethod(o.getClass(), "is" + methodSuffix);
 			Class<?> returnType = method.getReturnType();
-			if (returnType != boolean.class && returnType != Boolean.class) method = null;
+			if (returnType != boolean.class && returnType != Boolean.class) {
+                                method = null;
+                        }
 		}
-		if (method == null)
-			throw new RuntimeException("No getter method for property: " + o.getClass().getSimpleName() + "." + name);
+		if (method == null) {
+                        throw new RuntimeException("No getter method for property: " + o.getClass().getSimpleName() + "." + name);
+                }
 		try {
 			return method.invoke(o);
 		} catch (Exception ex) {
@@ -69,7 +74,9 @@ public abstract class Reflect {
 	public static Class getPropertyType(Object o, String name) {
 		String methodName = "get" + StrExtend.uppercaseFirstLetter(name);
 		Method m = getDeclaredMethod(o.getClass(), methodName);
-		if (m == null) return null;
+		if (m == null) {
+                        return null;
+                }
 		return m.getReturnType();
 	}
 
@@ -83,7 +90,9 @@ public abstract class Reflect {
 
 	public static Object getFieldValue(Class<?> c, Object object, String fieldName) {
 		Field field = getDeclaredField(c, fieldName);
-		if (field == null) return null;
+		if (field == null) {
+                        return null;
+                }
 		try {
 			return field.get(object);
 		} catch (IllegalArgumentException ex) {
@@ -103,8 +112,12 @@ public abstract class Reflect {
 
 	public static void setFieldValue(Class<?> c, Object object, String fieldName, Object value) {
 		Field field = getDeclaredField(c, fieldName);
-		if (field == null) throw new RuntimeException("Field does not exist: " + c.getName() + "." + fieldName);
-		if (!field.isAccessible()) field.setAccessible(true);
+		if (field == null) {
+                        throw new RuntimeException("Field does not exist: " + c.getName() + "." + fieldName);
+                }
+		if (!field.isAccessible()) {
+                        field.setAccessible(true);
+                }
 		try {
 			field.set(object, value);
 		} catch (IllegalArgumentException ex) {
@@ -115,7 +128,9 @@ public abstract class Reflect {
 	}
 
 	public static void setProperties(Object o, Map<String, Object> properties) {
-		if (properties == null) return;
+		if (properties == null) {
+                        return;
+                }
 		for (Map.Entry<String, ?> entry : properties.entrySet()) {
 			setProperty(o, entry.getKey(), entry.getValue());
 		}
@@ -123,10 +138,13 @@ public abstract class Reflect {
 
 	public static void setProperty(Object o, String name, Object value) {
 		Method setter = getSetterMethod(o.getClass(), name);
-		if (setter == null) throw new RuntimeException("Property setter not found: " + o.getClass() + "." + name);
+		if (setter == null) {
+                        throw new RuntimeException("Property setter not found: " + o.getClass() + "." + name);
+                }
 		Class[] types = setter.getParameterTypes();
-		if (types.length != 1)
-			throw new RuntimeException("Setter has illegar arguments: " + o.getClass() + "." + setter.getName());
+		if (types.length != 1) {
+                        throw new RuntimeException("Setter has illegar arguments: " + o.getClass() + "." + setter.getName());
+                }
 		if (value != null) {
 			Class type = types[0];
 			if (!type.isAssignableFrom(value.getClass())) {
@@ -150,42 +168,63 @@ public abstract class Reflect {
 
 	public static void setPropertyByStringValue(Object o, String name, String valueAsString) {
 		Method setterMethod = getSetterMethod(o.getClass(), name);
-		if (setterMethod == null)
-			throw new RuntimeException("Setter " + o.getClass().getSimpleName() + ".set"
-					+ StrExtend.uppercaseFirstLetter(name) + "(?) does not exist.");
+		if (setterMethod == null) {
+                        throw new RuntimeException("Setter " + o.getClass().getSimpleName() + ".set"
+                                + StrExtend.uppercaseFirstLetter(name) + "(?) does not exist.");
+                }
 		Class type = setterMethod.getParameterTypes()[0];
 		Object value = toType(valueAsString, type);
 		invoke(o, setterMethod, value);
 	}
 
 	public static Object toType(String s, Class type) {
-		if (type == String.class) return s;
-		if (type == Boolean.class || type == boolean.class) return toBoolean(s);
-		if (type == Integer.class || type == int.class) return toInteger(s);
-		if (type == Long.class || type == long.class) return toLong(s);
-		if (type == Character.class || type == char.class) return toCharacter(s);
+		if (type == String.class) {
+                        return s;
+                }
+		if (type == Boolean.class || type == boolean.class) {
+                        return toBoolean(s);
+                }
+		if (type == Integer.class || type == int.class) {
+                        return toInteger(s);
+                }
+		if (type == Long.class || type == long.class) {
+                        return toLong(s);
+                }
+		if (type == Character.class || type == char.class) {
+                        return toCharacter(s);
+                }
 		throw new RuntimeException("Unsupported type: " + type.getName());
 	}
 
 	public static Character toCharacter(String s) {
-		if (s == null) return null;
-		if (s.length() < 1) return null;
+		if (s == null) {
+                        return null;
+                }
+		if (s.length() < 1) {
+                        return null;
+                }
 		return s.charAt(0);
 	}
 
 	public static Integer toInteger(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		return Integer.parseInt(s);
 	}
 
 	public static Long toLong(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		return Long.parseLong(s);
 	}
 
         @SuppressWarnings("NP_BOOLEAN_RETURN_NULL")
 	public static Boolean toBoolean(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		return s.equals(Boolean.TRUE.toString());
 	}
 
@@ -218,9 +257,10 @@ public abstract class Reflect {
 
 	public static Object invoke(Object object, String method, Object... parameters) {
 		Method m = getDeclaredMethodUsingAutoboxing(object.getClass(), method, getClasses(parameters));
-		if (m == null)
-			throw new RuntimeException("Method does not exist: " + object.getClass() + "." + method + "("
-					+ StrExtend.concat(getClassSimpleNames(parameters), ", ") + ")");
+		if (m == null) {
+                        throw new RuntimeException("Method does not exist: " + object.getClass() + "." + method + "("
+                                + StrExtend.concat(getClassSimpleNames(parameters), ", ") + ")");
+                }
 		return invoke(object, m, parameters);
 	}
 
@@ -239,36 +279,67 @@ public abstract class Reflect {
 	}
 
 	public static boolean isTypesCompatible(Class[] methodTypes, Class[] parameterTypes, boolean autoboxing) {
-		if (methodTypes.length != parameterTypes.length) return false;
+		if (methodTypes.length != parameterTypes.length) {
+                        return false;
+                }
 		for (int i = 0; i < methodTypes.length; i++) {
-			if (!isTypeCompatible(methodTypes[i], parameterTypes[i], autoboxing)) return false;
+			if (!isTypeCompatible(methodTypes[i], parameterTypes[i], autoboxing)) {
+                                return false;
+                        }
 		}
 		return true;
 	}
 
 	public static boolean isTypeCompatible(Class methodType, Class parameterType, boolean autoboxing) {
-		if (parameterType == null) return true;
-		if (methodType.equals(parameterType)) return true;
-		if (!autoboxing) return false;
+		if (parameterType == null) {
+                        return true;
+                }
+		if (methodType.equals(parameterType)) {
+                        return true;
+                }
+		if (!autoboxing) {
+                        return false;
+                }
 		// check autoboxing
-		if (methodType.equals(Float.class) && parameterType.equals(float.class)) return true;
-		if (methodType.equals(float.class) && parameterType.equals(Float.class)) return true;
-		if (methodType.equals(Integer.class) && parameterType.equals(int.class)) return true;
-		if (methodType.equals(int.class) && parameterType.equals(Integer.class)) return true;
-		if (methodType.equals(Double.class) && parameterType.equals(double.class)) return true;
-		if (methodType.equals(double.class) && parameterType.equals(Double.class)) return true;
-		if (methodType.equals(Long.class) && parameterType.equals(long.class)) return true;
-		if (methodType.equals(long.class) && parameterType.equals(Long.class)) return true;
+		if (methodType.equals(Float.class) && parameterType.equals(float.class)) {
+                        return true;
+                }
+		if (methodType.equals(float.class) && parameterType.equals(Float.class)) {
+                        return true;
+                }
+		if (methodType.equals(Integer.class) && parameterType.equals(int.class)) {
+                        return true;
+                }
+		if (methodType.equals(int.class) && parameterType.equals(Integer.class)) {
+                        return true;
+                }
+		if (methodType.equals(Double.class) && parameterType.equals(double.class)) {
+                        return true;
+                }
+		if (methodType.equals(double.class) && parameterType.equals(Double.class)) {
+                        return true;
+                }
+		if (methodType.equals(Long.class) && parameterType.equals(long.class)) {
+                        return true;
+                }
+		if (methodType.equals(long.class) && parameterType.equals(Long.class)) {
+                        return true;
+                }
 		return false;
 	}
 
 	public static Method getDeclaredMethodUsingAutoboxing(Class<?> clazz, String name, Class<?>... parameterTypes) {
 		for (Method m : clazz.getDeclaredMethods()) {
-			if (!name.equals(m.getName())) continue;
-			if (isTypesCompatible(m.getParameterTypes(), parameterTypes, true)) return m;
+			if (!name.equals(m.getName())) {
+                                continue;
+                        }
+			if (isTypesCompatible(m.getParameterTypes(), parameterTypes, true)) {
+                                return m;
+                        }
 		}
-		if (clazz != Object.class)
-			return getDeclaredMethodUsingAutoboxing(clazz.getSuperclass(), name, parameterTypes);
+		if (clazz != Object.class) {
+                        return getDeclaredMethodUsingAutoboxing(clazz.getSuperclass(), name, parameterTypes);
+                }
 		return null;
 	}
 
@@ -375,7 +446,9 @@ public abstract class Reflect {
 		for (int i = 0; i < interfaces.length; i++) {
 			processAnnotations(object, interfaces[i], handler);
 		}
-		if (supa != null && !supa.equals(Object.class)) processAnnotations(object, supa, handler);
+		if (supa != null && !supa.equals(Object.class)) {
+                        processAnnotations(object, supa, handler);
+                }
 	}
 
 	public static void processAnnotations(Object object, MethodAnnotationHandler handler) {
@@ -396,7 +469,9 @@ public abstract class Reflect {
 		for (int i = 0; i < interfaces.length; i++) {
 			processAnnotations(object, interfaces[i], handler);
 		}
-		if (supa != null && !supa.equals(Object.class)) processAnnotations(object, supa, handler);
+		if (supa != null && !supa.equals(Object.class)) {
+                        processAnnotations(object, supa, handler);
+                }
 	}
 
 	public static void processAnnotations(Object object, PropertyMethodAnnotationHandler handler, boolean getter,
@@ -439,7 +514,9 @@ public abstract class Reflect {
 		for (int i = 0; i < interfaces.length; i++) {
 			processAnnotations(object, interfaces[i], handler, getter, setter);
 		}
-		if (supa != null && !supa.equals(Object.class)) processAnnotations(object, supa, handler, getter, setter);
+		if (supa != null && !supa.equals(Object.class)) {
+                        processAnnotations(object, supa, handler, getter, setter);
+                }
 	}
 
 	public static interface MethodAnnotationHandler {

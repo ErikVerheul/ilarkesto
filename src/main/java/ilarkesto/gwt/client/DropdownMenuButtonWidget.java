@@ -39,8 +39,12 @@ public class DropdownMenuButtonWidget extends AWidget {
 
 		MenuBar menuBar = new MenuBar();
 		String title = "<img src='dropdown.png' alt='Dropdown Menu' width='16' height='16'>";
-		if (icon != null) title = "<img src='" + icon + "' width='16' height='16' alt='ico'>" + title;
-		if (label != null) title = "<div style='float: left; margin-top: 4px;'>" + label + "</div> " + title;
+		if (icon != null) {
+                        title = "<img src='" + icon + "' width='16' height='16' alt='ico'>" + title;
+                }
+		if (label != null) {
+                        title = "<div style='float: left; margin-top: 4px;'>" + label + "</div> " + title;
+                }
 		menuBar.addItem(title, true, menu);
 		menuBar.setPopupPosition(MenuBar.PopupPosition.LEFT);
 
@@ -58,7 +62,9 @@ public class DropdownMenuButtonWidget extends AWidget {
 			int i = 0;
 			for (List<AAction> actions : actionGroups.values()) {
 				for (AAction action : actions) {
-					if (!action.isExecutable()) continue;
+					if (!action.isExecutable()) {
+                                                continue;
+                                        }
 
 					MenuItem menuItem;
 					if (action.isPermitted()) {
@@ -72,7 +78,9 @@ public class DropdownMenuButtonWidget extends AWidget {
 					menu.addItem(menuItem);
 				}
 				i++;
-				if (i < actionGroups.size()) menu.addSeparator();
+				if (i < actionGroups.size()) {
+                                        menu.addSeparator();
+                                }
 			}
 		}
 	}

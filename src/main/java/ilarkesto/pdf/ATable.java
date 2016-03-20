@@ -88,13 +88,17 @@ public abstract class ATable extends APdfElement {
 
 	public ACell cell(Object text) {
 		ACell cell = cell();
-		if (text != null) cell.paragraph().text(text);
+		if (text != null) {
+                        cell.paragraph().text(text);
+                }
 		return cell;
 	}
 
 	public ACell cell(Object text, FontStyle fontStyle) {
 		ACell cell = cell();
-		if (text != null) cell.paragraph().text(text, fontStyle);
+		if (text != null) {
+                        cell.paragraph().text(text, fontStyle);
+                }
 		return cell;
 	}
 

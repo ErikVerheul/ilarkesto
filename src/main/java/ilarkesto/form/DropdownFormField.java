@@ -39,7 +39,9 @@ public class DropdownFormField<E> extends AFormField {
 
 	public DropdownFormField<E> setSelectableItems(Collection<E> items) {
 		List<E> itemList = (List<E>) (items instanceof List ? items : new ArrayList<E>(items));
-		if (!itemList.isEmpty() && itemList.get(0) instanceof Comparable) Collections.sort((List) itemList);
+		if (!itemList.isEmpty() && itemList.get(0) instanceof Comparable) {
+                        Collections.sort((List) itemList);
+                }
 		this.selectableItems = new TreeMap<String, E>();
 		int i = 0;
 		for (E item : itemList) {
@@ -74,7 +76,9 @@ public class DropdownFormField<E> extends AFormField {
 
         @Override
 	public void validate() throws ValidationException {
-		if (value == null && isRequired()) throw new ValidationException("Eingabe erforderlich.");
+		if (value == null && isRequired()) {
+                        throw new ValidationException("Eingabe erforderlich.");
+                }
 	}
 
 }

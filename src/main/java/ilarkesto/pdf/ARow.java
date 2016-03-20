@@ -59,32 +59,37 @@ public class ARow {
 	}
 
 	public ARow setBorder(BaseColor color, float width) {
-		for (ACell cell : cells)
-			cell.setBorder(color, width);
+		for (ACell cell : cells) {
+                        cell.setBorder(color, width);
+                }
 		return this;
 	}
 
 	public ARow setBorderTop(BaseColor color, float width) {
-		for (ACell cell : cells)
-			cell.setBorderTop(color, width);
+		for (ACell cell : cells) {
+                        cell.setBorderTop(color, width);
+                }
 		return this;
 	}
 
 	public ARow setBorderBottom(BaseColor color, float width) {
-		for (ACell cell : cells)
-			cell.setBorderBottom(color, width);
+		for (ACell cell : cells) {
+                        cell.setBorderBottom(color, width);
+                }
 		return this;
 	}
 
 	public ARow setBorderLeft(BaseColor color, float width) {
-		for (ACell cell : cells)
-			cell.setBorderLeft(color, width);
+		for (ACell cell : cells) {
+                        cell.setBorderLeft(color, width);
+                }
 		return this;
 	}
 
 	public ARow setBorderRight(BaseColor color, float width) {
-		for (ACell cell : cells)
-			cell.setBorderRight(color, width);
+		for (ACell cell : cells) {
+                        cell.setBorderRight(color, width);
+                }
 		return this;
 	}
 

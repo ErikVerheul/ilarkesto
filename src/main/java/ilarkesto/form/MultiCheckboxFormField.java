@@ -92,15 +92,18 @@ public class MultiCheckboxFormField<T> extends AFormField {
 		value = new HashSet<T>();
 		int index = 0;
 		for (T item : selectableItems) {
-			if (data.containsKey(getName() + '_' + index)) value.add(item);
+			if (data.containsKey(getName() + '_' + index)) {
+                                value.add(item);
+                        }
 			index++;
 		}
 	}
 
 	@Override
 	public void validate() throws ValidationException {
-		if (isRequired() && (value == null || value.size() == 0))
-			throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+		if (isRequired() && (value == null || value.size() == 0)) {
+                        throw new ValidationException("Hier ist eine Auswahl erforderlich.");
+                }
 	}
 
 	// --- dependencies ---

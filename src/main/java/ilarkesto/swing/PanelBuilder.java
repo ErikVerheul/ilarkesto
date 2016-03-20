@@ -43,7 +43,9 @@ public class PanelBuilder {
 	public PanelBuilder setupAsButtonMenu(String title) {
 		setDefaultPadding(2, 2, 2, 2);
 		setDefaultFillToHorizontal();
-		if (title != null) setBorder(new TitledBorder(new EtchedBorder(), title));
+		if (title != null) {
+                        setBorder(new TitledBorder(new EtchedBorder(), title));
+                }
 		return this;
 	}
 
@@ -76,7 +78,9 @@ public class PanelBuilder {
 	}
 
 	public void nl() {
-		if (lastCell == null) return;
+		if (lastCell == null) {
+                        return;
+                }
 		lastCell.constraints.gridwidth = GridBagConstraints.REMAINDER;
 	}
 
@@ -148,9 +152,15 @@ public class PanelBuilder {
 			layout.addLayoutComponent(cell.component, cell.constraints);
 			panel.add(cell.component);
 		}
-		if (border != null) panel.setBorder(border);
-		if (preferredSize != null) panel.setPreferredSize(preferredSize);
-		if (background != null) panel.setBackground(background);
+		if (border != null) {
+                        panel.setBorder(border);
+                }
+		if (preferredSize != null) {
+                        panel.setPreferredSize(preferredSize);
+                }
+		if (background != null) {
+                        panel.setBackground(background);
+                }
 		panel.setOpaque(opaque);
 		return panel;
 	}
@@ -161,7 +171,9 @@ public class PanelBuilder {
 		private GridBagConstraints constraints;
 
 		public Cell(C component) {
-			if (component == null) throw new NullPointerException("component");
+			if (component == null) {
+                                throw new NullPointerException("component");
+                        }
 			this.component = component;
 			constraints = (GridBagConstraints) defaultConstraints.clone();
 			setAnchorToNorthWest();

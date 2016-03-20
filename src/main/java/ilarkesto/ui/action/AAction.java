@@ -58,7 +58,9 @@ public abstract class AAction extends ATask {
 		} catch (ActionAbortedException ex) {
 			// transactionService.commit();
 			exception = ex;
-			if (isRootAction() && !ui.isViewSet()) showReturnView();
+			if (isRootAction() && !ui.isViewSet()) {
+                                showReturnView();
+                        }
 			finish();
 			return;
 		} catch (Throwable ex) {
@@ -66,14 +68,20 @@ public abstract class AAction extends ATask {
 			exception = ex;
 			LOG.error(ex);
 			error(ex);
-			if (isRootAction() && !ui.isViewSet()) showReturnView();
+			if (isRootAction() && !ui.isViewSet()) {
+                                showReturnView();
+                        }
 			finish();
 			return;
 		}
 		transactionService.commit();
-		if (!infoDisplayed && autoShowInfoDone) infoDone();
+		if (!infoDisplayed && autoShowInfoDone) {
+                        infoDone();
+                }
 
-		if (!ui.isViewSet() && isRootAction()) showReturnView();
+		if (!ui.isViewSet() && isRootAction()) {
+                        showReturnView();
+                }
 
 		finish();
 	}
@@ -129,14 +137,20 @@ public abstract class AAction extends ATask {
 
 	protected String getReturnViewId() {
 		if (returnToView != null) {
-			if (isViewIdValid(returnToView)) return returnToView;
+			if (isViewIdValid(returnToView)) {
+                                return returnToView;
+                        }
 		}
 		return "overview"; // TODO replace string
 	}
 
 	private boolean isViewIdValid(String viewId) {
-		if (viewId == null) return false;
-		if ("option".equals(viewId)) return false;
+		if (viewId == null) {
+                        return false;
+                }
+		if ("option".equals(viewId)) {
+                        return false;
+                }
 		return true;
 	}
 
@@ -210,7 +224,9 @@ public abstract class AAction extends ATask {
 	}
 
 	protected final String showOptionDialog(String name, Object[] messageParameters, String... options) {
-		if (options == null || options.length == 0) options = new String[] { "ok" };
+		if (options == null || options.length == 0) {
+                        options = new String[] { "ok" };
+                }
 		OptionAction<String> action = autowire(new OptionAction());
 		action.setMessage(string(name + ".message", messageParameters));
 		action.setHorizontal(true);

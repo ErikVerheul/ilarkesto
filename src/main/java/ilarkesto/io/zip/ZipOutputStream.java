@@ -96,7 +96,9 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	public void setComment(String comment) {
 		byte[] commentBytes;
 		commentBytes = comment.getBytes();
-		if (commentBytes.length > 0xffff) throw new IllegalArgumentException("Comment too long.");
+		if (commentBytes.length > 0xffff) {
+                        throw new IllegalArgumentException("Comment too long.");
+                }
 		zipComment = commentBytes;
 	}
 
@@ -109,7 +111,9 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 * @see #DEFLATED
 	 */
 	public void setMethod(int method) {
-		if (method != STORED && method != DEFLATED) throw new IllegalArgumentException("Method not supported.");
+		if (method != STORED && method != DEFLATED) {
+                        throw new IllegalArgumentException("Method not supported.");
+                }
 		defaultMethod = method;
 	}
 
@@ -150,29 +154,46 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 * @exception ZipException if stream was finished.
 	 */
 	public void putNextEntry(ZipEntry entry) throws IOException {
-		if (entries == null) throw new ZipException("ZipOutputStream was finished");
+		if (entries == null) {
+                        throw new ZipException("ZipOutputStream was finished");
+                }
 
 		int method = entry.getMethod();
 		int flags = 0;
-		if (method == -1) method = defaultMethod;
+		if (method == -1) {
+                        method = defaultMethod;
+                }
 
 		if (method == STORED) {
 			if (entry.getCompressedSize() >= 0) {
-				if (entry.getSize() < 0)
-					entry.setSize(entry.getCompressedSize());
-				else if (entry.getSize() != entry.getCompressedSize())
-					throw new ZipException("Method STORED, but compressed size != size");
-			} else entry.setCompressedSize(entry.getSize());
+				if (entry.getSize() < 0) {
+                                        entry.setSize(entry.getCompressedSize());
+                                } else if (entry.getSize() != entry.getCompressedSize()) {
+                                        throw new ZipException("Method STORED, but compressed size != size");
+                                }
+			} else {
+                                entry.setCompressedSize(entry.getSize());
+                        }
 
-			if (entry.getSize() < 0) throw new ZipException("Method STORED, but size not set");
-			if (entry.getCrc() < 0) throw new ZipException("Method STORED, but crc not set");
+			if (entry.getSize() < 0) {
+                                throw new ZipException("Method STORED, but size not set");
+                        }
+			if (entry.getCrc() < 0) {
+                                throw new ZipException("Method STORED, but crc not set");
+                        }
 		} else if (method == DEFLATED) {
-			if (entry.getCompressedSize() < 0 || entry.getSize() < 0 || entry.getCrc() < 0) flags |= 8;
+			if (entry.getCompressedSize() < 0 || entry.getSize() < 0 || entry.getCrc() < 0) {
+                                flags |= 8;
+                        }
 		}
 
-		if (curEntry != null) closeEntry();
+		if (curEntry != null) {
+                        closeEntry();
+                }
 
-		if (entry.getTime() < 0) entry.setTime(Tm.getCurrentTimeMillis());
+		if (entry.getTime() < 0) {
+                        entry.setTime(Tm.getCurrentTimeMillis());
+                }
 
 		entry.flags = flags;
 		entry.offset = offset;
@@ -194,9 +215,13 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 			writeLeInt(0);
 		}
 		byte[] name = entry.getName().getBytes();
-		if (name.length > 0xffff) throw new ZipException("Name too long.");
+		if (name.length > 0xffff) {
+                        throw new ZipException("Name too long.");
+                }
 		byte[] extra = entry.getExtra();
-		if (extra == null) extra = new byte[0];
+		if (extra == null) {
+                        extra = new byte[0];
+                }
 		writeLeShort(name.length);
 		writeLeShort(extra.length);
 		out.write(name);
@@ -208,7 +233,9 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 
 		curEntry = entry;
 		crc.reset();
-		if (method == DEFLATED) def.reset();
+		if (method == DEFLATED) {
+                        def.reset();
+                }
 		size = 0;
 	}
 
@@ -219,28 +246,35 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 * @exception ZipException if no entry is active.
 	 */
 	public void closeEntry() throws IOException {
-		if (curEntry == null) throw new ZipException("No open entry");
+		if (curEntry == null) {
+                        throw new ZipException("No open entry");
+                }
 
 		/* First finish the deflater, if appropriate */
-		if (curMethod == DEFLATED) super.finish();
+		if (curMethod == DEFLATED) {
+                        super.finish();
+                }
 
 		int csize = curMethod == DEFLATED ? def.getTotalOut() : size;
 
-		if (curEntry.getSize() < 0)
-			curEntry.setSize(size);
-		else if (curEntry.getSize() != size)
-			throw new ZipException("size was " + size + ", but I expected " + curEntry.getSize());
+		if (curEntry.getSize() < 0) {
+                        curEntry.setSize(size);
+                } else if (curEntry.getSize() != size) {
+                        throw new ZipException("size was " + size + ", but I expected " + curEntry.getSize());
+                }
 
-		if (curEntry.getCompressedSize() < 0)
-			curEntry.setCompressedSize(csize);
-		else if (curEntry.getCompressedSize() != csize)
-			throw new ZipException("compressed size was " + csize + ", but I expected " + curEntry.getSize());
+		if (curEntry.getCompressedSize() < 0) {
+                        curEntry.setCompressedSize(csize);
+                } else if (curEntry.getCompressedSize() != csize) {
+                        throw new ZipException("compressed size was " + csize + ", but I expected " + curEntry.getSize());
+                }
 
-		if (curEntry.getCrc() < 0)
-			curEntry.setCrc(crc.getValue());
-		else if (curEntry.getCrc() != crc.getValue())
-			throw new ZipException("crc was " + Long.toHexString(crc.getValue()) + ", but I expected "
-					+ Long.toHexString(curEntry.getCrc()));
+		if (curEntry.getCrc() < 0) {
+                        curEntry.setCrc(crc.getValue());
+                } else if (curEntry.getCrc() != crc.getValue()) {
+                        throw new ZipException("crc was " + Long.toHexString(crc.getValue()) + ", but I expected "
+                                + Long.toHexString(curEntry.getCrc()));
+                }
 
 		offset += csize;
 
@@ -265,7 +299,9 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 */
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
-		if (curEntry == null) throw new ZipException("No open entry.");
+		if (curEntry == null) {
+                        throw new ZipException("No open entry.");
+                }
 
 		switch (curMethod) {
 			case DEFLATED:
@@ -290,8 +326,12 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 */
 	@Override
 	public void finish() throws IOException {
-		if (entries == null) return;
-		if (curEntry != null) closeEntry();
+		if (entries == null) {
+                        return;
+                }
+		if (curEntry != null) {
+                        closeEntry();
+                }
 
 		int numEntries = 0;
 		int sizeEntries = 0;
@@ -312,12 +352,18 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 			writeLeInt((int) entry.getSize());
 
 			byte[] name = entry.getName().getBytes();
-			if (name.length > 0xffff) throw new ZipException("Name too long.");
+			if (name.length > 0xffff) {
+                                throw new ZipException("Name too long.");
+                        }
 			byte[] extra = entry.getExtra();
-			if (extra == null) extra = new byte[0];
+			if (extra == null) {
+                                extra = new byte[0];
+                        }
 			String strComment = entry.getComment();
 			byte[] comment = strComment != null ? strComment.getBytes() : new byte[0];
-			if (comment.length > 0xffff) throw new ZipException("Comment too long.");
+			if (comment.length > 0xffff) {
+                                throw new ZipException("Comment too long.");
+                        }
 
 			writeLeShort(name.length);
 			writeLeShort(extra.length);

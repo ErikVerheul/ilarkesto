@@ -54,7 +54,9 @@ public final class RadioSelectFormField<T> extends AFormField {
 	}
 
 	public List<T> getOptions() {
-		if (options == null) throw new MissingDependencyException("options");
+		if (options == null) {
+                        throw new MissingDependencyException("options");
+                }
 		return options;
 	}
 
@@ -76,7 +78,9 @@ public final class RadioSelectFormField<T> extends AFormField {
 	}
 
 	public void validate() throws ValidationException {
-		if (value == null && required) throw new ValidationException("Eingabe erforderlich");
+		if (value == null && required) {
+                        throw new ValidationException("Eingabe erforderlich");
+                }
 	}
 
 }

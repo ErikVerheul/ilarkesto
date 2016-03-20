@@ -67,7 +67,9 @@ public abstract class AComponent {
 	}
 
 	public final void initialize() {
-		if (initialized) throw new RuntimeException(getName() + " already initialized");
+		if (initialized) {
+                        throw new RuntimeException(getName() + " already initialized");
+                }
 		initialized = true;
 
 		initializeControls();
@@ -76,7 +78,9 @@ public abstract class AComponent {
 	// --- ---
 
 	public final JComponent getJavaComponent() {
-		if (!initialized) initialize();
+		if (!initialized) {
+                        initialize();
+                }
 		if (component == null) {
 			Swing.invokeInEventDispatchThread(new Runnable() {
 
@@ -152,7 +156,9 @@ public abstract class AComponent {
 		public ListModel() {}
 
 		public void addColumn(Column<I> column) {
-			if (columns == null) columns = new ArrayList<Column<I>>();
+			if (columns == null) {
+                                columns = new ArrayList<Column<I>>();
+                        }
 			columns.add(column);
 			column.setListModel(this);
 			fireTableStructureChanged();
@@ -168,7 +174,9 @@ public abstract class AComponent {
 		}
 
 		public Object getValueAt(int columnIndex, I item) {
-			if (columns == null) return item.toString();
+			if (columns == null) {
+                                return item.toString();
+                        }
 			return columns.get(columnIndex).getValue(item);
 		}
 
@@ -198,20 +206,28 @@ public abstract class AComponent {
 
 		@Override
 		public int getColumnCount() {
-			if (columns == null) return 1;
+			if (columns == null) {
+                                return 1;
+                        }
 			return columns.size();
 		}
 
 		@Override
 		public String getColumnName(int column) {
-			if (columns == null) return null;
+			if (columns == null) {
+                                return null;
+                        }
 			return columns.get(column).getLabel();
 		}
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			if (e.getValueIsAdjusting()) return;
-			if (settingItems) return;
+			if (e.getValueIsAdjusting()) {
+                                return;
+                        }
+			if (settingItems) {
+                                return;
+                        }
 			onItemsSelected(getSelectedItems());
 		}
 
@@ -292,16 +308,22 @@ public abstract class AComponent {
 			ListDataEvent event = new ListDataEvent(AComponent.this, ListDataEvent.CONTENTS_CHANGED, 0,
 					items.size() - 1);
 			if (selectedItem != null) {
-				if (!items.contains(selectedItem)) setSelectedItem(null);
+				if (!items.contains(selectedItem)) {
+                                        setSelectedItem(null);
+                                }
 			}
 			for (ListDataListener listener : listeners) {
 				listener.contentsChanged(event);
 			}
-			if (selectedItem == null && !this.items.isEmpty()) setSelectedItem(this.items.get(0));
+			if (selectedItem == null && !this.items.isEmpty()) {
+                                setSelectedItem(this.items.get(0));
+                        }
 		}
 
 		public void setSelectedItem(Object anItem) {
-			if (this.selectedItem == anItem) return;
+			if (this.selectedItem == anItem) {
+                                return;
+                        }
 			this.selectedItem = (I) anItem;
 			onItemSelected(selectedItem);
 		}

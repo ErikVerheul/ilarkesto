@@ -43,14 +43,24 @@ public class ListFiles extends AJob<List<File>> {
 	}
 
 	private void listFiles(File dir) {
-		if (dir == null) return;
-		if (!dir.isDirectory()) return;
+		if (dir == null) {
+                        return;
+                }
+		if (!dir.isDirectory()) {
+                        return;
+                }
 		File[] files = dir.listFiles();
-		if (files == null) return;
+		if (files == null) {
+                        return;
+                }
 		for (File file : files) {
 			if (file.isDirectory()) {
-				if (includeDirs) result.add(file);
-				if (recurse) listFiles(file);
+				if (includeDirs) {
+                                        result.add(file);
+                                }
+				if (recurse) {
+                                        listFiles(file);
+                                }
 			} else {
 				result.add(file);
 			}

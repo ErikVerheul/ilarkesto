@@ -57,7 +57,9 @@ public abstract class JDom {
 	private JDom() {}
 
 	public static List<Element> getChildren(Element parent, String name) {
-		if (parent == null) return java.util.Collections.emptyList();
+		if (parent == null) {
+                        return java.util.Collections.emptyList();
+                }
 		return parent.getChildren(name, null);
 	}
 
@@ -81,7 +83,9 @@ public abstract class JDom {
 
 	public static Element getChildByAttribute(Element parent, String name, String attributeName, String attributeValue) {
 		for (Element child : getChildren(parent, name)) {
-			if (attributeValue.equals(child.getAttributeValue(attributeName))) return child;
+			if (attributeValue.equals(child.getAttributeValue(attributeName))) {
+                                return child;
+                        }
 		}
 		return null;
 	}

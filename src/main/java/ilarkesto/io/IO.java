@@ -74,7 +74,9 @@ public abstract class IO {
 	}
 
 	public static long getSize(File file) {
-		if (file.isFile()) return file.length();
+		if (file.isFile()) {
+                        return file.length();
+                }
 		if (file.isDirectory()) {
 			long size = 0;
 			File[] subfiles = file.listFiles();
@@ -90,7 +92,9 @@ public abstract class IO {
 
 	public static File getFirstExistingFile(File... files) {
 		for (File file : files) {
-			if (file.exists()) return file;
+			if (file.exists()) {
+                                return file;
+                        }
 		}
 		return null;
 	}
@@ -98,14 +102,18 @@ public abstract class IO {
 	public static File getFirstExistingFile(String... filePaths) {
 		for (String path : filePaths) {
 			File file = new File(path);
-			if (file.exists()) return file;
+			if (file.exists()) {
+                                return file;
+                        }
 		}
 		return null;
 	}
 
 	public static String getFirstExistingFilePath(String... filePaths) {
 		for (String path : filePaths) {
-			if (new File(path).exists()) return path;
+			if (new File(path).exists()) {
+                                return path;
+                        }
 		}
 		return null;
 	}
@@ -161,7 +169,9 @@ public abstract class IO {
 	}
 
 	public static String[] getFilenames(File... files) {
-		if (files == null) return null;
+		if (files == null) {
+                        return null;
+                }
 		String[] names = new String[files.length];
 		for (int i = 0; i < files.length; i++) {
 			names[i] = files[i].getName();
@@ -176,10 +186,14 @@ public abstract class IO {
 	public static void process(File root, FileProcessor processor) {
 		if (root.isDirectory()) {
 			boolean continu = processor.onFolderBegin(root);
-			if (!continu) return;
+			if (!continu) {
+                                return;
+                        }
 			for (File file : root.listFiles()) {
 				process(file, processor);
-				if (processor.isAbortRequested()) return;
+				if (processor.isAbortRequested()) {
+                                        return;
+                                }
 			}
 			processor.onFolderEnd(root);
 		} else {
@@ -192,7 +206,9 @@ public abstract class IO {
 		File[] files = root.listFiles();
 		if (files != null) {
 			for (File file : files) {
-				if (filter.accept(file)) ret.add(file);
+				if (filter.accept(file)) {
+                                        ret.add(file);
+                                }
 				if (file.isDirectory()) {
 					ret.addAll(findFiles(file, filter));
 				}
@@ -203,12 +219,18 @@ public abstract class IO {
 
 	public static File findFile(File root, FileFilter filter) {
 		File[] files = root.listFiles();
-		if (files == null) return null;
+		if (files == null) {
+                        return null;
+                }
 		for (File file : files) {
-			if (filter.accept(file)) return file;
+			if (filter.accept(file)) {
+                                return file;
+                        }
 			if (file.isDirectory()) {
 				File f = findFile(file, filter);
-				if (f != null) return f;
+				if (f != null) {
+                                        return f;
+                                }
 			}
 		}
 		return null;
@@ -268,7 +290,9 @@ public abstract class IO {
 	}
 
 	public static void close(InputStream in) {
-		if (in == null) return;
+		if (in == null) {
+                        return;
+                }
 		try {
 			in.close();
 		} catch (IOException ex) {
@@ -277,7 +301,9 @@ public abstract class IO {
 	}
 
 	public static void close(OutputStream out) {
-		if (out == null) return;
+		if (out == null) {
+                        return;
+                }
 		try {
 			out.close();
 		} catch (IOException ex) {
@@ -286,7 +312,9 @@ public abstract class IO {
 	}
 
 	public static void close(Writer out) {
-		if (out == null) return;
+		if (out == null) {
+                        return;
+                }
 		try {
 			out.close();
 		} catch (IOException ex) {
@@ -295,14 +323,18 @@ public abstract class IO {
 	}
 
 	public static void closeQuiet(Writer out) {
-		if (out == null) return;
+		if (out == null) {
+                        return;
+                }
 		try {
 			out.close();
 		} catch (IOException ex) {}
 	}
 
 	public static void close(Reader in) {
-		if (in == null) return;
+		if (in == null) {
+                        return;
+                }
 		try {
 			in.close();
 		} catch (IOException ex) {
@@ -311,7 +343,9 @@ public abstract class IO {
 	}
 
 	public static void closeQuiet(Reader in) {
-		if (in == null) return;
+		if (in == null) {
+                        return;
+                }
 		try {
 			in.close();
 		} catch (IOException ex) {}
@@ -323,15 +357,21 @@ public abstract class IO {
 
 	public static synchronized void createDirectory(File dir) {
 		if (dir.exists()) {
-			if (dir.isDirectory()) return;
+			if (dir.isDirectory()) {
+                                return;
+                        }
 			throw new RuntimeException("A file already exists: " + dir.getPath());
 		}
-		if (!dir.mkdirs()) throw new RuntimeException("Failed to create directory: " + dir.getPath());
+		if (!dir.mkdirs()) {
+                        throw new RuntimeException("Failed to create directory: " + dir.getPath());
+                }
 	}
 
 	public static String getFileExtension(String filename) {
 		int idx = filename.lastIndexOf('.');
-		if (idx < 0 || idx == filename.length() - 1) return null;
+		if (idx < 0 || idx == filename.length() - 1) {
+                        return null;
+                }
 		return filename.substring(idx + 1);
 	}
 
@@ -344,15 +384,21 @@ public abstract class IO {
 	}
 
 	public static void move(File from, File to, boolean overwrite) {
-		if (from.getAbsolutePath().equals(to.getAbsolutePath())) return;
-		if (!from.exists())
-			throw new RuntimeException("Moving file " + from + " to " + to + " failed. Source file does not exist.");
+		if (from.getAbsolutePath().equals(to.getAbsolutePath())) {
+                        return;
+                }
+		if (!from.exists()) {
+                        throw new RuntimeException("Moving file " + from + " to " + to + " failed. Source file does not exist.");
+                }
 		if (!to.isDirectory() && to.exists()) {
-			if (!overwrite)
-				throw new RuntimeException("Moving file " + from + " to " + to + " failed. File already exists.");
+			if (!overwrite) {
+                                throw new RuntimeException("Moving file " + from + " to " + to + " failed. File already exists.");
+                        }
 		}
 		createDirectory(to.getParentFile());
-		if (from.renameTo(to)) return;
+		if (from.renameTo(to)) {
+                        return;
+                }
 
 		if (from.isDirectory()) {
 			moveFiles(from.listFiles(), to, overwrite);
@@ -363,10 +409,13 @@ public abstract class IO {
 	}
 
 	private static void moveFiles(File[] files, File destination, boolean overwrite) {
-		if (files == null || files.length == 0) return;
+		if (files == null || files.length == 0) {
+                        return;
+                }
 		if (destination.exists()) {
-			if (!destination.isDirectory())
-				throw new RuntimeException("Moving files to " + destination + " failed. Destination is not a directory");
+			if (!destination.isDirectory()) {
+                                throw new RuntimeException("Moving files to " + destination + " failed. Destination is not a directory");
+                        }
 		} else {
 			createDirectory(destination);
 		}
@@ -387,34 +436,53 @@ public abstract class IO {
 	public static String getHostName() {
 		String[] hostnames = new String[0];
 		hostnames = getLocalHostNames(false, true).toArray(hostnames);
-		if (hostnames.length == 0) return null;
-		if (hostnames.length == 1) return hostnames[0];
+		if (hostnames.length == 0) {
+                        return null;
+                }
+		if (hostnames.length == 1) {
+                        return hostnames[0];
+                }
 		for (int i = 0; i < hostnames.length; i++) {
-			if (!"localhost".equals(hostnames[i])) return hostnames[i];
+			if (!"localhost".equals(hostnames[i])) {
+                                return hostnames[i];
+                        }
 		}
 		return hostnames[0];
 	}
 
 	public static Set<String> getLocalHostNames(boolean includeIps, boolean includeNames) {
-		if (!includeIps && !includeNames)
-			throw new IllegalArgumentException("includeIps=false && includeNames==false");
+		if (!includeIps && !includeNames) {
+                        throw new IllegalArgumentException("includeIps=false && includeNames==false");
+                }
 		Set<String> ret = new HashSet<String>();
-		if (includeIps) ret.add("127.0.0.1");
-		if (includeNames) ret.add("localhost");
+		if (includeIps) {
+                        ret.add("127.0.0.1");
+                }
+		if (includeNames) {
+                        ret.add("localhost");
+                }
 		Enumeration<NetworkInterface> networks;
 		try {
 			networks = NetworkInterface.getNetworkInterfaces();
 		} catch (SocketException ex) {
 			return ret;
 		}
-		if (networks == null) return ret;
+		if (networks == null) {
+                        return ret;
+                }
 		while (networks.hasMoreElements()) {
 			Enumeration<InetAddress> addresses = networks.nextElement().getInetAddresses();
-			if (addresses == null) continue;
+			if (addresses == null) {
+                                continue;
+                        }
 			while (addresses.hasMoreElements()) {
 				InetAddress address = addresses.nextElement();
-				if (includeIps) ret.add(address.getHostAddress());
-				if (includeNames) ret.add(address.getHostName());
+				if (includeIps) {
+                                        ret.add(address.getHostAddress());
+                                }
+				if (includeNames) {
+                                        ret.add(address.getHostName());
+                                }
 			}
 		}
 		return ret;
@@ -447,7 +515,9 @@ public abstract class IO {
 		if (username != null) {
 			// write auth header
 			String credential = username;
-			if (password != null) credential += ":" + password;
+			if (password != null) {
+                                credential += ":" + password;
+                        }
 			String encodedCredential;
                                         try {
                                                 encodedCredential = Base64.encodeBytes(credential.getBytes(IO.UTF_8));
@@ -517,7 +587,9 @@ public abstract class IO {
 
 	public static void appendLine(String file, String line) throws IOException {
 		File f = new File(file);
-		if (!f.exists()) createDirectory(f.getParentFile());
+		if (!f.exists()) {
+                        createDirectory(f.getParentFile());
+                }
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(f, true)));
 		out.println(line);
 		out.close();
@@ -573,19 +645,27 @@ public abstract class IO {
 		int i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x01000000 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x010000 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x0100 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += i;
 
 		return value;
@@ -596,15 +676,21 @@ public abstract class IO {
 		int i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x010000 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x0100 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += i;
 
 		return value;
@@ -615,11 +701,15 @@ public abstract class IO {
 		int i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += 0x0100 * i;
 
 		i = in.read();
-		if (i < 0) throw new IOException("Unexpected end of file.");
+		if (i < 0) {
+                        throw new IOException("Unexpected end of file.");
+                }
 		value += i;
 
 		return value;
@@ -627,9 +717,13 @@ public abstract class IO {
 
 	public static List<File> listFiles(File parent) {
 		List<File> ret = new ArrayList<File>();
-		if (parent == null) return ret;
+		if (parent == null) {
+                        return ret;
+                }
 		File[] files = parent.listFiles();
-		if (files == null) return ret;
+		if (files == null) {
+                        return ret;
+                }
                 ret.addAll(Arrays.asList(files));
 		return ret;
 	}
@@ -680,11 +774,15 @@ public abstract class IO {
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
 		}
-		if (observer != null) observer.onFileCountAvailable(zf.size());
+		if (observer != null) {
+                        observer.onFileCountAvailable(zf.size());
+                }
 		try {
 			Enumeration entries = zf.entries();
 			while (entries.hasMoreElements()) {
-				if (observer != null && observer.isAbortRequested()) return;
+				if (observer != null && observer.isAbortRequested()) {
+                                        return;
+                                }
 				ZipEntry ze = (ZipEntry) entries.nextElement();
 				String name = ze.getName();
 				name = name.replace((char) 129, '\u00FC');
@@ -694,9 +792,13 @@ public abstract class IO {
 				name = name.replace((char) 132, '\u00E4');
 				name = name.replace((char) 142, '\u00C4');
 				name = name.replace((char) 225, '\u00DF');
-				if (ze.isDirectory()) continue;
+				if (ze.isDirectory()) {
+                                        continue;
+                                }
 				File f = new File(destinationDir.getPath() + "/" + name);
-				if (observer != null) observer.onFileBegin(f);
+				if (observer != null) {
+                                        observer.onFileBegin(f);
+                                }
 				try {
 					createDirectory(f.getParentFile());
 					BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
@@ -704,12 +806,18 @@ public abstract class IO {
 					copyData(new BufferedInputStream(in), out);
 					out.close();
 					long lastModified = ze.getTime();
-					if (lastModified >= 0) setLastModified(f, lastModified);
+					if (lastModified >= 0) {
+                                                setLastModified(f, lastModified);
+                                        }
 				} catch (Exception ex) {
-					if (observer == null) throw new RuntimeException(ex);
+					if (observer == null) {
+                                                throw new RuntimeException(ex);
+                                        }
 					observer.onFileError(f, ex);
 				}
-				if (observer != null) observer.onFileEnd(f);
+				if (observer != null) {
+                                        observer.onFileEnd(f);
+                                }
 			}
 		} finally {
 			try {
@@ -721,7 +829,9 @@ public abstract class IO {
 	}
 
 	public static void setLastModified(File file, long time) {
-		if (!file.setLastModified(time)) throw new RuntimeException("Settring lastModified on " + file + " failed.");
+		if (!file.setLastModified(time)) {
+                        throw new RuntimeException("Settring lastModified on " + file + " failed.");
+                }
 	}
 
 	public static interface UnzipObserver {
@@ -747,7 +857,9 @@ public abstract class IO {
 	}
 
 	public static void zip(File zipfile, File[] files, FileFilter filter, ZipObserver observer) {
-		if (zipfile.exists()) delete(zipfile);
+		if (zipfile.exists()) {
+                        delete(zipfile);
+                }
 		createDirectory(zipfile.getParentFile());
 		File tempFile = new File(zipfile.getPath() + "~");
 
@@ -774,7 +886,9 @@ public abstract class IO {
 			zipout = new ZipOutputStream(new BufferedOutputStream(os));
 			zipout.setLevel(Deflater.BEST_COMPRESSION);
 			for (int i = 0; i < files.length; i++) {
-				if (!files[i].exists()) continue;
+				if (!files[i].exists()) {
+                                        continue;
+                                }
 				addZipEntry(zipout, "", files[i], filter, observer);
 			}
 			zipout.close();
@@ -785,9 +899,13 @@ public abstract class IO {
 
 	public static void addZipEntry(ZipOutputStream zipout, String zippath, File f, FileFilter filter,
 			ZipObserver observer) {
-		if (filter != null && !filter.accept(f)) return;
+		if (filter != null && !filter.accept(f)) {
+                        return;
+                }
 		if (observer != null) {
-			if (observer.isAbortRequested()) return;
+			if (observer.isAbortRequested()) {
+                                return;
+                        }
 			observer.onFileBegin(f);
 		}
 		if (f.isDirectory()) {
@@ -808,7 +926,9 @@ public abstract class IO {
 				observer.onFileError(f, ex);
 			}
 		}
-		if (observer != null) observer.onFileEnd(f);
+		if (observer != null) {
+                        observer.onFileEnd(f);
+                }
 	}
 
 	public static interface ZipObserver {
@@ -828,8 +948,12 @@ public abstract class IO {
 	}
 
 	public static void deleteContents(File folder) {
-		if (!folder.exists()) return;
-		if (!folder.isDirectory()) throw new RuntimeException("Not a folder: " + folder.getAbsolutePath());
+		if (!folder.exists()) {
+                        return;
+                }
+		if (!folder.isDirectory()) {
+                        throw new RuntimeException("Not a folder: " + folder.getAbsolutePath());
+                }
 		for (File file : folder.listFiles()) {
 			delete(file);
 		}
@@ -840,14 +964,18 @@ public abstract class IO {
 	}
 
 	public static void delete(File... files) {
-		if (files == null || files.length == 0) return;
+		if (files == null || files.length == 0) {
+                        return;
+                }
 		for (File file : files) {
 			delete(file);
 		}
 	}
 
 	public static void delete(File f) {
-		if (!f.exists()) return;
+		if (!f.exists()) {
+                        return;
+                }
 		if (f.isDirectory()) {
 			File[] fa = f.listFiles();
 			for (int i = 0; i < fa.length; i++) {
@@ -883,12 +1011,16 @@ public abstract class IO {
 	}
 
 	public static BufferedImage toBufferedImage(Image img) {
-		if (img instanceof BufferedImage) return (BufferedImage) img;
+		if (img instanceof BufferedImage) {
+                        return (BufferedImage) img;
+                }
 		return toBufferedImage(img, img.getWidth(null), img.getHeight(null));
 	}
 
 	public static BufferedImage toBufferedImage(Image img, int width, int height) {
-		if (img instanceof BufferedImage) return (BufferedImage) img;
+		if (img instanceof BufferedImage) {
+                        return (BufferedImage) img;
+                }
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = image.createGraphics();
 		g.drawImage(img, 0, 0, null);
@@ -903,7 +1035,9 @@ public abstract class IO {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (image == null) throw new RuntimeException("Unsupported image format.");
+		if (image == null) {
+                        throw new RuntimeException("Unsupported image format.");
+                }
 		return image;
 	}
 
@@ -916,7 +1050,9 @@ public abstract class IO {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		if (image == null) throw new RuntimeException("Unsupported image format.");
+		if (image == null) {
+                        throw new RuntimeException("Unsupported image format.");
+                }
 		return image;
 	}
 
@@ -987,7 +1123,9 @@ public abstract class IO {
 	public static BufferedImage quadratize(BufferedImage image) {
 		int width = image.getWidth();
 		int height = image.getHeight();
-		if (width == height) return image;
+		if (width == height) {
+                        return image;
+                }
 
 		if (width > height) {
 			int offset = (width - height) / 2;
@@ -1000,7 +1138,9 @@ public abstract class IO {
 
 	public static Image quadratizeAndLimitSize(BufferedImage image, int maxSize) {
 		image = quadratize(image);
-		if (image.getWidth() <= maxSize) return image;
+		if (image.getWidth() <= maxSize) {
+                        return image;
+                }
 		return image.getScaledInstance(maxSize, maxSize, Image.SCALE_SMOOTH);
 	}
 
@@ -1049,10 +1189,12 @@ public abstract class IO {
                         }
 			throw new RuntimeException(ex);
 		}
-		if (dst.exists()) if (!dst.delete()) {
-			delete(tmp);
-			throw new RuntimeException("Overwriting file '" + dst + "' failed.");
-		}
+		if (dst.exists()) {
+                        if (!dst.delete()) {
+                                delete(tmp);
+                                throw new RuntimeException("Overwriting file '" + dst + "' failed.");
+                        }
+                }
 		if (!tmp.renameTo(dst)) {
 			delete(tmp);
 			throw new RuntimeException("Moving '" + tmp + "' to '" + dst + "' failed.");
@@ -1060,7 +1202,9 @@ public abstract class IO {
 	}
 
 	public static void copyFile(File source, File destination) {
-		if (source.getAbsolutePath().equals(destination.getAbsolutePath())) return;
+		if (source.getAbsolutePath().equals(destination.getAbsolutePath())) {
+                        return;
+                }
 		if (source.isDirectory()) {
 			copyFiles(source.listFiles(), destination);
 			return;
@@ -1107,7 +1251,9 @@ public abstract class IO {
 	public static void copyFiles(File[] files, File destinationDir, FileFilter filter) {
 		createDirectory(destinationDir);
 		for (File f : files) {
-			if (filter != null && !filter.accept(f)) continue;
+			if (filter != null && !filter.accept(f)) {
+                                continue;
+                        }
 			if (f.isDirectory()) {
 				copyFiles(f.listFiles(), new File(destinationDir + "/" + f.getName()), filter);
 			} else {
@@ -1123,7 +1269,9 @@ public abstract class IO {
 	public static void copyFiles(Collection<File> files, File destinationDir, FileFilter filter) {
 		createDirectory(destinationDir);
 		for (File f : files) {
-			if (filter != null && !filter.accept(f)) continue;
+			if (filter != null && !filter.accept(f)) {
+                                continue;
+                        }
 			if (f.isDirectory()) {
 				copyFiles(f.listFiles(), new File(destinationDir + "/" + f.getName()), filter);
 			} else {
@@ -1163,14 +1311,18 @@ public abstract class IO {
 		byte[] block = new byte[1000];
 		try {
 			while (true) {
-				if (observer != null && observer.isAbortRequested()) return;
+				if (observer != null && observer.isAbortRequested()) {
+                                        return;
+                                }
 				int amountRead;
 				amountRead = in.read(block);
 				if (amountRead == -1) {
 					break;
 				}
 				out.write(block, 0, amountRead);
-				if (observer != null) observer.dataCopied(amountRead);
+				if (observer != null) {
+                                        observer.dataCopied(amountRead);
+                                }
 			}
 
 			out.flush();
@@ -1230,7 +1382,9 @@ public abstract class IO {
 
 	public static String readResource(String name) throws IOException {
 		URL url = IO.class.getClassLoader().getResource(name);
-		if (url == null) throw new IOException("Resource '" + name + "' does not exist.");
+		if (url == null) {
+                        throw new IOException("Resource '" + name + "' does not exist.");
+                }
 		URLConnection connection = url.openConnection();
 		return readToString(connection.getInputStream(), UTF_8);
 	}
@@ -1249,7 +1403,9 @@ public abstract class IO {
 			throw new RuntimeException("Directory does not exist: " + dstFile.getParent(), ex);
 		}
 		URL url = IO.class.getClassLoader().getResource(name);
-		if (url == null) throw new RuntimeException("Resource '" + name + "' does not exist.");
+		if (url == null) {
+                        throw new RuntimeException("Resource '" + name + "' does not exist.");
+                }
 		URLConnection connection;
 		try {
 			connection = url.openConnection();
@@ -1265,14 +1421,18 @@ public abstract class IO {
 	}
 
 	public static boolean writeFileIfChanged(File file, String data, String charset) {
-		if (file.exists() && IO.readFile(file, charset).equals(data)) return false;
+		if (file.exists() && IO.readFile(file, charset).equals(data)) {
+                        return false;
+                }
 		writeFile(file, data, charset);
 		return true;
 	}
 
 	public static void writeFile(File file, String data, String charset) {
 		File parent = file.getParentFile();
-		if (parent != null) createDirectory(parent);
+		if (parent != null) {
+                        createDirectory(parent);
+                }
 		PrintWriter out;
 		try {
 			out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset)));
@@ -1367,7 +1527,9 @@ public abstract class IO {
 	public static void touch(File f) {
 		File parent = f.getParentFile();
 		if (parent != null && !parent.exists()) {
-			if (!parent.mkdirs()) throw new RuntimeException("Creating directory failed: " + parent.getPath());
+			if (!parent.mkdirs()) {
+                                throw new RuntimeException("Creating directory failed: " + parent.getPath());
+                        }
 		}
 		FileOutputStream out;
 		try {
@@ -1474,7 +1636,9 @@ public abstract class IO {
 	public static void saveLoadedProperties(Properties p, String header) {
 		int index = properties.indexOf(p);
 		File f = index < 0 ? null : (File) propertiesFiles.get(properties.indexOf(p));
-		if (f == null) throw new RuntimeException("Properties were not loaded via IOTools.loadProperties(File)");
+		if (f == null) {
+                        throw new RuntimeException("Properties were not loaded via IOTools.loadProperties(File)");
+                }
 		saveProperties(p, header, f);
 	}
 
@@ -1561,7 +1725,9 @@ public abstract class IO {
 
 	public static String downloadUrlToString(String url, String charset, String username, String password) {
 		InputStreamReader urlReader = openUrlReader(url, charset, username, password);
-		if (urlReader == null) return null;
+		if (urlReader == null) {
+                        return null;
+                }
 		BufferedReader in = new BufferedReader(urlReader);
 		String s = readToString(in);
 		close(in);
@@ -1623,8 +1789,12 @@ public abstract class IO {
 	public static InputStreamReader openUrlReader(String url, String defaultEncoding, String username, String password) {
 		URLConnection connection = openUrlConnection(url, username, password);
 		String connectionEncoding = connection.getContentEncoding();
-		if (connectionEncoding != null) defaultEncoding = connectionEncoding;
-		if (defaultEncoding == null) defaultEncoding = UTF_8;
+		if (connectionEncoding != null) {
+                        defaultEncoding = connectionEncoding;
+                }
+		if (defaultEncoding == null) {
+                        defaultEncoding = UTF_8;
+                }
 		try {
 			return new InputStreamReader(connection.getInputStream(), defaultEncoding);
 		} catch (FileNotFoundException ex) {
@@ -1655,7 +1825,9 @@ public abstract class IO {
 			}
 			connection.connect();
 			int length = connection.getContentLength();
-			if (observer != null && length > 0) observer.totalSizeDetermined(length);
+			if (observer != null && length > 0) {
+                                observer.totalSizeDetermined(length);
+                        }
 			in = connection.getInputStream();
 		} catch (Throwable ex) {
 			throw new RuntimeException(ex);
@@ -1698,7 +1870,9 @@ public abstract class IO {
 
         @SuppressWarnings(value = "LI_LAZY_INIT_STATIC", justification = "Used only at startup, so is not called by multiple threads")
 	public static File getWorkDir() {
-		if (workDir == null) workDir = new File("dummy").getAbsoluteFile().getParentFile();
+		if (workDir == null) {
+                        workDir = new File("dummy").getAbsoluteFile().getParentFile();
+                }
 		return workDir;
 	}
 
@@ -1730,13 +1904,17 @@ public abstract class IO {
 	}
 
 	public static boolean isFileWritable(File file) {
-		if (file.exists()) return file.canWrite();
+		if (file.exists()) {
+                        return file.canWrite();
+                }
 		try {
 			touch(file);
 		} catch (Throwable ex) {
 			return false;
 		} finally {
-			if (!file.delete()) Log.warn("Can not delete file ", file);
+			if (!file.delete()) {
+                                Log.warn("Can not delete file ", file);
+                        }
 		}
 		return true;
 	}

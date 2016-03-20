@@ -18,7 +18,9 @@ public class VimeoLinkConverter implements LinkConverter {
 
 	@Override
 	public String convert(String href, int maxWidth) {
-		if (!isConvertable(href)) return href;
+		if (!isConvertable(href)) {
+                        return href;
+                }
 		String videoId = parseVideoId(href);
 		return createHtml(videoId, maxWidth);
 	}
@@ -35,16 +37,26 @@ public class VimeoLinkConverter implements LinkConverter {
 	private String parseVideoId(String href) {
 		int idx = href.indexOf("vimeo.com/") + 10;
 		int endIdx = href.indexOf("?", idx);
-		if (endIdx > 0) return href.substring(idx, endIdx);
+		if (endIdx > 0) {
+                        return href.substring(idx, endIdx);
+                }
 		return href.substring(idx);
 	}
 
 	private boolean isConvertable(String href) {
-		if (href == null || href.endsWith("vimeo.com/")) return false;
+		if (href == null || href.endsWith("vimeo.com/")) {
+                        return false;
+                }
 
-		if (href.startsWith("http://vimeo.com/")) return true;
-		if (href.startsWith("https://vimeo.com/")) return true;
-		if (href.startsWith("vimeo.com/")) return true;
+		if (href.startsWith("http://vimeo.com/")) {
+                        return true;
+                }
+		if (href.startsWith("https://vimeo.com/")) {
+                        return true;
+                }
+		if (href.startsWith("vimeo.com/")) {
+                        return true;
+                }
 
 		return false;
 	}

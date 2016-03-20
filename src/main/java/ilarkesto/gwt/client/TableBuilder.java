@@ -49,12 +49,16 @@ public class TableBuilder {
 	public TableBuilder() {}
 
 	public FlexTable createTable() {
-		if (!currentRow.cells.isEmpty()) nextRow();
+		if (!currentRow.cells.isEmpty()) {
+                        nextRow();
+                }
 		FlexTable table = new FlexTable();
 		table.setStyleName(styleName);
 		table.setCellSpacing(cellSpacing);
 		table.setCellPadding(cellPadding);
-		if (centered) table.getElement().setAttribute("align", "center");
+		if (centered) {
+                        table.getElement().setAttribute("align", "center");
+                }
 		String widthAsString = width == null ? "" : width;
 		table.setWidth(widthAsString);
 		table.getElement().setAttribute("width", widthAsString);
@@ -69,7 +73,9 @@ public class TableBuilder {
 			int colIndex = 0;
 			for (Cell cell : row.cells) {
 				table.setWidget(rowIndex, colIndex, cell.widget);
-				if (cell.colspan > 1) table.getFlexCellFormatter().setColSpan(rowIndex, colIndex, cell.colspan);
+				if (cell.colspan > 1) {
+                                        table.getFlexCellFormatter().setColSpan(rowIndex, colIndex, cell.colspan);
+                                }
 				if (cell.align != null) {
 					table.getCellFormatter().setHorizontalAlignment(rowIndex, colIndex, cell.align);
 				}
@@ -265,7 +271,9 @@ public class TableBuilder {
 
 	public void setCentered(boolean centered) {
 		this.centered = centered;
-		if (centered) setWidth(null);
+		if (centered) {
+                        setWidth(null);
+                }
 	}
 
 	public TableBuilder setStyleName(String styleName) {
@@ -295,7 +303,9 @@ public class TableBuilder {
 		assert widgets.length > 0;
 
 		TableBuilder tb = new TableBuilder();
-		if (!width100) tb.setWidth(null);
+		if (!width100) {
+                        tb.setWidth(null);
+                }
 
 		if (widgets.length == 1) {
 			tb.add(widgets[0]);

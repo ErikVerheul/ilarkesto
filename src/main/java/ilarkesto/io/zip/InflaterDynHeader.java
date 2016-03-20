@@ -91,8 +91,9 @@ class InflaterDynHeader
 	  {
 	  case LNUM:
 	    lnum = input.peekBits(5);
-	    if (lnum < 0)
-	      return false;
+	    if (lnum < 0) {
+                    return false;
+        }
 	    lnum += 257;
 	    input.dropBits(5);
 //  	    System.err.println("LNUM: "+lnum);
@@ -100,8 +101,9 @@ class InflaterDynHeader
 	    /* fall through */
 	  case DNUM:
 	    dnum = input.peekBits(5);
-	    if (dnum < 0)
-	      return false;
+	    if (dnum < 0) {
+                    return false;
+        }
 	    dnum++;
 	    input.dropBits(5);
 //  	    System.err.println("DNUM: "+dnum);
@@ -111,8 +113,9 @@ class InflaterDynHeader
 	    /* fall through */
 	  case BLNUM:
 	    blnum = input.peekBits(4);
-	    if (blnum < 0)
-	      return false;
+	    if (blnum < 0) {
+                    return false;
+        }
 	    blnum += 4;
 	    input.dropBits(4);
 	    blLens = new byte[19];
@@ -124,8 +127,9 @@ class InflaterDynHeader
 	    while (ptr < blnum)
 	      {
 		int len = input.peekBits(3);
-		if (len < 0)
-		  return false;
+		if (len < 0) {
+                        return false;
+                }
 		input.dropBits(3);
 //  		System.err.println("blLens["+BL_ORDER[ptr]+"]: "+len);
 		blLens[BL_ORDER[ptr]] = (byte) len;
@@ -154,8 +158,9 @@ class InflaterDynHeader
 		}
 	      
 	      /* need more input ? */
-	      if (symbol < 0)
-		return false;
+	      if (symbol < 0) {
+                      return false;
+              }
 
 	      /* otherwise repeat code */
 	      if (symbol >= 17)
@@ -166,8 +171,9 @@ class InflaterDynHeader
 		}
 	      else
 		{
-		  if (ptr == 0)
-		    throw new DataFormatException();
+		  if (ptr == 0) {
+                          throw new DataFormatException();
+                  }
 		}
 	      repSymbol = symbol-16;
 	      mode = REPS;
@@ -178,16 +184,19 @@ class InflaterDynHeader
 	    {
 	      int bits = repBits[repSymbol];
 	      int count = input.peekBits(bits);
-	      if (count < 0)
-		return false;
+	      if (count < 0) {
+                      return false;
+              }
 	      input.dropBits(bits);
 	      count += repMin[repSymbol];
 //  	      System.err.println("litdistLens repeated: "+count);
 
-	      if (ptr + count > num)
-		throw new DataFormatException();
-	      while (count-- > 0)
-		litdistLens[ptr++] = lastLen;
+	      if (ptr + count > num) {
+                      throw new DataFormatException();
+              }
+	      while (count-- > 0) {
+                      litdistLens[ptr++] = lastLen;
+              }
 
 	      if (ptr == num)
 		{

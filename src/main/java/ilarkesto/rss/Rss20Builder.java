@@ -81,11 +81,21 @@ public class Rss20Builder {
 		eRss.setAttribute("version", "2.0");
 
 		Element eChannel = JDom.addElement(eRss, "channel");
-		if (title != null) JDom.addTextElement(eChannel, "title", title);
-		if (link != null) JDom.addTextElement(eChannel, "link", link);
-		if (description != null) JDom.addTextElement(eChannel, "description", description);
-		if (language != null) JDom.addTextElement(eChannel, "language", language);
-		if (pubDate != null) JDom.addTextElement(eChannel, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+		if (title != null) {
+                        JDom.addTextElement(eChannel, "title", title);
+                }
+		if (link != null) {
+                        JDom.addTextElement(eChannel, "link", link);
+                }
+		if (description != null) {
+                        JDom.addTextElement(eChannel, "description", description);
+                }
+		if (language != null) {
+                        JDom.addTextElement(eChannel, "language", language);
+                }
+		if (pubDate != null) {
+                        JDom.addTextElement(eChannel, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+                }
 		if (image != null) {
 			Element eImage = JDom.addElement(eChannel, "image");
 			JDom.addTextElement(eImage, "url", image);
@@ -102,7 +112,9 @@ public class Rss20Builder {
 
 	public void removeDuplicates(Item item) {
 		for (Item i : new ArrayList<Item>(items)) {
-			if (i == item) continue;
+			if (i == item) {
+                                continue;
+                        }
 			if (UtlExtend.equals(i.guid, item.guid) || (i.enclosure != null && UtlExtend.equals(i.enclosure, item.enclosure))
 					|| UtlExtend.equals(i.title, item.title)) {
 				items.remove(item);
@@ -129,11 +141,21 @@ public class Rss20Builder {
 		private String enclosure;
 
 		private void appendTo(Element eItem) {
-			if (title != null) JDom.addTextElement(eItem, "title", title);
-			if (description != null) JDom.addTextElement(eItem, "description", description);
-			if (link != null) JDom.addTextElement(eItem, "link", link);
-			if (guid != null) JDom.addTextElement(eItem, "guid", guid);
-			if (pubDate != null) JDom.addTextElement(eItem, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+			if (title != null) {
+                                JDom.addTextElement(eItem, "title", title);
+                        }
+			if (description != null) {
+                                JDom.addTextElement(eItem, "description", description);
+                        }
+			if (link != null) {
+                                JDom.addTextElement(eItem, "link", link);
+                        }
+			if (guid != null) {
+                                JDom.addTextElement(eItem, "guid", guid);
+                        }
+			if (pubDate != null) {
+                                JDom.addTextElement(eItem, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+                        }
 			if (enclosure != null) {
 				Element eEnclosure = JDom.addElement(eItem, "enclosure");
 				eEnclosure.setAttribute("url", enclosure);

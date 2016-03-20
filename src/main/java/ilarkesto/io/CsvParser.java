@@ -31,7 +31,9 @@ public final class CsvParser {
 	public List<String> nextRecord() {
 		List<String> result = new ArrayList<String>();
 		int c = readNextChar();
-		if (c == -1) return null;
+		if (c == -1) {
+                        return null;
+                }
 		resetLastChar();
 		while (true) {
 			if (quoted) {
@@ -71,10 +73,14 @@ public final class CsvParser {
 		int c;
 		for (int i = 0; true; i++) {
 			c = readNextChar();
-			if (quoted && c == '"') return sb.toString();
+			if (quoted && c == '"') {
+                                return sb.toString();
+                        }
 			if (isEOL(c)) {
 				if (quoted) {
-					if (c == -1) throw new ParseException("Unexpected OEF in field");
+					if (c == -1) {
+                                                throw new ParseException("Unexpected OEF in field");
+                                        }
 				} else {
 					resetLastChar();
 					return sb.toString();
@@ -86,57 +92,71 @@ public final class CsvParser {
 			}
 			if (c == '\\') {
 				appendControlSequence(sb);
-			} else sb.append((char) c);
+			} else {
+                                sb.append((char) c);
+                        }
 		}
 	}
 
 	private void appendControlSequence(StringBuilder sb) {
 		int seq = readNextChar();
-		if (seq == '\\')
-			sb.append("\\");
-		else if (seq == 'b')
-			sb.append("\b");
-		else if (seq == 't')
-			sb.append("\t");
-		else if (seq == 'n')
-			sb.append("\n");
-		else if (seq == 'f')
-			sb.append("\f");
-		else if (seq == 'r')
-			sb.append("\r");
-		else if (seq == '\"')
-			sb.append("\"");
-		else if (seq == '\'')
-			sb.append("\'");
-		else throw new ParseException("Unsupported control sequence '" + (char) seq + "' (" + seq + ")");
+		if (seq == '\\') {
+                        sb.append("\\");
+                } else if (seq == 'b') {
+                        sb.append("\b");
+                } else if (seq == 't') {
+                        sb.append("\t");
+                } else if (seq == 'n') {
+                        sb.append("\n");
+                } else if (seq == 'f') {
+                        sb.append("\f");
+                } else if (seq == 'r') {
+                        sb.append("\r");
+                } else if (seq == '\"') {
+                        sb.append("\"");
+                } else if (seq == '\'') {
+                        sb.append("\'");
+                } else {
+                        throw new ParseException("Unsupported control sequence '" + (char) seq + "' (" + seq + ")");
+                }
 	}
 
 	private void parseSeperator() throws EOFException, EOLException {
 		int c = readNextChar();
-		if (c == -1) throw new EOFException();
+		if (c == -1) {
+                        throw new EOFException();
+                }
 		if (isEOL(c)) {
 			resetLastChar();
 			throw new EOLException();
 		}
-		if (isSeperator(c)) return;
+		if (isSeperator(c)) {
+                        return;
+                }
 		throw new ParseException("Field seperator expected, but is: '" + (char) c + "' (" + c + ")");
 	}
 
 	private void parseOpeningQuote() throws EOFException, EOLException {
 		int c = readNextChar();
-		if (c == -1) throw new EOFException();
+		if (c == -1) {
+                        throw new EOFException();
+                }
 		if (isEOL(c)) {
 			resetLastChar();
 			throw new EOLException();
 		}
-		if (c == '"') return;
+		if (c == '"') {
+                        return;
+                }
 		throw new ParseException("Quote '\"' expected, but is: '" + (char) c + "' (" + c + ")");
 	}
 
 	private void parseNl() {
 		while (true) {
 			int c = readNextChar();
-			if (c == -1) return;
+			if (c == -1) {
+                                return;
+                        }
 			if (!isEOL(c)) {
 				resetLastChar();
 				return;
@@ -146,7 +166,9 @@ public final class CsvParser {
 
 
 	private void resetLastChar() {
-		if (in == null) return;
+		if (in == null) {
+                        return;
+                }
 		try {
 			in.reset();
 		} catch (IOException ex) {
@@ -157,7 +179,9 @@ public final class CsvParser {
 	// private char lastReadChar;
 
 	private int readNextChar() {
-		if (in == null) return -1;
+		if (in == null) {
+                        return -1;
+                }
 		try {
 			in.mark(1);
 			int c = in.read();

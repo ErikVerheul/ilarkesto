@@ -32,7 +32,9 @@ public class Str {
 	public static final char EUR = '\u0080';
 
 	public static String encodeUrlParameter(String s) {
-		if (s == null) return "";
+		if (s == null) {
+                        return "";
+                }
 		StringBuilder sb = new StringBuilder();
 		int len = s.length();
 		for (int i = 0; i < len; i++) {
@@ -142,19 +144,25 @@ public class Str {
 
 	public static String concat(String prefix, String suffix, String delimiter, Object... objects) {
 		StringBuilder sb = new StringBuilder();
-		if (prefix != null) sb.append(prefix);
+		if (prefix != null) {
+                        sb.append(prefix);
+                }
 		for (int i = 0; i < objects.length; i++) {
 			sb.append(objects[i]);
 			if (delimiter != null && i < objects.length - 1) {
 				sb.append(delimiter);
 			}
 		}
-		if (suffix != null) sb.append(suffix);
+		if (suffix != null) {
+                        sb.append(suffix);
+                }
 		return sb.toString();
 	}
 
 	public static String concat(Iterable strings, String delimiter) {
-		if (strings == null) return null;
+		if (strings == null) {
+                        return null;
+                }
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (Object s : strings) {
@@ -169,7 +177,9 @@ public class Str {
 	}
 
 	public static String concat(Collection strings, String delimiter) {
-		if (strings == null) return null;
+		if (strings == null) {
+                        return null;
+                }
 		StringBuilder sb = new StringBuilder();
 		boolean first = true;
 		for (Object s : strings) {
@@ -187,14 +197,22 @@ public class Str {
 	 * Removes a suffix from a string, if it exists.
 	 */
 	public static String removeSuffix(String s, String suffixToRemove) {
-		if (s == null) return null;
-		if (!s.endsWith(suffixToRemove)) return s;
+		if (s == null) {
+                        return null;
+                }
+		if (!s.endsWith(suffixToRemove)) {
+                        return s;
+                }
 		return s.substring(0, s.length() - suffixToRemove.length());
 	}
 
 	public static String removePrefix(String s, String prefixToRemove) {
-		if (s == null) return null;
-		if (!s.startsWith(prefixToRemove)) return s;
+		if (s == null) {
+                        return null;
+                }
+		if (!s.startsWith(prefixToRemove)) {
+                        return s;
+                }
 		return s.substring(prefixToRemove.length());
 	}
 
@@ -203,19 +221,27 @@ public class Str {
 	}
 
 	public static String getFirstParagraph(String s, String paragraphEndIndicator) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		int idx = s.indexOf(paragraphEndIndicator);
-		if (idx <= 0) return s;
+		if (idx <= 0) {
+                        return s;
+                }
 		return s.substring(0, idx);
 	}
 
 	public static String appendIfNotBlank(String s, String suffix) {
-		if (isBlank(s)) return s;
+		if (isBlank(s)) {
+                        return s;
+                }
 		return s + suffix;
 	}
 
 	public static String toHtml(String s) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		s = s.replace("&", "&amp;");
 		s = s.replace(String.valueOf(ae), "&auml;");
 		s = s.replace(String.valueOf(ue), "&uuml;");
@@ -237,31 +263,43 @@ public class Str {
 		StringBuilder sb = new StringBuilder();
 		int len = s.length();
 		for (int i = 0; i < len; i++) {
-			if (s.charAt(i) != ' ') break;
+			if (s.charAt(i) != ' ') {
+                                break;
+                        }
 			sb.append(' ');
 		}
 		return sb.toString();
 	}
 
 	public static String cutFromTo(String s, String from, String to) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		s = cutFrom(s, from);
 		s = cutTo(s, to);
 		return s;
 	}
 
 	public static String cutFrom(String s, String from) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		int fromIdx = s.indexOf(from);
-		if (fromIdx < 0) return null;
+		if (fromIdx < 0) {
+                        return null;
+                }
 		fromIdx += from.length();
 		return s.substring(fromIdx);
 	}
 
 	public static String cutTo(String s, String to) {
-		if (s == null) return null;
+		if (s == null) {
+                        return null;
+                }
 		int toIdx = s.indexOf(to);
-		if (toIdx < 0) return null;
+		if (toIdx < 0) {
+                        return null;
+                }
 		return s.substring(0, toIdx);
 	}
 
@@ -301,7 +339,9 @@ public class Str {
 	public static String cutLeft(String s, int maxlength) {
 		if (s.length() > maxlength) {
 			return s.substring(s.length() - maxlength);
-		} else return s;
+		} else {
+                        return s;
+                }
 	}
 
 	// TODO rename
@@ -314,14 +354,18 @@ public class Str {
 	}
 
 	public static boolean isEmail(String s) {
-		if (isBlank(s)) return false;
+		if (isBlank(s)) {
+                        return false;
+                }
 		boolean at = false;
 		boolean dot = false;
 		int len = s.length();
 		for (int i = 0; i < len; i++) {
 			char c = s.charAt(i);
 			if (c == '@') {
-				if (at) return false;
+				if (at) {
+                                        return false;
+                                }
 				at = true;
 				continue;
 			}
@@ -329,22 +373,40 @@ public class Str {
 				dot = true;
 				continue;
 			}
-			if (Character.isLetterOrDigit(c) || c == '-' || c == '_') continue;
+			if (Character.isLetterOrDigit(c) || c == '-' || c == '_') {
+                                continue;
+                        }
 			return false;
 		}
-		if (!dot || !at) return false;
+		if (!dot || !at) {
+                        return false;
+                }
 		return true;
 	}
 
 	public static boolean isTrue(String s) {
-		if (s == null) return false;
+		if (s == null) {
+                        return false;
+                }
 		s = s.toLowerCase();
-		if (s.equals("true")) return true;
-		if (s.equals("yes")) return true;
-		if (s.equals("y")) return true;
-		if (s.equals("1")) return true;
-		if (s.equals("ja")) return true;
-		if (s.equals("j")) return true;
+		if (s.equals("true")) {
+                        return true;
+                }
+		if (s.equals("yes")) {
+                        return true;
+                }
+		if (s.equals("y")) {
+                        return true;
+                }
+		if (s.equals("1")) {
+                        return true;
+                }
+		if (s.equals("ja")) {
+                        return true;
+                }
+		if (s.equals("j")) {
+                        return true;
+                }
 		return false;
 	}
 
@@ -360,19 +422,37 @@ public class Str {
 	}
 
 	public static String format(Object o) {
-		if (o == null) return null;
-		if (o instanceof Object[]) return formatObjectArray((Object[]) o);
-		if (o instanceof Map) return formatMap((Map) o);
-		if (o instanceof Collection) formatCollection((Collection) o);
-		if (o instanceof Enumeration) return formatEnumeration((Enumeration) o);
-		if (o instanceof Throwable) return formatException((Throwable) o);
+		if (o == null) {
+                        return null;
+                }
+		if (o instanceof Object[]) {
+                        return formatObjectArray((Object[]) o);
+                }
+		if (o instanceof Map) {
+                        return formatMap((Map) o);
+                }
+		if (o instanceof Collection) {
+                        formatCollection((Collection) o);
+                }
+		if (o instanceof Enumeration) {
+                        return formatEnumeration((Enumeration) o);
+                }
+		if (o instanceof Throwable) {
+                        return formatException((Throwable) o);
+                }
 		return o.toString();
 	}
 
 	private static boolean isWrapperException(Throwable ex) {
-		if (getSimpleName(ex.getClass()).equals("RuntimeException")) return true;
-		if (getSimpleName(ex.getClass()).equals("ExecutionException")) return true;
-		if (getSimpleName(ex.getClass()).equals("UmbrellaException")) return true;
+		if (getSimpleName(ex.getClass()).equals("RuntimeException")) {
+                        return true;
+                }
+		if (getSimpleName(ex.getClass()).equals("ExecutionException")) {
+                        return true;
+                }
+		if (getSimpleName(ex.getClass()).equals("UmbrellaException")) {
+                        return true;
+                }
 		return false;
 	}
 
@@ -413,13 +493,17 @@ public class Str {
 		while (ex != null) {
 			Throwable cause = ex.getCause();
 			String message = ex.getMessage();
-			if (cause != null && message != null && message.startsWith(cause.getClass().getName())) message = null;
+			if (cause != null && message != null && message.startsWith(cause.getClass().getName())) {
+                                message = null;
+                        }
 			while ((isWrapperException(ex) && isBlank(message) && cause != null)
 					|| getSimpleName(ex.getClass()).equals("UmbrellaException")) {
 				ex = cause;
 				cause = ex.getCause();
 				message = ex.getMessage();
-				if (cause != null && message != null && message.startsWith(cause.getClass().getName())) message = null;
+				if (cause != null && message != null && message.startsWith(cause.getClass().getName())) {
+                                        message = null;
+                                }
 			}
 			if (sb == null) {
 				sb = new StringBuilder();
@@ -438,8 +522,9 @@ public class Str {
 
 	public static String formatStackTrace(StackTraceElement[] trace) {
 		StringBuilder sb = new StringBuilder();
-		for (StackTraceElement element : trace)
-			sb.append("    at ").append(element).append("\n");
+		for (StackTraceElement element : trace) {
+                        sb.append("    at ").append(element).append("\n");
+                }
 		return sb.toString();
 	}
 
@@ -449,7 +534,9 @@ public class Str {
 		sb.append(formatStackTrace(t.getStackTrace()));
 
 		Throwable cause = t.getCause();
-		if (cause == null) return sb.toString();
+		if (cause == null) {
+                        return sb.toString();
+                }
 		sb.append("Caused by: ").append(getStackTrace(cause));
 
 		return sb.toString();

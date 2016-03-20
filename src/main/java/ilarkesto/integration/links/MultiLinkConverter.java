@@ -32,10 +32,14 @@ public class MultiLinkConverter implements LinkConverter {
 
 	@Override
 	public String convert(String href, int maxWidth) {
-		if (href == null) return null;
+		if (href == null) {
+                        return null;
+                }
 		for (LinkConverter converter : converters) {
 			String s = converter.convert(href, maxWidth);
-			if (!s.equals(href)) return s;
+			if (!s.equals(href)) {
+                                return s;
+                        }
 		}
 		return href;
 	}

@@ -27,7 +27,9 @@ public class ASwingApplicationConfig extends AApplicationConfig {
 	public final LoginData getLoginData(String id) {
 		String login = p.get("login." + id + ".login");
 		String password = p.getCrypted("login." + id + ".password");
-		if (login == null && password == null) return null;
+		if (login == null && password == null) {
+                        return null;
+                }
 		return new LoginData(login, password, true);
 	}
 

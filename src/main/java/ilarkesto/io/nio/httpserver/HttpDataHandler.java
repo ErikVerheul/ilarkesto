@@ -108,7 +108,9 @@ public class HttpDataHandler implements DataHandler {
 	}
 
 	private void onHeaderDone() {
-		if (!checkHeaders()) return;
+		if (!checkHeaders()) {
+                        return;
+                }
 		server.onHttpRequest(request);
 	}
 
@@ -136,7 +138,9 @@ public class HttpDataHandler implements DataHandler {
 	}
 
 	private void parseStartLine(String line) {
-		if (startLineDone) throw new IllegalStateException("Start line already parsed");
+		if (startLineDone) {
+                        throw new IllegalStateException("Start line already parsed");
+                }
 		startLineDone = true;
 		for (HttpMethod m : HttpMethod.values()) {
 			if (line.startsWith(m.name())) {

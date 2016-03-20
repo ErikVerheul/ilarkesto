@@ -82,12 +82,16 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 	// ---
 
 	public TimePeriod subtract(TimePeriod tp) {
-		if (tp == null) return this;
+		if (tp == null) {
+                        return this;
+                }
 		return newTimePeriod(millis - tp.millis);
 	}
 
 	public TimePeriod add(TimePeriod tp) {
-		if (tp == null) return this;
+		if (tp == null) {
+                        return this;
+                }
 		return newTimePeriod(millis + tp.millis);
 	}
 
@@ -161,7 +165,9 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 		StringBuilder sb = new StringBuilder();
 		sb.append(hours);
 		sb.append(':');
-		if (minutes < 10) sb.append('0');
+		if (minutes < 10) {
+                        sb.append('0');
+                }
 		sb.append(minutes);
 		return sb.toString();
 	}
@@ -226,14 +232,20 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 
 	@Override
 	public final int compareTo(TimePeriod o) {
-		if (millis == o.millis) return 0;
+		if (millis == o.millis) {
+                        return 0;
+                }
 		return millis > o.millis ? 1 : -1;
 	}
 
 	@Override
 	public final boolean equals(Object obj) {
-		if (obj == null) return false;
-		if (!(obj instanceof TimePeriod)) return false;
+		if (obj == null) {
+                        return false;
+                }
+		if (!(obj instanceof TimePeriod)) {
+                        return false;
+                }
 		return millis == ((TimePeriod) obj).millis;
 	}
 

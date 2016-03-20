@@ -37,10 +37,12 @@ public class CsvWriter {
 	}
 
 	public void writeRecord(Map<String, Object> fields) {
-		if (headers == null)
-			throw new IllegalStateException("headers property must be set when to write record values from a map");
-		for (String header : headers)
-			writeField(fields.get(header));
+		if (headers == null) {
+                        throw new IllegalStateException("headers property must be set when to write record values from a map");
+                }
+		for (String header : headers) {
+                        writeField(fields.get(header));
+                }
 		closeRecord();
 	}
 
@@ -54,8 +56,9 @@ public class CsvWriter {
 	}
 
 	public void writeRecord(Collection<String> values) {
-		for (String value : values)
-			writeField(value);
+		for (String value : values) {
+                        writeField(value);
+                }
 		closeRecord();
 	}
 

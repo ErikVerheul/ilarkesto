@@ -51,18 +51,24 @@ public class ReflectionComponentReflector implements ComponentReflector {
 
 		@Override
 		public void handle(Annotation annotation, Field field, Object component) {
-			if (annotation.annotationType() != Out.class) return;
+			if (annotation.annotationType() != Out.class) {
+                                return;
+                        }
 
 			String outName = field.getName();
 			Object outComponent;
 
 			try {
-				if (!field.isAccessible()) field.setAccessible(true);
+				if (!field.isAccessible()) {
+                                        field.setAccessible(true);
+                                }
 				outComponent = field.get(component);
 			} catch (Throwable ex) {
 				throw new DependencyOutjectionFailedException(component, outName, ex);
 			}
-			if (outComponent == null) return;
+			if (outComponent == null) {
+                                return;
+                        }
 
 			log.debug("Outjecting component field:", component.getClass().getSimpleName() + "." + field.getName());
 			scope.putComponent(outName, outComponent);
@@ -73,12 +79,16 @@ public class ReflectionComponentReflector implements ComponentReflector {
 
 		@Override
 		public void handle(Annotation annotation, Method method, Object object) {
-			if (annotation.annotationType() != Init.class) return;
+			if (annotation.annotationType() != Init.class) {
+                                return;
+                        }
 
 			log.debug("Calling initialization method:", object.getClass().getSimpleName() + "." + method.getName()
 					+ "()");
 			try {
-				if (!method.isAccessible()) method.setAccessible(true);
+				if (!method.isAccessible()) {
+                                        method.setAccessible(true);
+                                }
 				method.invoke(object);
 			} catch (Throwable ex) {
 				throw new InitializationFaildException(object, method.getName(), ex);
@@ -97,16 +107,24 @@ public class ReflectionComponentReflector implements ComponentReflector {
 
 		@Override
 		public void handle(Annotation annotation, Field field, Object component) {
-			if (annotation.annotationType() != In.class) return;
+			if (annotation.annotationType() != In.class) {
+                                return;
+                        }
 
 			String dependencyName = field.getName();
 			Object dependency = scope.getComponent(dependencyName);
-			if (dependency == null) return;
+			if (dependency == null) {
+                                return;
+                        }
 
 			try {
-				if (!field.isAccessible()) field.setAccessible(true);
+				if (!field.isAccessible()) {
+                                        field.setAccessible(true);
+                                }
 				Object value = field.get(component);
-				if (value == dependency) return;
+				if (value == dependency) {
+                                        return;
+                                }
 				log.debug("Injecting component field:", component.getClass().getSimpleName() + "." + field.getName());
 				field.set(component, dependency);
 			} catch (Throwable ex) {

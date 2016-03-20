@@ -37,7 +37,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 	private Map<Class, ADao> daos = new HashMap<Class, ADao>();
 
 	public void ensureIntegrity() {
-		if (!initialized) throw new RuntimeException("Not initiialized!");
+		if (!initialized) {
+                        throw new RuntimeException("Not initiialized!");
+                }
 		for (ADao dao : daos.values()) {
 			dao.ensureIntegrity();
 		}
@@ -54,7 +56,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 	public ADao getDaoByName(String entityName) {
 		for (ADao manager : daos.values()) {
-			if (manager.getEntityName().equals(entityName)) return manager;
+			if (manager.getEntityName().equals(entityName)) {
+                                return manager;
+                        }
 		}
 		throw new RuntimeException("Dao does not exist: entityName=" + entityName);
 	}
@@ -65,7 +69,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 	public ADao getDaoByClass(Class entityClass) {
 		ADao dao = daos.get(entityClass);
-		if (dao == null) throw new RuntimeException("Dao does not exist: " + entityClass);
+		if (dao == null) {
+                        throw new RuntimeException("Dao does not exist: " + entityClass);
+                }
 		return dao;
 	}
 
@@ -75,7 +81,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 	}
 
 	public AEntity getEntityById(final String id) {
-		if (id == null) throw new IllegalArgumentException("id == null");
+		if (id == null) {
+                        throw new IllegalArgumentException("id == null");
+                }
 		AEntity entity = transactionService.getEntity(null, new Predicate<AEntity>() {
 
 			@Override
@@ -85,12 +93,16 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 		});
 
-		if (entity == null) throw new EntityDoesNotExistException(id);
+		if (entity == null) {
+                        throw new EntityDoesNotExistException(id);
+                }
 		return entity;
 	}
 
 	public boolean containsEntityWithId(final String id) {
-		if (id == null) throw new IllegalArgumentException("id == null");
+		if (id == null) {
+                        throw new IllegalArgumentException("id == null");
+                }
 		AEntity entity = transactionService.getEntity(null, new Predicate<AEntity>() {
 
 			@Override
@@ -113,8 +125,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 	public List<AEntity> getEntitiesByIds(final Collection<String> ids) {
 		List<AEntity> ret = new ArrayList<AEntity>(ids.size());
-		for (String id : ids)
-			ret.add(transactionService.getById(id));
+		for (String id : ids) {
+                        ret.add(transactionService.getById(id));
+                }
 		return ret;
 	}
 
@@ -123,27 +136,37 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 	private List<DaoListener> listeners;
 
 	public void addListener(DaoListener listener) {
-		if (listeners == null) listeners = new ArrayList<DaoListener>();
+		if (listeners == null) {
+                        listeners = new ArrayList<DaoListener>();
+                }
 		listeners.add(listener);
 	}
 
 	public void removeListener(DaoListener listener) {
-		if (listeners == null) return;
+		if (listeners == null) {
+                        return;
+                }
 		listeners.remove(listener);
 	}
 
 	public void fireEntitySaved(AEntity entity) {
-		if (listeners == null) return;
+		if (listeners == null) {
+                        return;
+                }
 		EntityEvent event = new EntityEvent(this, entity);
-		for (DaoListener listener : listeners)
-			listener.entitySaved(event);
+		for (DaoListener listener : listeners) {
+                        listener.entitySaved(event);
+                }
 	}
 
 	public void fireEntityDeleted(AEntity entity) {
-		if (listeners == null) return;
+		if (listeners == null) {
+                        return;
+                }
 		EntityEvent event = new EntityEvent(this, entity);
-		for (DaoListener listener : listeners)
-			listener.entityDeleted(event);
+		for (DaoListener listener : listeners) {
+                        listener.entityDeleted(event);
+                }
 	}
 
 	// --- dependencies ---
@@ -151,10 +174,14 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 	private volatile boolean initialized;
 
 	public synchronized final void initialize(Context context) {
-		if (initialized) throw new RuntimeException("Already initialized!");
+		if (initialized) {
+                        throw new RuntimeException("Already initialized!");
+                }
 
 		for (ADao dao : context.getBeansByType(ADao.class)) {
-			if (dao.getEntityClass() == null) continue;
+			if (dao.getEntityClass() == null) {
+                                continue;
+                        }
 			Map<String, Class> aliases = dao.getAliases();
 			for (Map.Entry<String, Class> entry : aliases.entrySet()) {
 				entityStore.setAlias(entry.getKey(), entry.getValue());
@@ -169,7 +196,9 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 		entityStore.setAlias("ilarkesto.base.time.DateAndTime", DateAndTime.class);
 
 		for (ADao dao : context.getBeansByType(ADao.class)) {
-			if (dao.getEntityClass() == null) continue;
+			if (dao.getEntityClass() == null) {
+                                continue;
+                        }
 			dao.initialize(context);
 			addDao(dao);
 		}

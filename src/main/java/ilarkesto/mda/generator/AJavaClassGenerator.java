@@ -38,7 +38,9 @@ public abstract class AJavaClassGenerator {
 
 	public void generate() {
 		JavaPrinter out = new JavaPrinter();
-		if (overwriteAllowed) out.commentGenerated();
+		if (overwriteAllowed) {
+                        out.commentGenerated();
+                }
 		printCode(out);
 		out.writeToFile(srcPath, overwriteAllowed);
 	}
@@ -48,17 +50,21 @@ public abstract class AJavaClassGenerator {
 	public String getDependencyType(Node dependency) {
 		Node module = dependency.getSuperparentByType(NodeTypes.GwtModule);
 		Node type = dependency.getChildByType(NodeTypes.Type);
-		if (type != null) return type.getValue();
+		if (type != null) {
+                        return type.getValue();
+                }
 		String name = dependency.getValue();
 		name = StrExtend.uppercaseFirstLetter(name);
 		Node component = module.getChildRecursive(NodeTypes.Component, name);
-		if (component != null)
-			return getModulePackage(module) + "." + component.getSuperparentByType(NodeTypes.Package).getValue() + "."
-					+ component.getValue();
+		if (component != null) {
+                        return getModulePackage(module) + "." + component.getSuperparentByType(NodeTypes.Package).getValue() + "."
+                                + component.getValue();
+                }
 		Node entity = module.getChildRecursive(NodeTypes.Entity, name);
-		if (entity != null)
-			return getModulePackage(module) + "." + entity.getSuperparentByType(NodeTypes.Package).getValue() + "."
-					+ entity.getValue();
+		if (entity != null) {
+                        return getModulePackage(module) + "." + entity.getSuperparentByType(NodeTypes.Package).getValue() + "."
+                                + entity.getValue();
+                }
 		throw new RuntimeException("Can not determine type for dependency: " + dependency);
 	}
 

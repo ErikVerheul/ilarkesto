@@ -36,7 +36,9 @@ public class TransactionService implements IdentifiableResolver<AEntity> {
 
 	public synchronized void commit() {
 		Transaction t = getCurrentTransaction(false);
-		if (t == null) return;
+		if (t == null) {
+                        return;
+                }
 		try {
 			t.commit();
 		} finally {
@@ -46,7 +48,9 @@ public class TransactionService implements IdentifiableResolver<AEntity> {
 
 	public synchronized void cancel() {
 		Transaction t = getCurrentTransaction(false);
-		if (t == null) return;
+		if (t == null) {
+                        return;
+                }
 		log.debug("Cancelling transaction:", t);
 		threadLocalTransaction.set(null);
 	}
@@ -54,7 +58,9 @@ public class TransactionService implements IdentifiableResolver<AEntity> {
 	private synchronized Transaction getCurrentTransaction(boolean autocreate) {
 		Transaction t = threadLocalTransaction.get();
 		if (t == null) {
-			if (!autocreate) return null;
+			if (!autocreate) {
+                                return null;
+                        }
 			t = new Transaction(entityStore);
 			log.debug("Transaction created: " + t);
 			threadLocalTransaction.set(t);
@@ -63,7 +69,9 @@ public class TransactionService implements IdentifiableResolver<AEntity> {
 	}
 
 	public boolean isPersistent(String id) {
-		if (id == null) return false;
+		if (id == null) {
+                        return false;
+                }
 		Transaction transaction = getCurrentTransaction(false);
 		if (transaction == null) {
 			AEntity entity = entityStore.getById(id);

@@ -40,9 +40,13 @@ public class DeleteBackups {
 	private static List<Backup> filterBackups(File[] files) {
 		List<Backup> backups = new ArrayList<DeleteBackups.Backup>();
 		for (File file : files) {
-			if (!file.isFile()) continue;
+			if (!file.isFile()) {
+                                continue;
+                        }
 			Date date = extractDate(file.getName());
-			if (date == null) continue;
+			if (date == null) {
+                                continue;
+                        }
 			backups.add(new Backup(file, date));
 		}
 		Collections.sort(backups);
@@ -50,12 +54,16 @@ public class DeleteBackups {
 	}
 
 	private static int deleteBackups(File dir) {
-		if (!dir.exists()) return fail("Backup directory does not exist: " + dir.getAbsolutePath());
+		if (!dir.exists()) {
+                        return fail("Backup directory does not exist: " + dir.getAbsolutePath());
+                }
 		return deleteSomeBackupFiles(dir.listFiles());
 	}
 
 	private static int deleteBackups(String[] args) {
-		if (args.length != 1) return fail("Bad syntax: Exactly one argument (the backup directory path) required");
+		if (args.length != 1) {
+                        return fail("Bad syntax: Exactly one argument (the backup directory path) required");
+                }
 		return deleteBackups(new File(args[0]));
 	}
 
@@ -66,9 +74,13 @@ public class DeleteBackups {
 
 	public static Date extractDate(String s) {
 		Matcher matcher = Pattern.compile(".*(20\\d\\d-\\d\\d-\\d\\d).*").matcher(s);
-		if (!matcher.matches()) return null;
+		if (!matcher.matches()) {
+                        return null;
+                }
 		String date = matcher.group(1);
-		if (date == null) return null;
+		if (date == null) {
+                        return null;
+                }
 		return new Date(date);
 	}
 
