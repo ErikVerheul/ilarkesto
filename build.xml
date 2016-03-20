@@ -14,16 +14,14 @@
     <property name="test.src.dir" value="${basedir}/src/test/java"/>
     
     <!-- Define the SonarQube target /  do nut run in IDE-->
-    <target name="sonar">
-            <!-- [Erik] now obsolete while injected from settings.xml: 
+    <target name="sonar"> 
             Define the SonarQube global properties (the most usual way is to pass these properties via the command line) >
             <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube" />
             <property name="sonar.jdbc.url" value="jdbc:mysql://192.168.0.251:3306/sonar?useUnicode=true&amp;characterEncoding=utf8" />
             <property name="sonar.jdbc.username" value="sonar" />
-            <property name="sonar.jdbc.password" value="sonar" /-->
+            <property name="sonar.jdbc.password" value="sonar" />
  
             <!-- Define the SonarQube project properties -->
-            <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube" />
             <property name="sonar.projectKey" value="nl.verheulconsultants:Ilarkesto" />
             <property name="sonar.projectName" value="Ilarkesto project analyzed with the SonarQube Ant Task" />
             <property name="sonar.projectVersion" value="1.0" />
