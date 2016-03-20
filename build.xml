@@ -23,6 +23,7 @@
             <property name="sonar.jdbc.password" value="sonar" /-->
  
             <!-- Define the SonarQube project properties -->
+            <property name="sonar.host.url" value="http://192.168.0.251:9000/sonarqube" />
             <property name="sonar.projectKey" value="nl.verheulconsultants:Ilarkesto" />
             <property name="sonar.projectName" value="Ilarkesto project analyzed with the SonarQube Ant Task" />
             <property name="sonar.projectVersion" value="1.0" />
@@ -32,7 +33,6 @@
             <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
                     <!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
                     <!-- [Erik] did put sonarqube-ant-task-2.4.jar in the apache-ant-1.9.6 lib folder -->
-                    <!-- now obsolete: classpath path="D:\apache-ant-2.4\lib\sonar-ant-task-*.jar" /-->
             </taskdef>
  
             <!-- Execute the SonarQube analysis -->
