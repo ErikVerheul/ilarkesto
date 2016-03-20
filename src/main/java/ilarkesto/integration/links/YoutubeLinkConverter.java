@@ -37,14 +37,14 @@ public class YoutubeLinkConverter implements LinkConverter {
 	private String parseVideoId(String href) {
 		if (href.contains("/embed/")) {
 			int idx = href.lastIndexOf("/embed/") + 7;
-			int endIdx = href.indexOf("&", idx);
+			int endIdx = href.indexOf('&', idx);
 			if (endIdx > 0) {
                                 return href.substring(idx, endIdx);
                         }
 			return href.substring(idx);
 		}
 		int idx = href.indexOf("v=") + 2;
-		int endIdx = href.indexOf("&", idx);
+		int endIdx = href.indexOf('&', idx);
 		if (endIdx > 0) {
                         return href.substring(idx, endIdx);
                 }

@@ -17,6 +17,7 @@ package ilarkesto.base;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -198,9 +199,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 
 	public static <E> Set<E> toSet(E... elements) {
 		Set<E> ret = new HashSet<E>(elements.length);
-		for (E element : elements) {
-			ret.add(element);
-		}
+                ret.addAll(Arrays.asList(elements));
 		return ret;
 	}
 

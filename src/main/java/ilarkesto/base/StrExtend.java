@@ -973,7 +973,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 						int idx = t.indexOf("href=\"");
 						if (idx >= 0) {
 							idx += 6;
-							int endidx = t.indexOf("\"", idx);
+							int endidx = t.indexOf('"', idx);
 							if (endidx > idx) {
 								href = t.substring(idx, endidx);
 							}
@@ -981,7 +981,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 							idx = t.indexOf("href='");
 							if (idx >= 0) {
 								idx += 6;
-								int endidx = t.indexOf("'", idx);
+								int endidx = t.indexOf('\'', idx);
 								if (endidx > idx) {
 									href = t.substring(idx, endidx);
 								}
@@ -1545,7 +1545,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		ArrayList<String> al = new ArrayList<String>();
 
 		while (line.length() > maxlen) {
-			int idx = line.substring(0, maxlen).lastIndexOf(" ");
+			int idx = line.substring(0, maxlen).lastIndexOf(' ');
 			if (idx <= 0) {
                                 idx = maxlen;
                         }

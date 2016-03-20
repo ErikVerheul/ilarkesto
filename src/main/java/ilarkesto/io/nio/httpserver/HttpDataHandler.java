@@ -127,7 +127,7 @@ public class HttpDataHandler implements DataHandler {
 	}
 
 	private void parseHeaderLine(String line) {
-		int idx = line.indexOf(":");
+		int idx = line.indexOf(':');
 		if (idx <= 0) {
 			request.sendEmptyResponse(HttpStatusCode.BAD_REQUEST, "Invalid header line: " + line);
 			return;

@@ -26,7 +26,7 @@ public class ValueOption extends AOption {
 	}
 
 	public String getUsageSyntax() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("-");
 		sb.append(getName());
 		sb.append(" <").append(valueLabel).append(">");

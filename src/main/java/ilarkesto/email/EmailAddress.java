@@ -35,7 +35,7 @@ public final class EmailAddress {
                 }
 		this.address = formatAddress(emailAddress, true);
 		validatePlainAddress(this.address);
-		int idx = emailAddress.indexOf("<");
+		int idx = emailAddress.indexOf('<');
 		if (idx >= 0) {
 			label = emailAddress.substring(0, idx).trim();
 			if (label.length() >= 2) {
@@ -119,7 +119,7 @@ public final class EmailAddress {
                 }
 		email = email.trim();
 		if (email.endsWith(">")) {
-			int idx = email.indexOf("<");
+			int idx = email.indexOf('<');
 			if (idx < 0) {
                                 throw new RuntimeException("Illegal EmailAddress: " + email);
                         }

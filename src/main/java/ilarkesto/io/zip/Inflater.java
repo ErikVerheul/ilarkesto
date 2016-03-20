@@ -189,8 +189,10 @@ public class Inflater {
 
         /**
          * Finalizes this object.
+         * @throws java.lang.Throwable
          */
         @SuppressWarnings("FI_EMPTY")
+        @Override
         protected void finalize() throws Throwable {
                 super.finalize();
                 /* Exists only for compatibility */

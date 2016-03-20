@@ -99,7 +99,7 @@ public class MultiCheckboxFormField<T> extends AFormField {
 
 	@Override
 	public void validate() throws ValidationException {
-		if (isRequired() && (value == null || value.size() == 0)) {
+		if (isRequired() && (value == null || value.isEmpty())) {
                         throw new ValidationException("Hier ist eine Auswahl erforderlich.");
                 }
 	}

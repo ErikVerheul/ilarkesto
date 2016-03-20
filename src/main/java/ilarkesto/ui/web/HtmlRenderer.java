@@ -361,7 +361,7 @@ public class HtmlRenderer {
 		BUTTON("button", buttonId, null, "Kalender", null, null, "/img/kde/16x16/apps/cal.png");
 		StringBuilder code = new StringBuilder();
 		code.append("Calendar.setup({\n");
-		code.append("    inputField:  \"" + id + "\",\n");
+		code.append("    inputField:  \"").append(id).append("\",\n");
 		code.append("    ifFormat:    \"%d.%m.%Y\",\n");
 		code.append("    button:      \"").append(buttonId).append("\",\n");
 		code.append("});\n");

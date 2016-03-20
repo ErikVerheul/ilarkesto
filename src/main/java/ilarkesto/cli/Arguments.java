@@ -51,7 +51,7 @@ public class Arguments {
 	}
 
 	public String getUsage() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		// commandline
 		if (options.size() > 0) {

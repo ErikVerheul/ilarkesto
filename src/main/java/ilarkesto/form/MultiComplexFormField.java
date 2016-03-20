@@ -139,7 +139,7 @@ public class MultiComplexFormField extends AFormField {
 
 	@Override
 	public void validate() throws ValidationException {
-		if (isRequired() && (value == null || value.size() == 0)) {
+		if (isRequired() && (value == null || value.isEmpty())) {
                         throw new ValidationException("Auswahl erforderlich!");
                 }
 	}

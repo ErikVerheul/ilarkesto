@@ -24,7 +24,7 @@ public class BooleanOption extends AOption {
 	}
 
 	public String getUsageSyntax() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("-");
 		sb.append(getName());
 		return sb.toString();

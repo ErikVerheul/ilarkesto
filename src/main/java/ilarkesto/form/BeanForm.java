@@ -25,6 +25,7 @@ import ilarkesto.core.time.TimePeriod;
 import ilarkesto.email.EmailAddress;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -129,9 +130,7 @@ public class BeanForm<O> extends Form {
 
 	public DropdownFormField addDropdownProperty(String name, Object[] selectableItems) {
 		Collection items = new ArrayList(selectableItems.length);
-		for (Object item : selectableItems) {
-                        items.add(item);
-                }
+                items.addAll(Arrays.asList(selectableItems));
 		return addDropdownProperty(name, items);
 	}
 

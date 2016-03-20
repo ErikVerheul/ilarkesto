@@ -36,7 +36,7 @@ public class VimeoLinkConverter implements LinkConverter {
 
 	private String parseVideoId(String href) {
 		int idx = href.indexOf("vimeo.com/") + 10;
-		int endIdx = href.indexOf("?", idx);
+		int endIdx = href.indexOf('?', idx);
 		if (endIdx > 0) {
                         return href.substring(idx, endIdx);
                 }
