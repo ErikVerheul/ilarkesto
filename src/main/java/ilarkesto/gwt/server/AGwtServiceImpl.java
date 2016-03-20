@@ -62,7 +62,6 @@ public abstract class AGwtServiceImpl extends RemoteServiceServlet {
 			conversation.getNextData().addError(new ErrorWrapper(t));
 		} catch (Throwable ex) {
 			LOG.info(ex);
-			return;
 		}
 	}
 

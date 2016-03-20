@@ -378,10 +378,7 @@ public class Str {
                         }
 			return false;
 		}
-		if (!dot || !at) {
-                        return false;
-                }
-		return true;
+		return !(!dot || !at);
 	}
 
 	public static boolean isTrue(String s) {
@@ -404,10 +401,7 @@ public class Str {
 		if (s.equals("ja")) {
                         return true;
                 }
-		if (s.equals("j")) {
-                        return true;
-                }
-		return false;
+		return s.equals("j");
 	}
 
 	public static int indexOf(String text, String[] toFind, int startIdx) {
@@ -450,10 +444,7 @@ public class Str {
 		if (getSimpleName(ex.getClass()).equals("ExecutionException")) {
                         return true;
                 }
-		if (getSimpleName(ex.getClass()).equals("UmbrellaException")) {
-                        return true;
-                }
-		return false;
+		return getSimpleName(ex.getClass()).equals("UmbrellaException");
 	}
 
 	public static String formatEnumeration(Enumeration<String> e) {

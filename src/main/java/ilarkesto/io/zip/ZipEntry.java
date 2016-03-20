@@ -452,9 +452,6 @@ public class ZipEntry implements ZipConstants, Cloneable
                         return false;
                 }
                 final ZipEntry other = (ZipEntry) obj;
-                if ((this.name == null) ? (other.name != null) : !this.name.equals(other.name)) {
-                        return false;
-                }
-                return true;
+                return !((this.name == null) ? (other.name != null) : !this.name.equals(other.name));
         }
 }

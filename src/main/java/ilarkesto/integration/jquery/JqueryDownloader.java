@@ -31,10 +31,7 @@ public class JqueryDownloader {
 		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".min.js").exists()) {
                         return false;
                 }
-		if (!new File(destinationDir.getPath() + "/jquery-" + version + ".js").exists()) {
-                        return false;
-                }
-		return true;
+		return new File(destinationDir.getPath() + "/jquery-" + version + ".js").exists();
 	}
 
 	private static void download(String filename, File destinationDir) {

@@ -54,10 +54,6 @@ public class VimeoLinkConverter implements LinkConverter {
 		if (href.startsWith("https://vimeo.com/")) {
                         return true;
                 }
-		if (href.startsWith("vimeo.com/")) {
-                        return true;
-                }
-
-		return false;
+		return href.startsWith("vimeo.com/");
 	}
 }

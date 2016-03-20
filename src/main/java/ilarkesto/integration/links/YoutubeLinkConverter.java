@@ -82,11 +82,7 @@ public class YoutubeLinkConverter implements LinkConverter {
 		if (href.startsWith("https://www.youtube-nocookie.com/embed/")) {
                         return true;
                 }
-		if (href.startsWith("www.youtube-nocookie.com/embed/")) {
-                        return true;
-                }
-
-		return false;
+		return href.startsWith("www.youtube-nocookie.com/embed/");
 	}
 
 }

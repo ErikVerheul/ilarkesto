@@ -30,7 +30,6 @@ public class SelectAllListener implements FocusListener {
         }
         if (c instanceof JTextField) {
             ((JTextField) c).selectAll();
-            return;
         }
     }
 

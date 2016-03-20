@@ -50,10 +50,7 @@ public class FileIterator implements Iterator<File> {
 		if (files == null) {
                         return false;
                 }
-		if (index >= files.length) {
-                        return false;
-                }
-		return true;
+		return index < files.length;
 	}
 
         @Override

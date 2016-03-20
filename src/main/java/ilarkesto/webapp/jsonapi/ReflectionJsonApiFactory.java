@@ -60,7 +60,6 @@ public class ReflectionJsonApiFactory implements JsonApiFactory {
 				type = (Class<? extends AJsonApi>) Class.forName(className);
 				return Reflect.newInstance(type);
 			} catch (ClassNotFoundException ex) {
-				continue;
 			}
 		}
 		return null;

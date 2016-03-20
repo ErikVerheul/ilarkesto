@@ -128,7 +128,6 @@ public final class Proc {
                 for (int acceptableReturnCode : acceptableReturnCodes) {
                         if (rc == acceptableReturnCode) {
                                 rcOk = true;
-                                continue;
                         }
                 }
                 if (!rcOk) {
@@ -203,10 +202,7 @@ public final class Proc {
                 if (process == null) {
                         return false;
                 }
-                if (returnCode != null) {
-                        return false;
-                }
-                return true;
+                return returnCode == null;
         }
 
         public synchronized Process getProcess() {

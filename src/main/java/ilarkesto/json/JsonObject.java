@@ -56,7 +56,7 @@ public class JsonObject {
 
 	public boolean containsString(String name, String expected) {
 		String value = getString(name);
-		return value == expected || (value != null && value.equals(expected));
+		return (value == null ? expected == null : value.equals(expected)) || (value != null && value.equals(expected));
 	}
 
 	public String getString(String name) {

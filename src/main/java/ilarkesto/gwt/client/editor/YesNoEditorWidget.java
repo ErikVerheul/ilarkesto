@@ -45,7 +45,7 @@ public class YesNoEditorWidget extends AViewEditWidget {
 
 	@Override
 	protected void onEditorSubmit() {
-		model.setValue(editor.getSelectedIndex() == 0 ? true : false);
+		model.setValue((editor.getSelectedIndex() == 0));
 	}
 
 	@Override

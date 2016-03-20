@@ -125,25 +125,23 @@ public abstract class AClassGenerator {
 	}
 
 	private boolean isSame(String a, String b) {
-		if (!a.equals(b)) {
-                        return false;
-                }
-		// if (!a.equals(b)) {
-		// if (a.length() != b.length()) return false;
-		// int len = a.length();
-		// for (int i = 0; i < len; i++) {
-		// char ca = a.charAt(i);
-		// char cb = b.charAt(i);
-		// if (ca != cb) {
-		// LOG.debug("----different char @" + i + ":", ((int) ca) + " '" + ca + "'", "<->", ((int) cb) + " '"
-		// + cb + "'");
-		// IO.writeFile(Sys.getUsersHomeDir() + "/inbox/a.txt", a, IO.UTF_8);
-		// IO.writeFile(Sys.getUsersHomeDir() + "/inbox/b.txt", b, IO.UTF_8);
-		// return false;
-		// }
-		// }
-		// }
-		return true;
+                // if (!a.equals(b)) {
+                // if (a.length() != b.length()) return false;
+                // int len = a.length();
+                // for (int i = 0; i < len; i++) {
+                // char ca = a.charAt(i);
+                // char cb = b.charAt(i);
+                // if (ca != cb) {
+                // LOG.debug("----different char @" + i + ":", ((int) ca) + " '" + ca + "'", "<->", ((int) cb) + " '"
+                // + cb + "'");
+                // IO.writeFile(Sys.getUsersHomeDir() + "/inbox/a.txt", a, IO.UTF_8);
+                // IO.writeFile(Sys.getUsersHomeDir() + "/inbox/b.txt", b, IO.UTF_8);
+                // return false;
+                // }
+                // }
+                // }
+                
+		return a.equals(b);
 	}
 
 	public AClassGenerator parameterNames(Collection<ParameterModel> parameters) {

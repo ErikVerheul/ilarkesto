@@ -102,7 +102,6 @@ public class Swing {
 			try {
 				SwingUtilities.invokeAndWait(runnable);
 			} catch (InterruptedException ex) {
-				return;
 			} catch (InvocationTargetException ex) {
 				throw new RuntimeException(ex);
 			}

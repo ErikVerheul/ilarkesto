@@ -137,10 +137,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 		if (s.length() == 0) {
                         return true;
                 }
-		if (s.trim().length() == 0) {
-                        return true;
-                }
-		return false;
+		return s.trim().length() == 0;
 	}
 
 	public static <K, V> Map<K, V> subMap(Map<K, V> source, K... keys) {

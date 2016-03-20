@@ -25,7 +25,6 @@ public class AutoProxy {
                 }
 		if (isHis()) {
 			Sys.setHttpProxy("83.246.65.146", 80);
-			return;
 		}
 	}
 

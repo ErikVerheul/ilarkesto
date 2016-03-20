@@ -176,10 +176,7 @@ public class WebCrawler {
 		if (s.endsWith(".jsp")) {
                         return true;
                 }
-		if (s.endsWith(".php")) {
-                        return true;
-                }
-		return false;
+		return s.endsWith(".php");
 	}
 
 	static String normalizeUrl(String url) {

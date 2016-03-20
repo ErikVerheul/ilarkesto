@@ -148,10 +148,7 @@ public abstract class AAction extends ATask {
 		if (viewId == null) {
                         return false;
                 }
-		if ("option".equals(viewId)) {
-                        return false;
-                }
-		return true;
+		return !"option".equals(viewId);
 	}
 
 	protected final <T> T autowire(T bean) {

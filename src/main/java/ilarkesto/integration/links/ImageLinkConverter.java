@@ -47,10 +47,7 @@ public class ImageLinkConverter implements LinkConverter {
 		if (hrefLower.endsWith(".jpeg")) {
                         return true;
                 }
-		if (href.contains(".ggpht.com/")) {
-                        return true;
-                }
-		return false;
+		return href.contains(".ggpht.com/");
 	}
 
 }

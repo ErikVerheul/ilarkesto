@@ -51,10 +51,7 @@ public class JqueryMobileDownloader {
 		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".css").exists()) {
                         return false;
                 }
-		if (!new File(destinationDir.getPath() + "/images").exists()) {
-                        return false;
-                }
-		return true;
+		return new File(destinationDir.getPath() + "/images").exists();
 	}
 
 	public static void installToDir(String version, File destinationDir) {

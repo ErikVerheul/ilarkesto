@@ -95,10 +95,7 @@ public class OpenId {
 		if (request.getParameter("openid.ns") != null) {
                         return true;
                 }
-		if (request.getParameter("openid.identity") != null) {
-                        return true;
-                }
-		return false;
+		return request.getParameter("openid.identity") != null;
 	}
 
 	public static String createAuthenticationRequestUrl(String openId, String returnUrl, HttpSession session,
@@ -145,10 +142,7 @@ public class OpenId {
 	}
 
 	public static boolean isAxProvider(String openId) {
-		if (openId.contains("myopenid.com")) {
-                        return false;
-                }
-		return true;
+		return !openId.contains("myopenid.com");
 	}
 
 	public static String createAuthenticationRequestUrl(String openId, String returnUrl, HttpSession session)

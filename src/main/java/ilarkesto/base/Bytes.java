@@ -80,9 +80,6 @@ public class Bytes implements Comparable<Bytes> {
                         return false;
                 }
                 final Bytes other = (Bytes) obj;
-                if (this.bytes != other.bytes) {
-                        return false;
-                }
-                return true;
+                return this.bytes == other.bytes;
         }
 }

@@ -162,7 +162,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		String charSet = charSet1;
 		for (int i = 0; i < length; i++) {
 			if (UtlExtend.randomInt(0, 8) != 0) {
-				if (charSet == charSet1) {
+				if (charSet == null ? charSet1 == null : charSet.equals(charSet1)) {
 					charSet = charSet2;
 				} else {
 					charSet = charSet1;
@@ -1092,7 +1092,6 @@ public class StrExtend extends ilarkesto.core.base.Str {
 				if (c == '>') {
                                         inside = false;
                                 }
-				continue;
 			} else {
 				// outside html tag
 				if (c == '<') {

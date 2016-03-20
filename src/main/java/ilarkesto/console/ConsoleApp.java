@@ -254,8 +254,7 @@ public class ConsoleApp {
 		System.out.print("Continue? [Y/n]: ");
 		Scanner in = new Scanner(System.in, Charset.defaultCharset().toString());
 		String input = in.nextLine();
-		if (input.toLowerCase().startsWith("n")) { return false; }
-		return true;
+		return !input.toLowerCase().startsWith("n");
 	}
 
 	private String parseCommandName(String input) {

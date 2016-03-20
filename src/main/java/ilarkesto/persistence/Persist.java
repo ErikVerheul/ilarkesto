@@ -46,10 +46,7 @@ public abstract class Persist {
 		if (typeFilter != null && !typeFilter.test(entity.getClass())) {
                         return false;
                 }
-		if (entityFilter != null && !entityFilter.test(entity)) {
-                        return false;
-                }
-		return true;
+		return !(entityFilter != null && !entityFilter.test(entity));
 	}
 
 	public static boolean matchesKeys(Searchable e, Collection<String> keys) {
