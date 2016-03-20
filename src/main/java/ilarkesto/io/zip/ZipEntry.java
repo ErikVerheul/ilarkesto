@@ -152,7 +152,7 @@ public class ZipEntry implements ZipConstants, Cloneable
    * Clones the entry.
    */
         @Override
-  public Object clone()
+  public Object clone() throws CloneNotSupportedException
   {
     try
       {

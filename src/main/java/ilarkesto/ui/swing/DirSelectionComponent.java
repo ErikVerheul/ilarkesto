@@ -88,6 +88,11 @@ public class DirSelectionComponent extends AComponent {
 			}
 		}
 
+                @Override
+                public Object clone() {
+                        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+                }
+
 	}
 
 }

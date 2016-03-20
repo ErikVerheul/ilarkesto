@@ -35,4 +35,9 @@ public class ProcessAction extends AbstractAction {
 		modellingSession.save();
 		modellingSession.process();
 	}
+
+        @Override
+        public Object clone() throws CloneNotSupportedException {
+                return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        }
 }

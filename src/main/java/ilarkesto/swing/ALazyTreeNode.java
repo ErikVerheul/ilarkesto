@@ -55,4 +55,9 @@ public abstract class ALazyTreeNode extends DefaultMutableTreeNode {
 		return super.children();
 	}
 
+        @Override
+        public Object clone() {
+                return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        }
+
 }
