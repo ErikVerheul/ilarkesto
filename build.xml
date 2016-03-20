@@ -30,7 +30,7 @@
             <property name="sonar.binaries" value="lib" />
             <taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
                     <!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
-                    <classpath path="D:\apache-ant-1.9.6\bin\sonar-ant-task-*.jar" />
+                    <classpath path="D:\apache-ant-2.4\lib\sonar-ant-task-*.jar" />
             </taskdef>
  
             <!-- Execute the SonarQube analysis -->
