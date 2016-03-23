@@ -17,23 +17,32 @@ package ilarkesto.io.nio.tcpserver;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.concurrent.ALoopTask;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
+import static ilarkesto.io.nio.tcpserver.ChangeRequest.CHANGEOPS;
+import static ilarkesto.io.nio.tcpserver.TcpConnection.CLOSE_CONNECTION;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import static java.nio.ByteBuffer.allocate;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
+import static java.nio.channels.SelectionKey.OP_ACCEPT;
+import static java.nio.channels.SelectionKey.OP_READ;
+import static java.nio.channels.SelectionKey.OP_WRITE;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
+import static java.nio.channels.ServerSocketChannel.open;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.spi.SelectorProvider;
+import static java.nio.channels.spi.SelectorProvider.provider;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class SelectorTask extends ALoopTask {
 
-	private Log log = Log.get(getClass());
+	private Log log = get(getClass());
 
 	private WorkerTask worker;
 	private int port;
@@ -43,10 +52,10 @@ public class SelectorTask extends ALoopTask {
 	private ServerSocketChannel serverChannel;
 	private Selector selector;
 
-	private ByteBuffer readBuffer = ByteBuffer.allocate(8192);
+	private ByteBuffer readBuffer = allocate(8192);
 
 	private final List changeRequests = new LinkedList();
-	private final List<TcpConnection> connections = new LinkedList<TcpConnection>();
+	private final List<TcpConnection> connections = new LinkedList<>();
 
 	public SelectorTask(int port, WorkerTask worker) {
 		this.port = port;
@@ -69,7 +78,7 @@ public class SelectorTask extends ALoopTask {
 			Iterator changes = this.changeRequests.iterator();
 			while (changes.hasNext()) {
                                 ChangeRequest change = (ChangeRequest) changes.next();
-                                if (change.type == ChangeRequest.CHANGEOPS) {
+                                if (change.type == CHANGEOPS) {
                                         SelectionKey key = change.socket.keyFor(this.selector);
                                         if (key.isValid()) {
                                                 key.interestOps(change.ops);
@@ -123,7 +132,7 @@ public class SelectorTask extends ALoopTask {
 
 	void sendChangeRequestForWrite(SocketChannel socket) {
 		synchronized (changeRequests) {
-			changeRequests.add(new ChangeRequest(socket, ChangeRequest.CHANGEOPS, SelectionKey.OP_WRITE));
+			changeRequests.add(new ChangeRequest(socket, CHANGEOPS, OP_WRITE));
 		}
 	}
 
@@ -137,7 +146,7 @@ public class SelectorTask extends ALoopTask {
 		// Write until there's not more data ...
 		while (!connection.pendingData.isEmpty()) {
 			ByteBuffer data = connection.pendingData.peek();
-			if (data == TcpConnection.CLOSE_CONNECTION) {
+			if (data == CLOSE_CONNECTION) {
 				log.debug("Closing client connection:", connection);
 				closeConnectionInternal(connection);
 				return;
@@ -153,7 +162,7 @@ public class SelectorTask extends ALoopTask {
 			// We wrote away all data, so we're no longer interested
 			// in writing on this socket. Switch back to waiting for
 			// data.
-			key.interestOps(SelectionKey.OP_READ);
+			key.interestOps(OP_READ);
 		}
 	}
 
@@ -224,16 +233,16 @@ public class SelectorTask extends ALoopTask {
 		log.debug("Client connected:", tcpConnection);
 
 		socketChannel.configureBlocking(false);
-		socketChannel.register(this.selector, SelectionKey.OP_READ);
+		socketChannel.register(this.selector, OP_READ);
 	}
 
 	private Selector initSelector() throws IOException {
-		Selector socketSelector = SelectorProvider.provider().openSelector();
-		serverChannel = ServerSocketChannel.open();
+		Selector socketSelector = provider().openSelector();
+		serverChannel = open();
 		serverChannel.configureBlocking(false);
 		InetSocketAddress isa = new InetSocketAddress(hostAddress, port);
 		serverChannel.socket().bind(isa);
-		serverChannel.register(socketSelector, SelectionKey.OP_ACCEPT);
+		serverChannel.register(socketSelector, OP_ACCEPT);
 		return socketSelector;
 	}
 

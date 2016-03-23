@@ -15,21 +15,29 @@
 package ilarkesto.di.app;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.base.Sys;
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.Sys.getUsersHomePath;
+import static ilarkesto.base.UtlExtend.sleep;
 import ilarkesto.concurrent.ATask;
 import ilarkesto.concurrent.TaskManager;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
 import ilarkesto.core.time.TimePeriod;
-import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.DAY;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.di.Context;
+import static ilarkesto.di.Context.createRootContext;
 import ilarkesto.integration.xstream.XStreamSerializer;
 import ilarkesto.io.ExclusiveFileLock;
 import ilarkesto.io.ExclusiveFileLock.FileLockedException;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.delete;
+import static ilarkesto.io.IO.getResource;
+import static ilarkesto.io.IO.loadProperties;
+import static ilarkesto.io.IO.zip;
 import ilarkesto.persistence.DaoListener;
 import ilarkesto.persistence.DaoService;
 import ilarkesto.persistence.EntityStore;
@@ -49,7 +57,7 @@ import java.util.Set;
  */
 public abstract class AApplication {
 
-	private static Log log = Log.get(AApplication.class);
+	private static final Log log = Log.get(AApplication.class);
 
 	private ExclusiveFileLock exclusiveFileLock;
 	private boolean startupFailed;
@@ -84,7 +92,7 @@ public abstract class AApplication {
 
 			log.info("\n\n     DATA PATH:", getApplicationDataDir(), "\n\n");
 
-			context = Context.createRootContext("app:" + getApplicationName());
+			context = createRootContext("app:" + getApplicationName());
 			context.addBeanProvider(this);
 
 			if (isSingleton()) {
@@ -96,7 +104,7 @@ public abstract class AApplication {
 					} catch (FileLockedException ex) {
 						log.info("Application already running. Lock file locked: " + lockFile.getAbsolutePath());
 					}
-				UtlExtend.sleep(1000);
+				        sleep(1000);
 				}
 				if (exclusiveFileLock == null) {
 					log.fatal("Application startup failed. Another instance is running. Lock file: "
@@ -192,10 +200,10 @@ public abstract class AApplication {
 		File backupFile = new File(dataDir.getPath() + "/backups/" + getApplicationName() + "-data_"
 				+ DateAndTime.now().formatLog() + ".zip");
 		log.info("Backing up application data dir:", dataDir.getAbsolutePath(), "into", backupFile);
-		long starttime = Tm.getCurrentTimeMillis();
+		long starttime = getCurrentTimeMillis();
 		Object lock = entityStore == null ? this : entityStore;
 		synchronized (lock) {
-			IO.zip(backupFile, new File[] { dataDir }, new FileFilter() {
+			zip(backupFile, new File[] { dataDir }, new FileFilter() {
 
 				@Override
 				public boolean accept(File file) {
@@ -226,7 +234,7 @@ public abstract class AApplication {
 				}
 			});
 		}
-		long runtime = Tm.getCurrentTimeMillis() - starttime;
+		long runtime = getCurrentTimeMillis() - starttime;
 		log.info("  Backup completed in", new TimePeriod(runtime).toShortestString());
 	}
 
@@ -238,7 +246,7 @@ public abstract class AApplication {
                 }
 
 		log.info("Deleting old backup files from", backupDir);
-		final long deadline = Tm.getCurrentTimeMillis() - Tm.DAY * 7;
+		final long deadline = getCurrentTimeMillis() - DAY * 7;
 
 		for (File file : files) {
 			if (!file.getName().startsWith(getApplicationName())) {
@@ -248,7 +256,7 @@ public abstract class AApplication {
                                 continue;
                         }
 			log.debug("    Deleting", file);
-			IO.delete(file);
+			delete(file);
 		}
 	}
 
@@ -302,8 +310,8 @@ public abstract class AApplication {
 	public String getApplicationName() {
 		if (applicationName == null) {
 			applicationName = getClass().getSimpleName();
-			applicationName = StrExtend.lowercaseFirstLetter(applicationName);
-			applicationName = StrExtend.removeSuffix(applicationName, "Application");
+			applicationName = lowercaseFirstLetter(applicationName);
+			applicationName = removeSuffix(applicationName, "Application");
 		}
 		return applicationName;
 	}
@@ -315,7 +323,7 @@ public abstract class AApplication {
 			if (isDevelopmentMode()) {
 				applicationDataDir = new File("runtimedata").getAbsolutePath();
 			} else {
-				applicationDataDir = Sys.getUsersHomePath() + "/." + getApplicationName();
+				applicationDataDir = getUsersHomePath() + "/." + getApplicationName();
 			}
 		}
 		return applicationDataDir;
@@ -364,7 +372,7 @@ public abstract class AApplication {
 	public final Properties getBuildProperties() {
 		if (buildProperties == null) {
 			try {
-				buildProperties = IO.loadProperties(IO.getResource(getClass(), "build.properties"), IO.UTF_8);
+				buildProperties = loadProperties(getResource(getClass(), "build.properties"), UTF_8);
 			} catch (Throwable t) {
 				log.error(t);
 				buildProperties = new Properties();

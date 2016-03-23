@@ -15,6 +15,7 @@
 package ilarkesto.pdf;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.html2text;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public abstract class AParagraph extends APdfElement {
 	protected Align align;
 	protected float spacingTop;
 	protected float spacingBottom;
-	protected List<AParagraphElement> elements = new ArrayList<AParagraphElement>(1);
+	protected List<AParagraphElement> elements = new ArrayList<>(1);
 
 	public abstract AImage image(File file);
 
@@ -53,11 +54,11 @@ public abstract class AParagraph extends APdfElement {
 	}
 
 	public AParagraph html(String html, FontStyle fontStyle) {
-		return text(StrExtend.html2text(html), fontStyle);
+		return text(html2text(html), fontStyle);
 	}
 
 	public AParagraph html(String html) {
-		return text(StrExtend.html2text(html));
+		return text(html2text(html));
 	}
 
 	public AParagraph text(Object text, FontStyle fontStyle) {

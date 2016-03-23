@@ -24,7 +24,7 @@ import ilarkesto.gwt.client.AViewEditWidget;
 
 public class YesNoEditorWidget extends AViewEditWidget {
 
-	private ABooleanEditorModel model;
+	private final ABooleanEditorModel model;
 	private Label viewer;
 	private ListBox editor;
 
@@ -91,8 +91,10 @@ public class YesNoEditorWidget extends AViewEditWidget {
 
 	private class EditorFocusListener implements FocusListener {
 
+                @Override
 		public void onFocus(Widget sender) {}
 
+                @Override
 		public void onLostFocus(Widget sender) {
 			submitEditor();
 		}

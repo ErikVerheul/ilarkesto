@@ -15,6 +15,7 @@
 package ilarkesto.async;
 
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.concat;
 
 public abstract class AJob<R> implements Job<R> {
 
@@ -73,7 +74,7 @@ public abstract class AJob<R> implements Job<R> {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getClass().getSimpleName());
 		if (params != null && params.length > 0) {
-			sb.append(Str.concat("(", ")", ",", params));
+			sb.append(concat("(", ")", ",", params));
 		}
 		return sb.toString();
 	}

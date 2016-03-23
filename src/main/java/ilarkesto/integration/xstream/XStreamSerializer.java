@@ -16,8 +16,9 @@ package ilarkesto.integration.xstream;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
+import com.thoughtworks.xstream.converters.basic.DateConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
 import ilarkesto.persistence.Serializer;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +34,7 @@ public class XStreamSerializer extends Serializer {
 	private String encoding;
 
 	public XStreamSerializer() {
-		this(IO.UTF_8);
+		this(UTF_8);
 	}
 
 	public XStreamSerializer(String encoding) {
@@ -51,9 +52,7 @@ public class XStreamSerializer extends Serializer {
 		SingleValueConverter converter;
 		try {
 			converter = type.newInstance();
-		} catch (InstantiationException ex) {
-			throw new RuntimeException(ex);
-		} catch (IllegalAccessException ex) {
+		} catch (InstantiationException | IllegalAccessException ex) {
 			throw new RuntimeException(ex);
 		}
 		xstream.registerConverter(converter);

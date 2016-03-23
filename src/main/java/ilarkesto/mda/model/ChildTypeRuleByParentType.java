@@ -15,6 +15,7 @@
 package ilarkesto.mda.model;
 
 import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.List;
 
 public class ChildTypeRuleByParentType implements ChildTypeRule {
@@ -33,7 +34,7 @@ public class ChildTypeRuleByParentType implements ChildTypeRule {
 		if (parent.isType(parentType)) {
                         return childTypes;
                 }
-		return Collections.emptyList();
+		return emptyList();
 	}
 
 }

@@ -22,8 +22,8 @@ public class UndoManager {
 
 	private static final Log LOG = Log.get(UndoManager.class);
 
-	private int maxOperations = 5;
-	private List<AUndoOperation> operations = new LinkedList<AUndoOperation>();
+	private final int maxOperations = 5;
+	private final List<AUndoOperation> operations = new LinkedList<AUndoOperation>();
 
 	public void add(AUndoOperation operation) {
 		operations.add(0, operation);

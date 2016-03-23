@@ -16,7 +16,8 @@ package ilarkesto.mda.legacy.generator;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.Reflect;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.core.logging.Log;
 import ilarkesto.mda.legacy.model.BeanModel;
 import ilarkesto.mda.legacy.model.CompositeModel;
@@ -50,10 +51,10 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
                         return;
                 }
 		section("events");
-		List<String> multiEventListenerLines = new ArrayList<String>();
+		List<String> multiEventListenerLines = new ArrayList<>();
 		for (EventModel event : bean.getEvents()) {
 			String name = event.getName();
-			String nameL = StrExtend.lowercaseFirstLetter(name);
+			String nameL = lowercaseFirstLetter(name);
 			String listenerType = name + "Listener";
 			String listenersVar = nameL + "Listeners";
 			String paramDeclaration = "";
@@ -122,8 +123,8 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
 		section("composites");
 
 		for (CompositeModel c : bean.getComposites()) {
-			String name = StrExtend.lowercaseFirstLetter(c.getName());
-			String nameUpper = StrExtend.uppercaseFirstLetter(c.getName());
+			String name = lowercaseFirstLetter(c.getName());
+			String nameUpper = uppercaseFirstLetter(c.getName());
 			ln();
 			comment(name);
 			ln();
@@ -169,7 +170,7 @@ public abstract class ABeanGenerator<B extends BeanModel> extends AClassGenerato
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> result = new LinkedHashSet<String>();
+		Set<String> result = new LinkedHashSet<>();
 		result.addAll(super.getImports());
 		// result.add("ilarkesto.persistence.*");
 		result.add(Log.class.getName());

@@ -51,6 +51,8 @@ exception statement from your version. */
 
 package ilarkesto.io.zip;
 
+import static ilarkesto.io.zip.DeflaterConstants.PENDING_BUF_SIZE;
+
 /**
  * This class stores the pending output of the Deflater.
  *
@@ -62,7 +64,7 @@ class DeflaterPending extends PendingBuffer
 {
   public DeflaterPending()
   {
-    super(DeflaterConstants.PENDING_BUF_SIZE);
+    super(      PENDING_BUF_SIZE);
   }
 }
 

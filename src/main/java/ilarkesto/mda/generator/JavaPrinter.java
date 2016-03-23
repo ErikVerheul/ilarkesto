@@ -14,9 +14,11 @@
  */
 package ilarkesto.mda.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
+import static ilarkesto.core.base.Str.concat;
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.writeFileIfChanged;
 import java.io.File;
 import java.util.Collection;
 import java.util.List;
@@ -28,8 +30,8 @@ public class JavaPrinter {
 	private String packageName;
 	private String className;
 
-	private String charset = IO.UTF_8;
-	private StringBuilder sb = new StringBuilder();
+	private final String charset = UTF_8;
+	private final StringBuilder sb = new StringBuilder();
 	private int depth;
 	private boolean lineStart = true;
 
@@ -96,7 +98,7 @@ public class JavaPrinter {
 	}
 
 	public void getter(String type, String name) {
-		beginMethod(type, "get" + StrExtend.uppercaseFirstLetter(name), null);
+		beginMethod(type, "get" + uppercaseFirstLetter(name), null);
 		returnStatement(name);
 		endMethod();
 	}
@@ -128,7 +130,7 @@ public class JavaPrinter {
 	public void beginMethod(String returnType, String name, List<String> parameters) {
 		s("public " + returnType + " " + name + "(");
 		if (parameters != null && !parameters.isEmpty()) {
-                        s(StrExtend.concat(parameters, ", "));
+                        s(concat(parameters, ", "));
                 }
 		ln(") {");
 		in();
@@ -140,7 +142,7 @@ public class JavaPrinter {
                 }
 		s("public abstract " + returnType + " " + name + "(");
 		if (parameters != null && !parameters.isEmpty()) {
-                        s(StrExtend.concat(parameters, ", "));
+                        s(concat(parameters, ", "));
                 }
 		ln(");");
 		ln();
@@ -152,7 +154,7 @@ public class JavaPrinter {
                 }
 		s(returnType + " " + name + "(");
 		if (parameters != null && !parameters.isEmpty()) {
-                        s(StrExtend.concat(parameters, ", "));
+                        s(concat(parameters, ", "));
                 }
 		ln(");");
 		ln();
@@ -247,7 +249,7 @@ public class JavaPrinter {
                         s(" extends " + superclassName);
                 }
 		if (interfaces != null && !interfaces.isEmpty()) {
-                        s(" implements " + StrExtend.concat(interfaces, ", "));
+                        s(" implements " + concat(interfaces, ", "));
                 }
 		ln(" {");
 		in();
@@ -347,7 +349,7 @@ public class JavaPrinter {
 			}
 		}
 
-		if (IO.writeFileIfChanged(file, toString(), charset)) {
+		if (writeFileIfChanged(file, toString(), charset)) {
 			LOG.info("File written:", file.getPath());
 		} else {
 			LOG.debug("File is up to date:", file.getPath());

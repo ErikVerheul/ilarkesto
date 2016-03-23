@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MethodModel extends AModel {
 
-	private List<ParameterModel> parameters = new ArrayList<ParameterModel>();
+	private List<ParameterModel> parameters = new ArrayList<>();
 
 	public MethodModel(String name) {
 		super(name);

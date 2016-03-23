@@ -1,6 +1,8 @@
 package ilarkesto.mda.generator;
 
+import static java.lang.System.err;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import junit.framework.TestCase;
 import org.testng.annotations.Test;
 
@@ -11,14 +13,14 @@ public class JavaPrinterTest extends TestCase {
 		JavaPrinter out = new JavaPrinter();
 
 		out.package_("my.test");
-		out.imports(Arrays.asList("java.util.*", "java.net.*"));
+		out.imports(asList("java.util.*", "java.net.*"));
 		out.beginClass("TestClass", "Object", null);
 
 		out.protectedField("String", "name");
 
 		out.endClass();
 
-		System.err.println(out);
+		err.println(out);
 	}
 
 }

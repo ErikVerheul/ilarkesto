@@ -15,12 +15,13 @@
 package ilarkesto.gwt.client.undo;
 
 import ilarkesto.gwt.client.AAction;
-import ilarkesto.gwt.client.Gwt;
+import static ilarkesto.gwt.client.Gwt.getRootWidget;
+import static ilarkesto.gwt.client.Gwt.update;
 
 public class UndoAction extends AAction {
 
-	private UndoManager undoManager;
-	private AUndoOperation operation;
+	private final UndoManager undoManager;
+	private final AUndoOperation operation;
 
 	public UndoAction(UndoManager undoManager, AUndoOperation operation) {
 		this.undoManager = undoManager;
@@ -35,7 +36,7 @@ public class UndoAction extends AAction {
 	@Override
 	protected void onExecute() {
 		undoManager.undo(operation);
-		Gwt.update(Gwt.getRootWidget());
+		update(getRootWidget());
 	}
 
 }

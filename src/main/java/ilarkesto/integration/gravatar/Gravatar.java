@@ -14,31 +14,34 @@
  */
 package ilarkesto.integration.gravatar;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.downloadUrlToString;
 import ilarkesto.json.JsonObject;
 import java.io.UnsupportedEncodingException;
+import static java.lang.Integer.toHexString;
+import static java.lang.System.out;
 import java.security.MessageDigest;
+import static java.security.MessageDigest.getInstance;
 import java.security.NoSuchAlgorithmException;
 
 public class Gravatar {
 
-	private static Log log = Log.get(Gravatar.class);
+	private static final Log log = Log.get(Gravatar.class);
 
 	public static void main(String[] args) {
-		System.out.println(createAvatarUrl("wi@koczewski.de"));
-		System.out.println(loadProfile("wi@koczewski.de"));
+		out.println(createAvatarUrl("wi@koczewski.de"));
+		out.println(loadProfile("wi@koczewski.de"));
 	}
 
 	public static final Profile loadProfile(String email) {
 		String url = createJsonProfileUrl(email);
-		if (Str.isBlank(url)) {
+		if (isBlank(url)) {
                         return null;
                 }
 		log.debug("Loading Gravatar profile for", email, "->", email);
-		String json = IO.downloadUrlToString(url);
-		if (Str.isBlank(json)) {
+		String json = downloadUrlToString(url);
+		if (isBlank(json)) {
                         return null;
                 }
 		return new Profile(new JsonObject(json));
@@ -46,28 +49,28 @@ public class Gravatar {
 
 	public static final String createJsonProfileUrl(String email) {
 		String url = createProfileUrl(email);
-		if (Str.isBlank(url)) {
+		if (isBlank(url)) {
                         return null;
                 }
 		return url + ".json";
 	}
 
 	public static final String createProfileUrl(String email) {
-		if (Str.isBlank(email)) {
+		if (isBlank(email)) {
                         return null;
                 }
 		return "https://secure.gravatar.com/" + createHash(email);
 	}
 
 	public static final String createAvatarUrl(String email) {
-		if (Str.isBlank(email)) {
+		if (isBlank(email)) {
                         return null;
                 }
 		return "https://secure.gravatar.com/avatar/" + createHash(email);
 	}
 
 	public static final String createHash(String email) {
-		if (Str.isBlank(email)) {
+		if (isBlank(email)) {
                         return null;
                 }
 		return MD5Util.md5Hex(email.trim().toLowerCase());
@@ -78,18 +81,16 @@ public class Gravatar {
 		public static String hex(byte[] array) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < array.length; ++i) {
-				sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+				sb.append(toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
 			}
 			return sb.toString();
 		}
 
 		public static String md5Hex(String message) {
 			try {
-				MessageDigest md = MessageDigest.getInstance("MD5");
+				MessageDigest md = getInstance("MD5");
 				return hex(md.digest(message.getBytes("CP1252")));
-			} catch (NoSuchAlgorithmException ex) {
-				throw new RuntimeException(ex);
-			} catch (UnsupportedEncodingException ex) {
+			} catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
 				throw new RuntimeException(ex);
 			}
 		}

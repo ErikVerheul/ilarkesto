@@ -16,6 +16,9 @@ package ilarkesto.cli;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.concat;
+import static ilarkesto.core.base.Str.fillUpRight;
+import static java.lang.System.arraycopy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -93,7 +96,7 @@ public class Arguments {
 			len += 3;
 			for (Iterator iter = parameterNameUsageMap.entrySet().iterator(); iter.hasNext();) {
 				Map.Entry entry = (Map.Entry) iter.next();
-				sb.append("\n  ").append(StrExtend.fillUpRight((String) entry.getKey(), " ", len));
+				sb.append("\n  ").append(fillUpRight((String) entry.getKey(), " ", len));
 				sb.append(entry.getValue());
 			}
 		}
@@ -114,7 +117,7 @@ public class Arguments {
 			len += 3;
 			for (Iterator iter = optionNameUsageMap.entrySet().iterator(); iter.hasNext();) {
 				Map.Entry entry = (Map.Entry) iter.next();
-				sb.append("\n  ").append(StrExtend.fillUpRight((String) entry.getKey(), " ", len));
+				sb.append("\n  ").append(fillUpRight((String) entry.getKey(), " ", len));
 				sb.append(entry.getValue());
 			}
 		}
@@ -162,7 +165,7 @@ public class Arguments {
 		// remainder
 		if (acceptRemainder) {
 			remainder = new String[args.length - i];
-			System.arraycopy(args, i, remainder, 0, args.length - i);
+			arraycopy(args, i, remainder, 0, args.length - i);
 		} else {
 			if (i < args.length - 1) {
                                 throw new BadSyntaxException(command, "Too much parameters");
@@ -179,7 +182,7 @@ public class Arguments {
 		if (remainder.length == 0) {
                         return null;
                 }
-		return StrExtend.concat(remainder, " ");
+		return concat(remainder, " ");
 	}
 
 	public boolean hasReminder() {

@@ -15,6 +15,8 @@
 package ilarkesto.gwt.client.editor;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusListener;
@@ -23,8 +25,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.gwt.client.AViewEditWidget;
 import ilarkesto.gwt.client.Gwt;
+import static ilarkesto.gwt.client.Gwt.getDefaultRichtextFormater;
 import ilarkesto.gwt.client.RichtextFormater;
 
 public class TextEditorWidget extends AViewEditWidget {
@@ -57,7 +61,7 @@ public class TextEditorWidget extends AViewEditWidget {
 	@Override
 	protected void onViewerUpdate() {
 		String value = model.getValue();
-		if (model.isMasked() && !Str.isBlank(value)) {
+		if (model.isMasked() && !isBlank(value)) {
 			value = "*****";
 		}
 		setViewerText(value);
@@ -78,7 +82,7 @@ public class TextEditorWidget extends AViewEditWidget {
 	}
 
 	public final void setViewerText(String text) {
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
 			viewer.setHTML(".");
 			return;
 		}
@@ -87,7 +91,7 @@ public class TextEditorWidget extends AViewEditWidget {
 	}
 
 	protected RichtextFormater getRichtextFormater() {
-		return Gwt.getDefaultRichtextFormater();
+		return getDefaultRichtextFormater();
 	}
 
 	public final void setEditorText(String text) {
@@ -108,7 +112,7 @@ public class TextEditorWidget extends AViewEditWidget {
 
 	public final String getEditorText() {
 		String text = editor.getText();
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
                         return null;
                 }
 		return text;
@@ -119,7 +123,7 @@ public class TextEditorWidget extends AViewEditWidget {
 	}
 
 	public TextEditorWidget switchToEditModeIfNull() {
-		if (isEditable() && Str.isBlank(model.getValue())) {
+		if (isEditable() && isBlank(model.getValue())) {
                         switchToEditMode();
                 }
 		return this;
@@ -140,9 +144,9 @@ public class TextEditorWidget extends AViewEditWidget {
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
 			int keyCode = event.getNativeKeyCode();
-			if (keyCode == KeyCodes.KEY_ENTER) {
+			if (keyCode == KEY_ENTER) {
 				submitEditor();
-			} else if (keyCode == KeyCodes.KEY_ESCAPE) {
+			} else if (keyCode == KEY_ESCAPE) {
 				cancelEditor();
 			}
 			event.stopPropagation();

@@ -16,6 +16,8 @@ package ilarkesto.base;
 
 import ilarkesto.console.ColorsConsoleApp;
 import java.awt.Color;
+import static java.awt.Color.decode;
+import static java.lang.String.format;
 
 /**
  * A Class that provides utility methods for mixing colours.
@@ -86,7 +88,7 @@ public class Colors {
 
 	public static Color fromHex(String hexColor) {
 		try {
-			return Color.decode(hexColor);
+			return decode(hexColor);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("'" + hexColor
 					+ "' is not a valid color. Use the format #RRGGBB where R, G and B are values 0-9 or A-F.");
@@ -94,7 +96,7 @@ public class Colors {
 	}
 
 	public static String toHex(Color color) {
-		return String.format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
+		return format("#%02X%02X%02X", color.getRed(), color.getGreen(), color.getBlue());
 	}
 
 	public static boolean isHexColor(String hexColor) {

@@ -51,6 +51,8 @@
 package ilarkesto.io.zip;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.io.zip.DeflaterConstants.MAX_WBITS;
+import static ilarkesto.io.zip.DeflaterConstants.PRESET_DICT;
 
 /**
  * This is the Deflater class. The deflater class compresses input with the deflate algorithm described in RFC 1951. It
@@ -294,7 +296,7 @@ public class Deflater {
         }
 
         /**
-         * Returns true iff the stream was finished and no more output bytes are available.
+         * Returns true if the stream was finished and no more output bytes are available.
          */
         public boolean finished() {
                 return state == FINISHED_STATE && pending.isFlushed();
@@ -403,7 +405,7 @@ public class Deflater {
                 if (state < BUSY_STATE) {
                         /* output header */
                         int header = (DEFLATED
-                                + ((DeflaterConstants.MAX_WBITS - 8) << 4)) << 8;
+                                + ((MAX_WBITS - 8) << 4)) << 8;
                         int level_flags = (level - 1) >> 1;
                         if (level_flags < 0 || level_flags > 3) {
                                 level_flags = 3;
@@ -411,7 +413,7 @@ public class Deflater {
                         header |= level_flags << 6;
                         if ((state & IS_SETDICT) != 0) {
                                 /* Dictionary was set */
-                                header |= DeflaterConstants.PRESET_DICT;
+                                header |= PRESET_DICT;
                         }
                         header += 31 - (header % 31);
 

@@ -18,13 +18,13 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.ImageBundle;
 import ilarkesto.io.FilenameComparator;
 import java.io.File;
-import java.util.Arrays;
+import static java.util.Arrays.sort;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class GwtImageBundleGenerator extends AClassGenerator {
 
-	private String packageName;
+	private final String packageName;
 
 	public GwtImageBundleGenerator(String packageName) {
 		super();
@@ -38,7 +38,7 @@ public class GwtImageBundleGenerator extends AClassGenerator {
 		if (files == null) {
                         throw new RuntimeException("Can not read folder contents: " + folder.getAbsolutePath());
                 }
-		Arrays.sort(files, new FilenameComparator());
+		sort(files, new FilenameComparator());
 		for (File file : files) {
 			String name = file.getName();
 			String nameLower = name.toLowerCase();
@@ -66,7 +66,7 @@ public class GwtImageBundleGenerator extends AClassGenerator {
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> ret = new LinkedHashSet<String>(super.getImports());
+		Set<String> ret = new LinkedHashSet<>(super.getImports());
 		ret.add(com.google.gwt.user.client.ui.ImageBundle.class.getName());
 		return ret;
 	}

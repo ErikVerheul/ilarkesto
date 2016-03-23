@@ -15,32 +15,36 @@
 package ilarkesto.ui.usermessage;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.format;
+import static ilarkesto.ui.usermessage.UserMessage.ERROR;
+import static ilarkesto.ui.usermessage.UserMessage.INFO;
+import static ilarkesto.ui.usermessage.UserMessage.WARN;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class UserMessageService {
 
-	private List<UserMessage> messages = new ArrayList<UserMessage>();
+	private List<UserMessage> messages = new ArrayList<>();
 	private List<UserMessageListener> listeners;
 
 	public synchronized void addListener(UserMessageListener listener) {
 		if (listeners == null) {
-                        listeners = new ArrayList<UserMessageListener>(1);
+                        listeners = new ArrayList<>(1);
                 }
 		listeners.add(listener);
 	}
 
 	public void info(String message) {
-		addMessage(new UserMessage(UserMessage.INFO, message));
+		addMessage(new UserMessage(INFO, message));
 	}
 
 	public void warn(String message) {
-		addMessage(new UserMessage(UserMessage.WARN, message));
+		addMessage(new UserMessage(WARN, message));
 	}
 
 	public void error(String message) {
-		addMessage(new UserMessage(UserMessage.ERROR, message));
+		addMessage(new UserMessage(ERROR, message));
 	}
 
 	public synchronized void addMessage(UserMessage message) {
@@ -48,7 +52,7 @@ public class UserMessageService {
 		if (listeners == null) {
                         return;
                 }
-		List<UserMessage> loacal_messages = new ArrayList<UserMessage>(1);
+		List<UserMessage> loacal_messages = new ArrayList<>(1);
 		loacal_messages.add(message);
 		for (UserMessageListener listener : listeners) {
 			listener.onUserMessages(loacal_messages);
@@ -66,7 +70,7 @@ public class UserMessageService {
 	}
 
 	public synchronized List<UserMessage> getMessages() {
-		return new ArrayList<UserMessage>(messages);
+		return new ArrayList<>(messages);
 	}
 
 	public synchronized void removeMessages(Collection<UserMessage> messages) {
@@ -75,7 +79,7 @@ public class UserMessageService {
 
 	@Override
 	public String toString() {
-		return StrExtend.format(messages);
+		return format(messages);
 	}
 
 }

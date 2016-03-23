@@ -16,8 +16,13 @@ package ilarkesto.base;
 
 import java.awt.Color;
 import java.io.File;
+import static java.lang.System.arraycopy;
+import static java.lang.System.currentTimeMillis;
+import static java.lang.System.out;
+import static java.lang.Thread.getAllStackTraces;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -35,7 +40,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 100; i++) {
-			System.out.println(randomInt(3, 5));
+			out.println(randomInt(3, 5));
 		}
 	}
 
@@ -82,7 +87,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	}
 
 	public static Set<Thread> getAllThreads() {
-		return Thread.getAllStackTraces().keySet();
+		return getAllStackTraces().keySet();
 	}
 
 	public static File getFirstExistingFile(String... paths) {
@@ -115,7 +120,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 		return cause == null ? ex : getRootCause(cause);
 	}
 
-	private static final Random random = new Random(System.currentTimeMillis());
+	private static final Random random = new Random(currentTimeMillis());
 
 	public static boolean equals(Set<?> objects) {
 		Object first = null;
@@ -142,7 +147,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	}
 
 	public static <K, V> Map<K, V> subMap(Map<K, V> source, K... keys) {
-		Map<K, V> ret = new HashMap<K, V>();
+		Map<K, V> ret = new HashMap<>();
 		for (K key : keys) {
                         ret.put(key, source.get(key));
                 }
@@ -187,24 +192,24 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 
 	public static File[] toFileArray(Collection<File> elements) {
 		File[] ret = new File[elements.size()];
-		System.arraycopy(elements.toArray(), 0, ret, 0, ret.length);
+		arraycopy(elements.toArray(), 0, ret, 0, ret.length);
 		return ret;
 	}
 
 	public static String[] toStringArray(Collection<String> elements) {
 		String[] ret = new String[elements.size()];
-		System.arraycopy(elements.toArray(), 0, ret, 0, ret.length);
+		arraycopy(elements.toArray(), 0, ret, 0, ret.length);
 		return ret;
 	}
 
 	public static <E> Set<E> toSet(E... elements) {
-		Set<E> ret = new HashSet<E>(elements.length);
-                ret.addAll(Arrays.asList(elements));
+		Set<E> ret = new HashSet<>(elements.length);
+                ret.addAll(asList(elements));
 		return ret;
 	}
 
 	public static <T> List<T> toList(Enumeration<T> enumeration) {
-		List<T> ret = new ArrayList<T>();
+		List<T> ret = new ArrayList<>();
 		while (enumeration.hasMoreElements()) {
 			ret.add(enumeration.nextElement());
 		}
@@ -214,7 +219,7 @@ public class UtlExtend extends ilarkesto.core.base.Utl {
 	public static <T> List<T> getHighest(Collection<T> collection, int count, Comparator<T> comparator) {
 		// TODO performance optimization: sort not necessary
 		List<T> list = sort(collection, comparator);
-		List<T> result = new ArrayList<T>(count);
+		List<T> result = new ArrayList<>(count);
 		for (int i = 0; i < count && i < list.size(); i++) {
                         result.add(list.get(i));
                 }

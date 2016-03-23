@@ -15,15 +15,27 @@
 package ilarkesto.swing;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.getRootCauseMessage;
+import static ilarkesto.core.base.Str.getStackTrace;
+import static ilarkesto.swing.Swing.center;
+import static ilarkesto.swing.Swing.createMessageComponent;
+import static ilarkesto.swing.Swing.getWindow;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.EAST;
+import static java.awt.BorderLayout.NORTH;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import static java.awt.FlowLayout.RIGHT;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -57,15 +69,15 @@ public class ExceptionPanel extends JPanel {
         // messageField.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize()));
         // String msg = StrExtend.getRootCauseMessage(exception);
         // messageField.setText("<html>" + StrExtend.replaceForHtml(msg));
-        messageComponent = Swing.createMessageComponent(StrExtend.getRootCauseMessage(exception));
+        messageComponent = createMessageComponent(getRootCauseMessage(exception));
 
         stackTraceField = new JTextArea(10, 50);
         stackTraceField.setOpaque(false);
         // stackTraceField.setFont(new Font(Font.MONOSPACED, Font.PLAIN, font.getSize() - 1));
-        stackTraceField.setText(StrExtend.getStackTrace(exception));
+        stackTraceField.setText(getStackTrace(exception));
 
         setLayout(new BorderLayout(10, 10));
-        add(messageComponent, BorderLayout.NORTH);
+        add(messageComponent, NORTH);
 
         JButton expandButton = new JButton("?");
         // expandButton.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize() - 5));
@@ -76,28 +88,28 @@ public class ExceptionPanel extends JPanel {
             }
 
         });
-        expandButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        expandButtonPanel = new JPanel(new FlowLayout(RIGHT, 0, 0));
         expandButtonPanel.add(expandButton);
-        add(expandButtonPanel, BorderLayout.EAST);
+        add(expandButtonPanel, EAST);
 
         setOpaque(false);
     }
 
     private void expand() {
         JScrollPane stackTraceFieldScrollPane = new JScrollPane(stackTraceField);
-        add(stackTraceFieldScrollPane, BorderLayout.CENTER);
+        add(stackTraceFieldScrollPane, CENTER);
         remove(expandButtonPanel);
-        Window window = Swing.getWindow(messageComponent);
+        Window window = getWindow(messageComponent);
         window.pack();
-        Swing.center(window);
+                center(window);
     }
 
     public static void showErrorDialog(Component parent, Throwable ex) {
-        JOptionPane.showMessageDialog(parent, new ExceptionPanel(ex), "Error", JOptionPane.ERROR_MESSAGE);
+                showMessageDialog(parent, new ExceptionPanel(ex), "Error", ERROR_MESSAGE);
     }
 
     public static void showDialog(Component parent, Throwable ex, String title) {
-        JOptionPane.showMessageDialog(parent, new ExceptionPanel(ex), title, JOptionPane.ERROR_MESSAGE);
+                showMessageDialog(parent, new ExceptionPanel(ex), title, ERROR_MESSAGE);
     }
 
 }

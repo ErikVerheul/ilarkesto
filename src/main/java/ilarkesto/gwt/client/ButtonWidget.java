@@ -17,6 +17,7 @@ package ilarkesto.gwt.client;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+import static ilarkesto.gwt.client.Gwt.addTooltipHtml;
 
 public class ButtonWidget extends AWidget {
 
@@ -32,7 +33,7 @@ public class ButtonWidget extends AWidget {
 	protected Widget onInitialization() {
 		setStyleName("ButtonWidget");
 		button = new Button(action.getLabel(), action);
-		tooltip = Gwt.addTooltipHtml(button, "");
+		tooltip = addTooltipHtml(button, "");
 		return button;
 	}
 

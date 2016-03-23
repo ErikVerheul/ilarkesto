@@ -15,17 +15,19 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.core.client.GWT;
+import static com.google.gwt.core.client.GWT.isScript;
 import ilarkesto.core.logging.LogRecord;
 import ilarkesto.core.logging.LogRecordHandler;
+import static java.lang.System.out;
 
 public class GwtLogRecordHandler implements LogRecordHandler {
 
 	@Override
 	public void log(LogRecord record) {
-		if (GWT.isScript()) {
+		if (isScript()) {
                         return;
                 }
-		System.out.println(record.toString());
+		out.println(record.toString());
 	}
 
 }

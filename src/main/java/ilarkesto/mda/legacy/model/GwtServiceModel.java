@@ -20,7 +20,7 @@ import java.util.List;
 public class GwtServiceModel extends AModel {
 
 	private String packageName;
-	private List<MethodModel> methods = new ArrayList<MethodModel>();
+	private List<MethodModel> methods = new ArrayList<>();
 
 	public GwtServiceModel(String name, String packageName) {
 		super(name);

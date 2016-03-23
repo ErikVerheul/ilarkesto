@@ -16,6 +16,7 @@ package ilarkesto.io;
 
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.io.IO.delete;
 import java.io.File;
 import java.util.Iterator;
 
@@ -71,7 +72,7 @@ public class FileIterator implements Iterator<File> {
 
         @Override
 	public void remove() {
-		IO.delete(currentFile);
+		delete(currentFile);
 	}
 
 }

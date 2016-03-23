@@ -14,12 +14,14 @@
  */
 package ilarkesto.webapp;
 
-import ilarkesto.base.Sys;
-import ilarkesto.core.base.Str;
+import static ilarkesto.base.Sys.isDevelopmentMode;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.integration.itext.PdfBuilder;
 import ilarkesto.json.JsonObject;
+import static ilarkesto.webapp.Servlet.getCookieValue;
+import static ilarkesto.webapp.Servlet.serveFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,14 +29,19 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import javax.servlet.http.HttpSession;
 
 public class RequestWrapper<S extends AWebSession> {
 
-	private static Log log = Log.get(RequestWrapper.class);
+	private static final Log log = Log.get(RequestWrapper.class);
 
-	private HttpServletRequest request;
-	private HttpServletResponse response;
+	private final HttpServletRequest request;
+	private final HttpServletResponse response;
 	private S session;
 	private boolean responseServed;
 
@@ -51,7 +58,7 @@ public class RequestWrapper<S extends AWebSession> {
 	}
 
 	public void serve(File file, boolean setFilename, boolean enableCaching) {
-		Servlet.serveFile(file, request, response, setFilename, enableCaching);
+		serveFile(file, request, response, setFilename, enableCaching);
 		responseServed = true;
 	}
 
@@ -65,7 +72,7 @@ public class RequestWrapper<S extends AWebSession> {
 	}
 
 	public void write(JsonObject json) {
-		if (Sys.isDevelopmentMode()) {
+		if (isDevelopmentMode()) {
 			write(json.toFormatedString());
 		} else {
 			write(json.toString());
@@ -129,28 +136,28 @@ public class RequestWrapper<S extends AWebSession> {
 	}
 
 	public void sendErrorForbidden() {
-		sendError(HttpServletResponse.SC_FORBIDDEN, null);
+		sendError(SC_FORBIDDEN, null);
 	}
 
 	public void sendErrorNotFound() {
-		sendError(HttpServletResponse.SC_NOT_FOUND, null);
+		sendError(SC_NOT_FOUND, null);
 	}
 
 	public void sendErrorNoContent() {
-		sendError(HttpServletResponse.SC_NO_CONTENT, null);
+		sendError(SC_NO_CONTENT, null);
 	}
 
 	public void sendErrorServiceUnavailable(String message) {
-		sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, message);
+		sendError(SC_SERVICE_UNAVAILABLE, message);
 	}
 
 	public void sendErrorInternal(String message) {
-		sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
+		sendError(SC_INTERNAL_SERVER_ERROR, message);
 	}
 
 	private void sendError(int errorCode, String message) {
 		try {
-			if (Str.isBlank(message)) {
+			if (isBlank(message)) {
 				response.sendError(errorCode);
 			} else {
 				response.sendError(errorCode, message);
@@ -176,12 +183,12 @@ public class RequestWrapper<S extends AWebSession> {
 	}
 
 	public String getCookie(String name) {
-		return Servlet.getCookieValue(request, name);
+		return getCookieValue(request, name);
 	}
 
 	public JsonObject readContentToJson() {
 		String s = readContentToString();
-		if (Str.isBlank(s)) {
+		if (isBlank(s)) {
                         throw new RuntimeException("Illegal request. Missing JSON content.");
                 }
 		return new JsonObject(s);

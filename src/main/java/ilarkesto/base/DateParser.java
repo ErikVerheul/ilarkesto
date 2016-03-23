@@ -14,8 +14,12 @@
  */
 package ilarkesto.base;
 
+import static ilarkesto.base.StrExtend.tokenize;
+import static ilarkesto.base.TmExtend.year;
 import ilarkesto.core.time.Date;
+import static ilarkesto.core.time.Date.today;
 import ilarkesto.core.time.DateAndTime;
+import static java.lang.Integer.parseInt;
 import java.text.DateFormat;
 import java.text.ParseException;
 
@@ -26,7 +30,7 @@ public class DateParser {
                         return null;
                 }
 		s = s.trim();
-		String[] sa = StrExtend.tokenize(s, ".,- ");
+		String[] sa = tokenize(s, ".,- ");
 		if (sa.length == 0) {
                         throw new ParseException("Not a Date: " + s, -1);
                 }
@@ -36,30 +40,30 @@ public class DateParser {
 		int[] ia = new int[sa.length];
 		for (int i = 0; i < ia.length; i++) {
 			try {
-				ia[i] = Integer.parseInt(sa[i]);
+				ia[i] = parseInt(sa[i]);
 			} catch (NumberFormatException e) {
 				throw new ParseException("Not a Date: " + s, -1);
 			}
 		}
 
 		if (ia.length == 3) {
-                        return new Date(TmExtend.year(ia[2]), ia[1], ia[0]);
+                        return new Date(year(ia[2]), ia[1], ia[0]);
                 }
 
-		Date today = Date.today();
+		Date today = today();
 		int todayDay = today.getDay();
 		int todayMonth = today.getMonth();
 		int todayYear = today.getYear();
 
 		if (ia.length == 2) {
 			if (ia[1] > 12) {
-                                return new Date(TmExtend.year(ia[1]), ia[0], todayDay);
+                                return new Date(year(ia[1]), ia[0], todayDay);
                         }
 			return new Date(todayYear, ia[1], ia[0]);
 		}
 
 		if (ia[0] > 31) {
-                        return new Date(TmExtend.year(ia[0]), todayMonth, todayDay);
+                        return new Date(year(ia[0]), todayMonth, todayDay);
                 }
 		return new Date(todayYear, todayMonth, ia[0]);
 	}

@@ -15,12 +15,13 @@
 package ilarkesto.di.app;
 
 import ilarkesto.concurrent.ATask;
+import static ilarkesto.di.app.AApplication.get;
 
 public class BackupApplicationDataDirTask extends ATask {
 
 	@Override
 	protected void perform() throws InterruptedException {
-		AApplication.get().backupApplicationDataDir();
+		get().backupApplicationDataDir();
 	}
 
 }

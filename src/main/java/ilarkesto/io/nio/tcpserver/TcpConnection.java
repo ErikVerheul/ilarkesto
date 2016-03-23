@@ -14,10 +14,11 @@
  */
 package ilarkesto.io.nio.tcpserver;
 
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import static java.nio.ByteBuffer.wrap;
 import java.nio.channels.SocketChannel;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
@@ -25,7 +26,7 @@ import java.util.logging.Logger;
 
 public class TcpConnection {
 
-	static final ByteBuffer CLOSE_CONNECTION = ByteBuffer.wrap(new byte[0]);
+	static final ByteBuffer CLOSE_CONNECTION = wrap(new byte[0]);
 
 	SelectorTask server;
 	SocketChannel socketChannel;
@@ -33,7 +34,7 @@ public class TcpConnection {
 	int remotePort;
 	int localPort;
 
-	ConcurrentLinkedQueue<ByteBuffer> pendingData = new ConcurrentLinkedQueue<ByteBuffer>();
+	ConcurrentLinkedQueue<ByteBuffer> pendingData = new ConcurrentLinkedQueue<>();
 	boolean closed;
 
 	TcpConnection(SelectorTask server, SocketChannel socketChannel) {
@@ -50,12 +51,12 @@ public class TcpConnection {
                         throw new IllegalStateException("Connection already closed: " + toString());
                 }
 		server.sendChangeRequestForWrite(socketChannel);
-		pendingData.add(data == null ? CLOSE_CONNECTION : ByteBuffer.wrap(data));
+		pendingData.add(data == null ? CLOSE_CONNECTION : wrap(data));
 		server.wakeupSelector();
 	}
 
 	public void sendString(String s) throws UnsupportedEncodingException {
-		sendData(s.getBytes(IO.UTF_8));
+		sendData(s.getBytes(UTF_8));
 	}
 
 	public void sendLineCrLf(String line) {

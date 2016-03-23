@@ -71,7 +71,7 @@ public final class BeanContainer extends ABeanProvider implements BeanStorage<Ob
 	}
 
 	public BeanContainer() {
-		this.beans = new HashMap<String, Object>();
+		this.beans = new HashMap<>();
 	}
 
 }

@@ -16,12 +16,13 @@ package ilarkesto.ui.swing;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.persistence.TransactionService;
-import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.getIcon16;
+import static ilarkesto.swing.Swing.invokeInEventDispatchThread;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
@@ -29,8 +30,9 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import static javax.swing.SwingUtilities.invokeLater;
 import javax.swing.event.ListDataEvent;
+import static javax.swing.event.ListDataEvent.CONTENTS_CHANGED;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -80,7 +82,7 @@ public abstract class AComponent {
                         initialize();
                 }
 		if (component == null) {
-			Swing.invokeInEventDispatchThread(new Runnable() {
+			invokeInEventDispatchThread(new Runnable() {
 
 				@Override
 				public void run() {
@@ -113,7 +115,7 @@ public abstract class AComponent {
 	// --- helper ---
 
 	public final void updateControlsInEventDispatchThreadLater() {
-		SwingUtilities.invokeLater(new Runnable() {
+		invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -132,7 +134,7 @@ public abstract class AComponent {
 
 	protected final JButton createButton(String name, String icon) {
 		JButton button = createButton(name);
-		button.setIcon(Swing.getIcon16(icon));
+		button.setIcon(getIcon16(icon));
 		return button;
 	}
 
@@ -146,7 +148,7 @@ public abstract class AComponent {
 
 		protected abstract String getName();
 
-		private List<I> items = Collections.emptyList();
+		private List<I> items = emptyList();
 		private JTable table;
 		private List<Column<I>> columns;
 		private boolean settingItems;
@@ -155,7 +157,7 @@ public abstract class AComponent {
 
 		public void addColumn(Column<I> column) {
 			if (columns == null) {
-                                columns = new ArrayList<Column<I>>();
+                                columns = new ArrayList<>();
                         }
 			columns.add(column);
 			column.setListModel(this);
@@ -258,7 +260,7 @@ public abstract class AComponent {
 		}
 
 		private List<I> getItems(int[] indexes) {
-			List<I> ret = new ArrayList<I>(indexes.length);
+			List<I> ret = new ArrayList<>(indexes.length);
 			for (int index : indexes) {
 				ret.add(items.get(index));
 			}
@@ -290,8 +292,8 @@ public abstract class AComponent {
 
 		protected abstract void onItemSelected(I item);
 
-		private List<ListDataListener> listeners = new ArrayList<ListDataListener>(1);
-		private List<I> items = Collections.emptyList();
+		private List<ListDataListener> listeners = new ArrayList<>(1);
+		private List<I> items = emptyList();
 		private I selectedItem;
 		private JComboBox dropdown;
 
@@ -303,7 +305,7 @@ public abstract class AComponent {
 
 		public void setItems(Collection<I> items) {
 			this.items = new ArrayList(items);
-			ListDataEvent event = new ListDataEvent(AComponent.this, ListDataEvent.CONTENTS_CHANGED, 0,
+			ListDataEvent event = new ListDataEvent(AComponent.this, CONTENTS_CHANGED, 0,
 					items.size() - 1);
 			if (selectedItem != null) {
 				if (!items.contains(selectedItem)) {
@@ -318,6 +320,7 @@ public abstract class AComponent {
                         }
 		}
 
+                @Override
 		public void setSelectedItem(Object anItem) {
 			if (this.selectedItem == anItem) {
                                 return;
@@ -346,6 +349,7 @@ public abstract class AComponent {
 			listeners.remove(l);
 		}
 
+                @Override
 		public I getSelectedItem() {
 			return selectedItem;
 		}

@@ -17,7 +17,13 @@ package ilarkesto.gwt.client;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import static com.google.gwt.user.client.Window.enableScrolling;
+import static com.google.gwt.user.client.Window.getClientHeight;
+import static com.google.gwt.user.client.Window.getClientWidth;
 import com.google.gwt.user.client.ui.DockPanel;
+import static com.google.gwt.user.client.ui.DockPanel.CENTER;
+import static com.google.gwt.user.client.ui.DockPanel.NORTH;
+import static com.google.gwt.user.client.ui.DockPanel.WEST;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,7 +52,7 @@ public class FullScreenDockWidget extends AWidget {
 
 	@Override
 	protected Widget onInitialization() {
-		Window.enableScrolling(false);
+		enableScrolling(false);
 		setHeight100();
 
 		dock = new DockPanel();
@@ -61,7 +67,7 @@ public class FullScreenDockWidget extends AWidget {
 		northWrapper.setStyleName("FullScreenDockWidget-north");
 		northWrapper.setWidth("100%");
 		northWrapper.setHeight(northHeight + "px");
-		dock.add(northWrapper, DockPanel.NORTH);
+		dock.add(northWrapper, NORTH);
 		dock.setCellWidth(northWrapper, "100%");
 		dock.setCellHeight(northWrapper, northHeight + "px");
 
@@ -70,7 +76,7 @@ public class FullScreenDockWidget extends AWidget {
 		westWrapper.setStyleName("FullScreenDockWidget-west");
 		westWrapper.setWidth(westWidth + "px");
 		westWrapper.setHeight("100%");
-		dock.add(westWrapper, DockPanel.WEST);
+		dock.add(westWrapper, WEST);
 		dock.setCellWidth(westWrapper, westWidth + "px");
 		dock.setCellHeight(westWrapper, "100%");
 
@@ -80,7 +86,7 @@ public class FullScreenDockWidget extends AWidget {
 		// DOM.setStyleAttribute(getElement(), "overflowY", "scroll");
 		centerWrapper.setWidth("100%");
 		centerWrapper.setHeight("100%");
-		dock.add(centerWrapper, DockPanel.CENTER);
+		dock.add(centerWrapper, CENTER);
 		dock.setCellWidth(centerWrapper, "100%");
 		dock.setCellHeight(centerWrapper, "100%");
 
@@ -96,8 +102,8 @@ public class FullScreenDockWidget extends AWidget {
 	}
 
 	private void updateCenterSize() {
-		int width = Window.getClientWidth() - westWidth - 20;
-		int height = Window.getClientHeight() - northHeight - 20;
+		int width = getClientWidth() - westWidth - 20;
+		int height = getClientHeight() - northHeight - 20;
 		centerWrapper.setSize(width + "px", height + "px");
 		dock.setCellWidth(centerWrapper, width + "px");
 		dock.setCellHeight(centerWrapper, height + "px");

@@ -51,6 +51,13 @@
 package ilarkesto.io.zip;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.io.zip.Deflater.DEFLATED;
+import static ilarkesto.io.zip.DeflaterConstants.STORED_BLOCK;
+import static ilarkesto.io.zip.DeflaterConstants.STATIC_TREES;
+import static ilarkesto.io.zip.DeflaterConstants.DYN_TREES;
+import static ilarkesto.io.zip.InflaterHuffmanTree.defDistTree;
+import static ilarkesto.io.zip.InflaterHuffmanTree.defLitLenTree;
+import static java.lang.Integer.toHexString;
 
 /* Written using on-line Java Platform 1.2 API Specification
  * and JCL book.
@@ -434,7 +441,7 @@ public class Inflater {
                         throw new DataFormatException("Header checksum illegal");
                 }
 
-                if ((header & 0x0f00) != (Deflater.DEFLATED << 8)) {
+                if ((header & 0x0f00) != (DEFLATED << 8)) {
                         throw new DataFormatException("Compression Method unknown");
                 }
 
@@ -574,8 +581,8 @@ public class Inflater {
                 }
                 if ((int) adler.getValue() != readAdler) {
                         throw new DataFormatException("Adler chksum doesn't match: "
-                                + Integer.toHexString((int) adler.getValue())
-                                + " vs. " + Integer.toHexString(readAdler));
+                                + toHexString((int) adler.getValue())
+                                + " vs. " + toHexString(readAdler));
                 }
                 mode = FINISHED;
                 return false;
@@ -620,16 +627,16 @@ public class Inflater {
                                         isLastBlock = true;
                                 }
                                 switch (type >> 1) {
-                                        case DeflaterConstants.STORED_BLOCK:
+                                        case STORED_BLOCK:
                                                 input.skipToByteBoundary();
                                                 mode = DECODE_STORED_LEN1;
                                                 break;
-                                        case DeflaterConstants.STATIC_TREES:
-                                                litlenTree = InflaterHuffmanTree.defLitLenTree;
-                                                distTree = InflaterHuffmanTree.defDistTree;
+                                        case STATIC_TREES:
+                                                litlenTree = defLitLenTree;
+                                                distTree = defDistTree;
                                                 mode = DECODE_HUFFMAN;
                                                 break;
-                                        case DeflaterConstants.DYN_TREES:
+                                        case DYN_TREES:
                                                 dynHeader = new InflaterDynHeader();
                                                 mode = DECODE_DYN_HEADER;
                                                 break;

@@ -21,7 +21,7 @@ public class CheatSheet {
 
 	private String label;
 	private String description;
-	private List<CheatGroup> groups = new ArrayList<CheatGroup>();
+	private List<CheatGroup> groups = new ArrayList<>();
 
 	public CheatSheet(String label) {
 		super();

@@ -19,6 +19,7 @@ import ilarkesto.cli.BadSyntaxException;
 import ilarkesto.cli.CommandExecutionFailedException;
 import ilarkesto.cli.CommandService;
 import ilarkesto.core.logging.Log;
+import static java.lang.System.out;
 
 public class CommandApplication extends ACommandLineApplication {
 
@@ -39,9 +40,7 @@ public class CommandApplication extends ACommandLineApplication {
 		ACommand command;
 		try {
 			command = commandClass.newInstance();
-		} catch (InstantiationException ex1) {
-			throw new RuntimeException(ex1);
-		} catch (IllegalAccessException ex1) {
+		} catch (InstantiationException | IllegalAccessException ex1) {
 			throw new RuntimeException(ex1);
 		}
 		autowire(command);
@@ -49,14 +48,14 @@ public class CommandApplication extends ACommandLineApplication {
 		try {
 			result = CommandService.execute(command, args);
 		} catch (BadSyntaxException ex) {
-			System.out.println("Bad Syntax: " + ex.getMessage());
-			System.out.println("Syntax:\n\n" + command.getUsage());
+			out.println("Bad Syntax: " + ex.getMessage());
+			out.println("Syntax:\n\n" + command.getUsage());
 			return 1;
 		} catch (CommandExecutionFailedException ex) {
 			throw new RuntimeException(ex);
 		}
 		if (result != null) {
-			System.out.println(result);
+			out.println(result);
 		}
 		return 0;
 	}

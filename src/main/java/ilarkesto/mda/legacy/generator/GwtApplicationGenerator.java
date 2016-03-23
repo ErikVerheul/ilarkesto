@@ -19,7 +19,7 @@ import ilarkesto.mda.legacy.model.ApplicationModel;
 
 public class GwtApplicationGenerator extends AClassGenerator {
 
-	private ApplicationModel application;
+	private final ApplicationModel application;
 
 	public GwtApplicationGenerator(ApplicationModel application) {
 		super();

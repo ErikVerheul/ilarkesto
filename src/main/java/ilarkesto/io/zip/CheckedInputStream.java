@@ -54,6 +54,8 @@ package ilarkesto.io.zip;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import static java.lang.Math.min;
+import static java.lang.Math.min;
 
 /* Written using on-line Java Platform 1.2 API Specification
  * and JCL book.
@@ -128,7 +130,7 @@ public class CheckedInputStream extends FilterInputStream
             return 0;
     }
 
-    int min = (int) Math.min(n, 1024);
+    int min = (int) min(n, 1024);
     byte[] buf = new byte[min];
 
     long s = 0;
@@ -140,7 +142,7 @@ public class CheckedInputStream extends FilterInputStream
         }
 	n -= r;
 	s += r;
-	min = (int) Math.min(n, 1024);
+	min = (int)     min(n, 1024);
 	sum.update(buf, 0, r);
       }
 

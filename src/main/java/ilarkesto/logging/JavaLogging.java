@@ -14,24 +14,28 @@
  */
 package ilarkesto.logging;
 
-import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.getUsersHomePath;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.MessageFormat;
+import static java.text.MessageFormat.format;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Level.WARNING;
 import java.util.logging.LogRecord;
+import static java.util.logging.Logger.getLogger;
 
 public abstract class JavaLogging {
 
 	private static final Log LOG = Log.get(JavaLogging.class);
 
 	public static void redirectToLoggers() {
-		java.util.logging.Logger rootLogger = java.util.logging.Logger.getLogger("");
+		java.util.logging.Logger rootLogger = getLogger("");
 		Handler[] handlers = rootLogger.getHandlers();
 		for (Handler handler : handlers) {
 			rootLogger.removeHandler(handler);
@@ -41,11 +45,11 @@ public abstract class JavaLogging {
 	}
 
 	public static void redirectToHomeFile(String name) {
-		redirectToFile(new File(Sys.getUsersHomePath() + "/" + name + ".java.log"));
+		redirectToFile(new File(getUsersHomePath() + "/" + name + ".java.log"));
 	}
 
 	public static void redirectToFile(File file) {
-		java.util.logging.Logger rootLogger = java.util.logging.Logger.getLogger("");
+		java.util.logging.Logger rootLogger = getLogger("");
 		Handler[] handlers = rootLogger.getHandlers();
 		for (Handler handler : handlers) {
 			rootLogger.removeHandler(handler);
@@ -73,7 +77,7 @@ public abstract class JavaLogging {
 		if (idx > 0) {
 			loggerName = loggerName.substring(idx + 1);
 		}
-		Log logger = Log.get(loggerName);
+		Log logger = get(loggerName);
 		logger.log(toLevel(record.getLevel()), getMessage(record));
 	}
 
@@ -81,7 +85,7 @@ public abstract class JavaLogging {
 		String msg = record.getMessage();
 		Object[] parameters = record.getParameters();
 		if (parameters != null && parameters.length > 0) {
-			msg = MessageFormat.format(msg, parameters);
+			msg = format(msg, parameters);
 		}
 		return msg;
 	}
@@ -147,7 +151,7 @@ public abstract class JavaLogging {
 			out.println(record.getMessage());
 			out.flush();
 			Level level = record.getLevel();
-			if (level == Level.SEVERE || level == Level.WARNING) {
+			if (level == SEVERE || level == WARNING) {
 				redirectToLogger(record);
 			}
 		}

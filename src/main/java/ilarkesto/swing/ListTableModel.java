@@ -25,7 +25,7 @@ import javax.swing.table.AbstractTableModel;
 public final class ListTableModel<E> extends AbstractTableModel {
 
     private Column[] columns;
-    private LinkedList<E> elements = new LinkedList<E>();
+    private LinkedList<E> elements = new LinkedList<>();
 
     public ListTableModel() {
         columns = new Column[] { new DefaultColumn() };
@@ -53,7 +53,7 @@ public final class ListTableModel<E> extends AbstractTableModel {
     }
 
     public final void setElements(Collection<E> elements) {
-        this.elements = new LinkedList<E>(elements);
+        this.elements = new LinkedList<>(elements);
         fireTableDataChanged();
     }
 
@@ -114,7 +114,7 @@ public final class ListTableModel<E> extends AbstractTableModel {
     }
 
     public List<E> getElements(int[] selectedRows) {
-        List<E> result = new ArrayList<E>(selectedRows.length);
+        List<E> result = new ArrayList<>(selectedRows.length);
         for (int row : selectedRows) {
             result.add(getElement(row));
         }

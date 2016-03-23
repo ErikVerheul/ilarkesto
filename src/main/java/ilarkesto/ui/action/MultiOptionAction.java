@@ -15,16 +15,17 @@
 package ilarkesto.ui.action;
 
 import ilarkesto.base.Iconized;
-import ilarkesto.base.ToStringComparator;
+import static ilarkesto.base.ToStringComparator.INSTANCE_IGNORECASE;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.form.Form;
 import ilarkesto.form.MultiCheckboxFormField;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.ui.Option;
+import static ilarkesto.ui.Option.KEY_CANCEL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,8 +42,8 @@ public final class MultiOptionAction<T> extends AAction {
 	protected void performAction() throws InterruptedException {
 		setAutoShowInfoDone(false);
 
-		List<Option<T>> groupOptions = new ArrayList<Option<T>>();
-		List<Option<T>> singleOptions = new ArrayList<Option<T>>();
+		List<Option<T>> groupOptions = new ArrayList<>();
+		List<Option<T>> singleOptions = new ArrayList<>();
 		for (Option<T> option : getOptions()) {
 			if (option.isGroup()) {
 				groupOptions.add(option);
@@ -50,8 +51,8 @@ public final class MultiOptionAction<T> extends AAction {
 				singleOptions.add(option);
 			}
 		}
-		Collections.sort(groupOptions, ToStringComparator.INSTANCE_IGNORECASE);
-		Collections.sort(singleOptions, ToStringComparator.INSTANCE_IGNORECASE);
+		sort(groupOptions, INSTANCE_IGNORECASE);
+		sort(singleOptions, INSTANCE_IGNORECASE);
 
 		getUi().getUserMessageService().info(message);
 		Form form = autowire(new Form());
@@ -78,7 +79,7 @@ public final class MultiOptionAction<T> extends AAction {
 
 	public void addOption(Option<T> option) {
 		if (options == null) {
-                        options = new ArrayList<Option<T>>();
+                        options = new ArrayList<>();
                 }
 		options.add(option);
 	}
@@ -86,7 +87,7 @@ public final class MultiOptionAction<T> extends AAction {
 	// --- helper ---
 
 	public Option<T> getOption(String key) {
-		if (Option.KEY_CANCEL.equals(key)) {
+		if (KEY_CANCEL.equals(key)) {
                         return null;
                 }
 		for (Option<T> option : options) {
@@ -105,12 +106,12 @@ public final class MultiOptionAction<T> extends AAction {
                 }
 		for (T o : payloads) {
 			String icon = o instanceof Iconized ? ((Iconized) o).getIcon() : "item";
-			addOption(new Option<T>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));
+			addOption(new Option<>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));
 		}
 	}
 
 	public Set<T> getSelectedPayloads() {
-		Set<T> payloads = new HashSet<T>(selectedOptions.size());
+		Set<T> payloads = new HashSet<>(selectedOptions.size());
 		for (Option<T> option : selectedOptions) {
 			payloads.add(option.getPayload());
 		}
@@ -147,7 +148,7 @@ public final class MultiOptionAction<T> extends AAction {
 		this.selectedOptions = selectedOptions;
 	}
 
-	private Collection<Option<T>> options = new ArrayList<Option<T>>();
+	private Collection<Option<T>> options = new ArrayList<>();
 
 	public final Collection<Option<T>> getOptions() {
 		return options;

@@ -14,6 +14,8 @@
  */
 package ilarkesto.form;
 
+import static ilarkesto.form.Form.ABORT_BUTTON_NAME;
+
 public class FormButton  {
 
     private String name;
@@ -78,7 +80,7 @@ public class FormButton  {
     }
 
     public boolean isAbort() {
-        return Form.ABORT_BUTTON_NAME.equals(name);
+        return  ABORT_BUTTON_NAME.equals(name);
     }
 
     @Override

@@ -20,6 +20,17 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
+import static java.awt.GridBagConstraints.BOTH;
+import static java.awt.GridBagConstraints.CENTER;
+import static java.awt.GridBagConstraints.EAST;
+import static java.awt.GridBagConstraints.HORIZONTAL;
+import static java.awt.GridBagConstraints.NONE;
+import static java.awt.GridBagConstraints.NORTH;
+import static java.awt.GridBagConstraints.NORTHEAST;
+import static java.awt.GridBagConstraints.NORTHWEST;
+import static java.awt.GridBagConstraints.REMAINDER;
+import static java.awt.GridBagConstraints.VERTICAL;
+import static java.awt.GridBagConstraints.WEST;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
@@ -34,7 +45,7 @@ import javax.swing.border.TitledBorder;
 
 public class PanelBuilder {
 
-	private List<Cell> cells = new ArrayList<Cell>();
+	private List<Cell> cells = new ArrayList<>();
 	private Cell lastCell;
 	private GridBagConstraints defaultConstraints = new GridBagConstraints();
 	private Border border;
@@ -58,7 +69,7 @@ public class PanelBuilder {
 
 	@SuppressWarnings("unchecked")
 	public <C extends Component> Cell<C> add(C component) {
-		lastCell = new Cell<C>(component);
+		lastCell = new Cell<>(component);
 		cells.add(lastCell);
 		return lastCell;
 	}
@@ -88,7 +99,7 @@ public class PanelBuilder {
 		if (lastCell == null) {
                         return;
                 }
-		lastCell.constraints.gridwidth = GridBagConstraints.REMAINDER;
+		lastCell.constraints.gridwidth = REMAINDER;
 	}
 
 	public PanelBuilder setBackground(Color background) {
@@ -128,12 +139,12 @@ public class PanelBuilder {
 	}
 
 	public PanelBuilder setDefaultAnchorToNorthWest() {
-		defaultConstraints.anchor = GridBagConstraints.NORTHWEST;
+		defaultConstraints.anchor = NORTHWEST;
 		return this;
 	}
 
 	public PanelBuilder setDefaultAnchorToNorth() {
-		defaultConstraints.anchor = GridBagConstraints.NORTH;
+		defaultConstraints.anchor = NORTH;
 		return this;
 	}
 
@@ -143,12 +154,12 @@ public class PanelBuilder {
 	}
 
 	public PanelBuilder setDefaultFillToHorizontal() {
-		defaultConstraints.fill = GridBagConstraints.HORIZONTAL;
+		defaultConstraints.fill = HORIZONTAL;
 		return this;
 	}
 
 	public PanelBuilder setDefaultFillToBoth() {
-		defaultConstraints.fill = GridBagConstraints.BOTH;
+		defaultConstraints.fill = BOTH;
 		return this;
 	}
 
@@ -192,47 +203,47 @@ public class PanelBuilder {
 		}
 
 		public Cell setAnchorToCenter() {
-			constraints.anchor = GridBagConstraints.CENTER;
+			constraints.anchor = CENTER;
 			return this;
 		}
 
 		public Cell setAnchorToNorthEast() {
-			constraints.anchor = GridBagConstraints.NORTHEAST;
+			constraints.anchor = NORTHEAST;
 			return this;
 		}
 
 		public Cell setAnchorToEast() {
-			constraints.anchor = GridBagConstraints.EAST;
+			constraints.anchor = EAST;
 			return this;
 		}
 
 		public Cell setAnchorToWest() {
-			constraints.anchor = GridBagConstraints.WEST;
+			constraints.anchor = WEST;
 			return this;
 		}
 
 		public final Cell setAnchorToNorthWest() {
-			constraints.anchor = GridBagConstraints.NORTHWEST;
+			constraints.anchor = NORTHWEST;
 			return this;
 		}
 
 		public Cell setFillToHorizontal() {
-			constraints.fill = GridBagConstraints.HORIZONTAL;
+			constraints.fill = HORIZONTAL;
 			return this;
 		}
 
 		public Cell setFillToVertical() {
-			constraints.fill = GridBagConstraints.VERTICAL;
+			constraints.fill = VERTICAL;
 			return this;
 		}
 
 		public Cell setFillToBoth() {
-			constraints.fill = GridBagConstraints.BOTH;
+			constraints.fill = BOTH;
 			return this;
 		}
 
 		public Cell setFillToNone() {
-			constraints.fill = GridBagConstraints.NONE;
+			constraints.fill = NONE;
 			return this;
 		}
 

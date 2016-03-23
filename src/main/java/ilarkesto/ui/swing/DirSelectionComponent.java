@@ -17,6 +17,7 @@ package ilarkesto.ui.swing;
 import ilarkesto.core.logging.Log;
 import ilarkesto.swing.ALazyTreeNode;
 import java.io.File;
+import static java.io.File.listRoots;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -41,7 +42,7 @@ public class DirSelectionComponent extends AComponent {
 	@Override
 	protected void initializeControls() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Computer", true);
-		for (File file : File.listRoots()) {
+		for (File file : listRoots()) {
 			root.add(new DirNode(file));
 		}
 		tree = new JTree(root);
@@ -64,7 +65,7 @@ public class DirSelectionComponent extends AComponent {
 
 	class DirNode extends ALazyTreeNode {
 
-		private File dir;
+		private final File dir;
 
 		public DirNode(File dir) {
 			super(dir.getName().length() == 0 ? dir.getPath() : dir.getName(), true);

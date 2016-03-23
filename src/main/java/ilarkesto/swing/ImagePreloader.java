@@ -15,21 +15,24 @@
 package ilarkesto.swing;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.getScaled;
+import static ilarkesto.io.IO.loadImage;
+import static ilarkesto.io.IO.toBufferedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import static java.lang.Long.MAX_VALUE;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public final class ImagePreloader {
 
-	private static Log log = Log.get(ImagePreloader.class);
+	private static final Log log = Log.get(ImagePreloader.class);
 
-	private BlockingQueue<ImageWrapper> queue = new LinkedBlockingQueue<ImageWrapper>();
-	private final Set<ImageWrapper> cache = new LinkedHashSet<ImageWrapper>();
+	private BlockingQueue<ImageWrapper> queue = new LinkedBlockingQueue<>();
+	private final Set<ImageWrapper> cache = new LinkedHashSet<>();
 
 	private boolean shutdown;
 	private long size;
@@ -49,7 +52,7 @@ public final class ImagePreloader {
 						if (shutdown) {
                                                         return;
                                                 }
-						ImageWrapper image = queue.poll(Long.MAX_VALUE, TimeUnit.SECONDS);
+						ImageWrapper image = queue.poll(MAX_VALUE, SECONDS);
 						image.load();
 						log.debug("preloaded:", image.file);
 					} catch (InterruptedException ignored) {
@@ -152,7 +155,7 @@ public final class ImagePreloader {
 			if (isLoaded()) {
                                 return;
                         }
-			image = IO.loadImage(file);
+			image = loadImage(file);
 			if (autoScale) {
                                 scale();
                         }
@@ -163,7 +166,7 @@ public final class ImagePreloader {
 			int imageHeight = image.getHeight();
 
 			if (imageWidth > maxWidth || imageHeight > maxHeight) {
-				image = IO.toBufferedImage(IO.getScaled(this.image, maxWidth, maxHeight));
+				image = toBufferedImage(getScaled(this.image, maxWidth, maxHeight));
 			}
 		}
 

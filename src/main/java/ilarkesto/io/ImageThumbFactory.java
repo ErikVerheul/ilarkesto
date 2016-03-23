@@ -15,15 +15,19 @@
 package ilarkesto.io;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.io.IO.loadImage;
+import static ilarkesto.io.IO.quadratizeAndLimitSize;
+import static ilarkesto.io.IO.writeImage;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import static java.lang.Integer.parseInt;
 
 public class ImageThumbFactory {
 
-	private Log log = Log.get(ImageThumbFactory.class);
+	private final Log log = Log.get(ImageThumbFactory.class);
 
-	private File thumbDir;
+	private final File thumbDir;
 
 	public ImageThumbFactory(File thumbDir) {
 		super();
@@ -31,7 +35,7 @@ public class ImageThumbFactory {
 	}
 
 	public File getThumb(File imageFile, String folder, String scale) {
-		return getThumb(imageFile, folder, Integer.parseInt(scale));
+		return getThumb(imageFile, folder, parseInt(scale));
 	}
 
 	public File getThumb(File imageFile, String folder, int size) {
@@ -45,9 +49,9 @@ public class ImageThumbFactory {
 
 	private void createThumb(File imageFile, File thumbFile, int size) {
 		log.info("Creating thumb:", imageFile, "->", thumbFile);
-		BufferedImage image = IO.loadImage(imageFile);
-		Image thumbImage = IO.quadratizeAndLimitSize(image, size);
-		IO.writeImage(thumbImage, "JPG", thumbFile);
+		BufferedImage image = loadImage(imageFile);
+		Image thumbImage = quadratizeAndLimitSize(image, size);
+		writeImage(thumbImage, "JPG", thumbFile);
 		if (!thumbFile.setLastModified(imageFile.lastModified())) {
                         log.warn("Unable to set lastmodified time to file " + thumbFile);
                 }

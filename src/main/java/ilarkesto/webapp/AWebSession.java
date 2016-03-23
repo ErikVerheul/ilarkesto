@@ -14,9 +14,10 @@
  */
 package ilarkesto.webapp;
 
-import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.compare;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 import ilarkesto.core.time.TimePeriod;
 import ilarkesto.di.Context;
 import ilarkesto.gwt.server.AGwtConversation;
@@ -31,19 +32,19 @@ public abstract class AWebSession implements Comparable<AWebSession> {
 	private static final TimePeriod DEFAULT_TIMEOUT = TimePeriod.minutes(30);
 
 	private Context context;
-	private String userAgent;
+	private final String userAgent;
 	private boolean shitBrowser;
-	private String initialRemoteHost;
+	private final String initialRemoteHost;
 	private boolean sessionInvalidated;
-	private DateAndTime sessionStartedTime;
+	private final DateAndTime sessionStartedTime;
 	private DateAndTime lastTouched;
-	private Set<AGwtConversation> gwtConversations = new HashSet<AGwtConversation>();
+	private final Set<AGwtConversation> gwtConversations = new HashSet<>();
 	private int lastGwtConversationNumber = 0;
 
 	public AWebSession(Context parentContext, HttpServletRequest initialRequest) {
 		this.initialRemoteHost = initialRequest == null ? "localhost" : initialRequest.getRemoteHost();
 
-		sessionStartedTime = DateAndTime.now();
+		sessionStartedTime = now();
 
 		context = parentContext.createSubContext(toString());
 		context.addBeanProvider(this);
@@ -94,7 +95,7 @@ public abstract class AWebSession implements Comparable<AWebSession> {
 	}
 
 	final void touch() {
-		lastTouched = DateAndTime.now();
+		lastTouched = now();
 	}
 
 	protected TimePeriod getTimeout() {
@@ -136,7 +137,7 @@ public abstract class AWebSession implements Comparable<AWebSession> {
 	}
 
 	protected void onInvalidate() {
-		for (AGwtConversation conversation : new ArrayList<AGwtConversation>(gwtConversations)) {
+		for (AGwtConversation conversation : new ArrayList<>(gwtConversations)) {
 			destroyGwtConversation(conversation);
 		}
 	}
@@ -164,7 +165,7 @@ public abstract class AWebSession implements Comparable<AWebSession> {
 
 	@Override
 	public int compareTo(AWebSession o) {
-		return Utl.compare(o.getLastTouched(), getLastTouched());
+		return compare(o.getLastTouched(), getLastTouched());
 	}
 
 }

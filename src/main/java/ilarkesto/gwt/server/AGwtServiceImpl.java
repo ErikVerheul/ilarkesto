@@ -20,6 +20,7 @@ import ilarkesto.di.Context;
 import ilarkesto.gwt.client.ErrorWrapper;
 import ilarkesto.persistence.DaoService;
 import ilarkesto.webapp.AWebApplication;
+import static ilarkesto.webapp.AWebApplication.get;
 import ilarkesto.webapp.AWebSession;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -97,7 +98,7 @@ public abstract class AGwtServiceImpl extends RemoteServiceServlet {
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
 		super.init(servletConfig);
-		AWebApplication.get().autowire(this);
+		get().autowire(this);
 	}
 
 	@Override

@@ -50,6 +50,8 @@
  exception statement from your version. */
 package ilarkesto.io.zip;
 
+import static ilarkesto.io.zip.ZipOutputStream.DEFLATED;
+import static ilarkesto.io.zip.ZipOutputStream.STORED;
 import java.io.BufferedInputStream;
 import java.io.DataInput;
 import java.io.EOFException;
@@ -57,6 +59,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import static java.lang.Integer.MAX_VALUE;
+import static java.lang.Math.max;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -245,7 +249,7 @@ public class ZipFile implements ZipConstants {
 
                         int offset = readLeInt(ebs, CENOFF);
 
-                        int needBuffer = Math.max(nameLen, commentLen);
+                        int needBuffer = max(nameLen, commentLen);
                         if (buffer.length < needBuffer) {
                                 buffer = new byte[needBuffer];
                         }
@@ -277,7 +281,7 @@ public class ZipFile implements ZipConstants {
          * Closes the ZipFile. This also closes all input streams given by this class. After this is called, no further
          * method should be called.
          *
-         * @exception IOException if a i/o error occured.
+         * @exception IOException if a i/o error occurred.
          */
         public void close() throws IOException {
                 synchronized (raf) {
@@ -404,9 +408,9 @@ public class ZipFile implements ZipConstants {
                 int method = zipEntry.getMethod();
                 InputStream is = new BufferedInputStream(new PartialInputStream(raf, start, zipEntry.getCompressedSize()));
                 switch (method) {
-                        case ZipOutputStream.STORED:
+                        case STORED:
                                 return is;
-                        case ZipOutputStream.DEFLATED:
+                        case DEFLATED:
                                 return new InflaterInputStream(is, new Inflater(true));
                         default:
                                 throw new ZipException("Unknown compression method " + method);
@@ -474,8 +478,8 @@ public class ZipFile implements ZipConstants {
                 @Override
                 public int available() {
                         long amount = end - filepos;
-                        if (amount > Integer.MAX_VALUE) {
-                                return Integer.MAX_VALUE;
+                        if (amount > MAX_VALUE) {
+                                return MAX_VALUE;
                         }
                         return (int) amount;
                 }

@@ -15,7 +15,9 @@
 package ilarkesto.core.logging;
 
 import ilarkesto.core.logging.Log.Level;
+import static ilarkesto.core.logging.Log.Level.INFO;
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.testng.ATest;
 import org.testng.annotations.Test;
 
@@ -23,18 +25,18 @@ public class LogRecordTest extends ATest {
 
 	@Test
 	public void hash() {
-		LogRecord a = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "logger");
-		LogRecord b = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "logger");
-		LogRecord c = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "world");
+		LogRecord a = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "logger");
+		LogRecord b = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "logger");
+		LogRecord c = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "world");
 		assertEquals(a.hashCode(), b.hashCode());
 		assertNotEquals(a.hashCode(), c.hashCode());
 	}
 
 	@Test
 	public void equals() {
-		LogRecord a = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "logger");
-		LogRecord b = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "logger");
-		LogRecord c = new LogRecord(Tm.getCurrentTimeMillis(), "A", Level.INFO, "hello", "world");
+		LogRecord a = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "logger");
+		LogRecord b = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "logger");
+		LogRecord c = new LogRecord(getCurrentTimeMillis(), "A", INFO, "hello", "world");
 		assertEquals(a, a);
 		assertEquals(a, b);
 		assertNotEquals(a, c);

@@ -15,16 +15,17 @@
 package ilarkesto.core.menu;
 
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeIndicator {
 
-	private long changeTime = Tm.getCurrentTimeMillis();
+	private long changeTime = getCurrentTimeMillis();
 	private List<ChangeListener> changeListeners;
 
 	public void markChanged() {
-		changeTime = Tm.getCurrentTimeMillis();
+		changeTime = getCurrentTimeMillis();
 		if (changeListeners != null) {
 			for (ChangeListener listener : changeListeners) {
 				listener.onChange();

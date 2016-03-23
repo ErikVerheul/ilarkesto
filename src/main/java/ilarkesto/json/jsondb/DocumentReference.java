@@ -37,7 +37,7 @@ public class DocumentReference {
 	}
 
 	public static List<String> getIds(Collection<DocumentReference> references) {
-		List<String> ids = new ArrayList<String>(references.size());
+		List<String> ids = new ArrayList<>(references.size());
 		for (DocumentReference reference : references) {
 			ids.add(reference.getId());
 		}

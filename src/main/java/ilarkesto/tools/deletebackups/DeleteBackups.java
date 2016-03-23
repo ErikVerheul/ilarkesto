@@ -17,17 +17,21 @@ package ilarkesto.tools.deletebackups;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.core.time.Date;
 import java.io.File;
+import static java.lang.System.err;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static java.util.regex.Pattern.compile;
 
 public class DeleteBackups {
 
 	public static void main(String[] args) {
 		int ret = deleteBackups(args);
-		System.exit(ret);
+		exit(ret);
 	}
 
         @SuppressWarnings(value = "DLS_DEAD_LOCAL_STORE", justification = "This code needs futher implementation")
@@ -37,7 +41,7 @@ public class DeleteBackups {
 	}
 
 	private static List<Backup> filterBackups(File[] files) {
-		List<Backup> backups = new ArrayList<DeleteBackups.Backup>();
+		List<Backup> backups = new ArrayList<>();
 		for (File file : files) {
 			if (!file.isFile()) {
                                 continue;
@@ -48,7 +52,7 @@ public class DeleteBackups {
                         }
 			backups.add(new Backup(file, date));
 		}
-		Collections.sort(backups);
+		sort(backups);
 		return backups;
 	}
 
@@ -67,12 +71,12 @@ public class DeleteBackups {
 	}
 
 	private static int fail(String message) {
-		System.err.println("Deleting backups failed.\n-> " + message);
+		err.println("Deleting backups failed.\n-> " + message);
 		return 1;
 	}
 
 	public static Date extractDate(String s) {
-		Matcher matcher = Pattern.compile(".*(20\\d\\d-\\d\\d-\\d\\d).*").matcher(s);
+		Matcher matcher = compile(".*(20\\d\\d-\\d\\d-\\d\\d).*").matcher(s);
 		if (!matcher.matches()) {
                         return null;
                 }

@@ -51,6 +51,8 @@ exception statement from your version. */
 
 package ilarkesto.io.zip;
 
+import static java.lang.System.arraycopy;
+
 /**
  * This class allows us to retrieve a specified amount of bits from
  * the input buffer, as well as copy big byte blocks.
@@ -186,7 +188,7 @@ class StreamManipulator
     if (length > avail) {
             length = avail;
     }
-    System.arraycopy(window, window_start, output, offset, length);
+                arraycopy(window, window_start, output, offset, length);
     window_start += length;
 
     if (((window_start - window_end) & 1) != 0)

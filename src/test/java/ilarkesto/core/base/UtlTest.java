@@ -14,6 +14,7 @@
  */
 package ilarkesto.core.base;
 
+import static ilarkesto.core.base.Utl.toList;
 import ilarkesto.testng.ATest;
 import java.util.List;
 import org.testng.annotations.Test;
@@ -31,9 +32,9 @@ public class UtlTest extends ATest {
 
 	@Test
 	public void removeDuplicates() {
-		List<String> list = Utl.toList("a", "b", "b", "a");
+		List<String> list = toList("a", "b", "b", "a");
 		Utl.removeDuplicates(list);
-		assertEquals(list, Utl.toList("a", "b"));
+		assertEquals(list, toList("a", "b"));
 	}
 
 }

@@ -17,7 +17,9 @@ package ilarkesto.mda.legacy.generator;
 import ilarkesto.auth.AUserDao;
 import ilarkesto.auth.Auth;
 import ilarkesto.base.Cache;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.getLastToken;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.fp.Predicate;
 import ilarkesto.mda.legacy.model.DatobModel;
 import ilarkesto.mda.legacy.model.DependencyModel;
@@ -86,8 +88,8 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 		ln("    public void clearCaches() {");
 		for (PropertyModel p : bean.getProperties()) {
 			if (!p.isUnique()) {
-				ln("        " + StrExtend.lowercaseFirstLetter(bean.getName()) + "sBy"
-						+ StrExtend.uppercaseFirstLetter(p.getNameSingular()) + "Cache.clear();");
+				ln("        " + lowercaseFirstLetter(bean.getName()) + "sBy"
+						+ uppercaseFirstLetter(p.getNameSingular()) + "Cache.clear();");
 			}
 			if (!p.isBoolean()) {
 				ln("        " + p.getNameSingular() + "sCache = null;");
@@ -158,14 +160,14 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 			if (!p.isValueObject()) {
                                 continue;
                         }
-			ln("        aliases.put(\"" + StrExtend.getLastToken(p.getContentType(), ".") + "\", " + p.getContentType()
+			ln("        aliases.put(\"" + getLastToken(p.getContentType(), ".") + "\", " + p.getContentType()
 					+ ".class);");
 		}
 		writeAliases((DatobModel) bean.getSuperbean());
 	}
 
 	private void writeProperty(PropertyModel p) {
-		String pNameUpper = StrExtend.uppercaseFirstLetter(p.getNameSingular());
+		String pNameUpper = uppercaseFirstLetter(p.getNameSingular());
 		String predicateClassNamePrefix = p.isCollection() ? "Contains" : "Is";
 		String pType = p.getContentType();
 
@@ -193,7 +195,7 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
                                         pType = "Long";
                                 }
 			}
-			String cacheVarName = StrExtend.lowercaseFirstLetter(bean.getName()) + "sBy" + pNameUpper + "Cache";
+			String cacheVarName = lowercaseFirstLetter(bean.getName()) + "sBy" + pNameUpper + "Cache";
 			String generic = "<" + pType + ",Set<" + bean.getName() + ">>";
 			ln("    private final Cache" + generic + " " + cacheVarName + " = new Cache" + generic + "(");
 			ln("            new Cache.Factory" + generic + "() {");
@@ -288,7 +290,7 @@ public class DaoGenerator extends ABeanGenerator<EntityModel> {
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> result = new LinkedHashSet<String>();
+		Set<String> result = new LinkedHashSet<>();
 		result.addAll(super.getImports());
 		result.add(Auth.class.getName());
 		result.add(Cache.class.getName());

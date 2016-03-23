@@ -17,6 +17,8 @@ package ilarkesto.gwt.client;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
+import static com.google.gwt.user.client.Window.addResizeHandler;
+import static com.google.gwt.user.client.Window.getClientHeight;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -25,7 +27,7 @@ public class FullscreenPanel extends SimplePanel {
 	public FullscreenPanel() {
 		setStyleName("FullscreenPanel");
 		updateHeight();
-		Window.addResizeHandler(new Autoresizer());
+		addResizeHandler(new Autoresizer());
 	}
 
 	public FullscreenPanel(Widget content) {
@@ -34,7 +36,7 @@ public class FullscreenPanel extends SimplePanel {
 	}
 
 	public void updateHeight() {
-		int height = Window.getClientHeight() - 25;
+		int height = getClientHeight() - 25;
 		setHeight(height + "px");
 	}
 

@@ -19,6 +19,7 @@ import ilarkesto.di.BeanProvider;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.ui.Option;
+import static ilarkesto.ui.Option.KEY_CANCEL;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -38,7 +39,7 @@ public final class OptionAction<T> extends AAction {
 
 	public void addOption(Option<T> option) {
 		if (options == null) {
-                        options = new ArrayList<Option<T>>();
+                        options = new ArrayList<>();
                 }
 		options.add(option);
 	}
@@ -54,7 +55,7 @@ public final class OptionAction<T> extends AAction {
 	}
 
 	public Option<T> getOption(String key) {
-		if (Option.KEY_CANCEL.equals(key)) {
+		if (KEY_CANCEL.equals(key)) {
                         return null;
                 }
 		for (Option<T> option : options) {
@@ -73,7 +74,7 @@ public final class OptionAction<T> extends AAction {
                 }
 		for (T o : payloads) {
 			String icon = o instanceof Iconized ? ((Iconized) o).getIcon() : "item";
-			addOption(new Option<T>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));
+			addOption(new Option<>(payloadIdGenerator.generateId(), o.toString(), icon, null, o));
 		}
 		horizontal = false;
 	}
@@ -101,7 +102,7 @@ public final class OptionAction<T> extends AAction {
 		this.selectedOption = getOption(option);
 	}
 
-	private Collection<Option<T>> options = new ArrayList<Option<T>>();
+	private Collection<Option<T>> options = new ArrayList<>();
 
 	public final Collection<Option<T>> getOptions() {
 		return options;

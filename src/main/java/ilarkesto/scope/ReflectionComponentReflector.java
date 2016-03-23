@@ -15,6 +15,7 @@
 package ilarkesto.scope;
 
 import ilarkesto.base.Reflect;
+import static ilarkesto.base.Reflect.processAnnotations;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.scope.ComponentReflector;
 import ilarkesto.core.scope.In;
@@ -23,6 +24,7 @@ import ilarkesto.core.scope.Out;
 import ilarkesto.core.scope.Scope;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ReflectionComponentReflector implements ComponentReflector {
@@ -31,22 +33,22 @@ public class ReflectionComponentReflector implements ComponentReflector {
 
 	@Override
 	public void injectComponents(Object component, Scope scope) {
-		Reflect.processAnnotations(component, new DependencyInjector(scope));
+		processAnnotations(component, new DependencyInjector(scope));
 	}
 
 	@Override
 	public void callInitializationMethods(Object component) {
-		Reflect.processAnnotations(component, new Initializer());
+		processAnnotations(component, new Initializer());
 	}
 
 	@Override
 	public void outjectComponents(Object component, Scope scope) {
-		Reflect.processAnnotations(component, new DependencyOutjector(scope));
+		processAnnotations(component, new DependencyOutjector(scope));
 	}
 
 	static class DependencyOutjector implements Reflect.FieldAnnotationHandler {
 
-		private Scope scope;
+		private final Scope scope;
 
 		public DependencyOutjector(Scope scope) {
 			super();
@@ -67,7 +69,7 @@ public class ReflectionComponentReflector implements ComponentReflector {
                                         field.setAccessible(true);
                                 }
 				outComponent = field.get(component);
-			} catch (Throwable ex) {
+			} catch (SecurityException | IllegalArgumentException | IllegalAccessException ex) {
 				throw new DependencyOutjectionFailedException(component, outName, ex);
 			}
 			if (outComponent == null) {
@@ -94,7 +96,7 @@ public class ReflectionComponentReflector implements ComponentReflector {
                                         method.setAccessible(true);
                                 }
 				method.invoke(object);
-			} catch (Throwable ex) {
+			} catch (SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 				throw new InitializationFaildException(object, method.getName(), ex);
 			}
 		}
@@ -102,7 +104,7 @@ public class ReflectionComponentReflector implements ComponentReflector {
 
 	static class DependencyInjector implements Reflect.FieldAnnotationHandler {
 
-		private Scope scope;
+		private final Scope scope;
 
 		public DependencyInjector(Scope scope) {
 			super();

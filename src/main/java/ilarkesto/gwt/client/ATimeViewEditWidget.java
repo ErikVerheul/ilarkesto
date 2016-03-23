@@ -15,6 +15,8 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusListener;
@@ -22,7 +24,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
 import ilarkesto.core.time.Time;
 
 public abstract class ATimeViewEditWidget extends AViewEditWidget {
@@ -56,13 +60,13 @@ public abstract class ATimeViewEditWidget extends AViewEditWidget {
 
 	public final Time getEditorValue() {
 		String s = editor.getText();
-		if (Str.isBlank(s)) {
+		if (isBlank(s)) {
                         return null;
                 }
 		try {
 			return new Time(s);
 		} catch (Exception ex) {
-			Log.DEBUG("Parsing time '" + s + "' failed: ", ex);
+			DEBUG("Parsing time '" + s + "' failed: ", ex);
 			return null;
 		}
 	}
@@ -73,9 +77,9 @@ public abstract class ATimeViewEditWidget extends AViewEditWidget {
 		public void onKeyDown(KeyDownEvent event) {
 			int keyCode = event.getNativeKeyCode();
 
-			if (keyCode == KeyCodes.KEY_ENTER) {
+			if (keyCode == KEY_ENTER) {
 				submitEditor();
-			} else if (keyCode == KeyCodes.KEY_ESCAPE) {
+			} else if (keyCode == KEY_ESCAPE) {
 				cancelEditor();
 			}
 		}

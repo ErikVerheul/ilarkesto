@@ -25,12 +25,13 @@ import ilarkesto.mda.model.Node;
 import ilarkesto.mda.swingeditor.NodeListPanel.Observer;
 import ilarkesto.swing.HorizontalBarPanel;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 public class NodeListBarPanel extends JPanel implements Observer, ModelChangedHandler {
 
-	private static Log log = Log.get(NodeListBarPanel.class);
+	private static final Log log = Log.get(NodeListBarPanel.class);
 
 	@In
 	ModellingSession modellingSession;
@@ -41,13 +42,13 @@ public class NodeListBarPanel extends JPanel implements Observer, ModelChangedHa
 	@In
 	EventBus eventBus;
 
-	private HorizontalBarPanel bar;
+	private final HorizontalBarPanel bar;
 
 	public NodeListBarPanel() {
 		bar = new HorizontalBarPanel();
 
 		setLayout(new BorderLayout());
-		add(bar, BorderLayout.CENTER);
+		add(bar, CENTER);
 		setBorder(new EmptyBorder(10, 10, 10, 10));
 	}
 

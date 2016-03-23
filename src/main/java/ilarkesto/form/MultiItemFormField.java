@@ -15,10 +15,15 @@
 package ilarkesto.form;
 
 import ilarkesto.base.StringProvider;
+import static ilarkesto.form.Form.ADD_ITEM_BUTTON_NAME_PREFIX;
+import static ilarkesto.form.Form.BUTTON_PREFIX;
+import static ilarkesto.form.Form.REMOVE_ALLITEMS_BUTTON_NAME_PREFIX;
+import static ilarkesto.form.Form.REMOVE_ITEM_BUTTON_NAME_PREFIX;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
+import static java.lang.String.valueOf;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,9 +40,9 @@ public class MultiItemFormField<T> extends AFormField {
 
 	private Collection<T> selectableItems;
 
-	private Collection<MultiItem<T>> selectableMultiItems = Collections.emptyList();
+	private Collection<MultiItem<T>> selectableMultiItems = emptyList();
 
-	private Map<T, RemoveButton<T>> removeButtons = new HashMap<T, RemoveButton<T>>();
+	private Map<T, RemoveButton<T>> removeButtons = new HashMap<>();
 
 	private StringProvider<T> itemTooltipProvider;
 
@@ -96,7 +101,7 @@ public class MultiItemFormField<T> extends AFormField {
 	}
 
 	public Collection<T> getSelectableItems() {
-		Set<T> result = new HashSet<T>(selectableItems);
+		Set<T> result = new HashSet<>(selectableItems);
 		result.removeAll(value);
 		return result;
 	}
@@ -137,7 +142,7 @@ public class MultiItemFormField<T> extends AFormField {
 			this.value = null;
 			return this;
 		}
-		this.value = new HashSet<T>(value);
+		this.value = new HashSet<>(value);
 		for (T item : value) {
 			RemoveButton button = (RemoveButton) new RemoveButton(item).setLabel("Entfernen").setIcon("delete");
 			removeButtons.put(item, button);
@@ -171,7 +176,7 @@ public class MultiItemFormField<T> extends AFormField {
 
 	@Override
 	public String getValueAsString() {
-		return value == null ? "0" : String.valueOf(value.size());
+		return value == null ? "0" : valueOf(value.size());
 	}
 
 	@Override
@@ -189,7 +194,7 @@ public class MultiItemFormField<T> extends AFormField {
 	public class AddButton extends FormButton {
 
 		public AddButton() {
-			super(Form.BUTTON_PREFIX + Form.ADD_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName());
+			super(BUTTON_PREFIX + ADD_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName());
 		}
 
 		public MultiItemFormField getField() {
@@ -201,7 +206,7 @@ public class MultiItemFormField<T> extends AFormField {
 	public class RemoveAllButton extends FormButton {
 
 		public RemoveAllButton() {
-			super(Form.BUTTON_PREFIX + Form.REMOVE_ALLITEMS_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName());
+			super(BUTTON_PREFIX + REMOVE_ALLITEMS_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName());
 		}
 
 		public MultiItemFormField getField() {
@@ -221,7 +226,7 @@ public class MultiItemFormField<T> extends AFormField {
 		}
 
 		private RemoveButton(T item, String id) {
-			super(Form.BUTTON_PREFIX + Form.REMOVE_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName() + "_"
+			super(BUTTON_PREFIX + REMOVE_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName() + "_"
 					+ id);
 			this.item = item;
 			this.id = id;
@@ -254,7 +259,7 @@ public class MultiItemFormField<T> extends AFormField {
 		}
 
 		private EditButton(T item, String id) {
-			super(Form.BUTTON_PREFIX + Form.REMOVE_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName() + "_"
+			super(BUTTON_PREFIX + REMOVE_ITEM_BUTTON_NAME_PREFIX + MultiItemFormField.this.getName() + "_"
 					+ id);
 			this.item = item;
 			this.id = id;

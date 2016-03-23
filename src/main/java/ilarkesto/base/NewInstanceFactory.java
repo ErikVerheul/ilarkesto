@@ -28,9 +28,7 @@ public class NewInstanceFactory<E> implements Factory<E> {
 	public E getBean() {
 		try {
 			return type.newInstance();
-		} catch (InstantiationException ex) {
-			throw new RuntimeException(ex);
-		} catch (IllegalAccessException ex) {
+		} catch (InstantiationException | IllegalAccessException ex) {
 			throw new RuntimeException(ex);
 		}
 	}

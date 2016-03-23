@@ -15,12 +15,16 @@
 package ilarkesto.logging;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.cutLeft;
+import static ilarkesto.base.StrExtend.cutRight;
+import static ilarkesto.core.base.Str.fillUpRight;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import static java.util.logging.Logger.getLogger;
 
 public class JavaLoggingFormatter extends Formatter {
 
@@ -29,8 +33,8 @@ public class JavaLoggingFormatter extends Formatter {
 	@Override
 	public String format(LogRecord record) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(StrExtend.fillUpRight(StrExtend.cutRight(record.getLevel().getName(), 4), " ", 5));
-		sb.append(StrExtend.fillUpRight(StrExtend.cutLeft(record.getLoggerName(), LOGGER_WIDTH - 1, ".."), " ", LOGGER_WIDTH));
+		sb.append(fillUpRight(cutRight(record.getLevel().getName(), 4), " ", 5));
+		sb.append(fillUpRight(cutLeft(record.getLoggerName(), LOGGER_WIDTH - 1, ".."), " ", LOGGER_WIDTH));
 		sb.append("-> ");
 		sb.append(record.getMessage());
 		sb.append("\n");
@@ -47,10 +51,10 @@ public class JavaLoggingFormatter extends Formatter {
 	public static final JavaLoggingFormatter INSTANCE = new JavaLoggingFormatter();
 
 	public static void install() {
-		Handler[] handler = Logger.getLogger("").getHandlers();
-		for (int i = 0; i < handler.length; i++) {
-			handler[i].setFormatter(INSTANCE);
-		}
+		Handler[] handler = getLogger("").getHandlers();
+                for (Handler handler1 : handler) {
+                        handler1.setFormatter(INSTANCE);
+                }
 	}
 
 }

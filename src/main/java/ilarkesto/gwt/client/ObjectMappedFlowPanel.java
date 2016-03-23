@@ -30,12 +30,12 @@ public class ObjectMappedFlowPanel<O extends Object, W extends Widget> extends C
 
 	public final static Map<Object, Integer> objectHeights = new HashMap<Object, Integer>();
 
-	private AnimatingFlowPanel<W> panel;
-	private WidgetFactory<O, W> widgetFactory;
+	private final AnimatingFlowPanel<W> panel;
+	private final WidgetFactory<O, W> widgetFactory;
 	private MoveObserver<O, W> moveObserver;
 
-	private List<O> objectList;
-	private Map<O, W> widgetMap;
+	private final List<O> objectList;
+	private final Map<O, W> widgetMap;
 	private boolean virgin = true;
 
 	public ObjectMappedFlowPanel(WidgetFactory<O, W> widgetFactory) {

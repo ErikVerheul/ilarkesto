@@ -14,12 +14,18 @@
  */
 package ilarkesto.swing;
 
+import static ilarkesto.swing.Swing.showInJFrame;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.EAST;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
+import static javax.swing.JFileChooser.DIRECTORIES_ONLY;
+import static javax.swing.JFileChooser.FILES_ONLY;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,7 +33,7 @@ public class FileField extends JPanel {
 
 	public static void main(String[] args) {
 		FileField ff = createForDirectory();
-		Swing.showInJFrame(ff);
+		showInJFrame(ff);
 	}
 
 	private JFileChooser fileChooser;
@@ -41,8 +47,8 @@ public class FileField extends JPanel {
 		JButton selectFileButton = new JButton("...");
 		selectFileButton.addActionListener(new SelectActionListener());
 
-		add(textField, BorderLayout.CENTER);
-		add(selectFileButton, BorderLayout.EAST);
+		add(textField, CENTER);
+		add(selectFileButton, EAST);
 
 		fileChooser = new JFileChooser();
 	}
@@ -56,13 +62,13 @@ public class FileField extends JPanel {
 
 	public static FileField createForDirectory() {
 		FileField f = new FileField();
-		f.fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		f.fileChooser.setFileSelectionMode(DIRECTORIES_ONLY);
 		return f;
 	}
 
 	public static FileField createForFile() {
 		FileField f = new FileField();
-		f.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		f.fileChooser.setFileSelectionMode(FILES_ONLY);
 		return f;
 	}
 
@@ -71,7 +77,7 @@ public class FileField extends JPanel {
 		if (file != null) {
                         fileChooser.setSelectedFile(file);
                 }
-		if (JFileChooser.APPROVE_OPTION == fileChooser.showDialog(getFileChooser(), "OK")) {
+		if (APPROVE_OPTION == fileChooser.showDialog(getFileChooser(), "OK")) {
 			File selectedFile = fileChooser.getSelectedFile();
 			setFile(selectedFile);
 			if (selectedFile != null && fileSelectionListener != null) {

@@ -16,6 +16,9 @@ package ilarkesto.properties;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.loadProperties;
+import static ilarkesto.io.IO.saveProperties;
+import static ilarkesto.io.IO.touch;
 import java.io.File;
 import java.util.Properties;
 
@@ -39,7 +42,7 @@ public class FilePropertiesStore extends APropertiesStore {
 	protected Properties load() {
 		Properties p;
 		if (file.exists()) {
-			p = IO.loadProperties(file, CHARSET);
+			p = loadProperties(file, CHARSET);
 			lastModifiedOnLoad = file.lastModified();
 			LOG.info("Loaded properties:", file);
 		} else {
@@ -50,7 +53,7 @@ public class FilePropertiesStore extends APropertiesStore {
 
 	@Override
 	protected void save(Properties properties) {
-		IO.saveProperties(properties, label, file);
+		saveProperties(properties, label, file);
 	}
 
 	@Override
@@ -70,7 +73,7 @@ public class FilePropertiesStore extends APropertiesStore {
 	public FilePropertiesStore(File file, boolean createFileIfNotExists) {
 		this.file = file;
 		if (createFileIfNotExists && !file.exists()) {
-			IO.touch(file);
+			touch(file);
 			LOG.info("Properties file created:", file.getPath());
 		}
 	}

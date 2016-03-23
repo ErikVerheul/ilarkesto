@@ -15,6 +15,7 @@
 package ilarkesto.pdf;
 
 import com.itextpdf.text.BaseColor;
+import static com.itextpdf.text.BaseColor.BLACK;
 
 public final class FontStyle {
 
@@ -27,7 +28,7 @@ public final class FontStyle {
 	private float size = 4f;
 	private boolean italic;
 	private boolean bold;
-	private BaseColor color = BaseColor.BLACK;
+	private BaseColor color = BLACK;
 
 	public boolean isItalic() {
 		return italic;

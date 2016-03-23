@@ -18,18 +18,24 @@ import ilarkesto.core.logging.Log;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.RuleSet;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import static java.awt.FlowLayout.LEFT;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.sort;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import static javax.swing.ListSelectionModel.SINGLE_SELECTION;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -38,7 +44,7 @@ public class NodeListPanel extends JPanel {
 
 	private static final Log LOG = Log.get(NodeListPanel.class);
 
-	private SwingModelHelper swingModelHelper;
+	private final SwingModelHelper swingModelHelper;
 
 	private Node node;
 	private Observer observer;
@@ -55,8 +61,8 @@ public class NodeListPanel extends JPanel {
 	public NodeListPanel(SwingModelHelper swingModelHelper) {
 		this.swingModelHelper = swingModelHelper;
 		setLayout(new BorderLayout());
-		add(createToolbar(), BorderLayout.NORTH);
-		add(createTable(), BorderLayout.CENTER);
+		add(createToolbar(), NORTH);
+		add(createTable(), CENTER);
 	}
 
 	public void addNode() {
@@ -113,7 +119,7 @@ public class NodeListPanel extends JPanel {
 		editButton.setToolTipText("Edit value of selected node.");
 		editButton.addActionListener(new EditActionListener());
 
-		toolbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		toolbar = new JPanel(new FlowLayout(LEFT));
 		toolbar.add(addButton);
 		toolbar.add(editButton);
 		toolbar.add(removeButton);
@@ -131,7 +137,7 @@ public class NodeListPanel extends JPanel {
 	private Component createTable() {
 		tableModel = new NodesModel();
 		table = new JTable(tableModel);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(SINGLE_SELECTION);
 		table.setColumnSelectionAllowed(false);
 		table.getSelectionModel().addListSelectionListener(new SelectionListener());
 		table.setShowGrid(false);
@@ -140,8 +146,8 @@ public class NodeListPanel extends JPanel {
 
 		scroller = new JScrollPane(table);
 		scroller.setPreferredSize(new Dimension(200, 200));
-		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroller.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 		return scroller;
 	}
 
@@ -208,11 +214,11 @@ public class NodeListPanel extends JPanel {
 
 	private class NodesModel extends AbstractTableModel {
 
-		private List<Node> nodes = Collections.emptyList();
+		private List<Node> nodes = emptyList();
 
 		public void update() {
 			nodes = node.getChildren();
-			Collections.sort(nodes);
+			sort(nodes);
 			fireTableDataChanged();
 		}
 

@@ -14,8 +14,9 @@
  */
 package ilarkesto.gwt.client.editor;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.dom.client.Style.Unit.PX;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.AttachDetachException;
@@ -25,19 +26,22 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
 import ilarkesto.gwt.client.AAction;
 import ilarkesto.gwt.client.AViewEditWidget;
 import ilarkesto.gwt.client.CodemirrorEditorWidget;
-import ilarkesto.gwt.client.Gwt;
+import static ilarkesto.gwt.client.Gwt.addTooltipHtml;
+import static ilarkesto.gwt.client.Gwt.getDefaultRichtextFormater;
+import static ilarkesto.gwt.client.Gwt.getDefaultRichtextSyntaxInfo;
+import static ilarkesto.gwt.client.Gwt.getRichtextEditorEditInitializer;
 import ilarkesto.gwt.client.Initializer;
 import ilarkesto.gwt.client.RichtextFormater;
 import ilarkesto.gwt.client.ToolbarWidget;
 
 public class RichtextEditorWidget extends AViewEditWidget {
 
-	private static Log log = Log.get(RichtextEditorWidget.class);
+	private static final Log log = Log.get(RichtextEditorWidget.class);
 
 	private HTML viewer;
 	private SimplePanel editorWrapper;
@@ -98,7 +102,7 @@ public class RichtextEditorWidget extends AViewEditWidget {
 
 			String text = model.getValue();
 			String template = model.getTemplate();
-			if (template != null && Str.isBlank(text)) {
+			if (template != null && isBlank(text)) {
                                 text = template;
                         }
 			editor.setText(text);
@@ -135,8 +139,8 @@ public class RichtextEditorWidget extends AViewEditWidget {
 		String syntaxInfoHtml = getSyntaxInfo();
 		if (syntaxInfoHtml != null) {
 			Label syntaxInfo = new Label("Syntax Info");
-			syntaxInfo.getElement().getStyle().setMargin(5, Unit.PX);
-			Gwt.addTooltipHtml(syntaxInfo, syntaxInfoHtml);
+			syntaxInfo.getElement().getStyle().setMargin(5, PX);
+			addTooltipHtml(syntaxInfo, syntaxInfoHtml);
 			toolbar.add(syntaxInfo);
 		}
 	}
@@ -166,7 +170,7 @@ public class RichtextEditorWidget extends AViewEditWidget {
 			@Override
 			public String getLabel() {
 				String label = applyButtonLabel;
-				if (Str.isBlank(label)) {
+				if (isBlank(label)) {
                                         label = autosave ? "Finish" : "Apply";
                                 }
 				return label;
@@ -204,7 +208,7 @@ public class RichtextEditorWidget extends AViewEditWidget {
 		editorPanel.add(editorWrapper);
 		editorPanel.add(bottomToolbar.update());
 
-		Initializer<RichtextEditorWidget> initializer = Gwt.getRichtextEditorEditInitializer();
+		Initializer<RichtextEditorWidget> initializer = getRichtextEditorEditInitializer();
 		if (initializer != null) {
                         initializer.initialize(this);
                 }
@@ -232,7 +236,7 @@ public class RichtextEditorWidget extends AViewEditWidget {
 	}
 
 	public final void setViewerText(String text) {
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
 			viewer.setHTML(".");
 			return;
 		}
@@ -259,7 +263,7 @@ public class RichtextEditorWidget extends AViewEditWidget {
                         return null;
                 }
 		String text = editor.getText();
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
                         return null;
                 }
 		return text;
@@ -271,11 +275,11 @@ public class RichtextEditorWidget extends AViewEditWidget {
 	}
 
 	protected String getSyntaxInfo() {
-		return Gwt.getDefaultRichtextSyntaxInfo();
+		return getDefaultRichtextSyntaxInfo();
 	}
 
 	protected RichtextFormater getRichtextFormater() {
-		return Gwt.getDefaultRichtextFormater();
+		return getDefaultRichtextFormater();
 	}
 
 	public RichtextEditorWidget setEditorHeight(int pixels) {
@@ -315,13 +319,13 @@ public class RichtextEditorWidget extends AViewEditWidget {
 		public void onKeyDown(KeyDownEvent event) {
 			int keyCode = event.getNativeKeyCode();
 
-			if (keyCode == KeyCodes.KEY_ESCAPE) {
+			if (keyCode == KEY_ESCAPE) {
 				cancelEditor();
 				event.stopPropagation();
 			}
 
 			if (event.isControlKeyDown()) {
-				if (keyCode == KeyCodes.KEY_ENTER || keyCode == 10) {
+				if (keyCode == KEY_ENTER || keyCode == 10) {
 					submitEditor();
 					event.stopPropagation();
 				}

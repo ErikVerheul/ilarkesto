@@ -15,6 +15,7 @@
 package ilarkesto.gwt.client;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,7 +77,7 @@ public abstract class AGwtDao extends AComponent {
 					AGwtEntity entity = map.remove(entityId);
 					if (entity != null) {
 						deletedEntities.remove(entityId);
-						Log.DEBUG("deleted:", entity.getEntityType() + ":", entity);
+						DEBUG("deleted:", entity.getEntityType() + ":", entity);
 						onEntityDeletedRemotely(entity);
 						entity.updateLocalModificationTime();
 					}
@@ -111,6 +112,7 @@ public abstract class AGwtDao extends AComponent {
                                 return entity;
                         }
 		}
+                Log.DEBUG("EntityDoesNotExist Id=" + id);
 		throw new EntityDoesNotExistException(id);
 	}
 

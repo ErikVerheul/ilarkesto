@@ -15,6 +15,7 @@
 package ilarkesto.form.validator;
 
 import ilarkesto.form.ValidationException;
+import static java.lang.Integer.parseInt;
 
 /**
  * @author <A href="mailto:wi@koczewski.de">Witoslaw Koczewski </A>
@@ -35,7 +36,7 @@ public class IntegerValidator implements Validator {
         text = text.trim();
         int i;
         try {
-            i = Integer.parseInt(text);
+            i =         parseInt(text);
         } catch (NumberFormatException ex) {
             throw new ValidationException("Die Eingabe mu\u00DF eine Zahl sein. " + getMessage());
         }

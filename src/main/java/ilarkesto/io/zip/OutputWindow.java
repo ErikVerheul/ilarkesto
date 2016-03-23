@@ -43,6 +43,9 @@
 
 package ilarkesto.io.zip;
 
+import static java.lang.Math.min;
+import static java.lang.System.arraycopy;
+
 /*
  * Contains the output from the Inflation process.
  * 
@@ -87,7 +90,7 @@ class OutputWindow {
 		int border = WINDOW_SIZE - len;
 		if (rep_start <= border && window_end < border) {
 			if (len <= dist) {
-				System.arraycopy(window, rep_start, window, window_end, len);
+				arraycopy(window, rep_start, window, window_end, len);
 				window_end += len;
 			} else {
 				/*
@@ -103,7 +106,7 @@ class OutputWindow {
 	}
 
 	public int copyStored(StreamManipulator input, int len) {
-		len = Math.min(Math.min(len, WINDOW_SIZE - window_filled), input.getAvailableBytes());
+		len = min(min(len, WINDOW_SIZE - window_filled), input.getAvailableBytes());
 		int copied;
 
 		int tailLen = WINDOW_SIZE - window_end;
@@ -130,7 +133,7 @@ class OutputWindow {
 			offset += len - WINDOW_SIZE;
 			len = WINDOW_SIZE;
 		}
-		System.arraycopy(dict, offset, window, 0, len);
+		arraycopy(dict, offset, window, 0, len);
 		window_end = len & WINDOW_MASK;
 	}
 
@@ -154,11 +157,11 @@ class OutputWindow {
 		int tailLen = len - copy_end;
 
 		if (tailLen > 0) {
-			System.arraycopy(window, WINDOW_SIZE - tailLen, output, offset, tailLen);
+			arraycopy(window, WINDOW_SIZE - tailLen, output, offset, tailLen);
 			offset += tailLen;
 			len = copy_end;
 		}
-		System.arraycopy(window, copy_end - len, output, offset, len);
+		arraycopy(window, copy_end - len, output, offset, len);
 		window_filled -= copied;
 		if (window_filled < 0) {
                         throw new IllegalStateException();

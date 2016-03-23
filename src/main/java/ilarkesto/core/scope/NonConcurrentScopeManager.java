@@ -18,7 +18,7 @@ import ilarkesto.core.logging.Log;
 
 public class NonConcurrentScopeManager extends ScopeManager {
 
-	private static Log log = Log.get(NonConcurrentScopeManager.class);
+	private static final Log log = Log.get(NonConcurrentScopeManager.class);
 
 	private Scope currentScope;
 

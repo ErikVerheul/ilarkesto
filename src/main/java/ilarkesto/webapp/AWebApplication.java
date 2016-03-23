@@ -14,12 +14,12 @@
  */
 package ilarkesto.webapp;
 
-import ilarkesto.base.StrExtend;
-import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.setHeadless;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.logging.Log;
 import ilarkesto.di.app.AApplication;
 import ilarkesto.gwt.server.AGwtConversation;
-import ilarkesto.logging.DefaultLogRecordHandler;
+import static ilarkesto.logging.DefaultLogRecordHandler.setLogFile;
 import ilarkesto.webapp.jsonapi.JsonApiFactory;
 import ilarkesto.webapp.jsonapi.ReflectionJsonApiFactory;
 import java.io.File;
@@ -38,7 +38,7 @@ public abstract class AWebApplication extends AApplication {
 
 	protected abstract AWebSession createWebSession(HttpServletRequest httpRequest);
 
-	private final Set<AWebSession> webSessions = new HashSet<AWebSession>();
+	private final Set<AWebSession> webSessions = new HashSet<>();
 
 	private String applicationName;
 
@@ -47,9 +47,9 @@ public abstract class AWebApplication extends AApplication {
 	@Override
 	protected void onStart() {
 		if (!isDevelopmentMode()) {
-                        Sys.setHeadless(true);
+                        setHeadless(true);
                 }
-		DefaultLogRecordHandler.setLogFile(new File(getApplicationDataDir() + "/error.log"));
+		setLogFile(new File(getApplicationDataDir() + "/error.log"));
 		LOG.info("Initializing web application");
 		onStartWebApplication();
 	}
@@ -73,7 +73,7 @@ public abstract class AWebApplication extends AApplication {
                         return applicationName;
                 }
 		String name = super.getApplicationName();
-		name = StrExtend.removeSuffix(name, "Web");
+		name = removeSuffix(name, "Web");
 		applicationName = name;
 		return applicationName;
 	}
@@ -137,12 +137,12 @@ public abstract class AWebApplication extends AApplication {
 
 	public final Set<AWebSession> getWebSessions() {
 		synchronized (webSessions) {
-			return new HashSet<AWebSession>(webSessions);
+			return new HashSet<>(webSessions);
 		}
 	}
 
 	public Set<AGwtConversation> getGwtConversations() {
-		Set<AGwtConversation> ret = new HashSet<AGwtConversation>();
+		Set<AGwtConversation> ret = new HashSet<>();
 		for (AWebSession session : getWebSessions()) {
 			ret.addAll(session.getGwtConversations());
 		}

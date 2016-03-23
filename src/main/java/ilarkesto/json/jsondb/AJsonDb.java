@@ -15,6 +15,7 @@
 package ilarkesto.json.jsondb;
 
 import ilarkesto.json.JsonObject;
+import static ilarkesto.json.jsondb.DocumentReference.getIds;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +32,7 @@ public abstract class AJsonDb {
 
 	public List<JsonObject> loadDocumentsByFilter(DocumentFilter filter) {
 		List<DocumentReference> references = listAllDocuments();
-		List<JsonObject> result = new ArrayList<JsonObject>();
+		List<JsonObject> result = new ArrayList<>();
 		for (DocumentReference reference : references) {
 			JsonObject document = loadDocumentByReference(reference);
 			if (filter.matches(document)) {
@@ -52,11 +53,11 @@ public abstract class AJsonDb {
 	}
 
 	public List<String> listAllDocumentIds() {
-		return DocumentReference.getIds(listAllDocuments());
+		return getIds(listAllDocuments());
 	}
 
 	public List<JsonObject> loadDocumentsByIds(Collection<String> ids) {
-		List<JsonObject> documents = new ArrayList<JsonObject>(ids.size());
+		List<JsonObject> documents = new ArrayList<>(ids.size());
 		for (String id : ids) {
 			JsonObject document = loadDocumentById(id);
 			documents.add(document);
@@ -69,7 +70,7 @@ public abstract class AJsonDb {
 	}
 
 	public List<JsonObject> loadDocumentsByReferences(Collection<DocumentReference> references) {
-		return loadDocumentsByIds(DocumentReference.getIds(references));
+		return loadDocumentsByIds(getIds(references));
 	}
 
 }

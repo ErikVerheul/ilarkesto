@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 
 public class TooltipListener extends MouseListenerAdapter {
 
@@ -31,7 +32,7 @@ public class TooltipListener extends MouseListenerAdapter {
 	}
 
 	private boolean isContentBlank() {
-		return content == null || (content instanceof HTML && Str.isBlank(((HTML) content).getHTML()));
+		return content == null || (content instanceof HTML && isBlank(((HTML) content).getHTML()));
 	}
 
 	@Override

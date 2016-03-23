@@ -14,6 +14,7 @@
  */
 package ilarkesto.core.diff;
 
+import static java.lang.Character.isLetterOrDigit;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class WordTokenizer implements DiffTokenizer {
 	}
 
 	static boolean isWordChar(char ch) {
-		return Character.isLetterOrDigit(ch);
+		return isLetterOrDigit(ch);
 	}
 
 	@Override

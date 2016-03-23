@@ -16,14 +16,16 @@ package ilarkesto.mda.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class RuleSet implements NodeTypes {
 
-	private List<ChildTypeRule> childTypeRules = new ArrayList<ChildTypeRule>();
+	private List<ChildTypeRule> childTypeRules = new ArrayList<>();
 
 	RuleSet() {
 		addChildTypeRuleByParentType(Root, GwtModule, EntitySet);
@@ -43,9 +45,9 @@ public class RuleSet implements NodeTypes {
 
 	public List<String> getAllowedChildTypes(Node parent) {
 		if (parent == null) {
-                        return Collections.emptyList();
+                        return emptyList();
                 }
-		Set<String> types = new HashSet<String>();
+		Set<String> types = new HashSet<>();
 		for (ChildTypeRule rule : childTypeRules) {
 			types.addAll(rule.getAllowedTypes(parent));
 		}
@@ -60,7 +62,7 @@ public class RuleSet implements NodeTypes {
 	}
 
 	public void addChildTypeRuleByParentType(String parentType, String... childTypes) {
-		addChildTypeRule(new ChildTypeRuleByParentType(parentType, Arrays.asList(childTypes)));
+		addChildTypeRule(new ChildTypeRuleByParentType(parentType, asList(childTypes)));
 	}
 
 	public void addChildTypeRule(ChildTypeRule rule) {

@@ -14,7 +14,8 @@
  */
 package ilarkesto.mda.legacy.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
@@ -33,13 +34,13 @@ import java.util.Set;
 
 public class GwtDaoGenerator extends AClassGenerator {
 
-	private ApplicationModel application;
-	private Collection<EntityModel> entities;
+	private final ApplicationModel application;
+	private final Collection<EntityModel> entities;
 
 	public GwtDaoGenerator(ApplicationModel application, Collection<EntityModel> entities) {
 		super();
 		this.application = application;
-		this.entities = new ArrayList<EntityModel>();
+		this.entities = new ArrayList<>();
 		for (EntityModel entity : entities) {
 			if (entity.isGwtSupport()) {
                                 this.entities.add(entity);
@@ -74,7 +75,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> ret = new LinkedHashSet<String>(super.getImports());
+		Set<String> ret = new LinkedHashSet<>(super.getImports());
 		ret.add("scrum.client.common.*");
 		ret.add(AGwtDao.class.getPackage().getName() + ".*");
 		return ret;
@@ -85,7 +86,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 		for (EntityModel entity : entities) {
 			String name = entity.getName();
 			String type = entity.getPackageName().replace(".server.", ".client.") + "." + name;
-			String nameLower = StrExtend.lowercaseFirstLetter(name);
+			String nameLower = lowercaseFirstLetter(name);
 			String mapVar = nameLower + "s";
 			ln();
 			comment(name);
@@ -152,7 +153,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 			ln("    }");
 			for (PropertyModel p : entity.getProperties()) {
 				String pName = p.getName();
-				String pNameUpper = StrExtend.uppercaseFirstLetter(pName);
+				String pNameUpper = uppercaseFirstLetter(pName);
 				String pType = p.getType();
 				if (pType.equals(Date.class.getName())) {
                                         pType = ilarkesto.core.time.Date.class.getName();
@@ -172,7 +173,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 				}
 				ln();
 				if (p.isCollection()) {
-					String singularNameUpper = StrExtend.uppercaseFirstLetter(p.getNameSingular());
+					String singularNameUpper = uppercaseFirstLetter(p.getNameSingular());
 					ln("    public final List<" + type + "> get" + name + "sBy" + singularNameUpper + "("
 							+ p.getContentType().replace(".server.", ".client."), p.getNameSingular() + ") {");
 					ln("        List<" + type + "> ret = new ArrayList<" + type + ">();");
@@ -219,7 +220,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 		ln("        if (entityMaps == null) {");
 		ln("            entityMaps = new ArrayList<Map<String, ? extends AGwtEntity>>();");
 		for (EntityModel entity : entities) {
-			ln("            entityMaps.add(" + StrExtend.lowercaseFirstLetter(entity.getName()) + "s);");
+			ln("            entityMaps.add(" + lowercaseFirstLetter(entity.getName()) + "s);");
 		}
 		ln("        }");
 		ln("        return entityMaps;");
@@ -242,7 +243,7 @@ public class GwtDaoGenerator extends AClassGenerator {
 		ln("    public final Map<String, Integer> getEntityCounts() {");
 		ln("        Map<String, Integer> ret = new HashMap<String, Integer>();");
 		for (EntityModel entity : entities) {
-			ln("        ret.put(\"" + entity.getName() + "\", " + StrExtend.lowercaseFirstLetter(entity.getName())
+			ln("        ret.put(\"" + entity.getName() + "\", " + lowercaseFirstLetter(entity.getName())
 					+ "s.size());");
 		}
 		ln("        return ret;");

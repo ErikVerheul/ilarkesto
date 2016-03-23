@@ -4,12 +4,21 @@ import ilarkesto.auth.LoginData;
 import ilarkesto.auth.LoginDataProvider;
 import ilarkesto.auth.PropertiesLoginDataProvider;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.loadProperties;
+import static ilarkesto.io.IO.saveLoadedProperties;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.File;
+import static java.lang.String.valueOf;
 import java.util.Properties;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showConfirmDialog;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -49,27 +58,25 @@ public class LoginPanel extends JPanel implements LoginDataProvider {
 
 	@Override
 	public LoginData getLoginData() {
-		return new LoginData(loginField.getText(), String.valueOf(passwordField.getPassword()));
+		return new LoginData(loginField.getText(), valueOf(passwordField.getPassword()));
 	}
 
 	public static LoginData showDialog(Component parent, String title) {
 		LoginPanel lp = new LoginPanel();
-		int option = JOptionPane.showConfirmDialog(parent, lp, title, JOptionPane.OK_CANCEL_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
-		return option == JOptionPane.OK_OPTION ? lp.getLoginData() : null;
+		int option = showConfirmDialog(parent, lp, title, OK_CANCEL_OPTION, QUESTION_MESSAGE);
+		return option == OK_OPTION ? lp.getLoginData() : null;
 	}
 
 	public static LoginData showDialog(Component parent, String title, File storageFile) {
-		Properties properties = IO.loadProperties(storageFile, IO.UTF_8);
+		Properties properties = loadProperties(storageFile, UTF_8);
 		LoginPanel lp = new LoginPanel();
 		PropertiesLoginDataProvider pldp = new PropertiesLoginDataProvider(properties);
 		lp.setLoginData(pldp);
-		int option = JOptionPane.showConfirmDialog(parent, lp, title, JOptionPane.OK_CANCEL_OPTION,
-			JOptionPane.QUESTION_MESSAGE);
-		if (option == JOptionPane.OK_OPTION) {
+		int option = showConfirmDialog(parent, lp, title, OK_CANCEL_OPTION, QUESTION_MESSAGE);
+		if (option == OK_OPTION) {
 			LoginData ld = lp.getLoginData();
 			pldp.setLoginData(ld);
-			IO.saveLoadedProperties(properties, title);
+			saveLoadedProperties(properties, title);
 			return ld;
 		}
 		return null;

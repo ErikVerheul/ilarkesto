@@ -14,19 +14,20 @@
  */
 package ilarkesto.mda.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.core.scope.ComponentReflector;
 import ilarkesto.core.scope.Scope;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class GwtComponentsReflectorGenerator extends AJavaClassGenerator implements NodeTypes {
 
-	private Node gwtModule;
-	private List<Node> components = new ArrayList<Node>();
+	private final Node gwtModule;
+	private final List<Node> components = new ArrayList<>();
 
 	public GwtComponentsReflectorGenerator(String srcPath, Node gwtModule) {
 		super(srcPath, true);
@@ -49,7 +50,7 @@ public class GwtComponentsReflectorGenerator extends AJavaClassGenerator impleme
                 }
 		out.endProcedure();
 
-		out.beginProcedure("callInitializationMethods", Arrays.asList("Object component"));
+		out.beginProcedure("callInitializationMethods", asList("Object component"));
 		for (Node component : components) {
                         out.statement("if (component instanceof " + getType(component) + ") " + getName(component)
                                 + "Reflector.callInitializationMethods(component)");
@@ -82,7 +83,7 @@ public class GwtComponentsReflectorGenerator extends AJavaClassGenerator impleme
 	}
 
 	private String getName(Node component) {
-		return StrExtend.lowercaseFirstLetter(component.getValue());
+		return lowercaseFirstLetter(component.getValue());
 	}
 
 	private String getType(Node component) {

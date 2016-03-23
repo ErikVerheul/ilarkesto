@@ -14,7 +14,9 @@
  */
 package ilarkesto.core.diff;
 
+import static ilarkesto.core.diff.TokenDiff.combinedDiff;
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.testng.ATest;
 import org.testng.annotations.Test;
 
@@ -314,11 +316,11 @@ public class CombinedDiffTest extends ATest {
 	}
 
 	private static void assertDiff(String left, String right, String expectedDiff) {
-		long begin = Tm.getCurrentTimeMillis();
+		long begin = getCurrentTimeMillis();
 		TokenDiff diff = new TokenDiff(left, right, new TxtDiffMarker(), new LineTokenizer(), new WordTokenizer());
 		diff.diff();
-		String computedDiff = TokenDiff.combinedDiff(left, right, new TxtDiffMarker());
-		long end = Tm.getCurrentTimeMillis();
+		String computedDiff = combinedDiff(left, right, new TxtDiffMarker());
+		long end = getCurrentTimeMillis();
 		long duration = end - begin;
 		if (duration > 1000) {
                         fail("Computing diff took longer than a second: " + duration + "ms.");

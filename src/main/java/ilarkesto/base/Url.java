@@ -14,6 +14,7 @@
  */
 package ilarkesto.base;
 
+import static ilarkesto.base.StrExtend.constructUrl;
 import ilarkesto.di.BeanStorage;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public final class Url implements BeanStorage<String>, Cloneable {
 
 	public Url(Url template) {
 		this.base = template.base;
-		this.parameters = template.parameters == null ? null : new HashMap<String, String>(template.parameters);
+		this.parameters = template.parameters == null ? null : new HashMap<>(template.parameters);
 	}
 
 	public Url(String base) {
@@ -67,7 +68,7 @@ public final class Url implements BeanStorage<String>, Cloneable {
                         return this;
                 }
 		if (this.parameters == null) {
-                        this.parameters = new HashMap<String, String>();
+                        this.parameters = new HashMap<>();
                 }
 		this.parameters.putAll(parameters);
 		return this;
@@ -82,7 +83,7 @@ public final class Url implements BeanStorage<String>, Cloneable {
                         return this;
                 }
 		if (parameters == null) {
-                        parameters = new HashMap<String, String>();
+                        parameters = new HashMap<>();
                 }
 		parameters.put(name, value);
 		return this;
@@ -116,7 +117,7 @@ public final class Url implements BeanStorage<String>, Cloneable {
 
 	@Override
 	public String toString() {
-		return StrExtend.constructUrl(base, parameters == null ? null : parameters);
+		return constructUrl(base, parameters == null ? null : parameters);
 	}
 
 }

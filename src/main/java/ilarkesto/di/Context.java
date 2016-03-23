@@ -15,6 +15,7 @@
 package ilarkesto.di;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static java.lang.Thread.currentThread;
 import java.util.Set;
 
 /**
@@ -22,7 +23,7 @@ import java.util.Set;
  */
 public final class Context {
 
-	private static ThreadLocal<Context> threadLocal = new ThreadLocal<Context>();
+	private static ThreadLocal<Context> threadLocal = new ThreadLocal<>();
 
 	private static Context rootContext;
 
@@ -82,14 +83,14 @@ public final class Context {
 		if (threadLocal != null) {
                         threadLocal.set(this);
                 }
-		Thread.currentThread().setName(toString());
+		currentThread().setName(toString());
 	}
 
 	private void releaseCurrentThread() {
 		if (threadLocal != null) {
                         threadLocal.set(null);
                 }
-		Thread.currentThread().setName("<no context>");
+		currentThread().setName("<no context>");
 	}
 
 	@Override

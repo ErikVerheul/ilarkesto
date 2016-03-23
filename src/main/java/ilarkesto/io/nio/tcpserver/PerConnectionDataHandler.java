@@ -21,7 +21,7 @@ public class PerConnectionDataHandler implements DataHandler {
 
 	private HandlerFacotry factory;
 
-	private Map<TcpConnection, DataHandler> handlers = new HashMap<TcpConnection, DataHandler>();
+	private Map<TcpConnection, DataHandler> handlers = new HashMap<>();
 
 	public PerConnectionDataHandler(Class<? extends DataHandler> handlerType) {
 		this(new ReflectionHandlerFactory(handlerType));
@@ -75,9 +75,7 @@ public class PerConnectionDataHandler implements DataHandler {
 		public DataHandler createHandler(TcpConnection connection) {
 			try {
 				return type.newInstance();
-			} catch (InstantiationException ex) {
-				throw new RuntimeException(ex);
-			} catch (IllegalAccessException ex) {
+			} catch (InstantiationException | IllegalAccessException ex) {
 				throw new RuntimeException(ex);
 			}
 		}

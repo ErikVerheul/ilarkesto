@@ -23,16 +23,24 @@ import ilarkesto.form.FormField;
 import ilarkesto.form.TextFormField;
 import ilarkesto.form.ValidationException;
 import ilarkesto.swing.FileField;
+import static ilarkesto.swing.FileField.createForDirectory;
+import static ilarkesto.swing.FileField.createForFile;
 import ilarkesto.swing.PanelBuilder;
-import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.center;
+import static ilarkesto.swing.Swing.createMessageComponent;
+import static ilarkesto.swing.Swing.getIcon16;
+import static ilarkesto.swing.Swing.placeBest;
 import java.awt.BorderLayout;
-import java.awt.Color;
+import static java.awt.BorderLayout.NORTH;
+import static java.awt.Color.GRAY;
 import java.awt.FlowLayout;
+import static java.awt.FlowLayout.LEFT;
 import java.awt.Font;
+import static java.awt.Font.PLAIN;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collections;
+import static java.util.Collections.EMPTY_LIST;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
@@ -73,9 +81,9 @@ public class FormDialog {
 			dialog.add(createPanel());
 			dialog.pack();
 			if (owner == null) {
-				Swing.center(dialog);
+				center(dialog);
 			} else {
-				Swing.placeBest(dialog, owner);
+				placeBest(dialog, owner);
 			}
 			dialog.setVisible(true);
 		}
@@ -83,13 +91,13 @@ public class FormDialog {
 	}
 
 	private void updateForm() {
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, String> data = new HashMap<>();
 		for (String name : fieldComponents.keySet()) {
 			if (!name.startsWith("_")) {
 				data.put(name, getComponentValue(fieldComponents.get(name)));
 			}
 		}
-		form.update(data, Collections.EMPTY_LIST);
+		form.update(data, EMPTY_LIST);
 	}
 
 	private String getComponentValue(JComponent c) {
@@ -116,11 +124,11 @@ public class FormDialog {
 			if (!errorMessage.startsWith("<html>")) {
 				errorMessage = "<html><font color='red'>" + errorMessage + "</font>";
 			}
-			pb.add(Swing.createMessageComponent(errorMessage)).setFillToHorizontal();
+			pb.add(createMessageComponent(errorMessage)).setFillToHorizontal();
 			pb.nl();
 		}
 
-		fieldComponents = new HashMap<String, JComponent>();
+		fieldComponents = new HashMap<>();
 		for (FormField field : form.getVisibleFields()) {
 			addField(field);
 		}
@@ -128,7 +136,7 @@ public class FormDialog {
 		// buttons
 		pb.addEmpty();
 		for (FormButton button : form.getSubmitButtons()) {
-			JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			JPanel panel = new JPanel(new FlowLayout(LEFT));
 			panel.add(createButton(button));
 			pb.add(panel);
 		}
@@ -140,7 +148,7 @@ public class FormDialog {
 	private JButton createButton(FormButton button) {
 		JButton b = new JButton(button.getLabel());
 		b.addActionListener(new ButtonActionListener(button));
-		b.setIcon(Swing.getIcon16(button.getIcon()));
+		b.setIcon(getIcon16(button.getIcon()));
 		return b;
 	}
 
@@ -154,8 +162,8 @@ public class FormDialog {
 		JLabel l = new JLabel(label);
 		l.setToolTipText(hintText);
 		Font font = l.getFont();
-		l.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize()));
-		l.setForeground(Color.GRAY);
+		l.setFont(new Font(font.getFamily(), PLAIN, font.getSize()));
+		l.setForeground(GRAY);
 		pb.add(l).setAnchorToNorthEast();
 
 		JComponent f;
@@ -174,7 +182,7 @@ public class FormDialog {
 				errorMessage = "<html><font color='red'>" + errorMessage + "</font>";
 			}
 			JPanel panel = new JPanel(new BorderLayout(2, 2));
-			panel.add(Swing.createMessageComponent(errorMessage), BorderLayout.NORTH);
+			panel.add(createMessageComponent(errorMessage), NORTH);
 			panel.add(f);
 			pb.add(panel).setAnchorToWest();
 		} else {
@@ -191,7 +199,7 @@ public class FormDialog {
 	}
 
 	private JComponent createFileField(FileFormField field) {
-		FileField f = field.isFolder() ? FileField.createForDirectory() : FileField.createForFile();
+		FileField f = field.isFolder() ? createForDirectory() : createForFile();
 		f.setFile(field.getValue());
 		return f;
 	}

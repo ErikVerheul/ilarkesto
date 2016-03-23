@@ -19,7 +19,9 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 
 // http://codemirror.net/manual.html
 public class CodemirrorEditorWidget extends AWidget {
@@ -113,7 +115,7 @@ public class CodemirrorEditorWidget extends AWidget {
                         return textArea.getText();
                 }
 		String text = editorGetCode(editor);
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
                         text = null;
                 }
 		textArea.setText(text);
@@ -210,7 +212,7 @@ public class CodemirrorEditorWidget extends AWidget {
 
 		public MyTextArea() {
 			setWidth("100%");
-			getElement().setId("CodeMirror" + Tm.getCurrentTimeMillis());
+			getElement().setId("CodeMirror" + getCurrentTimeMillis());
 			// setVisible(false);
 		}
 

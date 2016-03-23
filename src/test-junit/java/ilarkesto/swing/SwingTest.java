@@ -1,12 +1,13 @@
 package ilarkesto.swing;
 
+import static java.lang.System.setProperty;
 import junit.framework.TestCase;
 
 public class SwingTest extends TestCase {
 
         @Override
         protected void setUp() throws Exception {
-                System.setProperty("java.awt.headless", "true");
+                setProperty("java.awt.headless", "true");
         }
 
         public void testGetBestWindowPosition() {

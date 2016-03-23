@@ -15,8 +15,11 @@
 package ilarkesto.console;
 
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.fillUpRight;
+import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.fill;
 
 public class ConsoleTable {
 
@@ -29,8 +32,8 @@ public class ConsoleTable {
 
 	private int padding = 1;
 
-	private ArrayList<ArrayList<String>> rows = new ArrayList<ArrayList<String>>();
-	private ArrayList<Integer> maxColLenghts = new ArrayList<Integer>();
+	private ArrayList<ArrayList<String>> rows = new ArrayList<>();
+	private ArrayList<Integer> maxColLenghts = new ArrayList<>();
 	private int maxRowLength = 0;
 
 	public ConsoleTable addRow(Object... columns) {
@@ -42,7 +45,7 @@ public class ConsoleTable {
 		ArrayList<String> lastRow = lastRow();
 
 		// update maximal row length
-		maxRowLength = Math.max(maxRowLength, lastRow.size() + moreColumns.length);
+		maxRowLength = max(maxRowLength, lastRow.size() + moreColumns.length);
 
 		// update maximal column lengths
 		for (int i = 0; i < moreColumns.length; i++) {
@@ -51,7 +54,7 @@ public class ConsoleTable {
 				maxColLenghts.add(colNumber, moreColumns[i].toString().length());
 			} else {
 				maxColLenghts
-						.set(colNumber, Math.max(maxColLenghts.get(colNumber), moreColumns[i].toString().length()));
+						.set(colNumber, max(maxColLenghts.get(colNumber), moreColumns[i].toString().length()));
 			}
 
 		}
@@ -73,7 +76,7 @@ public class ConsoleTable {
                 }
 
 		String[] emptyCols = new String[fromCol - lastRow.size() - 1];
-		Arrays.fill(emptyCols, "");
+		fill(emptyCols, "");
 		appendRow(emptyCols);
 		appendRow(moreColumns);
 
@@ -95,7 +98,7 @@ public class ConsoleTable {
 			for (int i = 0; i < maxRowLength; i++) {
 				String cell = i < row.size() ? row.get(i) : EMPTY;
 				sb.append(createPadding(padding));
-				sb.append(Str.fillUpRight(cell, SPACE, maxColLenghts.get(i)));
+				sb.append(fillUpRight(cell, SPACE, maxColLenghts.get(i)));
 				sb.append(createPadding(padding));
 			}
 			sb.append(LINEBREAK);

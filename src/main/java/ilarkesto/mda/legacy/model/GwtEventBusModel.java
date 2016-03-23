@@ -19,7 +19,7 @@ import java.util.List;
 
 public class GwtEventBusModel extends AModel {
 
-	private List<EventModel> events = new ArrayList<EventModel>();
+	private List<EventModel> events = new ArrayList<>();
 
 	public GwtEventBusModel() {
 		super("EventBus");

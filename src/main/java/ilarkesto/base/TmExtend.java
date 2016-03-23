@@ -14,16 +14,20 @@
  */
 package ilarkesto.base;
 
+import static ilarkesto.core.time.Date.today;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import static java.util.Locale.ENGLISH;
 import java.util.TimeZone;
+import static java.util.TimeZone.getDefault;
+import static java.util.TimeZone.getTimeZone;
 
 /**
- * Utilitiy methods for dealing with date and time. Current month, year. Date comparsions.
+ * Utility methods for dealing with date and time. Current month, year. Date comparisons.
  */
 public final class TmExtend extends ilarkesto.core.time.Tm {
 
@@ -54,8 +58,8 @@ public final class TmExtend extends ilarkesto.core.time.Tm {
 	public static final Format DATE_TIME_ISO = new Format("yyyy-MM-dd HH:mm:ss");
 	public static final Format DATE_TIME_LOGFILE = new Format("yyyy-MM-dd_HH-mm-ss");
 	public static final Format TIME_SHORT_DE = new Format("HH:mm");
-	public static final TimeZone TZ_BERLIN = TimeZone.getTimeZone("Europe/Berlin");
-	public static final TimeZone TZ_GMT = TimeZone.getTimeZone("GMT");
+	public static final TimeZone TZ_BERLIN = getTimeZone("Europe/Berlin");
+	public static final TimeZone TZ_GMT = getTimeZone("GMT");
 	public static final transient Format FORMAT_WEEKDAY_DAY_LONGMONTH_YEAR_HOUR_MINUTE = new Format(
 			"EEE, dd. MMMM yyyy, HH:mm");
 	public static final Format FORMAT_WEEKDAY_LONGMONTH_DAY_YEAR_HOUR_MINUTE = new Format("EEE, MMM d, yyyy, HH:mm");
@@ -63,10 +67,10 @@ public final class TmExtend extends ilarkesto.core.time.Tm {
 	public static final Format FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = new Format("yyyy-MM-dd HH:mm:ss");
 	public static final Format FORMAT_LOG = new Format("yyyy-MM-dd_HH-mm-ss");
 
-	public static final Format FORMAT_RFC822 = new Format("EEE, d MMM yyyy HH:mm:ss z", Locale.ENGLISH);
+	public static final Format FORMAT_RFC822 = new Format("EEE, d MMM yyyy HH:mm:ss z", ENGLISH);
 
 	public static Date toUtc(Date date) {
-		return toUtc(date, TimeZone.getDefault());
+		return toUtc(date, getDefault());
 	}
 
 	public static Date toUtc(Date date, TimeZone timeZone) {
@@ -199,7 +203,7 @@ public final class TmExtend extends ilarkesto.core.time.Tm {
 			if (time == null) {
                                 return null;
                         }
-			return format(time.getJavaDateOn(ilarkesto.core.time.Date.today()));
+			return format(time.getJavaDateOn(today()));
 		}
 
 		public SimpleDateFormat getFormat() {

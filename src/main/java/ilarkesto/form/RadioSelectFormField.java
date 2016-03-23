@@ -15,6 +15,7 @@
 package ilarkesto.form;
 
 import ilarkesto.base.MissingDependencyException;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,7 +34,7 @@ public final class RadioSelectFormField<T> extends AFormField {
 	}
 
 	public RadioSelectFormField<T> setOptions(Collection<T> options) {
-		this.options = new ArrayList<T>(options);
+		this.options = new ArrayList<>(options);
 		return this;
 	}
 
@@ -71,7 +72,7 @@ public final class RadioSelectFormField<T> extends AFormField {
 		if (indexAsString == null) {
 			value = null;
 		} else {
-			value = options.get(Integer.parseInt(indexAsString));
+			value = options.get(parseInt(indexAsString));
 		}
 	}
 

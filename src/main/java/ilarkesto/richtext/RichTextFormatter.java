@@ -15,7 +15,11 @@
 package ilarkesto.richtext;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.activateLinksInHtml;
+import static ilarkesto.base.StrExtend.cutHtmlAndHeaderAndBody;
+import static ilarkesto.base.StrExtend.toStringList;
 import ilarkesto.integration.links.MultiLinkConverter;
+import static ilarkesto.integration.links.MultiLinkConverter.ALL;
 import java.util.List;
 
 public class RichTextFormatter {
@@ -27,14 +31,14 @@ public class RichTextFormatter {
 		if (!s.startsWith("<html")) {
 			s = textToHtml(s);
 		}
-		String html = StrExtend.cutHtmlAndHeaderAndBody(s);
-		html = StrExtend.activateLinksInHtml(html, MultiLinkConverter.ALL);
+		String html = cutHtmlAndHeaderAndBody(s);
+		html = activateLinksInHtml(html, ALL);
 		return html;
 	}
 
 	public static String textToHtml(String s) {
 		StringBuilder sb = new StringBuilder();
-		List<String> lines = StrExtend.toStringList(s);
+		List<String> lines = toStringList(s);
 		boolean inQuote = false;
 		for (String line : lines) {
 			if (line.startsWith("> ")) {

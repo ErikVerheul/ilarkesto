@@ -15,11 +15,20 @@
 package ilarkesto.mda.generator;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeByIndexComparator;
 import ilarkesto.mda.model.NodeTypes;
+import static ilarkesto.mda.model.NodeTypes.Component;
+import static ilarkesto.mda.model.NodeTypes.Entity;
+import static ilarkesto.mda.model.NodeTypes.GwtModule;
+import static ilarkesto.mda.model.NodeTypes.Package;
+import static ilarkesto.mda.model.NodeTypes.Parameter;
+import static ilarkesto.mda.model.NodeTypes.Type;
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.sort;
+import static java.util.Collections.sort;
 import java.util.List;
 
 public abstract class AJavaClassGenerator {
@@ -47,21 +56,21 @@ public abstract class AJavaClassGenerator {
 	// --- helper ---
 
 	public String getDependencyType(Node dependency) {
-		Node module = dependency.getSuperparentByType(NodeTypes.GwtModule);
-		Node type = dependency.getChildByType(NodeTypes.Type);
+		Node module = dependency.getSuperparentByType(GwtModule);
+		Node type = dependency.getChildByType(Type);
 		if (type != null) {
                         return type.getValue();
                 }
 		String name = dependency.getValue();
-		name = StrExtend.uppercaseFirstLetter(name);
-		Node component = module.getChildRecursive(NodeTypes.Component, name);
+		name = uppercaseFirstLetter(name);
+		Node component = module.getChildRecursive(Component, name);
 		if (component != null) {
-                        return getModulePackage(module) + "." + component.getSuperparentByType(NodeTypes.Package).getValue() + "."
+                        return getModulePackage(module) + "." + component.getSuperparentByType(Package).getValue() + "."
                                 + component.getValue();
                 }
-		Node entity = module.getChildRecursive(NodeTypes.Entity, name);
+		Node entity = module.getChildRecursive(Entity, name);
 		if (entity != null) {
-                        return getModulePackage(module) + "." + entity.getSuperparentByType(NodeTypes.Package).getValue() + "."
+                        return getModulePackage(module) + "." + entity.getSuperparentByType(Package).getValue() + "."
                                 + entity.getValue();
                 }
 		throw new RuntimeException("Can not determine type for dependency: " + dependency);
@@ -72,9 +81,9 @@ public abstract class AJavaClassGenerator {
 	}
 
 	public List<String> getParameterNames(Node parent) {
-		List<Node> parameters = parent.getChildrenByType(NodeTypes.Parameter);
-		Collections.sort(parameters, new NodeByIndexComparator());
-		List<String> ret = new ArrayList<String>(parameters.size());
+		List<Node> parameters = parent.getChildrenByType(Parameter);
+		sort(parameters, new NodeByIndexComparator());
+		List<String> ret = new ArrayList<>(parameters.size());
 		for (Node parameter : parameters) {
 			ret.add(parameter.getValue());
 		}
@@ -82,9 +91,9 @@ public abstract class AJavaClassGenerator {
 	}
 
 	public List<String> getParameterTypesAndNames(Node parent, String defaultType) {
-		List<Node> parameters = parent.getChildrenByType(NodeTypes.Parameter);
-		Collections.sort(parameters, new NodeByIndexComparator());
-		List<String> ret = new ArrayList<String>(parameters.size());
+		List<Node> parameters = parent.getChildrenByType(Parameter);
+		sort(parameters, new NodeByIndexComparator());
+		List<String> ret = new ArrayList<>(parameters.size());
 		for (Node parameter : parameters) {
 			ret.add(getParameterTypeAndName(parameter, defaultType));
 		}
@@ -96,7 +105,7 @@ public abstract class AJavaClassGenerator {
 	}
 
 	private String getParameterType(Node parameter, String defaultType) {
-		Node typeNode = parameter.getChildByType(NodeTypes.Type);
+		Node typeNode = parameter.getChildByType(Type);
 		return typeNode == null ? defaultType : typeNode.getValue();
 	}
 

@@ -17,16 +17,17 @@ package ilarkesto.fp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class And<E> implements Predicate<E> {
 
-	private List<Predicate<E>>	predicates	= new ArrayList<Predicate<E>>();
+	private List<Predicate<E>>	predicates	= new ArrayList<>();
 
 	public And() {}
 
 	public And(Predicate<E>... predicates) {
-		this.predicates.addAll(Arrays.asList(predicates));
+		this.predicates.addAll(asList(predicates));
 	}
 
 	public void add(Predicate<E> predicate) {

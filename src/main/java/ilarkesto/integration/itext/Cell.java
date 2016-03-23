@@ -19,7 +19,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import ilarkesto.pdf.ACell;
 import ilarkesto.pdf.AImage;
 import ilarkesto.pdf.AParagraph;
-import ilarkesto.pdf.APdfBuilder;
+import static ilarkesto.pdf.APdfBuilder.mmToPoints;
 import ilarkesto.pdf.APdfElement;
 import ilarkesto.pdf.ATable;
 import java.io.File;
@@ -28,7 +28,7 @@ import java.util.Collection;
 
 public class Cell extends ACell implements ItextElement {
 
-	private Collection<ItextElement> elements = new ArrayList<ItextElement>();
+	private final Collection<ItextElement> elements = new ArrayList<>();
 
 	public Cell(APdfElement parent) {
 		super(parent);
@@ -80,17 +80,17 @@ public class Cell extends ACell implements ItextElement {
 		cell.setBorderColorBottom(getBorderBottomColor());
 		cell.setBorderColorLeft(getBorderLeftColor());
 		cell.setBorderColorRight(getBorderRightColor());
-		cell.setBorderWidthTop(APdfBuilder.mmToPoints(getBorderTopWidth()));
-		cell.setBorderWidthBottom(APdfBuilder.mmToPoints(getBorderBottomWidth()));
-		cell.setBorderWidthLeft(APdfBuilder.mmToPoints(getBorderLeftWidth()));
-		cell.setBorderWidthRight(APdfBuilder.mmToPoints(getBorderRightWidth()));
+		cell.setBorderWidthTop(mmToPoints(getBorderTopWidth()));
+		cell.setBorderWidthBottom(mmToPoints(getBorderBottomWidth()));
+		cell.setBorderWidthLeft(mmToPoints(getBorderLeftWidth()));
+		cell.setBorderWidthRight(mmToPoints(getBorderRightWidth()));
 		cell.setUseBorderPadding(false);
 
 		cell.setPadding(0);
-		cell.setPaddingTop(APdfBuilder.mmToPoints(getPaddingTop()));
-		cell.setPaddingBottom(APdfBuilder.mmToPoints(getPaddingBottom()));
-		cell.setPaddingLeft(APdfBuilder.mmToPoints(getPaddingLeft()));
-		cell.setPaddingRight(APdfBuilder.mmToPoints(getPaddingRight()));
+		cell.setPaddingTop(mmToPoints(getPaddingTop()));
+		cell.setPaddingBottom(mmToPoints(getPaddingBottom()));
+		cell.setPaddingLeft(mmToPoints(getPaddingLeft()));
+		cell.setPaddingRight(mmToPoints(getPaddingRight()));
 
 		cell.setBackgroundColor(getBackgroundColor());
 		cell.setExtraParagraphSpace(0);

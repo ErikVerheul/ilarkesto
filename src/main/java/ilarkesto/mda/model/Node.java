@@ -14,9 +14,11 @@
  */
 package ilarkesto.mda.model;
 
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static java.util.UUID.randomUUID;
 
 public class Node implements Comparable<Node> {
 
@@ -25,7 +27,7 @@ public class Node implements Comparable<Node> {
 	private Node parent;
 	private String type;
 	private String value;
-	private List<Node> children = new ArrayList<Node>();
+	private List<Node> children = new ArrayList<>();
 	private boolean transient_;
 
 	Node(Model model, String id, Node parent, String type, String value) {
@@ -37,7 +39,7 @@ public class Node implements Comparable<Node> {
 		this.value = value;
 
 		if (this.id == null) {
-                        this.id = UUID.randomUUID().toString();
+                        this.id = randomUUID().toString();
                 }
 	}
 
@@ -74,7 +76,7 @@ public class Node implements Comparable<Node> {
 
 	public boolean containsChild(String type, boolean value) {
 		Node child = getChildByType(type);
-		return child == null ? false : child.isValue(String.valueOf(value));
+		return child == null ? false : child.isValue(valueOf(value));
 	}
 
 	public Node getChildRecursive(String type, String value) {
@@ -110,7 +112,7 @@ public class Node implements Comparable<Node> {
 	}
 
 	public List<Node> getChildrenByType(String type) {
-		List<Node> ret = new ArrayList<Node>();
+		List<Node> ret = new ArrayList<>();
 		for (Node child : getChildren()) {
 			if (child.isType(type)) {
                                 ret.add(child);
@@ -120,7 +122,7 @@ public class Node implements Comparable<Node> {
 	}
 
 	public List<Node> getChildrenByTypeRecursive(String type) {
-		List<Node> ret = new ArrayList<Node>();
+		List<Node> ret = new ArrayList<>();
 		for (Node child : getChildren()) {
 			if (child.isType(type)) {
                                 ret.add(child);

@@ -15,6 +15,7 @@
 package ilarkesto.form;
 
 import ilarkesto.base.StringProvider;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -58,7 +59,7 @@ public class MultiCheckboxFormField<T> extends AFormField {
 	}
 
 	public MultiCheckboxFormField<T> setSelectableItems(Collection<T> items) {
-		this.selectableItems = items == null ? new ArrayList<T>() : new ArrayList<T>(items);
+		this.selectableItems = items == null ? new ArrayList<T>() : new ArrayList<>(items);
 		return this;
 	}
 
@@ -66,7 +67,7 @@ public class MultiCheckboxFormField<T> extends AFormField {
 		if (value == null) {
 			this.value = null;
 		} else {
-			this.value = new HashSet<T>(value);
+			this.value = new HashSet<>(value);
 			this.value.retainAll(selectableItems);
 		}
 		return this;
@@ -82,12 +83,12 @@ public class MultiCheckboxFormField<T> extends AFormField {
 
 	@Override
 	public String getValueAsString() {
-		return value == null ? "0" : String.valueOf(value.size());
+		return value == null ? "0" : valueOf(value.size());
 	}
 
 	@Override
 	public void update(Map<String, String> data, Collection<FileItem> uploadedFiles) {
-		value = new HashSet<T>();
+		value = new HashSet<>();
 		int index = 0;
 		for (T item : selectableItems) {
 			if (data.containsKey(getName() + '_' + index)) {

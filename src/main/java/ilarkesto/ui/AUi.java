@@ -14,11 +14,13 @@
  */
 package ilarkesto.ui;
 
-import ilarkesto.base.Reflect;
-import ilarkesto.base.StrExtend;
-import ilarkesto.base.TmExtend;
+import static ilarkesto.base.Reflect.getFieldValue;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.base.Url;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.time.Tm.HOUR;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.di.BeanContainer;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.di.MultiBeanProvider;
@@ -27,6 +29,7 @@ import ilarkesto.locale.Localizer;
 import ilarkesto.persistence.AEntity;
 import ilarkesto.ui.action.AAction;
 import ilarkesto.ui.usermessage.UserMessageService;
+import static java.lang.Math.round;
 
 public abstract class AUi {
 
@@ -36,7 +39,7 @@ public abstract class AUi {
 	public static final String VIEW_ID_PARAMETER = "viewId";
 	public static final String URI_EXTENSION = ".xhtml";
 
-	public static final long DEFAULT_DIALOG_TIMEOUT = 1 * TmExtend.HOUR;
+	public static final long DEFAULT_DIALOG_TIMEOUT = 1 * HOUR;
 
 	protected BeanProvider model;
 
@@ -109,15 +112,15 @@ public abstract class AUi {
 		setModel(model);
 		showDialog(view);
 		if (blocker != null) {
-			long waitStart = TmExtend.getCurrentTimeMillis();
+			long waitStart = getCurrentTimeMillis();
 			// block until actionProvider triggers notify() (by next request)
 			synchronized (blocker) {
 				// TODO while (blocker.isNotReady())
 				blocker.wait(timeout);
 			}
 			if (timeout != 0) {
-				timeout = Math.round(timeout * 0.95);
-				long duration = TmExtend.getCurrentTimeMillis() - waitStart;
+				timeout = round(timeout * 0.95);
+				long duration = getCurrentTimeMillis() - waitStart;
 				if (duration >= timeout) {
 					LOG.info("Dialog timeout:", view);
 					throw new DialogTimeoutException(view.getSimpleName());
@@ -131,15 +134,15 @@ public abstract class AUi {
 		setModel(model);
 		showDialog(viewId);
 		if (blocker != null) {
-			long waitStart = TmExtend.getCurrentTimeMillis();
+			long waitStart = getCurrentTimeMillis();
 			// block until actionProvider triggers notify() (by next request)
 			synchronized (blocker) {
 				// TODO while (blocker.isNotReady())
 				blocker.wait(timeout);
 			}
 			if (timeout != 0) {
-				timeout = Math.round(timeout * 0.95);
-				long duration = TmExtend.getCurrentTimeMillis() - waitStart;
+				timeout = round(timeout * 0.95);
+				long duration = getCurrentTimeMillis() - waitStart;
 				if (duration >= timeout) {
 					LOG.info("Dialog timeout:", viewId);
 					throw new DialogTimeoutException(viewId);
@@ -176,7 +179,7 @@ public abstract class AUi {
 	}
 
 	public static String getViewIcon(Class<? extends AView> viewClass) {
-		String icon = (String) Reflect.getFieldValue(viewClass, "ICON");
+		String icon = (String) getFieldValue(viewClass, "ICON");
 		if (icon != null) {
                         return icon;
                 }
@@ -185,8 +188,8 @@ public abstract class AUi {
 
 	public static String getViewId(Class<? extends AView> viewClass) {
 		String id = viewClass.getSimpleName();
-		id = StrExtend.removeSuffix(id, "WebView");
-		id = StrExtend.lowercaseFirstLetter(id);
+		id = removeSuffix(id, "WebView");
+		id = lowercaseFirstLetter(id);
 		return id;
 	}
 
@@ -208,7 +211,7 @@ public abstract class AUi {
 	}
 
 	public static Url createViewUrl(AEntity entity) {
-		Url url = AUi.getViewUrl(entity);
+		Url url = getViewUrl(entity);
 		return url;
 	}
 

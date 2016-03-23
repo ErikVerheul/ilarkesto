@@ -14,6 +14,15 @@
  */
 package ilarkesto.base;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
+import static java.lang.Integer.valueOf;
+import static java.lang.Integer.valueOf;
+import static java.lang.Integer.valueOf;
+import static java.lang.Integer.valueOf;
+import static java.lang.Integer.valueOf;
 import java.util.StringTokenizer;
 
 /**
@@ -36,15 +45,15 @@ public final class Version implements Comparable<Version> {
 		if (!tok.hasMoreElements()) {
                         return;
                 }
-		major = Integer.parseInt(tok.nextToken());
+		major = parseInt(tok.nextToken());
 		if (!tok.hasMoreElements()) {
                         return;
                 }
-		minor = Integer.parseInt(tok.nextToken());
+		minor = parseInt(tok.nextToken());
 		if (!tok.hasMoreElements()) {
                         return;
                 }
-		build = Integer.parseInt(tok.nextToken());
+		build = parseInt(tok.nextToken());
 	}
 
 	public Version(Version version) {
@@ -66,13 +75,13 @@ public final class Version implements Comparable<Version> {
 	@Override
 	public int compareTo(Version o) {
 		if (major != o.major) {
-                        return Integer.valueOf(major).compareTo(Integer.valueOf(o.major));
+                        return valueOf(major).compareTo(o.major);
                 }
 		if (minor != o.minor) {
-                        return Integer.valueOf(minor).compareTo(Integer.valueOf(o.minor));
+                        return valueOf(minor).compareTo(o.minor);
                 }
 		if (build != o.build) {
-                        return Integer.valueOf(build).compareTo(Integer.valueOf(o.build));
+                        return valueOf(build).compareTo(o.build);
                 }
 		return 0;
 	}

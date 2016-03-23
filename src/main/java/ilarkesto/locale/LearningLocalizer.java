@@ -16,15 +16,21 @@ package ilarkesto.locale;
 
 import ilarkesto.base.Cache;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.replaceForHtml;
+import static ilarkesto.base.StrExtend.replaceUnicodeCharsWithJavaNotation;
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
-import ilarkesto.swing.Swing;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.appendLine;
+import static ilarkesto.io.IO.loadProperties;
+import static ilarkesto.swing.Swing.center;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Locale;
+import static java.util.Locale.GERMAN;
 import java.util.Properties;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.showInputDialog;
 
 public final class LearningLocalizer extends Localizer {
 
@@ -50,7 +56,7 @@ public final class LearningLocalizer extends Localizer {
 
 	// --- ---
 
-	private Cache<String, MessageFormat> formatsCache = new Cache<String, MessageFormat>(
+	private final Cache<String, MessageFormat> formatsCache = new Cache<>(
 			new Cache.Factory<String, MessageFormat>() {
 
 				@Override
@@ -67,7 +73,7 @@ public final class LearningLocalizer extends Localizer {
 	@Override
 	public String string(String key, Object... parameters) {
 		if (!developmentMode) {
-                        locale = Locale.GERMAN;
+                        locale = GERMAN;
                 }
 
 		if (parameters != null) {
@@ -83,9 +89,9 @@ public final class LearningLocalizer extends Localizer {
 			StringBuilder sb = new StringBuilder();
 			sb.append("@@@");
 			sb.append(key);
-			for (int i = 0; i < parameters.length; i++) {
-				sb.append(", ").append(parameters[i]);
-			}
+                        for (Object parameter : parameters) {
+                                sb.append(", ").append(parameter);
+                        }
 			return sb.toString();
 		}
 		return format(template, parameters);
@@ -111,7 +117,7 @@ public final class LearningLocalizer extends Localizer {
 		if (template.startsWith("<html")) {
 			for (int i = 0; i < parameters.length; i++) {
 				if (parameters[i] instanceof String) {
-					parameters[i] = StrExtend.replaceForHtml((String) parameters[i]);
+					parameters[i] = replaceForHtml((String) parameters[i]);
 				}
 			}
 		}
@@ -128,7 +134,7 @@ public final class LearningLocalizer extends Localizer {
 			String resource = RESOURCE_BUNDLE + "_" + localeSuffix + ".properties";
 			ClassLoader classLoader = getClass().getClassLoader();
 			LOG.debug("Loading localizer data:", resource, classLoader);
-			templates = IO.loadProperties(classLoader.getResource(resource), IO.UTF_8);
+			templates = loadProperties(classLoader.getResource(resource), UTF_8);
 		}
 		return templates;
 	}
@@ -137,9 +143,9 @@ public final class LearningLocalizer extends Localizer {
 		if (frame == null) {
                         frame = new JFrame(getClass().getSimpleName());
                 }
-		Swing.center(frame);
+		center(frame);
 		frame.setVisible(true);
-		String template = JOptionPane.showInputDialog(frame, key, "Lokalisierung", JOptionPane.QUESTION_MESSAGE);
+		String template = showInputDialog(frame, key, "Lokalisierung", QUESTION_MESSAGE);
 		frame.setVisible(false);
 		if (template == null) {
                         return null;
@@ -156,8 +162,8 @@ public final class LearningLocalizer extends Localizer {
                                 localeSuffix = localeSuffix.substring(0, 2);
                         }
 			try {
-				IO.appendLine("src/main/java/" + RESOURCE_BUNDLE + "_" + localeSuffix + ".properties",
-					key + "=" + StrExtend.replaceUnicodeCharsWithJavaNotation(template));
+				appendLine("src/main/java/" + RESOURCE_BUNDLE + "_" + localeSuffix + ".properties",
+					key + "=" + replaceUnicodeCharsWithJavaNotation(template));
 			} catch (IOException ex1) {
 				throw new RuntimeException(ex1);
 			}

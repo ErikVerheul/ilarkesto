@@ -15,13 +15,17 @@
 package ilarkesto.base;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.closeQuiet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import static java.lang.Runtime.getRuntime;
+import static java.lang.System.arraycopy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -40,10 +44,10 @@ public final class Proc {
                 proc.getOutput();
         }
         private static final Log log = Log.get(Proc.class);
-        private static final List<Proc> runningProcs = new LinkedList<Proc>();
+        private static final List<Proc> runningProcs = new LinkedList<>();
         private File workingDir;
         private Map<String, String> environment;
-        private String command;
+        private final String command;
         private List<String> parameters;
         private long startTime;
         private StreamGobbler outputGobbler;
@@ -56,7 +60,7 @@ public final class Proc {
 
         public static List<Proc> getRunningProcs() {
                 synchronized (runningProcs) {
-                        return new ArrayList<Proc>(runningProcs);
+                        return new ArrayList<>(runningProcs);
                 }
         }
 
@@ -75,7 +79,7 @@ public final class Proc {
                 runningProcs.remove(this);
 
                 if (shutdownHook != null) {
-                        Runtime.getRuntime().removeShutdownHook(shutdownHook);
+                        getRuntime().removeShutdownHook(shutdownHook);
                 }
                 shutdownHook = null;
                 if (outputGobbler != null) {
@@ -87,7 +91,7 @@ public final class Proc {
                 }
                 errorGobbler = null;
                 if (inputPrintStream != null) {
-                        IO.closeQuiet(inputPrintStream);
+                        closeQuiet(inputPrintStream);
                 }
                 inputPrintStream = null;
         }
@@ -159,7 +163,7 @@ public final class Proc {
                 String[] cmdarray = new String[paramLen + 1];
                 cmdarray[0] = command;
                 if (paramLen > 0) {
-                        System.arraycopy(parameters.toArray(), 0, cmdarray, 1, paramLen);
+                        arraycopy(parameters.toArray(), 0, cmdarray, 1, paramLen);
                 }
                 if (log.isDebugEnabled()) {
                         StringBuilder sb = new StringBuilder();
@@ -173,15 +177,15 @@ public final class Proc {
                         }
                         log.debug(sb.toString());
                 }
-		startTime = TmExtend.getCurrentTimeMillis();
+		startTime = getCurrentTimeMillis();
                 try {
-                        process = Runtime.getRuntime().exec(cmdarray, getEnvParameters(), workingDir);
+                        process = getRuntime().exec(cmdarray, getEnvParameters(), workingDir);
                 } catch (IOException ex) {
                         throw new RuntimeException(ex);
                 }
                 runningProcs.add(this);
                 shutdownHook = new ShutdownHook();
-                Runtime.getRuntime().addShutdownHook(shutdownHook);
+                getRuntime().addShutdownHook(shutdownHook);
                 outputGobbler = new StreamGobbler(process.getInputStream());
                 errorGobbler = new StreamGobbler(process.getErrorStream());
         }
@@ -214,7 +218,7 @@ public final class Proc {
         }
 
         public long getRunTime() {
-		return TmExtend.getCurrentTimeMillis() - startTime;
+		return getCurrentTimeMillis() - startTime;
         }
 
         /**
@@ -232,7 +236,7 @@ public final class Proc {
                         if (process == null) {
                                 throw new RuntimeException("Process not started yet.");
                         }
-                        IO.closeQuiet(process.getOutputStream());
+                        closeQuiet(process.getOutputStream());
                         try {
                                 process.waitFor();
                         } catch (InterruptedException ex) {
@@ -286,7 +290,7 @@ public final class Proc {
 
         public void addEnvironmentParameter(String name, String value) {
                 if (environment == null) {
-                        environment = new HashMap<String, String>();
+                        environment = new HashMap<>();
                 }
                 environment.put(name, value);
         }
@@ -302,7 +306,7 @@ public final class Proc {
 
         public synchronized Proc addParameter(String parameter) {
                 if (parameters == null) {
-                        parameters = new ArrayList<String>(1);
+                        parameters = new ArrayList<>(1);
                 }
                 parameters.add(parameter);
                 return this;
@@ -334,7 +338,7 @@ public final class Proc {
                 @Override
                 public void run() {
                         try {
-                                InputStreamReader isr = new InputStreamReader(is, IO.UTF_8);
+                                InputStreamReader isr = new InputStreamReader(is, UTF_8);
                                 BufferedReader br = new BufferedReader(isr);
                                 String line = null;
                                 while (isRunning() && (line = br.readLine()) != null) {
@@ -350,7 +354,7 @@ public final class Proc {
                 }
 
                 public void close() {
-                        IO.closeQuiet(is);
+                        closeQuiet(is);
                 }
         }
 

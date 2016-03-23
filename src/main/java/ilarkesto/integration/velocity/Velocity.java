@@ -14,9 +14,13 @@
  */
 package ilarkesto.integration.velocity;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.copyFile;
+import static ilarkesto.io.IO.createDirectory;
+import static ilarkesto.io.IO.writeFileIfChanged;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.Map;
@@ -28,10 +32,10 @@ public class Velocity {
 
 	public static final String LIB_TEMPLATE_NAME = "VM_global_library.vm";
 
-	private static Log log = Log.get(Velocity.class);
+	private static final Log log = Log.get(Velocity.class);
 
-	private File templateDir;
-	private VelocityEngine velocityEngine;
+	private final File templateDir;
+	private final VelocityEngine velocityEngine;
 
 	public Velocity(File templateDir) {
 		this.templateDir = templateDir;
@@ -49,7 +53,7 @@ public class Velocity {
 		if (files == null) {
                         return;
                 }
-		IO.createDirectory(outputDir);
+		createDirectory(outputDir);
 		for (File templateFile : files) {
 			String name = templateFile.getName();
 			if (name.equals(LIB_TEMPLATE_NAME)) {
@@ -58,10 +62,10 @@ public class Velocity {
 			log.debug("   ", name);
 			boolean velocityTemplate = name.endsWith(".vm");
 			if (velocityTemplate) {
-				File outputFile = new File(outputDir.getAbsolutePath() + "/" + StrExtend.removeSuffix(name, ".vm"));
+				File outputFile = new File(outputDir.getAbsolutePath() + "/" + removeSuffix(name, ".vm"));
 				velocity.processTemplate(name, outputFile, velocityContext);
 			} else {
-				IO.copyFile(templateFile, new File(outputDir.getPath() + "/" + name));
+				copyFile(templateFile, new File(outputDir.getPath() + "/" + name));
 			}
 		}
 	}
@@ -72,7 +76,7 @@ public class Velocity {
 
 	public void processTemplate(String name, File outputFile, VelocityContext velocityContext) {
 		log.debug("Processing", templateDir.getAbsolutePath() + "/" + name, "->", outputFile.getAbsolutePath());
-		IO.createDirectory(outputFile.getParentFile());
+		createDirectory(outputFile.getParentFile());
 		StringWriter out = new StringWriter();
 		try {
 			Template template = velocityEngine.getTemplate(name);
@@ -81,7 +85,7 @@ public class Velocity {
 		} catch (Exception ex) {
 			throw new RuntimeException("Processing velocity template failed: " + name, ex);
 		}
-		IO.writeFileIfChanged(outputFile, out.toString(), IO.UTF_8);
+		writeFileIfChanged(outputFile, out.toString(), UTF_8);
 	}
 
 	public static VelocityContext createContext(Map<String, ?> context) {

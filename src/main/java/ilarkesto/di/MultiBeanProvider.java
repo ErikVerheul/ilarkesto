@@ -14,7 +14,7 @@
  */
 package ilarkesto.di;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.concat;
 import ilarkesto.core.logging.Log;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A bean provider which wrapps other bean providers.
+ * A bean provider which wraps other bean providers.
  * 
  * @author wko
  */
@@ -30,8 +30,8 @@ public final class MultiBeanProvider extends ABeanProvider {
 
 	private static final Log LOG = Log.get(MultiBeanProvider.class);
 
-	private Set<BeanProvider> beanProviders = new HashSet<BeanProvider>();
-	private Map<String, BeanProvider> beanToBeanProvider = new HashMap<String, BeanProvider>();
+	private final Set<BeanProvider> beanProviders = new HashSet<>();
+	private final Map<String, BeanProvider> beanToBeanProvider = new HashMap<>();
 
 	public synchronized void addBeanProvider(Object object) {
 		if (object == null) {
@@ -67,10 +67,12 @@ public final class MultiBeanProvider extends ABeanProvider {
 		beanProviders.add(beanProvider);
 	}
 
+        @Override
 	public Set<String> beanNames() {
 		return beanToBeanProvider.keySet();
 	}
 
+        @Override
 	public <T> Object getBean(String beanName) {
 		BeanProvider provider = beanToBeanProvider.get(beanName);
 		if (provider == null) {
@@ -79,6 +81,7 @@ public final class MultiBeanProvider extends ABeanProvider {
 		return provider.getBean(beanName);
 	}
 
+        @Override
 	public Class getBeanType(String beanName) {
 		BeanProvider provider = beanToBeanProvider.get(beanName);
 		if (provider == null) {
@@ -89,7 +92,7 @@ public final class MultiBeanProvider extends ABeanProvider {
 
 	@Override
 	public String toString() {
-		return "(" + StrExtend.concat(beanProviders, ", ") + ")";
+		return "(" + concat(beanProviders, ", ") + ")";
 	}
 
 	// --- dependencies ---

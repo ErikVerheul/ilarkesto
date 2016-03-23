@@ -15,21 +15,26 @@
 package ilarkesto.io.nio.httpserver;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.nio.httpserver.HttpMethod.values;
+import static ilarkesto.io.nio.httpserver.HttpStatusCode.BAD_REQUEST;
+import static ilarkesto.io.nio.httpserver.HttpStatusCode.INTERNAL_SERVER_ERROR;
+import static ilarkesto.io.nio.httpserver.HttpStatusCode.NOT_IMPLEMENTED;
 import ilarkesto.io.nio.tcpserver.DataHandler;
 import ilarkesto.io.nio.tcpserver.ServerDataEvent;
 import ilarkesto.io.nio.tcpserver.TcpConnection;
 import java.io.UnsupportedEncodingException;
+import static java.lang.System.arraycopy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HttpDataHandler implements DataHandler {
 
-	private static Log log = Log.get(HttpDataHandler.class);
+	private static final Log log = Log.get(HttpDataHandler.class);
 
 	private static final String CRLF = "\r\n";
 
-	private HttpServer server;
+	private final HttpServer server;
 
 	private ServerDataEvent event;
 
@@ -55,7 +60,7 @@ public class HttpDataHandler implements DataHandler {
 			processEvent(event);
 		} catch (Throwable ex) {
 			log.error("Processing request failed:", request.getUri() == null ? event.getConnection() : request, ex);
-			request.sendEmptyResponse(HttpStatusCode.INTERNAL_SERVER_ERROR, null);
+			request.sendEmptyResponse(INTERNAL_SERVER_ERROR, null);
 		}
 	}
 
@@ -68,7 +73,7 @@ public class HttpDataHandler implements DataHandler {
                                 return;
                         }
 
-                        String s = new String(data, IO.UTF_8);
+                        String s = new String(data, UTF_8);
 
                         int from = 0;
                         int idx = s.indexOf(CRLF);
@@ -78,7 +83,7 @@ public class HttpDataHandler implements DataHandler {
                                 if (headerDone) {
                                         int len = data.length - idx;
                                         byte[] remainingData = new byte[len];
-                                        System.arraycopy(data, idx, remainingData, 0, len);
+                                        arraycopy(data, idx, remainingData, 0, len);
                                         onBodyData(remainingData);
                                         return;
                                 }
@@ -116,11 +121,11 @@ public class HttpDataHandler implements DataHandler {
 
 	private boolean checkHeaders() {
 		if (request.getHeaderContentLenght() != null) {
-			request.sendEmptyResponse(HttpStatusCode.NOT_IMPLEMENTED, "Content-Length");
+			request.sendEmptyResponse(NOT_IMPLEMENTED, "Content-Length");
 			return false;
 		}
 		if (request.getHeaderTransferEncoding() != null) {
-			request.sendEmptyResponse(HttpStatusCode.NOT_IMPLEMENTED, "Transfer-Encoding");
+			request.sendEmptyResponse(NOT_IMPLEMENTED, "Transfer-Encoding");
 			return false;
 		}
 		return true;
@@ -129,7 +134,7 @@ public class HttpDataHandler implements DataHandler {
 	private void parseHeaderLine(String line) {
 		int idx = line.indexOf(':');
 		if (idx <= 0) {
-			request.sendEmptyResponse(HttpStatusCode.BAD_REQUEST, "Invalid header line: " + line);
+			request.sendEmptyResponse(BAD_REQUEST, "Invalid header line: " + line);
 			return;
 		}
 		String name = line.substring(0, idx);
@@ -142,7 +147,7 @@ public class HttpDataHandler implements DataHandler {
                         throw new IllegalStateException("Start line already parsed");
                 }
 		startLineDone = true;
-		for (HttpMethod m : HttpMethod.values()) {
+		for (HttpMethod m : values()) {
 			if (line.startsWith(m.name())) {
 				request.setMethod(m);
 				break;
@@ -151,19 +156,19 @@ public class HttpDataHandler implements DataHandler {
 		if (request.getMethod() == null) {
 			int idx = line.indexOf(' ');
 			String methodName = idx > 0 ? line.substring(0, idx) : line;
-			request.sendEmptyResponse(HttpStatusCode.BAD_REQUEST, "Unknown method: " + methodName);
+			request.sendEmptyResponse(BAD_REQUEST, "Unknown method: " + methodName);
 			return;
 		}
 
 		int pathIdx = request.getMethod().name().length() + 1;
 		if (pathIdx >= line.length()) {
-			request.sendEmptyResponse(HttpStatusCode.BAD_REQUEST, "Invalid start line: " + line);
+			request.sendEmptyResponse(BAD_REQUEST, "Invalid start line: " + line);
 			return;
 		}
 
 		int versionIdx = line.indexOf(' ', pathIdx);
 		if (versionIdx > 0 && versionIdx + 1 >= line.length()) {
-			request.sendEmptyResponse(HttpStatusCode.BAD_REQUEST, "Invalid start line: " + line);
+			request.sendEmptyResponse(BAD_REQUEST, "Invalid start line: " + line);
 			return;
 		}
 

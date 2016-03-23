@@ -19,11 +19,17 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Image;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.getSimpleName;
+import static ilarkesto.core.base.Str.toHtml;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
+import static ilarkesto.core.logging.Log.get;
+import static ilarkesto.gwt.client.Gwt.getRootWidget;
+import static ilarkesto.gwt.client.Gwt.update;
 
 public abstract class AAction implements Command, ClickHandler {
 
-	protected final Log log = Log.get(getClass());
+	protected final Log log = get(getClass());
 
 	public abstract String getLabel();
 
@@ -31,7 +37,7 @@ public abstract class AAction implements Command, ClickHandler {
 
 	@Override
 	public final void execute() {
-		Log.DEBUG("Executing action: " + this);
+		DEBUG("Executing action: " + this);
 		if (!isExecutable()) {
                         throw new RuntimeException("Action not executable: " + this);
                 }
@@ -39,7 +45,7 @@ public abstract class AAction implements Command, ClickHandler {
                         throw new RuntimeException("Action not permitted: " + this);
                 }
 		onExecute();
-		Gwt.update(Gwt.getRootWidget());
+		update(getRootWidget());
 	}
 
 	public String getTargetHistoryToken() {
@@ -69,16 +75,16 @@ public abstract class AAction implements Command, ClickHandler {
 	}
 
 	public String getTooltipAsHtml() {
-		return Str.toHtml(getTooltip());
+		return toHtml(getTooltip());
 	}
 
 	public String getId() {
-		return Str.getSimpleName(getClass()).replace('$', '_');
+		return getSimpleName(getClass()).replace('$', '_');
 	}
 
 	@Override
 	public String toString() {
-		return Str.getSimpleName(getClass());
+		return getSimpleName(getClass());
 	}
 
 }

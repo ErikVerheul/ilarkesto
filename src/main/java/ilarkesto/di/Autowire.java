@@ -15,17 +15,19 @@
 package ilarkesto.di;
 
 import ilarkesto.base.Reflect;
+import static ilarkesto.base.Reflect.processAnnotations;
 import ilarkesto.core.scope.In;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
+import static java.beans.Introspector.getBeanInfo;
 import java.beans.PropertyDescriptor;
+import static java.lang.Character.toLowerCase;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import static java.lang.reflect.Modifier.isStatic;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -48,23 +50,23 @@ public class Autowire {
 			ObjectStringMapper objectStringMapper) {
 		Set<String> availableBeansNames = beanProvider.beanNames();
 		Method[] methods = clazz.getMethods();
-		for (int i = 0; i < methods.length; i++) {
-			if (!Modifier.isStatic(methods[i].getModifiers())) {
+                for (Method method : methods) {
+                        if (!isStatic(method.getModifiers())) {
                                 continue;
                         }
-			String methodName = methods[i].getName();
-			if (!methodName.startsWith("set")) {
+                        String methodName = method.getName();
+                        if (!methodName.startsWith("set")) {
                                 continue;
                         }
-			String name = Character.toLowerCase(methodName.charAt(3)) + methodName.substring(4);
-			if (availableBeansNames.contains(name)) {
-				invokeSetter(null, methods[i], beanProvider.getBean(name), objectStringMapper);
-			} else if ("beanProvider".equals(name)) {
-				invokeSetter(null, methods[i], beanProvider, objectStringMapper);
-			} else {
-				// TODO find bean by type
-			}
-		}
+                        String name = toLowerCase(methodName.charAt(3)) + methodName.substring(4);
+                        if (availableBeansNames.contains(name)) {
+                                invokeSetter(null, method, beanProvider.getBean(name), objectStringMapper);
+                        } else if ("beanProvider".equals(name)) {
+                                invokeSetter(null, method, beanProvider, objectStringMapper);
+                        } else {
+                                // TODO find bean by type
+                        }
+                }
 		Class<? extends Object> superclass = clazz.getSuperclass();
 		if (superclass != null && !Object.class.equals(superclass)) {
                         autowireClass(superclass, beanProvider, objectStringMapper);
@@ -87,33 +89,32 @@ public class Autowire {
 		Class beanClass = bean.getClass();
 		BeanInfo beanInfo;
 		try {
-			beanInfo = Introspector.getBeanInfo(beanClass);
+			beanInfo = getBeanInfo(beanClass);
 		} catch (IntrospectionException ex) {
 			throw new RuntimeException(ex);
 		}
 		PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 		if (propertyDescriptors != null) {
-			for (int i = 0; i < propertyDescriptors.length; i++) {
-				PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
-				if (propertyDescriptor != null) {
-					String name = propertyDescriptor.getName();
-					// if ("parentContext".equals(name)) continue;
-					Method writeMethod = propertyDescriptor.getWriteMethod();
-					if (writeMethod != null) {
+                        for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                                if (propertyDescriptor != null) {
+                                        String name = propertyDescriptor.getName();
+                                        // if ("parentContext".equals(name)) continue;
+                                        Method writeMethod = propertyDescriptor.getWriteMethod();
+                                        if (writeMethod != null) {
 						if (writeMethod.getAnnotation(AutowireHostile.class) != null) {
                                                         continue;
                                                 }
-						if (availableBeanNames.contains(name)) {
-							invokeSetter(bean, writeMethod, beanProvider.getBean(name), objectStringMapper);
-						} else if ("beanProvider".equals(name)) {
-							invokeSetter(bean, writeMethod, beanProvider, objectStringMapper);
+                                                if (availableBeanNames.contains(name)) {
+                                                        invokeSetter(bean, writeMethod, beanProvider.getBean(name), objectStringMapper);
+                                                } else if ("beanProvider".equals(name)) {
+                                                        invokeSetter(bean, writeMethod, beanProvider, objectStringMapper);
 						}
-					}
-				}
-			}
+                                        }
+                                }
+                        }
 		}
 
-		Reflect.processAnnotations(bean, new Reflect.FieldAnnotationHandler() {
+		processAnnotations(bean, new Reflect.FieldAnnotationHandler() {
 
 			@Override
 			public void handle(Annotation annotation, Field field, Object object) {
@@ -135,7 +136,7 @@ public class Autowire {
 						value = convertType(paramType, value);
 					}
 					field.set(object, value);
-				} catch (Exception ex) {
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 					String valueStr = value == null ? "< null >" : value.getClass().getSimpleName() + ": <"
 							+ value + ">";
 					throw new RuntimeException("Setting field " + object.getClass().getSimpleName() + "." + name
@@ -177,9 +178,7 @@ public class Autowire {
 			}
 			Object[] answer = { value };
 			return answer;
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(e);
-		} catch (InstantiationException e) {
+		} catch (InvocationTargetException | InstantiationException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
@@ -226,7 +225,7 @@ public class Autowire {
 
 			@Override
 			public Object transform(Object input) {
-                                return Character.valueOf(input.toString().charAt(0));
+                                return input.toString().charAt(0);
 			}
 		});
 		defaultTransformers.put(Byte.TYPE, new ITransformer() {

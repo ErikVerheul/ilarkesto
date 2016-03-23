@@ -17,7 +17,7 @@ package ilarkesto.gwt.client;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
-import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.gwt.client.editor.AEditorModel;
 import ilarkesto.gwt.client.undo.AUndoOperation;
 import java.util.HashMap;
@@ -56,7 +56,7 @@ public abstract class AGwtEntity {
 	}
 
 	public final void updateLocalModificationTime() {
-		localModificationTime = Tm.getCurrentTimeMillis();
+		localModificationTime = getCurrentTimeMillis();
 	}
 
 	public final String getId() {
@@ -125,7 +125,7 @@ public abstract class AGwtEntity {
 		if (object == null) {
                         return false;
                 }
-		return object.toString().toLowerCase().indexOf(key) >= 0;
+		return object.toString().toLowerCase().contains(key);
 	}
 
 	protected final String toString(Integer value) {
@@ -162,8 +162,8 @@ public abstract class AGwtEntity {
 
 	protected class EditorModelUndo extends AUndoOperation {
 
-		private AEditorModel editorModel;
-		private Object oldValue;
+		private final AEditorModel editorModel;
+		private final Object oldValue;
 
 		public EditorModelUndo(AEditorModel editorModel, Object oldValue) {
 			super();

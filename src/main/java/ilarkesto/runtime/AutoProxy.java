@@ -15,22 +15,25 @@
 package ilarkesto.runtime;
 
 import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.isDevelopmentMode;
+import static ilarkesto.base.Sys.setHttpProxy;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.downloadUrlToString;
 
 public class AutoProxy {
 
 	public static void update() {
-		if (!Sys.isDevelopmentMode()) {
+		if (!isDevelopmentMode()) {
                         return;
                 }
 		if (isHis()) {
-			Sys.setHttpProxy("83.246.65.146", 80);
+			setHttpProxy("83.246.65.146", 80);
 		}
 	}
 
 	private static boolean isHis() {
 		try {
-			return IO.downloadUrlToString("http://xqisdev.his.de").contains("<title>qisdev</title>");
+			return downloadUrlToString("http://xqisdev.his.de").contains("<title>qisdev</title>");
 		} catch (Throwable ex) {
 			return false;
 		}

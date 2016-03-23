@@ -29,7 +29,7 @@ public abstract class ABeanProvider implements BeanProvider {
         @SuppressWarnings("unchecked")
         @Override
         public final <T> Set<T> getBeansByType(Class<T> type) {
-                Set<T> result = new HashSet<T>();
+                Set<T> result = new HashSet<>();
                 for (String beanName : beanNames()) {
                         if (type.isAssignableFrom(getBeanType(beanName))) {
                                 result.add((T) getBean(beanName));
@@ -40,7 +40,7 @@ public abstract class ABeanProvider implements BeanProvider {
 
         @Override
         public final Map<String, Object> getAllBeans() {
-                Map<String, Object> result = new HashMap<String, Object>();
+                Map<String, Object> result = new HashMap<>();
                 for (String beanName : beanNames()) {
                         result.put(beanName, getBean(beanName));
                 }

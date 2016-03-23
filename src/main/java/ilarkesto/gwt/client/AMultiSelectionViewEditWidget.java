@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
 import ilarkesto.core.base.ToHtmlSupport;
 import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.concatToHtml;
 import java.util.Collection;
 import java.util.List;
 
@@ -121,7 +122,7 @@ public abstract class AMultiSelectionViewEditWidget<I extends Object> extends AV
 			viewer.setText(".");
 			return;
 		}
-		viewer.setHTML(Utl.concatToHtml(items, "<br>"));
+		viewer.setHTML(concatToHtml(items, "<br>"));
 	}
 
 	public void setEditorItems(Collection<I> items) {

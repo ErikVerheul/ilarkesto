@@ -16,9 +16,11 @@ package ilarkesto.gwt.client;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import static com.google.gwt.user.client.ui.HasHorizontalAlignment.ALIGN_RIGHT;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.Widget;
+import static ilarkesto.gwt.client.Gwt.createFieldLabel;
+import static ilarkesto.gwt.client.Gwt.createSpacer;
 import ilarkesto.gwt.client.editor.ABooleanEditorModel;
 import ilarkesto.gwt.client.editor.ADateAndTimeEditorModel;
 import ilarkesto.gwt.client.editor.ADateEditorModel;
@@ -204,7 +206,7 @@ public class TableBuilder {
 	}
 
 	public TableBuilder addFieldLabel(String text) {
-		add(Gwt.createFieldLabel(text), 1, HasHorizontalAlignment.ALIGN_RIGHT);
+		add(createFieldLabel(text), 1, ALIGN_RIGHT);
 		return this;
 	}
 
@@ -221,7 +223,7 @@ public class TableBuilder {
 	}
 
 	public TableBuilder addSpacer(int width, int height) {
-		add(Gwt.createSpacer(width, height));
+		add(createSpacer(width, height));
 		return this;
 	}
 
@@ -313,14 +315,14 @@ public class TableBuilder {
 		int columnWidth = 100 / widgets.length;
 		String[] widths = new String[(widgets.length * 2) - 1];
 		int colIndex = 0;
-		for (int i = 0; i < widgets.length; i++) {
-			if (colIndex > 0) {
-				widths[colIndex] = spacing + "pt";
-				colIndex++;
-			}
-			widths[colIndex] = columnWidth + "%";
-			colIndex++;
-		}
+                for (Widget widget : widgets) {
+                        if (colIndex > 0) {
+                                widths[colIndex] = spacing + "pt";
+                                colIndex++;
+                        }
+                        widths[colIndex] = columnWidth + "%";
+                        colIndex++;
+                }
 
 		tb.setColumnWidths(widths);
 		boolean first = true;
@@ -328,7 +330,7 @@ public class TableBuilder {
 			if (first) {
 				first = false;
 			} else {
-				tb.add(Gwt.createSpacer(spacing, 1));
+				tb.add(createSpacer(spacing, 1));
 			}
 			tb.add(widget);
 		}
@@ -346,7 +348,7 @@ public class TableBuilder {
 			if (first) {
 				first = false;
 			} else {
-				tb.addRow(Gwt.createSpacer(1, spacing));
+				tb.addRow(createSpacer(1, spacing));
 			}
 			tb.addRow(widget);
 		}

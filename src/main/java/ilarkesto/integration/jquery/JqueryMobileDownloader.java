@@ -15,12 +15,12 @@
 package ilarkesto.integration.jquery;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.downloadUrlToFile;
 import java.io.File;
 
 public class JqueryMobileDownloader {
 
-	private static Log log = Log.get(JqueryMobileDownloader.class);
+	private static final Log log = Log.get(JqueryMobileDownloader.class);
 
 	public static String getStableVersion() {
 		return "1.1.1";
@@ -33,11 +33,7 @@ public class JqueryMobileDownloader {
 	public static String getCompatibleJqueryVersion(String jqueryMobileVersion) {
 		return "1.7.1";
 	}
-
-	public static void installToDir(File destinationDir) {
-		installToDir(getStableVersion(), destinationDir);
-	}
-
+	
 	public static boolean isInstalled(String version, File destinationDir) {
 		if (!new File(destinationDir.getPath() + "/jquery.mobile-" + version + ".min.js").exists()) {
                         return false;
@@ -53,43 +49,11 @@ public class JqueryMobileDownloader {
                 }
 		return new File(destinationDir.getPath() + "/images").exists();
 	}
-
-	public static void installToDir(String version, File destinationDir) {
-		File workdir = IO.createTempDir("jqm_");
-		try {
-			File zipfile = new File(workdir.getPath() + "/jqm.zip");
-			downloadPackage(version, zipfile);
-			log.info("Installing JQM to", destinationDir);
-			File jqmdir = extractJqmPackage(zipfile);
-			cleanupJqmDir(jqmdir);
-			IO.move(jqmdir, destinationDir, true);
-		} finally {
-			IO.deleteQuiet(workdir);
-		}
-	}
-
-	private static void cleanupJqmDir(File jqmdir) {
-		IO.delete(new File(jqmdir.getPath() + "/demos"));
-	}
-
-	private static File extractJqmPackage(File zipfile) {
-		log.debug("Extracting JQM .zip package", zipfile);
-		File unzipdir = zipfile.getParentFile();
-		IO.unzip(zipfile, unzipdir);
-		File[] unzippedFiles = unzipdir.listFiles();
-		if (unzippedFiles == null) {
-                        throw new RuntimeException("JQM .zip package contains no files");
-                }
-		for (File file : unzippedFiles) {
-			if (file.getName().startsWith("jquery.mobile")) { return file; }
-		}
-		throw new RuntimeException("JQM .zip package contains no directory 'jquery.mobile*'");
-	}
-
+		
 	public static void downloadPackage(String version, File destinationFile) {
 		String url = "http://code.jquery.com/mobile/" + version + "/jquery.mobile-" + version + ".zip";
 		log.info("Downloading JQM:", url);
-		IO.downloadUrlToFile(url, destinationFile.getAbsolutePath());
+		downloadUrlToFile(url, destinationFile.getAbsolutePath());
 	}
 
 }

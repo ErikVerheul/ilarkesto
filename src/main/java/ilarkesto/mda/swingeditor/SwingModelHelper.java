@@ -18,12 +18,23 @@ import ilarkesto.core.scope.In;
 import ilarkesto.mda.model.ModellingSession;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
+import static ilarkesto.mda.model.NodeTypes.DE;
+import static ilarkesto.mda.model.NodeTypes.EN;
 import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.showTextEditorDialog;
 import java.awt.Component;
 import java.awt.Insets;
 import java.util.List;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.showConfirmDialog;
+import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.showMessageDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
@@ -38,7 +49,7 @@ public class SwingModelHelper {
 	public void removeNode(Node node) {
 		if (node.containsChildren()) {
 			String message = "Delete " + node.getLabel() + " with all its child nodes?";
-			if (JOptionPane.showConfirmDialog(dialogParent, message, "Confirm deletion", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION) {
+			if (showConfirmDialog(dialogParent, message, "Confirm deletion", YES_NO_OPTION) != YES_OPTION) {
                                 return;
                         }
 		}
@@ -82,25 +93,25 @@ public class SwingModelHelper {
 	// }
 
 	public String queryNewNodeTextValue(String type, Node parent, String oldValue) {
-		boolean multiline = NodeTypes.DE.equals(type) || NodeTypes.EN.equals(type);
+		boolean multiline = DE.equals(type) || EN.equals(type);
 		return multiline ? queryNewNodeTextMultilineValue(type, parent, oldValue) : queryNewNodeTextLineValue(type,
 			parent);
 	}
 
 	public String queryNewNodeTextLineValue(String type, Node parent) {
-		String value = JOptionPane.showInputDialog(dialogParent, "What is the value for " + type + "?",
-			"Set node value", JOptionPane.QUESTION_MESSAGE);
+		String value = showInputDialog(dialogParent, "What is the value for " + type + "?",
+			"Set node value", QUESTION_MESSAGE);
 		return value;
 	}
 
 	public String queryNewNodeTextMultilineValue(String type, Node parent, String oldValue) {
-		String value = Swing.showTextEditorDialog(dialogParent, oldValue, "Set node value");
+		String value = showTextEditorDialog(dialogParent, oldValue, "Set node value");
 		return value;
 	}
 
 	public void showNodeValueError(String error) {
 		String title = "Invalid node value";
-		JOptionPane.showMessageDialog(dialogParent, error, title, JOptionPane.ERROR_MESSAGE);
+		showMessageDialog(dialogParent, error, title, ERROR_MESSAGE);
 	}
 
 	public String queryNewNodeType(Node parent, Node template) {
@@ -118,8 +129,7 @@ public class SwingModelHelper {
 		}
 		String message = "Which node type would you like to add?";
 		String title = "Select node type";
-		String selectedNodeType = (String) JOptionPane.showInputDialog(dialogParent, message, title,
-			JOptionPane.QUESTION_MESSAGE, null, options, preselectedOption);
+		String selectedNodeType = (String) showInputDialog(dialogParent, message, title, QUESTION_MESSAGE, null, options, preselectedOption);
 		return selectedNodeType;
 	}
 
@@ -128,7 +138,7 @@ public class SwingModelHelper {
 	}
 
 	public Component createValueComponent(Node node) {
-		if (node.isType(NodeTypes.EN, NodeTypes.DE)) {
+		if (node.isType(EN, DE)) {
                         return createHtmlValueComponent(node.getValue());
                 }
 		return createTextValueComponent(node.getValue());

@@ -15,6 +15,7 @@
 package ilarkesto.swing;
 
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,7 +46,7 @@ public abstract class ATablePanel<T> extends JPanel {
 		scroller = new JScrollPane(table);
 
 		setLayout(new BorderLayout());
-		add(scroller, BorderLayout.CENTER);
+		add(scroller, CENTER);
 	}
 
 	protected abstract List<T> loadItems();
@@ -73,7 +74,7 @@ public abstract class ATablePanel<T> extends JPanel {
 	public List<T> getSelectedItems() {
 		List<T> items = model.getItems();
 		int[] selectedRows = table.getSelectedRows();
-		List<T> ret = new ArrayList<T>(selectedRows.length);
+		List<T> ret = new ArrayList<>(selectedRows.length);
 		for (int i = 0; i < selectedRows.length; i++) {
 			int row = selectedRows[i];
 			ret.add(items.get(row));

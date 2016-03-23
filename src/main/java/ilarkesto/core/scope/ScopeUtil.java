@@ -15,17 +15,20 @@
 package ilarkesto.core.scope;
 
 import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.getSimpleName;
+import static java.lang.Character.toLowerCase;
+import static java.lang.Character.toUpperCase;
 
 public class ScopeUtil {
 
 	public static String getComponentName(Class componentType) {
-		String name = Utl.getSimpleName(componentType);
-		name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+		String name = getSimpleName(componentType);
+		name = toLowerCase(name.charAt(0)) + name.substring(1);
 		return name;
 	}
 
 	public static String getComponentSimpleClassName(String name) {
-		return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+		return toUpperCase(name.charAt(0)) + name.substring(1);
 	}
 
 }

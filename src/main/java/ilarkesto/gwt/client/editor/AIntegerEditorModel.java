@@ -14,6 +14,8 @@
  */
 package ilarkesto.gwt.client.editor;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public abstract class AIntegerEditorModel extends AEditorModel<Integer> {
 
 	public abstract void increment();
@@ -29,7 +31,7 @@ public abstract class AIntegerEditorModel extends AEditorModel<Integer> {
 	}
 
 	public int getMax() {
-		return Integer.MAX_VALUE;
+		return MAX_VALUE;
 	}
 
 }

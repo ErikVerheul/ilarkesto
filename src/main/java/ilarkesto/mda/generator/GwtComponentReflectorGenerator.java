@@ -19,13 +19,14 @@ import ilarkesto.core.scope.Scope;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class GwtComponentReflectorGenerator extends AJavaClassGenerator implements NodeTypes {
 
-	private Node component;
-	private Node package_;
-	private Node gwtModule;
+	private final Node component;
+	private final Node package_;
+	private final Node gwtModule;
 
 	public GwtComponentReflectorGenerator(String srcPath, Node component) {
 		super(srcPath, true);
@@ -47,7 +48,7 @@ public class GwtComponentReflectorGenerator extends AJavaClassGenerator implemen
 		printInjections(out);
 		out.endProcedure();
 
-		out.beginProcedure("callInitializationMethods", Arrays.asList(component.getValue() + " component"));
+		out.beginProcedure("callInitializationMethods", asList(component.getValue() + " component"));
 		printInitializations(out);
 		out.endProcedure();
 

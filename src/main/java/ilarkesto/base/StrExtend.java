@@ -15,6 +15,8 @@
 package ilarkesto.base;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.base.UtlExtend.randomChar;
+import static ilarkesto.base.UtlExtend.randomInt;
 import ilarkesto.integration.links.LinkConverter;
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -22,26 +24,35 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.StringReader;
+import static java.lang.Character.isWhitespace;
+import static java.lang.Character.toUpperCase;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
+import static java.lang.Math.min;
+import static java.lang.String.valueOf;
+import static java.lang.System.arraycopy;
+import static java.lang.System.currentTimeMillis;
+import static java.lang.System.exit;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import org.mortbay.log.Log;
+import static org.mortbay.log.Log.warn;
 
 /**
- * Utilitiy methods for dealing with text/strings. Cutting, comparing, parsing, modifying.
+ * Utility methods for dealing with text/strings. Cutting, comparing, parsing, modifying.
  */
 public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static void main(String[] args) {
-		System.out.println(generateRandomParagraph());
-		System.exit(0);
+		out.println(generateRandomParagraph());
+		exit(0);
 	}
 
 	private static final char[] UNICODE_CHARS = new char[] { ue, UE, oe, OE, ae, AE, sz, EUR };
@@ -54,8 +65,8 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	private static final Object UIDLOCK = new Object();
 
 	public static String getCharsetFromHtml(String html, String defaultCharset) {
-		String charset = StrExtend.cutFromTo(html, "charset=", "\"");
-		if (StrExtend.isBlank(charset)) {
+		String charset = cutFromTo(html, "charset=", "\"");
+		if (isBlank(charset)) {
                         charset = defaultCharset;
                 }
 		return charset;
@@ -63,7 +74,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String[] tokenize(String s, String delimiter) {
 		StringTokenizer tok = new StringTokenizer(s, delimiter);
-		LinkedList<String> ll = new LinkedList<String>();
+		LinkedList<String> ll = new LinkedList<>();
 		while (tok.hasMoreTokens()) {
 			ll.add(tok.nextToken());
 		}
@@ -105,7 +116,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String generateRandomParagraph(int minSentences, int maxSentences, int minWords, int maxWords,
 			int minWordLenght, int maxWordLenght) {
-		int sentences = UtlExtend.randomInt(minSentences, maxSentences);
+		int sentences = randomInt(minSentences, maxSentences);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < sentences; i++) {
 			String sentence = generateRandomSentence(minWords, maxWords, minWordLenght, maxWordLenght);
@@ -126,10 +137,10 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String generateRandomSentence(int minWords, int maxWords, int minWordLenght, int maxWordLenght) {
-		int words = UtlExtend.randomInt(minWords, maxWords);
+		int words = randomInt(minWords, maxWords);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < words; i++) {
-			boolean uppercase = i == 0 || UtlExtend.randomInt(0, 9) == 0;
+			boolean uppercase = i == 0 || randomInt(0, 9) == 0;
 			String word = generateRandomWord(minWordLenght, maxWordLenght, uppercase);
 			if (i != 0) {
                                 sb.append(" ");
@@ -142,7 +153,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	public static String generateRandomWord(int minLength, int maxLength, boolean uppercase) {
 		String vovels = "aeiouy";
 		String consonants = "bcdfghjklmnpqrstvwxz";
-		int length = UtlExtend.randomInt(minLength, maxLength);
+		int length = randomInt(minLength, maxLength);
 		String word = generateRandomWord(vovels, consonants, length);
 		return uppercase ? uppercaseFirstLetter(word) : word;
 	}
@@ -152,7 +163,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String generateRandomWord(String availableChars, int minLength, int maxLength) {
-		int length = UtlExtend.randomInt(minLength, maxLength);
+		int length = randomInt(minLength, maxLength);
 		return generateRandomWord(availableChars, length);
 	}
 
@@ -161,14 +172,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		StringBuilder password = new StringBuilder();
 		String charSet = charSet1;
 		for (int i = 0; i < length; i++) {
-			if (UtlExtend.randomInt(0, 8) != 0) {
+			if (randomInt(0, 8) != 0) {
 				if (charSet == null ? charSet1 == null : charSet.equals(charSet1)) {
 					charSet = charSet2;
 				} else {
 					charSet = charSet1;
 				}
 			}
-			password.append(UtlExtend.randomChar(charSet));
+			password.append(randomChar(charSet));
 		}
 		return password.toString();
 	}
@@ -176,7 +187,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	public static String generateRandomWord(String availableChars, int length) {
 		StringBuilder password = new StringBuilder();
 		for (int i = 0; i < length; i++) {
-			password.append(UtlExtend.randomChar(availableChars));
+			password.append(randomChar(availableChars));
 		}
 		return password.toString();
 	}
@@ -262,7 +273,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String formatWithThousandsSeparator(long value, String separator) {
-		return formatWithThousandsSeparator(String.valueOf(value), separator);
+		return formatWithThousandsSeparator(valueOf(value), separator);
 	}
 
 	public static String formatWithThousandsSeparator(String s, String separator) {
@@ -338,14 +349,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String replaceUnicodeCharsWithJavaNotation(String s) {
-		s = s.replace(String.valueOf(ue), "\\u00FC");
-		s = s.replace(String.valueOf(UE), "\\u00DC");
-		s = s.replace(String.valueOf(oe), "\\u00F6");
-		s = s.replace(String.valueOf(OE), "\\u00D6");
-		s = s.replace(String.valueOf(ae), "\\u00E4");
-		s = s.replace(String.valueOf(AE), "\\u00C4");
-		s = s.replace(String.valueOf(sz), "\\u00DF");
-		s = s.replace(String.valueOf(EUR), "\\u0080");
+		s = s.replace(valueOf(ue), "\\u00FC");
+		s = s.replace(valueOf(UE), "\\u00DC");
+		s = s.replace(valueOf(oe), "\\u00F6");
+		s = s.replace(valueOf(OE), "\\u00D6");
+		s = s.replace(valueOf(ae), "\\u00E4");
+		s = s.replace(valueOf(AE), "\\u00C4");
+		s = s.replace(valueOf(sz), "\\u00DF");
+		s = s.replace(valueOf(EUR), "\\u0080");
 		return s;
 	}
 
@@ -433,7 +444,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		for (String find : stringsToFind) {
 			int i = s.indexOf(find, fromIndex);
 			if (i >= 0) {
-                                idx = Math.min(idx, i);
+                                idx = min(idx, i);
                         }
 		}
 		idx = idx == Integer.MAX_VALUE ? -1 : idx;
@@ -504,7 +515,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static Collection<String> parseCommaSeparatedString(String s) {
-		Collection<String> result = new ArrayList<String>();
+		Collection<String> result = new ArrayList<>();
 		if (s == null) {
                         return result;
                 }
@@ -575,7 +586,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 					continue;
 				}
 				char afterNext = s.charAt(i + 2);
-				int ch = Integer.valueOf(String.valueOf(next) + afterNext, 16);
+				int ch = valueOf(valueOf(next) + afterNext, 16);
 				sb.append((char) ch);
 				i += 2;
 			} else if (c == '_') {
@@ -600,7 +611,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String uppercaseFirstLetter(String s) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(Character.toUpperCase(s.charAt(0)));
+		sb.append(toUpperCase(s.charAt(0)));
 		sb.append(s.substring(1));
 		return sb.toString();
 	}
@@ -618,7 +629,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 			sb.append(sa[0]);
 		}
 		for (int i = ignoreFirst ? 1 : 0; i < sa.length; i++) {
-			sb.append(Character.toUpperCase(sa[i].charAt(0)));
+			sb.append(toUpperCase(sa[i].charAt(0)));
 			sb.append(sa[i].substring(1));
 		}
 		return sb.toString();
@@ -679,7 +690,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String[] tokenizeWithLongDelimiter(String s, String delimiter) {
-		List<String> sl = new ArrayList<String>();
+		List<String> sl = new ArrayList<>();
 		int idx;
 		int offset = 0;
 		while ((idx = s.indexOf(delimiter, offset)) >= 0) {
@@ -737,14 +748,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		s = s.replace('&', '@');
 		s = s.replace('?', '@');
 		s = s.replace('=', '_');
-		s = s.replace(String.valueOf(ae), "ae");
-		s = s.replace(String.valueOf(AE), "Ae");
-		s = s.replace(String.valueOf(ue), "ue");
-		s = s.replace(String.valueOf(UE), "Ue");
-		s = s.replace(String.valueOf(oe), "oe");
-		s = s.replace(String.valueOf(OE), "Oe");
-		s = s.replace(String.valueOf(sz), "ss");
-		s = s.replace(String.valueOf(EUR), "EUR");
+		s = s.replace(valueOf(ae), "ae");
+		s = s.replace(valueOf(AE), "Ae");
+		s = s.replace(valueOf(ue), "ue");
+		s = s.replace(valueOf(UE), "Ue");
+		s = s.replace(valueOf(oe), "oe");
+		s = s.replace(valueOf(OE), "Oe");
+		s = s.replace(valueOf(sz), "ss");
+		s = s.replace(valueOf(EUR), "EUR");
 		return s;
 	}
 
@@ -772,7 +783,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static List<String> listRelativeFiles(String root, boolean recurse, boolean replaceToUnixSlash,
 			boolean ignoreDirs, FileFilter filter) {
-		List<String> sl = new ArrayList<String>();
+		List<String> sl = new ArrayList<>();
 		listRelateveFiles(sl, root, "", recurse, replaceToUnixSlash, ignoreDirs, true, filter);
 		return sl;
 	}
@@ -790,22 +801,21 @@ public class StrExtend extends ilarkesto.core.base.Str {
                         return;
                 }
 
-		for (int i = 0; i < files.length; i++) {
-			if (filter != null && !filter.accept(files[i])) {
+                for (File file : files) {
+                        if (filter != null && !filter.accept(file)) {
                                 continue;
                         }
-			boolean dir = files[i].isDirectory();
-			if (!dir || !ignoreDirs) {
-				String s = prefix + files[i].getName();
-				if (allowDuplicates || !container.contains(s)) {
-					container.add(s);
-				}
-			}
-			if (dir && recurse) {
-				listRelateveFiles(container, root + "/" + files[i].getName(), prefix + files[i].getName() + "/",
-					recurse, replaceToUnixSlash, ignoreDirs, allowDuplicates, filter);
-			}
-		}
+                        boolean dir = file.isDirectory();
+                        if (!dir || !ignoreDirs) {
+                                String s = prefix + file.getName();
+                                if (allowDuplicates || !container.contains(s)) {
+                                        container.add(s);
+                                }
+                        }
+                        if (dir && recurse) {
+                                listRelateveFiles(container, root + "/" + file.getName(), prefix + file.getName() + "/", recurse, replaceToUnixSlash, ignoreDirs, allowDuplicates, filter);
+                        }
+                }
 	}
 
 	public static boolean isLetterOrDigit(String s) {
@@ -881,7 +891,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 			StringBuilder sb = new StringBuilder();
 			int startIdx = idx;
 			String[] openClose = new String[] { opener, closer };
-			int maxLen = Math.min(opener.length(), closer.length());
+			int maxLen = min(opener.length(), closer.length());
 
 			while (stack > 0) {
 				if (startIdx == s.length() - 1) {
@@ -1002,7 +1012,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 					cPrev = c;
 					continue;
 				}
-				if (c == '\n' || c == '\r' || (Character.isWhitespace(c) && Character.isWhitespace(cPrev))) {
+				if (c == '\n' || c == '\r' || (isWhitespace(c) && isWhitespace(cPrev))) {
 					// skip
 				} else {
 					sb.append(c);
@@ -1014,14 +1024,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		s = sb.toString();
 
 		s = s.replace("&nbsp;", " ");
-		s = s.replace("&auml;", String.valueOf(ae));
-		s = s.replace("&uuml;", String.valueOf(ue));
-		s = s.replace("&ouml;", String.valueOf(oe));
-		s = s.replace("&Auml;", String.valueOf(AE));
-		s = s.replace("&Uuml;", String.valueOf(UE));
-		s = s.replace("&Ouml;", String.valueOf(OE));
-		s = s.replace("&szlig;", String.valueOf(sz));
-		s = s.replace("&euro;", String.valueOf(EUR));
+		s = s.replace("&auml;", valueOf(ae));
+		s = s.replace("&uuml;", valueOf(ue));
+		s = s.replace("&ouml;", valueOf(oe));
+		s = s.replace("&Auml;", valueOf(AE));
+		s = s.replace("&Uuml;", valueOf(UE));
+		s = s.replace("&Ouml;", valueOf(OE));
+		s = s.replace("&szlig;", valueOf(sz));
+		s = s.replace("&euro;", valueOf(EUR));
 		s = s.replace("&amp;", "&");
 		s = s.replace("&quot;", "\"");
 		s = s.replace("&lt;", "<");
@@ -1104,14 +1114,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 		s = sb.toString();
 		s = s.replace("&nbsp;", " ");
-		s = s.replace("&auml;", String.valueOf(ae));
-		s = s.replace("&uuml;", String.valueOf(ue));
-		s = s.replace("&ouml;", String.valueOf(oe));
-		s = s.replace("&Auml;", String.valueOf(AE));
-		s = s.replace("&Uuml;", String.valueOf(UE));
-		s = s.replace("&Ouml;", String.valueOf(OE));
-		s = s.replace("&szlig;", String.valueOf(sz));
-		s = s.replace("&euro;", String.valueOf(EUR));
+		s = s.replace("&auml;", valueOf(ae));
+		s = s.replace("&uuml;", valueOf(ue));
+		s = s.replace("&ouml;", valueOf(oe));
+		s = s.replace("&Auml;", valueOf(AE));
+		s = s.replace("&Uuml;", valueOf(UE));
+		s = s.replace("&Ouml;", valueOf(OE));
+		s = s.replace("&szlig;", valueOf(sz));
+		s = s.replace("&euro;", valueOf(EUR));
 		s = s.replace("&amp;", "&");
 		s = s.replace("&quot;", "\"");
 		s = s.replace("&lt;", "<");
@@ -1122,8 +1132,8 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String[] remove(int index, String[] elements) {
 		String[] sa = new String[elements.length - 1];
-		System.arraycopy(elements, 0, sa, 0, index);
-		System.arraycopy(elements, index + 1, sa, index, sa.length - index);
+		arraycopy(elements, 0, sa, 0, index);
+		arraycopy(elements, index + 1, sa, index, sa.length - index);
 		return sa;
 	}
 
@@ -1146,17 +1156,17 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String[] append(String newElement, String[] elements) {
 		String[] sa = new String[elements.length + 1];
-		System.arraycopy(elements, 0, sa, 0, elements.length);
+		arraycopy(elements, 0, sa, 0, elements.length);
 		sa[elements.length] = newElement;
 		return sa;
 	}
 
 	public static boolean contains(String textToLookFor, String[] textsToLookIn) {
-		for (int i = 0; i < textsToLookIn.length; i++) {
-			if (textsToLookIn[i].equals(textToLookFor)) {
+                for (String textsToLookIn1 : textsToLookIn) {
+                        if (textsToLookIn1.equals(textToLookFor)) {
                                 return true;
                         }
-		}
+                }
 		return false;
 	}
 
@@ -1251,7 +1261,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static long generateUID(long idTimeSub) {
 		synchronized (UIDLOCK) {
-			long id = System.currentTimeMillis() - idTimeSub;
+			long id = currentTimeMillis() - idTimeSub;
 			while (id <= lastId) {
                                 id++;
                         }
@@ -1280,7 +1290,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 		int factor = 100 * 100 * 100 * 100;
 		StringTokenizer tokenizer = new StringTokenizer(s, ".");
 		while (tokenizer.hasMoreTokens()) {
-			int i = Integer.parseInt(tokenizer.nextToken());
+			int i = parseInt(tokenizer.nextToken());
 			v += i * factor;
 			factor = factor / 100;
 		}
@@ -1296,13 +1306,13 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static String toString(String message, String key, Object value) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put(key, value);
 		return toString(message, map);
 	}
 
 	public static String toString(String message, String key1, Object value1, String key2, Object value2) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put(key1, value1);
 		map.put(key2, value2);
 		return toString(message, map);
@@ -1310,7 +1320,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String toString(String message, String key1, Object value1, String key2, Object value2, String key3,
 			Object value3) {
-		HashMap<String, Object> map = new HashMap<String, Object>(); // TODO orderedMap
+		HashMap<String, Object> map = new HashMap<>(); // TODO orderedMap
 		map.put(key1, value1);
 		map.put(key2, value2);
 		map.put(key3, value3);
@@ -1320,10 +1330,9 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	public static String toString(String message, Map<String, Object> map) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(message);
-		for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-			Map.Entry entry = (Map.Entry) iter.next();
-			sb.append("\n  ").append(entry.getKey()).append(" = ").append(format(entry.getValue()));
-		}
+                for (Map.Entry entry : map.entrySet()) {
+                        sb.append("\n  ").append(entry.getKey()).append(" = ").append(format(entry.getValue()));
+                }
 		return sb.toString();
 	}
 
@@ -1345,21 +1354,20 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static Collection<Object[]> toCollection(Object[] oa) {
-		ArrayList<Object[]> al = new ArrayList<Object[]>(oa.length);
-		for (int i = 0; i < oa.length; i++) {
-			al.add(oa);
-		}
+		ArrayList<Object[]> al = new ArrayList<>(oa.length);
+                for (Object oa1 : oa) {
+                        al.add(oa);
+                }
 		return al;
 	}
 
 	public static String[] merge(String[][] saa) {
-		LinkedList<String> ll = new LinkedList<String>();
-		for (int x = 0; x < saa.length; x++) {
-			String[] sa = saa[x];
-			for (int y = 0; y <= sa.length; y++) {
+		LinkedList<String> ll = new LinkedList<>();
+                for (String[] sa : saa) {
+                        for (int y = 0; y <= sa.length; y++) {
 				ll.add(sa[y]);
 			}
-		}
+                }
 		return toStringArray(ll);
 	}
 
@@ -1372,7 +1380,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static String[] subarray(String[] sa, int beginIndex, int length) {
 		String[] result = new String[length];
-		System.arraycopy(sa, beginIndex, result, 0, length);
+		arraycopy(sa, beginIndex, result, 0, length);
 		return result;
 	}
 
@@ -1388,7 +1396,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 			text = cutHtmlAndHeaderAndBody(text);
 			text = removeHtmlTags(text).trim();
 		} else {
-			text = StrExtend.getFirstLine(text);
+			text = getFirstLine(text);
 		}
 		text = getFirstLine(text, cutAfterLength, appendAfterCut);
 		return text;
@@ -1457,10 +1465,10 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static List<String> tokenizeString(String s) {
 		if (s == null) {
-                        return Collections.emptyList();
+                        return emptyList();
                 }
 		StringTokenizer tok = new StringTokenizer(s);
-		LinkedList<String> ll = new LinkedList<String>();
+		LinkedList<String> ll = new LinkedList<>();
 		while (tok.hasMoreTokens()) {
 			ll.add(tok.nextToken());
 		}
@@ -1542,7 +1550,7 @@ public class StrExtend extends ilarkesto.core.base.Str {
 	}
 
 	public static ArrayList<String> splitWordLineToList(String line, int maxlen) {
-		ArrayList<String> al = new ArrayList<String>();
+		ArrayList<String> al = new ArrayList<>();
 
 		while (line.length() > maxlen) {
 			int idx = line.substring(0, maxlen).lastIndexOf(' ');
@@ -1622,11 +1630,10 @@ public class StrExtend extends ilarkesto.core.base.Str {
 				String lineprefix = parseMailQuotationPrefix(line);
 				int lplen = lineprefix.length();
 				ArrayList<String> al = splitWordLineToList(line.substring(lplen), maxlen - lplen);
-				for (int j = 0; j < al.size(); j++) {
-					String l = al.get(j);
-					l = trimRight(l);
-					sb.append(prefix).append(lineprefix).append(l).append("\n");
-				}
+                                for (String l : al) {
+                                        l = trimRight(l);
+                                        sb.append(prefix).append(lineprefix).append(l).append("\n");
+                                }
 			} else {
 				sb.append(prefix).append(line).append("\n");
 			}
@@ -1636,14 +1643,14 @@ public class StrExtend extends ilarkesto.core.base.Str {
 
 	public static List<String> toStringList(String text) {
 		BufferedReader in = new BufferedReader(new StringReader(text));
-		List<String> lines = new ArrayList<String>();
+		List<String> lines = new ArrayList<>();
 		String line;
 		try {
 			while ((line = in.readLine()) != null) {
 				lines.add(line);
 			}
 		} catch (IOException e) {
-                        Log.warn(e);
+                        warn(e);
 		}
 		return lines;
 	}

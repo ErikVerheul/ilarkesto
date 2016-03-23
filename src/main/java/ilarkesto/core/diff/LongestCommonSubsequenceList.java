@@ -15,6 +15,7 @@
 package ilarkesto.core.diff;
 
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.LinkedList;
 import java.util.List;
 

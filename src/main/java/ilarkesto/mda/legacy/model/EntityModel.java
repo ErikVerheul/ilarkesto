@@ -14,18 +14,18 @@
  */
 package ilarkesto.mda.legacy.model;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class EntityModel extends DatobModel {
 
-	private List<ActionModel> actions = new ArrayList<ActionModel>();
+	private List<ActionModel> actions = new ArrayList<>();
 	private boolean ownable;
 	private EntityModel userModel;
 	private boolean viewProtected = false;
 	private boolean editProtected;
-	private List<BackReferenceModel> backReferences = new ArrayList<BackReferenceModel>();
+	private List<BackReferenceModel> backReferences = new ArrayList<>();
 
 	public EntityModel(String name, String packageName) {
 		super(name, packageName);
@@ -45,7 +45,7 @@ public final class EntityModel extends DatobModel {
 
 	public ActionModel addAction(String name) {
 		ActionModel action = new ActionModel(name, getPackageName());
-		action.addParameter(StrExtend.lowercaseFirstLetter(getName()), this);
+		action.addParameter(lowercaseFirstLetter(getName()), this);
 		actions.add(action);
 		return action;
 	}
@@ -61,7 +61,7 @@ public final class EntityModel extends DatobModel {
 	}
 
 	public String getDaoName() {
-		return StrExtend.lowercaseFirstLetter(getName()) + "Dao";
+		return lowercaseFirstLetter(getName()) + "Dao";
 	}
 
 	public String getDaoClass() {

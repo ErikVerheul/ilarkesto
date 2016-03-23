@@ -16,6 +16,7 @@ package ilarkesto.integration.links;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class MultiLinkConverter implements LinkConverter {
@@ -23,10 +24,10 @@ public class MultiLinkConverter implements LinkConverter {
 	public final static MultiLinkConverter ALL = new MultiLinkConverter().add(new ImageLinkConverter(),
 		new YoutubeLinkConverter(), new VimeoLinkConverter());
 
-	private List<LinkConverter> converters = new ArrayList<LinkConverter>();
+	private List<LinkConverter> converters = new ArrayList<>();
 
 	public MultiLinkConverter add(LinkConverter... converters) {
-                this.converters.addAll(Arrays.asList(converters));
+                this.converters.addAll(asList(converters));
 		return this;
 	}
 

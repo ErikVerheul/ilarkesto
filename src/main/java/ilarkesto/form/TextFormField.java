@@ -14,6 +14,8 @@
  */
 package ilarkesto.form;
 
+import static ilarkesto.form.Form.BUTTON_PREFIX;
+import static ilarkesto.form.Form.INPUTASSISTANT_BUTTON_NAME_PREFIX;
 import ilarkesto.form.validator.Validator;
 import java.util.Collection;
 import java.util.Map;
@@ -32,8 +34,8 @@ public class TextFormField extends AFormField {
 
 	public TextFormField(String name) {
 		super(name);
-		inputAssistantButton = (InputAssistantButton) new InputAssistantButton(Form.BUTTON_PREFIX
-				+ Form.INPUTASSISTANT_BUTTON_NAME_PREFIX + name).setValidateForm(false).setLabel("Auswahl...").setIcon(
+		inputAssistantButton = (InputAssistantButton) new InputAssistantButton(BUTTON_PREFIX
+				+ INPUTASSISTANT_BUTTON_NAME_PREFIX + name).setValidateForm(false).setLabel("Auswahl...").setIcon(
 
 		"inputAssistant");
 	}

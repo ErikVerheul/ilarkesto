@@ -37,7 +37,7 @@ public abstract class ADatob implements Searchable {
 	protected static AUserDao userDao;
 
 	public static void setUserDao(AUserDao userDao) {
-		ADatob.userDao = userDao;
+		userDao = userDao;
 	}
 
 	// --- ---
@@ -128,7 +128,7 @@ public abstract class ADatob implements Searchable {
 
 	protected final <S extends AStructure> Set<S> cloneValueObjects(Collection<S> strucktures,
 			StructureManager<S> manager) {
-		Set<S> ret = new HashSet<S>();
+		Set<S> ret = new HashSet<>();
 		for (S s : strucktures) {
 			ret.add((S) s.clone(manager));
 		}
@@ -136,7 +136,7 @@ public abstract class ADatob implements Searchable {
 	}
 
 	protected static Set<String> getIdsAsSet(Collection<? extends AEntity> entities) {
-		Set<String> result = new HashSet<String>(entities.size());
+		Set<String> result = new HashSet<>(entities.size());
 		for (AEntity entity : entities) {
                         result.add(entity.getId());
                 }
@@ -144,7 +144,7 @@ public abstract class ADatob implements Searchable {
 	}
 
 	protected static List<String> getIdsAsList(Collection<? extends AEntity> entities) {
-		List<String> result = new ArrayList<String>(entities.size());
+		List<String> result = new ArrayList<>(entities.size());
 		for (AEntity entity : entities) {
                         result.add(entity.getId());
                 }
@@ -190,7 +190,7 @@ public abstract class ADatob implements Searchable {
 		}
 
 		public void ensureIntegrityOfStructures(Collection<? extends AStructure> structures) {
-			for (AStructure structure : new ArrayList<AStructure>(structures)) {
+			for (AStructure structure : new ArrayList<>(structures)) {
 				structure.setManager(this);
 				structure.ensureIntegrity();
 			}

@@ -14,6 +14,7 @@
  */
 package ilarkesto.form;
 
+import static java.lang.Float.parseFloat;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class FloatFormField extends AFormField {
 		s = s.replace(".", "");
 		s = s.replace(',', '.');
 		try {
-			return Float.parseFloat(s);
+			return parseFloat(s);
 		} catch (Exception ex) {
 			return null;
 		}

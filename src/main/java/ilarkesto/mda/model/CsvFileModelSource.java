@@ -17,18 +17,21 @@ package ilarkesto.mda.model;
 import ilarkesto.core.logging.Log;
 import ilarkesto.io.CsvParser;
 import ilarkesto.io.CsvWriter;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.writeFile;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.StringWriter;
-import java.util.Arrays;
+import java.io.UnsupportedEncodingException;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class CsvFileModelSource implements ModelSource {
 
-	private static Log log = Log.get(CsvFileModelSource.class);
+	private static final Log log = Log.get(CsvFileModelSource.class);
 
-	private String charset = IO.UTF_8;
-	private File file;
+	private final String charset = UTF_8;
+	private final File file;
 
 	public CsvFileModelSource(File file) {
 		super();
@@ -39,11 +42,11 @@ public class CsvFileModelSource implements ModelSource {
 	public void save(Model model) {
 		StringWriter sw = new StringWriter();
 		CsvWriter out = new CsvWriter(sw);
-		out.writeHeaders(Arrays.asList("id", "parentId", "type", "value"));
+		out.writeHeaders(asList("id", "parentId", "type", "value"));
 		writeNode(model.getRoot(), out);
 
 		log.info("Writing file:", file.getPath());
-		IO.writeFile(file, sw.toString(), charset);
+		writeFile(file, sw.toString(), charset);
 	}
 
 	private void writeNode(Node node, CsvWriter out) {
@@ -70,7 +73,7 @@ public class CsvFileModelSource implements ModelSource {
 		CsvParser parser;
 		try {
 			parser = new CsvParser(file, charset, true);
-		} catch (Exception ex) {
+		} catch (FileNotFoundException | UnsupportedEncodingException ex) {
 			throw new RuntimeException(ex);
 		}
 

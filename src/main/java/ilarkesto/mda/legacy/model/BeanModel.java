@@ -14,7 +14,9 @@
  */
 package ilarkesto.mda.legacy.model;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static java.lang.Character.isUpperCase;
+import static java.lang.System.err;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -23,11 +25,11 @@ import java.util.Set;
 
 public abstract class BeanModel extends AModel {
 
-	private String packageName;
-	private Set<DependencyModel> dependencies = new LinkedHashSet<DependencyModel>();
-	private Set<CompositeModel> composites = new LinkedHashSet<CompositeModel>();
-	private Set<EventModel> events = new LinkedHashSet<EventModel>();
-	private List<PredicateModel> predicates = new ArrayList<PredicateModel>();
+	private final String packageName;
+	private final Set<DependencyModel> dependencies = new LinkedHashSet<>();
+	private final Set<CompositeModel> composites = new LinkedHashSet<>();
+	private final Set<EventModel> events = new LinkedHashSet<>();
+	private final List<PredicateModel> predicates = new ArrayList<>();
 	private boolean _abstract;
 
 	private BeanModel superbean;
@@ -87,10 +89,10 @@ public abstract class BeanModel extends AModel {
 	}
 
 	public CompositeModel addComposite(String type) {
-		if (!Character.isUpperCase(type.charAt(0))) {
+		if (!isUpperCase(type.charAt(0))) {
                         throw new RuntimeException("Type needs to start with uppercase character: " + type);
                 }
-		return addComposite(type, StrExtend.lowercaseFirstLetter(type));
+		return addComposite(type, lowercaseFirstLetter(type));
 	}
 
 	public EventModel addEvent(String name) {
@@ -133,7 +135,7 @@ public abstract class BeanModel extends AModel {
 	}
 
 	protected DependencyModel addDependency(String caller, String type, String name) {
-		System.err.println("BeanModel:addDependency (caller, type, name): " + caller + ", " + type + ", " + name);
+		err.println("BeanModel:addDependency (caller, type, name): " + caller + ", " + type + ", " + name);
 		DependencyModel dependencyModel = new DependencyModel(type, name);
 		addDependency(dependencyModel);
 		return dependencyModel;

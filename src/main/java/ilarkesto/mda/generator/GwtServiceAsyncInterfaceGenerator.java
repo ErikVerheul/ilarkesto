@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GwtServiceAsyncInterfaceGenerator extends AJavaClassGenerator implements NodeTypes {
 
-	private Node module;
+	private final Node module;
 
 	public GwtServiceAsyncInterfaceGenerator(String srcPath, Node module) {
 		super(srcPath, true);

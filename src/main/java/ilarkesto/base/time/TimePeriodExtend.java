@@ -16,6 +16,11 @@ package ilarkesto.base.time;
 
 import ilarkesto.base.TmExtend;
 import ilarkesto.core.time.Time;
+import static ilarkesto.core.time.Tm.DAY;
+import static ilarkesto.core.time.Tm.HOUR;
+import static ilarkesto.core.time.Tm.MINUTE;
+import static ilarkesto.core.time.Tm.SECOND;
+import static ilarkesto.core.time.Tm.WEEK;
 
 public final class TimePeriodExtend extends ilarkesto.core.time.TimePeriod {
 
@@ -75,23 +80,23 @@ public final class TimePeriodExtend extends ilarkesto.core.time.TimePeriod {
 	}
 
 	public static TimePeriodExtend seconds(int seconds) {
-		return new TimePeriodExtend(seconds * TmExtend.SECOND);
+		return new TimePeriodExtend(seconds * SECOND);
 	}
 
 	public static TimePeriodExtend minutes(int minutes) {
-		return new TimePeriodExtend(minutes * TmExtend.MINUTE);
+		return new TimePeriodExtend(minutes * MINUTE);
 	}
 
 	public static TimePeriodExtend hours(int hours) {
-		return new TimePeriodExtend(hours * TmExtend.HOUR);
+		return new TimePeriodExtend(hours * HOUR);
 	}
 
 	public static TimePeriodExtend days(int days) {
-		return new TimePeriodExtend(days * TmExtend.DAY);
+		return new TimePeriodExtend(days * DAY);
 	}
 
 	public static TimePeriodExtend weeks(int weeks) {
-		return new TimePeriodExtend(weeks * TmExtend.WEEK);
+		return new TimePeriodExtend(weeks * WEEK);
 	}
 
 }

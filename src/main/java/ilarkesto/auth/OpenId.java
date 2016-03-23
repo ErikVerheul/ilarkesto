@@ -14,7 +14,10 @@
  */
 package ilarkesto.auth;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.cutFrom;
+import static ilarkesto.core.base.Str.cutFromTo;
+import static ilarkesto.core.base.Str.cutTo;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
 import java.util.Iterator;
 import java.util.List;
@@ -31,10 +34,11 @@ import org.openid4java.message.AuthSuccess;
 import org.openid4java.message.MessageException;
 import org.openid4java.message.Parameter;
 import org.openid4java.message.ParameterList;
-import org.openid4java.message.ax.AxMessage;
+import static org.openid4java.message.ax.AxMessage.OPENID_NS_AX;
 import org.openid4java.message.ax.FetchRequest;
+import static org.openid4java.message.ax.FetchRequest.createFetchRequest;
 import org.openid4java.message.ax.FetchResponse;
-import org.openid4java.util.HttpClientFactory;
+import static org.openid4java.util.HttpClientFactory.setProxyProperties;
 import org.openid4java.util.ProxyProperties;
 
 /**
@@ -65,28 +69,28 @@ public class OpenId {
                 }
 		String name = openId;
 		if (name.startsWith(GOOGLE + "?id=")) {
-                        return Str.cutFrom(name, "=");
+                        return cutFrom(name, "=");
                 }
 		if (name.startsWith(YAHOO)) {
-                        return Str.cutFrom(name, ".com/");
+                        return cutFrom(name, ".com/");
                 }
 		if (name.startsWith("https://login.launchpad.net/+id/")) {
-                        return Str.cutFrom(name, "+id/");
+                        return cutFrom(name, "+id/");
                 }
 		if (name.startsWith("https://") && name.endsWith(".pip.verisignlabs.com/")) {
-                        return Str.cutFromTo(name, "//", ".pip");
+                        return cutFromTo(name, "//", ".pip");
                 }
 		if (name.startsWith("http://openid.aol.com/")) {
-                        return Str.cutFrom(name, ".com/");
+                        return cutFrom(name, ".com/");
                 }
 		if (name.startsWith("https://") && name.endsWith(".myvidoop.com/")) {
-                        return Str.cutFromTo(name, "//", ".myvidoop");
+                        return cutFromTo(name, "//", ".myvidoop");
                 }
 		if (name.contains("/")) {
-                        name = Str.cutFrom(name, "/");
+                        name = cutFrom(name, "/");
                 }
 		if (name.endsWith(".myopenid.com/")) {
-                        name = Str.cutTo(name, ".");
+                        name = cutTo(name, ".");
                 }
 		return name;
 	}
@@ -103,7 +107,7 @@ public class OpenId {
 			boolean fetchEmail, boolean emailRequired) {
 		AuthRequest authReq = createAuthenticationRequest(openId, returnUrl, session);
 
-		FetchRequest fetch = FetchRequest.createFetchRequest();
+		FetchRequest fetch = createFetchRequest();
 		if (fetchNickname) {
                         addAttribute(fetch, "nickname", getNicknameFetchRequestAttribute(openId), nicknameRequired);
                 }
@@ -152,7 +156,7 @@ public class OpenId {
 	}
 
 	public static void appendFetchRequest(AuthRequest authReq, boolean required, String... attributes) {
-		FetchRequest fetch = FetchRequest.createFetchRequest();
+		FetchRequest fetch = createFetchRequest();
 		for (String attribute : attributes) {
 			addAttribute(fetch, attribute, attribute, required);
 		}
@@ -239,12 +243,12 @@ public class OpenId {
 
 	public static String getEmail(VerificationResult verification) {
 		String value = getFetchResponseAttribute(verification, "email");
-		return Str.isBlank(value) ? null : value;
+		return isBlank(value) ? null : value;
 	}
 
 	public static String getFullname(VerificationResult verification) {
 		String value = getFetchResponseAttribute(verification, "fullname");
-		if (Str.isBlank(value)) {
+		if (isBlank(value)) {
                         return null;
                 }
 		if (value.equals(getOpenId(verification))) {
@@ -255,7 +259,7 @@ public class OpenId {
 
 	public static String getNickname(VerificationResult verification) {
 		String value = getFetchResponseAttribute(verification, "nickname");
-		if (Str.isBlank(value)) {
+		if (isBlank(value)) {
                         return null;
                 }
 		if (value.equals(getOpenId(verification))) {
@@ -276,7 +280,7 @@ public class OpenId {
 		if (id == null || !id.contains("#")) {
                         return id;
                 }
-		return Str.cutTo(id, "#");
+		return cutTo(id, "#");
 	}
 
 	public static String getFetchResponseAttribute(VerificationResult verification, String attributeAlias) {
@@ -284,12 +288,12 @@ public class OpenId {
                         return null;
                 }
 		AuthSuccess authSuccess = (AuthSuccess) verification.getAuthResponse();
-		if (!authSuccess.hasExtension(AxMessage.OPENID_NS_AX)) {
+		if (!authSuccess.hasExtension(OPENID_NS_AX)) {
                         return null;
                 }
 		FetchResponse fetchResp;
 		try {
-			fetchResp = (FetchResponse) authSuccess.getExtension(AxMessage.OPENID_NS_AX);
+			fetchResp = (FetchResponse) authSuccess.getExtension(OPENID_NS_AX);
 		} catch (MessageException ex) {
 			throw new RuntimeException("Reading fetch response from OpenID callback failed.", ex);
 		}
@@ -323,7 +327,7 @@ public class OpenId {
 		ProxyProperties proxyProps = new ProxyProperties();
 		proxyProps.setProxyHostName(hostname);
 		proxyProps.setProxyPort(port);
-		HttpClientFactory.setProxyProperties(proxyProps);
+		setProxyProperties(proxyProps);
 	}
 
 }

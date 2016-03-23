@@ -22,7 +22,7 @@ import java.util.List;
 public class ListFiles extends AJob<List<File>> {
 
 	private File rootDir;
-	private List<File> result = new ArrayList<File>();
+	private List<File> result = new ArrayList<>();
 
 	private boolean recurse;
 	private boolean includeDirs;

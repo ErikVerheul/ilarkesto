@@ -14,8 +14,9 @@
  */
 package ilarkesto.webapp;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.webapp.AWebApplication.get;
 import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public abstract class AServlet<A extends AWebApplication, S extends AWebSession> extends HttpServlet {
 
-	private static Log log = Log.get(AServlet.class);
+	private static final Log log = Log.get(AServlet.class);
 
 	protected A webApplication;
 
@@ -42,7 +43,7 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 	@Override
 	protected final void doGet(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
 			throws ServletException, IOException {
-		RequestWrapper<S> req = new RequestWrapper<S>(httpRequest, httpResponse);
+		RequestWrapper<S> req = new RequestWrapper<>(httpRequest, httpResponse);
 		if (!init(req)) {
                         return;
                 }
@@ -56,7 +57,7 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 	@Override
 	protected final void doPost(HttpServletRequest httpRequest, HttpServletResponse httpResponse)
 			throws ServletException, IOException {
-		RequestWrapper<S> req = new RequestWrapper<S>(httpRequest, httpResponse);
+		RequestWrapper<S> req = new RequestWrapper<>(httpRequest, httpResponse);
 		if (!init(req)) {
                         return;
                 }
@@ -86,7 +87,7 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 
 	private void handleError(Throwable ex, RequestWrapper<S> req) {
 		log.info("request caused error:", req, ex);
-		req.sendErrorInternal(Str.format(ex));
+		req.sendErrorInternal(format(ex));
 	}
 
 	protected void onPreInit(ServletConfig config) {}
@@ -96,7 +97,7 @@ public abstract class AServlet<A extends AWebApplication, S extends AWebSession>
 		super.init(config);
 		try {
 			onPreInit(config);
-			webApplication = (A) AWebApplication.get();
+			webApplication = (A) get();
 			if (webApplication == null || webApplication.isStartupFailed()) {
                                 throw new RuntimeException("Web application startup failed.");
                         }

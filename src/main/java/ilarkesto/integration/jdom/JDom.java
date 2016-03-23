@@ -15,7 +15,10 @@
 package ilarkesto.integration.jdom;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.close;
+import static ilarkesto.io.IO.closeQuiet;
+import static ilarkesto.io.IO.createDirectory;
+import static ilarkesto.io.IO.openUrlInputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -28,8 +31,10 @@ import java.io.OutputStreamWriter;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import static java.lang.System.out;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -45,10 +50,10 @@ public abstract class JDom {
 
 	public static void main(String[] args) {
 		Document doc = createDocument(new File("test-input/email.xml"));
-		System.out.println(doc);
+		out.println(doc);
 	}
 
-	private static Log log = Log.get(JDom.class);
+	private static final Log log = Log.get(JDom.class);
 
 	public static final EntityResolver DUMMY_ENTITY_RESOLVER = new DummyEntityResolver();
 
@@ -56,7 +61,7 @@ public abstract class JDom {
 
 	public static List<Element> getChildren(Element parent, String name) {
 		if (parent == null) {
-                        return java.util.Collections.emptyList();
+                        return emptyList();
                 }
 		return parent.getChildren(name, null);
 	}
@@ -113,9 +118,7 @@ public abstract class JDom {
 		SAXBuilder builder = createSaxBuilder();
 		try {
 			return builder.build(new StringReader(xmlData));
-		} catch (JDOMException ex) {
-			throw new RuntimeException(ex);
-		} catch (IOException ex) {
+		} catch (JDOMException | IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -151,9 +154,9 @@ public abstract class JDom {
 		log.debug("Downloading:", url);
 		SAXBuilder builder = createSaxBuilder();
 		try {
-			BufferedInputStream is = new BufferedInputStream(IO.openUrlInputStream(url, username, password));
+			BufferedInputStream is = new BufferedInputStream(openUrlInputStream(url, username, password));
 			Document doc = builder.build(is);
-			IO.closeQuiet(is);
+			closeQuiet(is);
 			return doc;
 		} catch (Exception ex) {
 			throw new RuntimeException("Loading XML from URL failed: " + url, ex);
@@ -182,13 +185,11 @@ public abstract class JDom {
 	}
 
 	public static void save(Document doc, File file, String encoding) {
-		IO.createDirectory(file.getParentFile());
+		createDirectory(file.getParentFile());
 		Writer out;
 		try {
 			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), encoding));
-		} catch (UnsupportedEncodingException ex) {
-			throw new RuntimeException(ex);
-		} catch (FileNotFoundException ex) {
+		} catch (UnsupportedEncodingException | FileNotFoundException ex) {
 			throw new RuntimeException(ex);
 		}
 		XMLOutputter outputter = new XMLOutputter();
@@ -198,7 +199,7 @@ public abstract class JDom {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		IO.close(out);
+		close(out);
 	}
 
 	public static void write(Document doc, OutputStream out, String encoding) {
@@ -209,7 +210,7 @@ public abstract class JDom {
 		} catch (IOException ex) {
 			throw new RuntimeException(ex);
 		}
-		IO.close(out);
+		close(out);
 	}
 
 	public static class DummyEntityResolver implements EntityResolver {

@@ -14,7 +14,7 @@
  */
 package ilarkesto.mda.legacy.model;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 
 public abstract class PropertyModel {
 
@@ -116,7 +116,7 @@ public abstract class PropertyModel {
                         throw new UnsupportedOperationException("not a reference: " + getContentType());
                 }
 
-		return StrExtend.lowercaseFirstLetter(getContentTypeName()) + "Dao";
+		return lowercaseFirstLetter(getContentTypeName()) + "Dao";
 	}
 
 	public String getContentTypeName() {

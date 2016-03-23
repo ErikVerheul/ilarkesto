@@ -14,8 +14,10 @@
  */
 package ilarkesto.core.scope;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.getSimpleName;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.scope.ScopeManager.getInstance;
+import static ilarkesto.core.scope.ScopeUtil.getComponentName;
 import java.util.List;
 
 public abstract class Scope {
@@ -24,6 +26,8 @@ public abstract class Scope {
 
 	/**
 	 * Gets an initialized component by name.
+         * @param name
+         * @return 
 	 */
 	public abstract Object getComponent(String name);
 
@@ -32,7 +36,7 @@ public abstract class Scope {
 	public abstract <T> T putComponent(String name, T component);
 
 	public String getName() {
-		return Str.getSimpleName(getClass());
+		return getSimpleName(getClass());
 	}
 
 	@Override
@@ -46,16 +50,16 @@ public abstract class Scope {
 		if (component == null) {
                         throw new IllegalArgumentException("component == null");
                 }
-		return putComponent(ScopeUtil.getComponentName(component.getClass()), component);
+		return putComponent(getComponentName(component.getClass()), component);
 	}
 
 	public <T> T getComponent(Class<T> type) {
-		String name = ScopeUtil.getComponentName(type);
+		String name = getComponentName(type);
 		return (T) getComponent(name);
 	}
 
 	public static Scope get() {
-		return ScopeManager.getInstance().getScope();
+		return getInstance().getScope();
 	}
 
 }

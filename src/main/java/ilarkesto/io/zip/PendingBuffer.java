@@ -51,6 +51,11 @@ exception statement from your version. */
 
 package ilarkesto.io.zip;
 
+import static ilarkesto.io.zip.DeflaterConstants.DEBUGGING;
+import static java.lang.Integer.toHexString;
+import static java.lang.System.arraycopy;
+import static java.lang.System.err;
+
 /**
  * This class is general purpose class for writing data to a buffer.
  *
@@ -87,7 +92,7 @@ class PendingBuffer
 
   public final void writeByte(int b) 
   {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
     buf[end++] = (byte) b;
@@ -95,7 +100,7 @@ class PendingBuffer
 
   public final void writeShort(int s) 
   {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
     buf[end++] = (byte) s;
@@ -104,7 +109,7 @@ class PendingBuffer
 
   public final void writeInt(int s) 
   {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
     buf[end++] = (byte) s;
@@ -115,10 +120,10 @@ class PendingBuffer
 
   public final void writeBlock(byte[] block, int offset, int len) 
   {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
-    System.arraycopy(block, offset, buf, end, len);
+                arraycopy(block, offset, buf, end, len);
     end += len;
   }
 
@@ -127,7 +132,7 @@ class PendingBuffer
   }
 
   public final void alignToByte() {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
     if (bitCount > 0)
@@ -143,11 +148,11 @@ class PendingBuffer
 
   public final void writeBits(int b, int count)
   {
-     if (DeflaterConstants.DEBUGGING && start != 0) {
+     if (       DEBUGGING && start != 0) {
              throw new IllegalStateException();
      }
-     if (DeflaterConstants.DEBUGGING) {
-             System.err.println("writeBits("+Integer.toHexString(b)+","+count+")");
+     if (       DEBUGGING) {
+                        err.println("writeBits("+toHexString(b)+","+count+")");
      }
     bits |= b << bitCount;
     bitCount += count;
@@ -160,7 +165,7 @@ class PendingBuffer
   }
 
   public final void writeShortMSB(int s) {
-    if (DeflaterConstants.DEBUGGING && start != 0) {
+    if (        DEBUGGING && start != 0) {
             throw new IllegalStateException();
     }
     buf[end++] = (byte) (s >> 8);
@@ -191,13 +196,13 @@ class PendingBuffer
     if (length > end - start)
       {
 	length = end - start;
-	System.arraycopy(buf, start, output, offset, length);
+	                arraycopy(buf, start, output, offset, length);
 	start = 0;
 	end = 0;
       }
     else
       {
-	System.arraycopy(buf, start, output, offset, length);
+	                arraycopy(buf, start, output, offset, length);
 	start += length;
       }
     return length;
@@ -212,7 +217,7 @@ class PendingBuffer
   public final byte[] toByteArray()
   {
     byte[] ret = new byte[ end - start ];
-    System.arraycopy(buf, start, ret, 0, ret.length);
+                arraycopy(buf, start, ret, 0, ret.length);
     start = 0;
     end = 0;
     return ret;

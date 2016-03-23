@@ -14,8 +14,8 @@
  */
 package ilarkesto.ui.action;
 
-import ilarkesto.base.StrExtend;
 import ilarkesto.concurrent.ATask;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.form.Form;
@@ -243,7 +243,7 @@ public abstract class AAction extends ATask {
 	}
 
 	protected final <F extends Form> FormAction<F> showFormDialog(F form) {
-		FormAction<F> action = new FormAction<F>();
+		FormAction<F> action = new FormAction<>();
 		action.setForm(form);
 		actionPerformer.performSubAction(action, this);
 		return action;
@@ -279,7 +279,7 @@ public abstract class AAction extends ATask {
 	}
 
 	protected final void error(Throwable t) {
-		error("exception", StrExtend.format(t));
+		error("exception", format(t));
 	}
 
 	protected final void error(String key, Object... parameters) {

@@ -16,6 +16,7 @@ package ilarkesto.persistence;
 
 import ilarkesto.auth.AUser;
 import ilarkesto.auth.Auth;
+import static ilarkesto.auth.Auth.isVisible;
 import ilarkesto.fp.Predicate;
 import ilarkesto.id.Identifiable;
 import ilarkesto.search.Searchable;
@@ -27,7 +28,7 @@ import java.util.Map;
 public abstract class Persist {
 
 	public static List<String> getIdsAsList(Collection<? extends Identifiable> entities) {
-		List<String> ret = new ArrayList<String>(entities.size());
+		List<String> ret = new ArrayList<>(entities.size());
 		for (Identifiable entity : entities) {
 			ret.add(entity.getId());
 		}
@@ -35,7 +36,7 @@ public abstract class Persist {
 	}
 
 	public static List<Map> createPropertiesMaps(Collection<? extends AEntity> entities) {
-		List<Map> result = new ArrayList<Map>(entities.size());
+		List<Map> result = new ArrayList<>(entities.size());
 		for (AEntity entity : entities) {
 			result.add(entity.createPropertiesMap());
 		}
@@ -59,9 +60,9 @@ public abstract class Persist {
 	}
 
 	public static List<AEntity> getVisible(Collection<AEntity> entities, AUser user) {
-		List<AEntity> result = new ArrayList<AEntity>(entities.size());
+		List<AEntity> result = new ArrayList<>(entities.size());
 		for (AEntity entity : entities) {
-                        if (Auth.isVisible(entity, user)) {
+                        if (isVisible(entity, user)) {
                                 result.add(entity);
                         }
                 }

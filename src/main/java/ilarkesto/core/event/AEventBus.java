@@ -21,7 +21,7 @@ public abstract class AEventBus implements EventBus {
 
 	public static final String DEFAULT_COMPONENT_NAME = "eventBus";
 
-	private static Log log = Log.get(AEventBus.class);
+	private static final Log log = Log.get(AEventBus.class);
 
 	protected abstract Collection getPotentialEventHandlers();
 

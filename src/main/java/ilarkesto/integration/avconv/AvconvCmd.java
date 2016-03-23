@@ -24,7 +24,7 @@ public class AvconvCmd {
 	}
 
 	public List<String> getStreamInfos() {
-		List<String> ret = new ArrayList<String>(3);
+		List<String> ret = new ArrayList<>(3);
 		StringTokenizer tokenizer = new StringTokenizer(getOutput(), "\r\n");
 		while (tokenizer.hasMoreTokens()) {
 			String line = tokenizer.nextToken();

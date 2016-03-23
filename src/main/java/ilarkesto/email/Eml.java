@@ -14,15 +14,27 @@
  */
 package ilarkesto.email;
 
-import ilarkesto.Servers;
+import static ilarkesto.Servers.SERVISTO;
 import ilarkesto.auth.LoginData;
 import ilarkesto.auth.LoginDataProvider;
-import ilarkesto.base.StrExtend;
-import ilarkesto.base.Sys;
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.StrExtend.decodeQuotedPrintable;
+import static ilarkesto.base.StrExtend.html2text;
+import static ilarkesto.base.StrExtend.tokenize;
+import static ilarkesto.base.Sys.setFileEncoding;
+import static ilarkesto.base.Sys.setProperty;
+import static ilarkesto.base.UtlExtend.toStringWithType;
+import static ilarkesto.core.base.Str.format;
+import static ilarkesto.core.base.Str.getStackTrace;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.setDebugEnabled;
 import ilarkesto.core.time.DateAndTime;
-import ilarkesto.io.IO;
+import static ilarkesto.core.time.DateAndTime.now;
+import static ilarkesto.io.IO.ISO_LATIN_1;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.copyData;
+import static ilarkesto.io.IO.readToString;
+import static ilarkesto.io.IO.writeText;
 import ilarkesto.swing.LoginPanel;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -31,9 +43,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.valueOf;
+import static java.lang.System.exit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -41,17 +56,24 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import static java.util.ResourceBundle.getBundle;
 import java.util.Set;
-import java.util.UUID;
+import static java.util.UUID.randomUUID;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.BodyPart;
-import javax.mail.Flags;
+import static javax.mail.Flags.Flag.DELETED;
 import javax.mail.Folder;
+import static javax.mail.Folder.HOLDS_MESSAGES;
+import static javax.mail.Folder.READ_ONLY;
+import static javax.mail.Folder.READ_WRITE;
 import javax.mail.Header;
 import javax.mail.Message;
+import static javax.mail.Message.RecipientType.BCC;
+import static javax.mail.Message.RecipientType.CC;
+import static javax.mail.Message.RecipientType.TO;
 import javax.mail.MessageRemovedException;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -59,14 +81,15 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import static javax.mail.Session.getInstance;
 import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.URLName;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import static javax.mail.internet.InternetAddress.parse;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMessage.RecipientType;
 import javax.mail.internet.MimeMultipart;
 
 /**
@@ -75,8 +98,8 @@ import javax.mail.internet.MimeMultipart;
 public class Eml {
 
 	public static void main(String[] args) throws Throwable {
-		Log.setDebugEnabled(true);
-		Sys.setFileEncoding(IO.UTF_8);
+		setDebugEnabled(true);
+		setFileEncoding(UTF_8);
 
 		Session session = createSmtpSession("mail.servisto.de", null, false,
 			LoginPanel.showDialog(null, "Servisto SMTP", new File("runtimedata/servisto-smtp.properties")));
@@ -101,7 +124,7 @@ public class Eml {
 		// } finally {
 		// closeStore(store);
 		// }
-		System.exit(0);
+		exit(0);
 	}
 
 	private static final Log LOG = Log.get(Eml.class);
@@ -126,7 +149,7 @@ public class Eml {
 	private static String charset;
 
 	static {
-		setCharset(IO.ISO_LATIN_1);
+		setCharset(ISO_LATIN_1);
 	}
 
 	public static void writeMessage(Message message, OutputStream out) {
@@ -134,13 +157,11 @@ public class Eml {
 			Enumeration<Header> enu = message.getAllHeaders();
 			while (enu.hasMoreElements()) {
 				Header header = enu.nextElement();
-				IO.writeText(out, header.getName() + ": " + header.getValue() + "\n", charset);
+				writeText(out, header.getName() + ": " + header.getValue() + "\n", charset);
 			}
-			IO.writeText(out, "\n", charset);
-			IO.copyData(message.getInputStream(), out);
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		} catch (MessagingException ex) {
+			writeText(out, "\n", charset);
+			copyData(message.getInputStream(), out);
+		} catch (IOException | MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
@@ -160,7 +181,7 @@ public class Eml {
 
 	public static Set<String> getAttachmentFilenames(Part part) {
 		try {
-			Set<String> result = new HashSet<String>();
+			Set<String> result = new HashSet<>();
 			if (part.getContentType().toLowerCase().startsWith("multipart")) {
 				MimeMultipart multipart;
 				try {
@@ -176,18 +197,18 @@ public class Eml {
 			} else {
 				String filename = part.getFileName();
 				if (filename != null) {
-                                        result.add(StrExtend.decodeQuotedPrintable(filename));
+                                        result.add(decodeQuotedPrintable(filename));
                                 }
 			}
 			return result;
-		} catch (Exception ex) {
+		} catch (MessagingException | IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
 	public static InputStream getAttachment(Part part, String filename) {
 		try {
-			if (filename.equals(StrExtend.decodeQuotedPrintable(part.getFileName()))) {
+			if (filename.equals(decodeQuotedPrintable(part.getFileName()))) {
                                 return part.getInputStream();
                         }
 			if (part.getContentType().toLowerCase().startsWith("multipart")) {
@@ -201,7 +222,7 @@ public class Eml {
                                         }
 				}
 			}
-		} catch (Throwable ex) {
+		} catch (MessagingException | IOException ex) {
 			throw new RuntimeException(ex);
 		}
 		return null;
@@ -210,10 +231,10 @@ public class Eml {
 	public static String getContentAsText(Part part) {
 		String result = getPlainTextContent(part);
 		if (result == null) {
-			result = StrExtend.html2text(getHtmlTextContent(part));
+			result = html2text(getHtmlTextContent(part));
 		} else {
 			if (result.trim().startsWith("<!DOCTYPE HTML")) {
-                                result = StrExtend.html2text(result);
+                                result = html2text(result);
                         }
 		}
 		return result;
@@ -256,14 +277,14 @@ public class Eml {
 					if (content instanceof InputStream) {
 						String encoding = charset;
 						if (contentType.toLowerCase().contains("UTF")) {
-                                                        encoding = IO.UTF_8;
+                                                        encoding = UTF_8;
                                                 }
 						if (contentType.toLowerCase().contains("ISO")) {
-                                                        encoding = IO.ISO_LATIN_1;
+                                                        encoding = ISO_LATIN_1;
                                                 }
-						return IO.readToString((InputStream) content, encoding);
+						return readToString((InputStream) content, encoding);
 					}
-					return UtlExtend.toStringWithType(content);
+					return toStringWithType(content);
 				} catch (UnsupportedEncodingException ex) {
 					LOG.warn(ex);
 					return null;
@@ -277,9 +298,9 @@ public class Eml {
 						}
 					}
 					throw e;
-				} catch (Throwable t) {
+				} catch (MessagingException t) {
 					LOG.warn(t);
-					return StrExtend.getStackTrace(t);
+					return getStackTrace(t);
 				}
 			}
 			if (contentType.toLowerCase().startsWith("multipart")) {
@@ -305,15 +326,16 @@ public class Eml {
 				return null;
 			}
 			return null;
-		} catch (Exception ex) {
+		} catch (IOException | MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
 	public static MimeMessage loadMessage(File file) throws MessagingException, IOException {
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(file));
-		MimeMessage message = loadMessage(createDummySession(), in);
-		in.close();
+                MimeMessage message;
+                try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(file))) {
+                        message = loadMessage(createDummySession(), in);
+                }
 		return message;
 	}
 
@@ -326,7 +348,7 @@ public class Eml {
 	public static void moveMessage(Message message, Folder destination) {
 		copyMessage(message, destination);
 		try {
-			message.setFlag(Flags.Flag.DELETED, true);
+			message.setFlag(DELETED, true);
 		} catch (MessageRemovedException ex) {
 			// nop
 		} catch (MessagingException ex) {
@@ -341,11 +363,11 @@ public class Eml {
 		Folder source = message.getFolder();
 		try {
 			if (source != null && !source.isOpen()) {
-				source.open(Folder.READ_ONLY);
+				source.open(READ_ONLY);
 				sourceOpened = true;
 			}
 			if (!destination.isOpen()) {
-				destination.open(Folder.READ_WRITE);
+				destination.open(READ_WRITE);
 				destinationOpened = true;
 			}
 			if (source == null) {
@@ -385,7 +407,7 @@ public class Eml {
 
 	public static String getToFormated(Message msg) throws MessagingException {
 		StringBuilder sb = new StringBuilder();
-		Address[] aa = msg.getRecipients(Message.RecipientType.TO);
+		Address[] aa = msg.getRecipients(TO);
 		for (int i = 0; i < aa.length; i++) {
 			sb.append(aa[i].toString());
 			if (i < aa.length - 1) {
@@ -405,7 +427,7 @@ public class Eml {
 		if (aa == null) {
                         return null;
                 }
-		if (aa.length > 0) { return StrExtend.decodeQuotedPrintable(aa[0].toString()); }
+		if (aa.length > 0) { return decodeQuotedPrintable(aa[0].toString()); }
 		return null;
 	}
 
@@ -419,11 +441,11 @@ public class Eml {
 
 	public static List<String> getHeaderListUnsubscribeParsed(Message msg) {
 		String s = getHeaderListUnsubscribe(msg);
-		if (StrExtend.isBlank(s)) {
-                        return Collections.emptyList();
+		if (isBlank(s)) {
+                        return emptyList();
                 }
-		String[] hrefs = StrExtend.tokenize(s, ",");
-		List<String> ret = new ArrayList<String>(hrefs.length);
+		String[] hrefs = tokenize(s, ",");
+		List<String> ret = new ArrayList<>(hrefs.length);
 		for (String href : hrefs) {
 			href = href.trim();
 			if (href.startsWith("<") && href.endsWith(">")) {
@@ -445,7 +467,7 @@ public class Eml {
 			sb.append("<Kein Absender>");
 		} else {
 			for (int i = 0; i < aa.length; i++) {
-				sb.append(StrExtend.decodeQuotedPrintable(aa[i].toString()));
+				sb.append(decodeQuotedPrintable(aa[i].toString()));
 				if (i < aa.length - 1) {
                                         sb.append(", ");
                                 }
@@ -455,11 +477,11 @@ public class Eml {
 	}
 
 	public static Set<String> getTosFormated(Message msg) {
-		return getRecipientsFormated(msg, javax.mail.Message.RecipientType.TO);
+		return getRecipientsFormated(msg, TO);
 	}
 
 	public static Set<String> getCcsFormated(Message msg) {
-		return getRecipientsFormated(msg, javax.mail.Message.RecipientType.CC);
+		return getRecipientsFormated(msg, CC);
 	}
 
 	public static Set<String> getRecipientsFormated(Message msg, javax.mail.Message.RecipientType type) {
@@ -469,10 +491,10 @@ public class Eml {
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		if (aa != null) {
 			for (Address a : aa) {
-				result.add(StrExtend.decodeQuotedPrintable(a.toString()));
+				result.add(decodeQuotedPrintable(a.toString()));
 			}
 		}
 		return result;
@@ -490,14 +512,14 @@ public class Eml {
                 }
 		DateAndTime result = new DateAndTime(date);
 		if (result.isFuture()) {
-                        result = DateAndTime.now();
+                        result = now();
                 }
 		return result;
 	}
 
 	public static String getSubject(Message msg) {
 		try {
-			return StrExtend.decodeQuotedPrintable(msg.getSubject());
+			return decodeQuotedPrintable(msg.getSubject());
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -505,8 +527,8 @@ public class Eml {
 
 	public static MimeMessage createTextMessage(Session session, String subject, String text, String from, String to) {
 		try {
-			return createTextMessage(session, subject, text, InternetAddress.parse(from)[0],
-				InternetAddress.parse(to.replace(';', ',')));
+			return createTextMessage(session, subject, text, parse(from)[0],
+				parse(to.replace(';', ',')));
 		} catch (AddressException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -518,7 +540,7 @@ public class Eml {
 			msg.setSubject(subject, charset);
 			msg.setText(text, charset);
 			msg.setFrom(from);
-			msg.setRecipients(Message.RecipientType.TO, to);
+			msg.setRecipients(TO, to);
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -530,7 +552,7 @@ public class Eml {
 		int i = 0;
 		for (String address : addresses) {
 			try {
-				ret[i] = InternetAddress.parse(address)[0];
+				ret[i] = parse(address)[0];
 			} catch (AddressException ex) {
 				throw new RuntimeException("Parsing email address failed: " + address, ex);
 			}
@@ -542,7 +564,7 @@ public class Eml {
 	public static MimeMessage createTextMessageWithAttachments(Session session, String subject, String text,
 			String from, Collection<String> tos, Attachment... attachments) {
 		try {
-			return createTextMessageWithAttachments(session, subject, text, InternetAddress.parse(from)[0],
+			return createTextMessageWithAttachments(session, subject, text, parse(from)[0],
 				parseAddresses(tos), attachments);
 		} catch (AddressException ex) {
 			throw new RuntimeException(ex);
@@ -555,7 +577,7 @@ public class Eml {
 		try {
 			msg.setSubject(subject, charset);
 			msg.setFrom(from);
-			msg.setRecipients(Message.RecipientType.TO, to);
+			msg.setRecipients(TO, to);
 
 			Multipart multipart = new MimeMultipart();
 
@@ -585,7 +607,7 @@ public class Eml {
 
 	public static MimeMessage createEmptyMimeMessage(Session session) {
 		MimeMessage msg = new MimeMessage(session);
-		setHeaderFieldValue(msg, HEADER_MESSAGE_ID, UUID.randomUUID() + "@" + Servers.SERVISTO);
+		setHeaderFieldValue(msg, HEADER_MESSAGE_ID, randomUUID() + "@" + SERVISTO);
 		setHeaderFieldValue(msg, HEADER_MESSAGE_CONTENT_TRANSFER_ENCODING, "8bit");
 		return msg;
 	}
@@ -594,7 +616,7 @@ public class Eml {
 		Properties p = new Properties();
 		p.setProperty("mail.smtp.host", "localhost");
 		p.setProperty("mail.smtp.auth", "true");
-		Session session = Session.getInstance(p);
+		Session session = getInstance(p);
 		return session;
 	}
 
@@ -612,14 +634,14 @@ public class Eml {
 	}
 
 	public static Session createSmtpSession(String host, Integer port, boolean tls, String user, String password) {
-		if (StrExtend.isBlank(host)) {
+		if (isBlank(host)) {
                         throw new IllegalArgumentException("host ist blank");
                 }
 
-		if (StrExtend.isBlank(user)) {
+		if (isBlank(user)) {
                         user = null;
                 }
-		if (StrExtend.isBlank(password)) {
+		if (isBlank(password)) {
                         password = null;
                 }
 
@@ -630,10 +652,10 @@ public class Eml {
 		if (port != null) {
                         p.put("mail.smtp.port", port.toString());
                 }
-		p.put("mail.smtp.starttls.enable", String.valueOf(tls));
+		p.put("mail.smtp.starttls.enable", valueOf(tls));
 
 		boolean auth = user != null && password != null;
-		p.setProperty("mail.smtp.auth", String.valueOf(auth));
+		p.setProperty("mail.smtp.auth", valueOf(auth));
 		if (user != null) {
                         p.setProperty("mail.smtp.auth.user", user);
                 }
@@ -641,7 +663,7 @@ public class Eml {
                         p.setProperty("mail.smtp.auth.password", password);
                 }
 
-		Session session = Session.getInstance(p);
+		Session session = getInstance(p);
 
 		if (auth) {
 			session.setPasswordAuthentication(new URLName("local"), new PasswordAuthentication(user, password));
@@ -663,8 +685,8 @@ public class Eml {
 		setHeaderFieldValue(message, HEADER_X_MAILER, X_MAILER);
 		message.saveChanges();
 
-		LOG.info("Sending message '" + message.getSubject() + "' from '" + StrExtend.format(message.getFrom()) + "' to '"
-				+ StrExtend.format(recipients) + "'.");
+		LOG.info("Sending message '" + message.getSubject() + "' from '" + format(message.getFrom()) + "' to '"
+				+ format(recipients) + "'.");
 
 		Transport trans = session.getTransport("smtp");
 		Properties properties = session.getProperties();
@@ -675,7 +697,7 @@ public class Eml {
                 }
 		String user = properties.getProperty("mail.smtp.auth.user");
 		String password = properties.getProperty("mail.smtp.auth.password");
-		trans.connect(host, Integer.parseInt(port), user, password);
+		trans.connect(host, parseInt(port), user, password);
 		trans.sendMessage(message, recipients);
 		trans.close();
 	}
@@ -709,7 +731,7 @@ public class Eml {
 		if (header == null) {
                         return null;
                 }
-		return StrExtend.decodeQuotedPrintable(header[0]);
+		return decodeQuotedPrintable(header[0]);
 	}
 
 	public static void setHeaderFieldValue(Message msg, String fieldName, String value) {
@@ -740,7 +762,7 @@ public class Eml {
 
 	public static void addBCC(Message msg, String addresses) {
                 try {
-                        msg.addRecipients(RecipientType.BCC, InternetAddress.parse(addresses.replace(';', ',')));
+                        msg.addRecipients(BCC, parse(addresses.replace(';', ',')));
                 } catch (MessagingException ex) {
                         throw new RuntimeException(ex);
                 }
@@ -748,7 +770,7 @@ public class Eml {
 
 	public static void addCC(Message msg, String addresses) {
 		try {
-			msg.addRecipients(RecipientType.CC, InternetAddress.parse(addresses.replace(';', ',')));
+			msg.addRecipients(CC, parse(addresses.replace(';', ',')));
 		} catch (MessagingException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -758,7 +780,7 @@ public class Eml {
 		Properties properties = new Properties();
 		properties.setProperty("mail.user", user);
 		properties.setProperty("mail.host", host);
-		Session session = Session.getInstance(properties);
+		Session session = getInstance(properties);
 		Store store;
 		try {
 			store = session.getStore(protocol);
@@ -813,7 +835,7 @@ public class Eml {
                         }
 			boolean created;
 			try {
-				created = folder.create(Folder.HOLDS_MESSAGES);
+				created = folder.create(HOLDS_MESSAGES);
 			} catch (MessagingException ex) {
 				throw new RuntimeException("Creating folder failed: " + name, ex);
 			}
@@ -855,7 +877,7 @@ public class Eml {
                         }
 			boolean created;
 			try {
-				created = folder.create(Folder.HOLDS_MESSAGES);
+				created = folder.create(HOLDS_MESSAGES);
 			} catch (MessagingException ex) {
 				throw new RuntimeException("Creating folder failed: " + name, ex);
 			}
@@ -884,13 +906,13 @@ public class Eml {
 	}
 
 	public static Store getStore(String email) {
-		ResourceBundle bundle = ResourceBundle.getBundle("mailstores");
+		ResourceBundle bundle = getBundle("mailstores");
 		return getStore(bundle.getString(email + ".protocol"), bundle.getString(email + ".host"),
 			bundle.getString(email + ".user"), bundle.getString(email + ".password"));
 	}
 
 	public static Address[] parseAddresses(String s) throws AddressException {
-		String[] tokens = StrExtend.tokenize(s, ",;:");
+		String[] tokens = tokenize(s, ",;:");
 		InternetAddress[] ads = new InternetAddress[tokens.length];
 		for (int i = 0; i < ads.length; i++) {
 			ads[i] = new InternetAddress(tokens[i]);
@@ -938,8 +960,8 @@ public class Eml {
 	}
 
 	public static void setCharset(String charset) {
-		Eml.charset = charset;
-		Sys.setProperty("mail.mime.charset", charset);
+		charset = charset;
+		setProperty("mail.mime.charset", charset);
 	}
 
 	public static class Attachment {

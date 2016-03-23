@@ -16,7 +16,7 @@ package ilarkesto.mda.legacy.model;
 
 public class SimplePropertyModel extends PropertyModel {
 
-	private String type;
+	private final String type;
 	private boolean optionRestricted;
 
 	public SimplePropertyModel(BeanModel entityModel, String name, boolean reference, boolean valueObject, String type) {

@@ -17,8 +17,9 @@ package ilarkesto.ui.action;
 import ilarkesto.concurrent.TaskManager;
 import ilarkesto.core.logging.Log;
 import ilarkesto.di.BeanProvider;
-import ilarkesto.di.Context;
+import static ilarkesto.di.Context.get;
 import ilarkesto.ui.AUi;
+import static java.lang.Class.forName;
 import java.util.HashMap;
 import java.util.Map;
 import org.netbeans.api.annotations.common.SuppressWarnings;
@@ -27,10 +28,14 @@ public final class ActionPerformer {
 
 	private static final Log LOG = Log.get(ActionPerformer.class);
 
-	private static Map<String, AAction> actions = new HashMap<String, AAction>();
+	private static final Map<String, AAction> actions = new HashMap<>();
 
 	/**
 	 * Start or continue the given action.
+         * @param actionId
+         * @param ui
+         * @param userParameters
+         * @return 
 	 */
 	public AAction triggerAction(String actionId, AUi ui, BeanProvider userParameters) {
 		AAction action = actions.get(actionId);
@@ -123,13 +128,13 @@ public final class ActionPerformer {
 		if (userParameters != null) {
                         userParameters.autowire(action);
                 }
-		Context.get().autowire(action);
+		get().autowire(action);
 		action.setUi(ui);
 		autowireAction(action.getParentAction(), ui, userParameters); // autowire parents recursively
 	}
 
 	private Class<AAction> getActionClass(String actionId) throws ClassNotFoundException {
-		return (Class<AAction>) Class.forName(actionId);
+		return (Class<AAction>) forName(actionId);
 	}
 
 	// --- dependencies ---

@@ -15,6 +15,7 @@
 package ilarkesto.ui.swing;
 
 import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.getIcon16;
 import javax.swing.Icon;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -25,7 +26,7 @@ public class IconTableCellRenderer extends DefaultTableCellRenderer {
 	@Override
 	protected void setValue(Object value) {
 		if (value instanceof String) {
-                        value = Swing.getIcon16((String) value);
+                        value = getIcon16((String) value);
                 }
 		setIcon((Icon) value);
 	}

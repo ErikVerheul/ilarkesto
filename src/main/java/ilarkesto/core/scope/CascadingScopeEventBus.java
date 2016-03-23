@@ -19,7 +19,7 @@ import java.util.Collection;
 
 public class CascadingScopeEventBus extends AEventBus {
 
-	private CascadingScope scope;
+	private final CascadingScope scope;
 
 	public CascadingScopeEventBus(CascadingScope scope) {
 		super();

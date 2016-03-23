@@ -15,12 +15,15 @@
 package ilarkesto.gwt.client.editor;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.time.Time;
 import ilarkesto.gwt.client.AViewEditWidget;
 
@@ -76,7 +79,7 @@ public class TimeEditorWidget extends AViewEditWidget {
 
 	public final Time getEditorValue() {
 		String s = editor.getText();
-		if (Str.isBlank(s)) {
+		if (isBlank(s)) {
                         return null;
                 }
 		return new Time(s);
@@ -103,9 +106,9 @@ public class TimeEditorWidget extends AViewEditWidget {
 		public void onKeyDown(KeyDownEvent event) {
 			int keyCode = event.getNativeKeyCode();
 
-			if (keyCode == KeyCodes.KEY_ENTER) {
+			if (keyCode == KEY_ENTER) {
 				submitEditor();
-			} else if (keyCode == KeyCodes.KEY_ESCAPE) {
+			} else if (keyCode == KEY_ESCAPE) {
 				cancelEditor();
 			}
 		}

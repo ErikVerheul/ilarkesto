@@ -16,11 +16,14 @@ package ilarkesto.ui.swing;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.di.app.AApplication;
 import ilarkesto.locale.LearningLocalizer;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import static java.lang.System.exit;
 import java.util.Locale;
+import static java.util.Locale.GERMANY;
 
 public abstract class ASwingApplication extends AApplication {
 
@@ -38,7 +41,7 @@ public abstract class ASwingApplication extends AApplication {
 	protected final void onShutdown() {
 		onShutdownSwing();
 		getTaskManager().shutdown(3000);
-		System.exit(0);
+		exit(0);
 	}
 
 	// --- default beans ---
@@ -59,7 +62,7 @@ public abstract class ASwingApplication extends AApplication {
 		if (localizer == null) {
 			localizer = new LearningLocalizer();
 			autowire(localizer);
-			localizer.setLocale(Locale.GERMANY);
+			localizer.setLocale(GERMANY);
 		}
 		return localizer;
 	}
@@ -85,7 +88,7 @@ public abstract class ASwingApplication extends AApplication {
 
 	@Override
 	public String getApplicationName() {
-		return StrExtend.removeSuffix(super.getApplicationName(), "Swing");
+		return removeSuffix(super.getApplicationName(), "Swing");
 	}
 
 }

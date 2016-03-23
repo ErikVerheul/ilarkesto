@@ -19,7 +19,7 @@ import java.util.List;
 
 public class PredicateModel extends AModel {
 
-	private List<ParameterModel> parameters = new ArrayList<ParameterModel>();
+	private List<ParameterModel> parameters = new ArrayList<>();
 
 	public PredicateModel(String name) {
 		super(name);

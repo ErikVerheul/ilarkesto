@@ -16,7 +16,9 @@ package ilarkesto.cli;
 
 import ilarkesto.auth.LoginRequiredException;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.di.Context;
+import static ilarkesto.di.Context.get;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,7 +32,7 @@ public abstract class ACommand<A extends Arguments> {
 
 	public String getName() {
 		String name = getClass().getSimpleName();
-		name = StrExtend.removeSuffix(name, "Command");
+		name = removeSuffix(name, "Command");
 		name = name.toLowerCase();
 		return name;
 	}
@@ -54,7 +56,7 @@ public abstract class ACommand<A extends Arguments> {
 	}
 
 	protected final <T> T autowire(T target) {
-		return Context.get().autowire(target);
+		return get().autowire(target);
 	}
 
 }

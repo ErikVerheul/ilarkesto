@@ -1,9 +1,11 @@
 package ilarkesto.webapp;
 
+import static java.lang.String.valueOf;
+
 public class GwtConversationDoesNotExist extends RuntimeException {
 
 	public GwtConversationDoesNotExist(int conversationNumber) {
-		super(String.valueOf(conversationNumber));
+		super(valueOf(conversationNumber));
 	}
 
 }

@@ -17,6 +17,7 @@ package ilarkesto.di.app;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.concurrent.TaskManager;
 import ilarkesto.core.logging.Log;
+import static java.lang.System.exit;
 
 public abstract class ACommandLineApplication extends AApplication {
 
@@ -34,7 +35,7 @@ public abstract class ACommandLineApplication extends AApplication {
 			LOG.fatal(ex);
 			rc = 1;
 		}
-		System.exit(rc);
+		exit(rc);
 	}
 
 	@Override

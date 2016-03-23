@@ -15,6 +15,8 @@
 package ilarkesto.mda.generator;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.escapeEscapeSequences;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
 
@@ -42,10 +44,10 @@ public class GwtTextBundleGenerator extends AJavaClassGenerator implements NodeT
 		for (Node text : bundle.getChildrenByType(Text)) {
 			out.beginMethod("String", text.getValue(), null);
 			String en = text.getChildValueByType(EN);
-			if (StrExtend.isBlank(en)) {
+			if (isBlank(en)) {
 				out.returnStatement("null");
 			} else {
-				out.returnStatement("\"" + StrExtend.escapeEscapeSequences(en) + "\"");
+				out.returnStatement("\"" + escapeEscapeSequences(en) + "\"");
 			}
 			out.endMethod();
 		}

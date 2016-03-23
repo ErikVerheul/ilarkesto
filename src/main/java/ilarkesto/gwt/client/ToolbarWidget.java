@@ -15,6 +15,7 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.user.client.ui.Widget;
+import static ilarkesto.gwt.client.Gwt.createDiv;
 
 public class ToolbarWidget extends AWidget {
 
@@ -25,7 +26,7 @@ public class ToolbarWidget extends AWidget {
 	@Override
 	protected Widget onInitialization() {
 		panel = new FloatingFlowPanel();
-		return Gwt.createDiv("ToolbarWidget", panel);
+		return createDiv("ToolbarWidget", panel);
 	}
 
 	public void clear() {

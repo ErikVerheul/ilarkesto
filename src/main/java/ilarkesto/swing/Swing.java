@@ -15,34 +15,49 @@
 package ilarkesto.swing;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.replaceForHtml;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
+import static ilarkesto.core.logging.Log.setDebugEnabled;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.getScaled;
+import static ilarkesto.io.IO.loadImage;
 import java.awt.AWTException;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dialog.ModalityType;
+import static java.awt.Dialog.ModalityType.DOCUMENT_MODAL;
 import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.EventQueue;
+import static java.awt.EventQueue.isDispatchThread;
 import java.awt.FlowLayout;
+import static java.awt.FlowLayout.RIGHT;
 import java.awt.Font;
+import static java.awt.Font.MONOSPACED;
+import static java.awt.Font.PLAIN;
 import java.awt.Frame;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import static java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.SystemTray;
+import static java.awt.SystemTray.getSystemTray;
 import java.awt.Toolkit;
+import static java.awt.Toolkit.getDefaultToolkit;
 import java.awt.TrayIcon;
 import java.awt.Window;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.min;
+import static java.lang.Math.min;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,15 +68,32 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.QUESTION_MESSAGE;
+import static javax.swing.JOptionPane.showConfirmDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import static javax.swing.JSplitPane.HORIZONTAL_SPLIT;
+import static javax.swing.JSplitPane.VERTICAL_SPLIT;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import static javax.swing.SwingUtilities.invokeAndWait;
+import static javax.swing.SwingUtilities.invokeLater;
+import static javax.swing.SwingUtilities.windowForComponent;
 import javax.swing.UIManager;
+import static javax.swing.UIManager.getInstalledLookAndFeels;
+import static javax.swing.UIManager.getSystemLookAndFeelClassName;
+import static javax.swing.UIManager.setLookAndFeel;
+import static javax.swing.UIManager.setLookAndFeel;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
+import static javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 /**
  * Utility methods for Swing. Dialogs, frames, positioning.
@@ -69,9 +101,9 @@ import javax.swing.UIManager;
 public class Swing {
 
 	public static void main(String[] args) throws Throwable {
-		Log.setDebugEnabled(true);
-		Log.DEBUG((Object[])UIManager.getInstalledLookAndFeels());
-		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+		setDebugEnabled(true);
+		DEBUG((Object[])getInstalledLookAndFeels());
+		setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
 		JOptionPane.showMessageDialog(null, createMessageComponent("Nachricht"));
 		showMessageDialog(
 			null,
@@ -80,19 +112,19 @@ public class Swing {
 
 	public static void setSystemLookAndFeel() {
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			setLookAndFeel(getSystemLookAndFeelClassName());
 		} catch (Throwable ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 
 	public static Dimension getFractionFromScreen(double xFactor, double yFactor) {
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension screen = getDefaultToolkit().getScreenSize();
 		return new Dimension((int) (screen.getWidth() * xFactor), (int) (screen.getHeight() * yFactor));
 	}
 
 	public static void invokeInEventDispatchThreadLater(Runnable runnable) {
-		SwingUtilities.invokeLater(runnable);
+		invokeLater(runnable);
 	}
 
 	public static void invokeInEventDispatchThread(Runnable runnable) {
@@ -100,7 +132,7 @@ public class Swing {
 			runnable.run();
 		} else {
 			try {
-				SwingUtilities.invokeAndWait(runnable);
+				invokeAndWait(runnable);
 			} catch (InterruptedException ex) {
 			} catch (InvocationTargetException ex) {
 				throw new RuntimeException(ex);
@@ -115,7 +147,7 @@ public class Swing {
 	}
 
 	public static boolean isEventDispatchThread() {
-		return EventQueue.isDispatchThread();
+		return isDispatchThread();
 	}
 
 	public static boolean isBlank(JTextField field) {
@@ -127,9 +159,9 @@ public class Swing {
 
 	public static JDialog showModalDialogWithoutBlocking(Component parent, String title, Component content) {
 		final JDialog dialog = new JDialog(getWindow(parent), title);
-		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		dialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		dialog.setModal(true);
-		dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
+		dialog.setModalityType(DOCUMENT_MODAL);
 		dialog.add(content);
 		dialog.pack();
 		// dialog.setMinimumSize(dialog.getPreferredSize());
@@ -140,7 +172,7 @@ public class Swing {
 			@Override
 			public void run() {
 				try {
-					Thread.sleep(100);
+					sleep(100);
 				} catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
 				}
@@ -182,7 +214,7 @@ public class Swing {
 
 	public static JComponent createMessageComponent(String message, int preferredWidth, Color color) {
 		if (message != null && !message.startsWith("<html")) {
-                        message = "<html>" + StrExtend.replaceForHtml(message);
+                        message = "<html>" + replaceForHtml(message);
                 }
 		JEditorPane editor = new JEditorPane("text/html", message);
 		if (color != null) {
@@ -194,7 +226,7 @@ public class Swing {
 		if (lines == 0) {
 			return editor;
 		} else {
-			int height = Math.min(editor.getPreferredSize().height + (lines * 25), 300);
+			int height = min(editor.getPreferredSize().height + (lines * 25), 300);
 			JScrollPane scroller = new JScrollPane(editor);
 			scroller.setPreferredSize(new Dimension(preferredWidth, height));
 			scroller.setBorder(null);
@@ -204,11 +236,10 @@ public class Swing {
 
 	public static String showTextEditorDialog(Component parent, String text, String title) {
 		JTextArea textArea = new JTextArea(text, 25, 80);
-		textArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		textArea.setFont(new Font(MONOSPACED, PLAIN, 12));
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setPreferredSize(new Dimension(640, 480));
-		if (JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(parent, scrollPane, title,
-			JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null)) {
+		if (OK_OPTION != showConfirmDialog(parent, scrollPane, title, OK_CANCEL_OPTION, QUESTION_MESSAGE, null)) {
                         return null;
                 }
 		return textArea.getText();
@@ -233,7 +264,7 @@ public class Swing {
 	}
 
 	public static JSplitPane createVerticalSplit(Component upper, Component lower, int dividerLocation) {
-		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+		JSplitPane splitPane = new JSplitPane(VERTICAL_SPLIT);
 		splitPane.add(upper);
 		splitPane.add(lower);
 		splitPane.setDividerLocation(dividerLocation);
@@ -241,14 +272,14 @@ public class Swing {
 	}
 
 	public static JSplitPane createHorizontalSplit(Component left, Component right) {
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
+		JSplitPane splitPane = new JSplitPane(HORIZONTAL_SPLIT);
 		splitPane.add(left);
 		splitPane.add(right);
 		return splitPane;
 	}
 
 	public static JPanel createPanelForButtonsRight(Action... actions) {
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel panel = new JPanel(new FlowLayout(RIGHT));
 		for (Action action : actions) {
 			if (action == null) {
 				panel.add(createSpacer(10, 1));
@@ -273,7 +304,7 @@ public class Swing {
 	 *            screenshot.
 	 */
 	public static BufferedImage captureScreen(Window windowToHide) {
-		return captureScreen(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice(), windowToHide);
+		return captureScreen(getLocalGraphicsEnvironment().getDefaultScreenDevice(), windowToHide);
 	}
 
 	/**
@@ -315,7 +346,7 @@ public class Swing {
 		if (icon != null) {
                         frame.setIconImage(icon);
                 }
-		frame.setDefaultCloseOperation(exitOnClose ? JFrame.EXIT_ON_CLOSE : JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(exitOnClose ? EXIT_ON_CLOSE : HIDE_ON_CLOSE);
 		frame.add(component);
 		frame.pack();
 		center(frame);
@@ -339,7 +370,7 @@ public class Swing {
 		if (component instanceof Window) {
                         return (Window) component;
                 }
-		return SwingUtilities.windowForComponent(component);
+		return windowForComponent(component);
 	}
 
 	/**
@@ -353,7 +384,7 @@ public class Swing {
 		Window window = getWindow(parent);
 		JDialog dialog = new JDialog((Frame) window); // TODO remove cast!
 		dialog.setTitle(title);
-		dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		dialog.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		dialog.getContentPane().add(component);
 		dialog.setModal(true);
 		dialog.pack();
@@ -363,14 +394,14 @@ public class Swing {
 
 	public static JFrame createFrame(Component component, Component parent, String title) {
 		JFrame frame = new JFrame(title);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		frame.add(component);
 		frame.pack();
 		placeBest(frame, parent);
 		return frame;
 	}
 
-	private static Map<String, ImageIcon> icons = new HashMap<String, ImageIcon>();
+	private static Map<String, ImageIcon> icons = new HashMap<>();
 
 	/**
 	 * Determines and loads a 16x16 icon. The icon hast to be placed in the classpath as the following file:
@@ -400,22 +431,22 @@ public class Swing {
 	}
 
 	public static int getTrayIconSize() {
-		Dimension dim = SystemTray.getSystemTray().getTrayIconSize();
-		int size = (int) Math.min(dim.getWidth(), dim.getHeight());
+		Dimension dim = getSystemTray().getTrayIconSize();
+		int size = (int) min(dim.getWidth(), dim.getHeight());
 		return size;
 	}
 
 	public static Image getImage(String path, Integer size) {
-		BufferedImage im = IO.loadImage(path);
+		BufferedImage im = loadImage(path);
 		if (size == null) {
                         return im;
                 }
-		return IO.getScaled(im, size, size);
+		return getScaled(im, size, size);
 	}
 
 	public static void addTrayIcon(TrayIcon trayIcon) {
 		try {
-			SystemTray.getSystemTray().add(trayIcon);
+			getSystemTray().add(trayIcon);
 		} catch (AWTException ex) {
 			throw new RuntimeException(ex);
 		}
@@ -426,7 +457,7 @@ public class Swing {
 	 */
 	public static void center(Window window) {
 		Dimension w = window.getSize();
-		Dimension s = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension s = getDefaultToolkit().getScreenSize();
 		window.setLocation((s.width - w.width) / 2, (s.height - w.height) / 2);
 	}
 
@@ -484,13 +515,13 @@ public class Swing {
 			yOk = true;
 		}
 		if (!xOk) {
-			if (x + dim.width > Toolkit.getDefaultToolkit().getScreenSize().width) {
-				x = Toolkit.getDefaultToolkit().getScreenSize().width - dim.width;
+			if (x + dim.width > getDefaultToolkit().getScreenSize().width) {
+				x = getDefaultToolkit().getScreenSize().width - dim.width;
 			}
 		}
 		if (!yOk) {
-			if (y + dim.height > Toolkit.getDefaultToolkit().getScreenSize().height - 20) {
-				y = Toolkit.getDefaultToolkit().getScreenSize().height - dim.height - 20;
+			if (y + dim.height > getDefaultToolkit().getScreenSize().height - 20) {
+				y = getDefaultToolkit().getScreenSize().height - dim.height - 20;
 			}
 		}
 		return new Point(x, y);

@@ -14,6 +14,7 @@
  */
 package ilarkesto.base;
 
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -29,7 +30,7 @@ public class EndlessList<T> implements Iterator<T>, Iterable<T> {
 	private boolean reset = false;
 
 	public EndlessList() {
-		list = new ArrayList<T>();
+		list = new ArrayList<>();
 	}
 
 	public boolean hasNext() {
@@ -85,13 +86,13 @@ public class EndlessList<T> implements Iterator<T>, Iterable<T> {
 		// System.out.println(string);
 		// }
 
-		System.out.println(l.next());
-		System.out.println(l.next());
-		System.out.println(l.next());
-		System.out.println(l.next());
-		System.out.println(l.next());
-		System.out.println(l.next());
-		System.out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
+		out.println(l.next());
 
 	}
 

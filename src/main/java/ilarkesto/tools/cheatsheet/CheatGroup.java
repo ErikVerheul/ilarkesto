@@ -20,7 +20,7 @@ import java.util.List;
 public class CheatGroup {
 
 	private String label;
-	private List<Cheat> cheats = new ArrayList<Cheat>();
+	private List<Cheat> cheats = new ArrayList<>();
 
 	public CheatGroup(String label) {
 		super();

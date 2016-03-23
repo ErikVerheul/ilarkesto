@@ -19,7 +19,7 @@ import java.util.List;
 
 public final class BatchTask extends ATask {
 
-	private List<TaskWrapper> tasks = new ArrayList<TaskWrapper>();
+	private List<TaskWrapper> tasks = new ArrayList<>();
 	private TaskWrapper currentTask;
 	private float progressed;
 

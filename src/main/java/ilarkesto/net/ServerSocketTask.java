@@ -26,10 +26,10 @@ public class ServerSocketTask extends ATask {
 
 	private static final Log LOG = Log.get(ServerSocketTask.class);
 
-	private ClientHandler clientHandler;
-	private int port;
+	private final ClientHandler clientHandler;
+	private final int port;
 	private ServerSocket serverSocket;
-	private TaskManager clientHandlerTaskManager;
+	private final TaskManager clientHandlerTaskManager;
 
 	public ServerSocketTask(ClientHandler clientHandler, int port, TaskManager clientHandlerTaskManager) {
 		this.clientHandler = clientHandler;
@@ -70,7 +70,7 @@ public class ServerSocketTask extends ATask {
 
 	class ClientHandlerTask extends ATask {
 
-		private Socket clientSocket;
+		private final Socket clientSocket;
 
 		public ClientHandlerTask(Socket clientSocket) {
 			this.clientSocket = clientSocket;

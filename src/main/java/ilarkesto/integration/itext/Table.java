@@ -16,6 +16,7 @@ package ilarkesto.integration.itext;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Element;
+import static com.itextpdf.text.Element.ALIGN_LEFT;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import ilarkesto.pdf.ACell;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class Table extends ATable implements ItextElement {
 
-	private List<Cell> cells = new ArrayList<Cell>();
+	private List<Cell> cells = new ArrayList<>();
 
 	@Override
 	public ACell cell() {
@@ -53,7 +54,7 @@ public class Table extends ATable implements ItextElement {
 		float[] cellWidths = getCellWidths();
 		PdfPTable t = cellWidths == null ? new PdfPTable(getColumnCount()) : new PdfPTable(cellWidths);
 
-		t.setHorizontalAlignment(PdfPTable.ALIGN_LEFT);
+		t.setHorizontalAlignment(ALIGN_LEFT);
 
 		Float width = getWidth();
 		if (width != null) {

@@ -14,15 +14,20 @@
  */
 package ilarkesto.webapp;
 
-import ilarkesto.base.Net;
-import ilarkesto.base.StrExtend;
-import ilarkesto.base.TmExtend;
+import static ilarkesto.base.Net.getHostnameOrIp;
+import static ilarkesto.base.TmExtend.toUtc;
+import static ilarkesto.core.base.Str.encodeUrlParameter;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.DateAndTime;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.copyFile;
+import static ilarkesto.io.IO.getHostName;
+import static ilarkesto.io.IO.readToString;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import static java.lang.Long.toHexString;
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -31,13 +36,17 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import static javax.servlet.http.HttpServletRequest.CLIENT_CERT_AUTH;
+import static javax.servlet.http.HttpServletRequest.DIGEST_AUTH;
 import javax.servlet.http.HttpServletResponse;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
 
 public abstract class Servlet {
 
 	private static final Log log = Log.get(Servlet.class);
 
-	public static final String ENCODING = IO.UTF_8;
+	public static final String ENCODING = UTF_8;
 
 	public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy, HH:mm:";
 
@@ -53,7 +62,7 @@ public abstract class Servlet {
 		if (in == null) {
                         return null;
                 }
-		return IO.readToString(in);
+		return readToString(in);
 	}
 
 	public static String getBaseUrl(HttpServletRequest request) {
@@ -74,7 +83,7 @@ public abstract class Servlet {
 
 	public static String getWebappUrl(ServletConfig servletConfig, int port, boolean ssl) {
 		String protocol = ssl ? "https" : "http";
-		String host = IO.getHostName();
+		String host = getHostName();
 		if (port != 80) {
                         host += ":" + port;
                 }
@@ -87,11 +96,11 @@ public abstract class Servlet {
 	}
 
 	public static String createEtag(File file) {
-		return Long.toHexString(file.lastModified());
+		return toHexString(file.lastModified());
 	}
 
 	public static String createEtag(DateAndTime lastModified) {
-		return Long.toHexString(lastModified.toMillis());
+		return toHexString(lastModified.toMillis());
 	}
 
 	public static void writeCachingHeaders(HttpServletResponse httpResponse, String eTag, DateAndTime lastModified) {
@@ -101,7 +110,7 @@ public abstract class Servlet {
 
 	public static void setLastModified(HttpServletResponse httpResponse, DateAndTime lastModified) {
 		httpResponse.setHeader("Last-Modified",
-			new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(TmExtend.toUtc(lastModified.toJavaDate())) + " GMT");
+			new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss").format(toUtc(lastModified.toJavaDate())) + " GMT");
 	}
 
 	public static void setEtag(HttpServletResponse httpResponse, String eTag) {
@@ -127,7 +136,7 @@ public abstract class Servlet {
 			boolean setFilename, boolean enableCaching) {
 		if (!file.exists()) {
 			try {
-				httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+				httpResponse.sendError(SC_NOT_FOUND);
 			} catch (IOException ex) {
 				throw new RuntimeException("Serving file failed: " + file, ex);
 			}
@@ -140,7 +149,7 @@ public abstract class Servlet {
 			if (eTag.equals(requestEtag)) {
 				log.debug("ETag valid. Returning: 304 Not Modified");
 				try {
-					httpResponse.sendError(HttpServletResponse.SC_NOT_MODIFIED);
+					httpResponse.sendError(SC_NOT_MODIFIED);
 				} catch (IOException ex) {
 					throw new RuntimeException("Serving file failed: " + file, ex);
 				}
@@ -152,17 +161,17 @@ public abstract class Servlet {
 		httpResponse.setContentType("application/octet-stream");
 		httpResponse.setContentLength((int) file.length());
 		if (setFilename) {
-                        Servlet.setFilename(file.getName(), httpResponse);
+                        setFilename(file.getName(), httpResponse);
                 }
 		try {
-			IO.copyFile(file, httpResponse.getOutputStream());
+			copyFile(file, httpResponse.getOutputStream());
 		} catch (IOException ex) {
 			throw new RuntimeException("Serving file failed: " + file, ex);
 		}
 	}
 
 	public static void setFilename(String fileName, HttpServletResponse httpResponse) {
-		httpResponse.setHeader("Content-Disposition", "inline; filename=" + StrExtend.encodeUrlParameter(fileName) + ";");
+		httpResponse.setHeader("Content-Disposition", "inline; filename=" + encodeUrlParameter(fileName) + ";");
 	}
 
 	public static String getContextPath(ServletConfig servletConfig) {
@@ -170,29 +179,15 @@ public abstract class Servlet {
 	}
 
 	public static String getContextPath(ServletContext servletContext) {
-		String realPath = servletContext.getRealPath("dummy");
-		log.info("servletContextName:", servletContext.getServletContextName());
-		log.info("!!! dummy real path:", realPath);
-		File file = new File(realPath);
-		String path = file.getParentFile().getName();
-
-		// TODO String path = servletContext.getContextPaht() when servlet-2.5
-		// servletContext.getContextPath()
-
+		String path = servletContext.getContextPath();
+		if (path == null) return null;
 		path = path.trim();
-		if (path.startsWith("/")) {
-                        path = path.substring(1);
-                }
-		if (path.endsWith("/")) {
-                        path = path.substring(0, path.length() - 1);
-                }
+		if (path.startsWith("/")) path = path.substring(1);
+		if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
 		path = path.trim();
-		if (path.length() == 0) {
-                        return null;
-                }
-		if (path.equals("ROOT")) {
-                        return null;
-                }
+		if (path.length() == 0) return null;
+		if (path.equals("ROOT")) return null;
+		if (ilarkesto.base.Sys.isDevelopmentMode() && path.equals("war")) return null;
 		return path;
 	}
 
@@ -221,7 +216,7 @@ public abstract class Servlet {
 	}
 
 	public static String getRemoteHost(HttpServletRequest r) {
-		return Net.getHostnameOrIp(r.getRemoteAddr());
+		return getHostnameOrIp(r.getRemoteAddr());
 	}
 
 	public static String getUserAgent(HttpServletRequest r) {
@@ -236,10 +231,10 @@ public abstract class Servlet {
 		sb.append(indent).append("contextPath:        ").append(r.getContextPath()).append("\n");
 		sb.append(indent).append("pathInfo:           ").append(r.getPathInfo()).append("\n");
 		sb.append(indent).append("pathTranslated:     ").append(r.getPathTranslated()).append("\n");
-		sb.append(indent).append("parameters:         ").append(StrExtend.format(r.getParameterMap())).append("\n");
-		sb.append(indent).append("headers:            ").append(StrExtend.format(getHeaders(r))).append("\n");
-		sb.append(indent).append("attributes:         ").append(StrExtend.format(getAttributes(r))).append("\n");
-		sb.append(indent).append("cookies:            ").append(StrExtend.format(r.getCookies())).append("\n");
+		sb.append(indent).append("parameters:         ").append(format(r.getParameterMap())).append("\n");
+		sb.append(indent).append("headers:            ").append(format(getHeaders(r))).append("\n");
+		sb.append(indent).append("attributes:         ").append(format(getAttributes(r))).append("\n");
+		sb.append(indent).append("cookies:            ").append(format(r.getCookies())).append("\n");
 		sb.append(indent).append("protocol:           ").append(r.getProtocol()).append("\n");
 		sb.append(indent).append("method:             ").append(r.getMethod()).append("\n");
 		sb.append(indent).append("scheme:             ").append(r.getScheme()).append("\n");
@@ -247,9 +242,9 @@ public abstract class Servlet {
 		sb.append(indent).append("contentLenght:      ").append(r.getContentLength()).append("\n");
 		sb.append(indent).append("characterEncoding:  ").append(r.getCharacterEncoding()).append("\n");
 		sb.append(indent).append("authType:           ").append(r.getAuthType()).append("\n");
-		sb.append(indent).append("CLIENT_CERT_AUTH:   ").append(r.getHeader(HttpServletRequest.CLIENT_CERT_AUTH))
+		sb.append(indent).append("CLIENT_CERT_AUTH:   ").append(r.getHeader(CLIENT_CERT_AUTH))
 				.append("\n");
-		sb.append(indent).append("DIGEST_AUTH:        ").append(r.getHeader(HttpServletRequest.DIGEST_AUTH))
+		sb.append(indent).append("DIGEST_AUTH:        ").append(r.getHeader(DIGEST_AUTH))
 				.append("\n");
 		sb.append(indent).append("remoteUser:         ").append(r.getRemoteUser()).append("\n");
 		sb.append(indent).append("remoteAddr:         ").append(r.getRemoteAddr()).append("\n");
@@ -258,7 +253,7 @@ public abstract class Servlet {
 		sb.append(indent).append("requestedSessionId: ").append(r.getRequestedSessionId()).append("\n");
 		sb.append(indent).append("secure:             ").append(r.isSecure()).append("\n");
 		sb.append(indent).append("locale:             ").append(r.getLocale()).append("\n");
-		sb.append(indent).append("locales:            ").append(StrExtend.format(r.getLocales())).append("\n");
+		sb.append(indent).append("locales:            ").append(format(r.getLocales())).append("\n");
 		sb.append(indent).append("localName:          ").append(r.getLocalName()).append("\n");
 		sb.append(indent).append("localPort:          ").append(r.getLocalPort()).append("\n");
 		sb.append(indent).append("localAddr:          ").append(r.getLocalAddr()).append("\n");
@@ -269,7 +264,7 @@ public abstract class Servlet {
 	}
 
 	public static Map<String, String> getHeaders(HttpServletRequest r) {
-		Map<String, String> result = new HashMap<String, String>();
+		Map<String, String> result = new HashMap<>();
 		Enumeration names = r.getHeaderNames();
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
@@ -280,7 +275,7 @@ public abstract class Servlet {
 	}
 
 	public static Map<String, Object> getAttributes(HttpServletRequest r) {
-		Map<String, Object> result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<>();
 		Enumeration names = r.getAttributeNames();
 		while (names.hasMoreElements()) {
 			String name = (String) names.nextElement();
@@ -316,11 +311,11 @@ public abstract class Servlet {
 		if (cookies == null) {
                         return null;
                 }
-		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals(name)) {
-                                return cookies[i];
+                for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals(name)) {
+                                return cookie;
                         }
-		}
+                }
 		return null;
 	}
 

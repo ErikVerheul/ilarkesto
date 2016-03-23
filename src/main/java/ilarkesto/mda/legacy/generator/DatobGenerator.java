@@ -16,6 +16,8 @@ package ilarkesto.mda.legacy.generator;
 
 import ilarkesto.auth.AUser;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
@@ -57,7 +59,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 
 		if (!bean.isAbstract()) {
 			ln();
-			ln("    public static final String TYPE = \"" + StrExtend.lowercaseFirstLetter(bean.getName()) + "\";");
+			ln("    public static final String TYPE = \"" + lowercaseFirstLetter(bean.getName()) + "\";");
 
 			// ln();
 			// comment("icon");
@@ -93,7 +95,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
                                 }
 			}
 			ln("            if (property.equals(\"" + propertyName + "\")) update"
-					+ StrExtend.uppercaseFirstLetter(p.getName()) + "(value);");
+					+ uppercaseFirstLetter(p.getName()) + "(value);");
 		}
 		ln("        }");
 		ln("    }");
@@ -116,7 +118,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 				s("        if (").s(getFieldName(p)).s(" == null) ").s(getFieldName(p)).s(" = new ").s(getFieldImpl(p))
 						.s("();").ln();
 				if (p.isValueObject()) {
-					s("        get" + StrExtend.uppercaseFirstLetter(p.getName()) + "Manager().ensureIntegrityOfStructures(")
+					s("        get" + uppercaseFirstLetter(p.getName()) + "Manager().ensureIntegrityOfStructures(")
 							.s(getFieldName(p)).s(");").ln();
 				}
 				if (p.isReference()) {
@@ -130,7 +132,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 					}
 					ln("            } catch (EntityDoesNotExistException ex) {");
 					ln("                LOG.info(\"Repairing dead " + p.getNameSingular() + " reference\");");
-					ln("                repairDead" + StrExtend.uppercaseFirstLetter(p.getNameSingular())
+					ln("                repairDead" + uppercaseFirstLetter(p.getNameSingular())
 							+ "Reference(entityId);");
 					ln("            }");
 					ln("        }");
@@ -139,16 +141,16 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 				if (p.isReference()) {
 					ReferencePropertyModel pRef = (ReferencePropertyModel) p;
 					if (pRef.isMaster()) {
-						ln("        if (!is" + StrExtend.uppercaseFirstLetter(p.getNameSingular()) + "Set()) {");
+						ln("        if (!is" + uppercaseFirstLetter(p.getNameSingular()) + "Set()) {");
 						ln("            repairMissingMaster();");
 						ln("            return;");
 						ln("        }");
 					}
 					ln("        try {");
-					ln("            get" + StrExtend.uppercaseFirstLetter(p.getName()) + "();");
+					ln("            get" + uppercaseFirstLetter(p.getName()) + "();");
 					ln("        } catch (EntityDoesNotExistException ex) {");
 					ln("            LOG.info(\"Repairing dead " + p.getNameSingular() + " reference\");");
-					ln("            repairDead" + StrExtend.uppercaseFirstLetter(p.getNameSingular()) + "Reference("
+					ln("            repairDead" + uppercaseFirstLetter(p.getNameSingular()) + "Reference("
 							+ getFieldName(p) + ");");
 					ln("        }");
 				}
@@ -192,7 +194,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 				if (!p.isReference()) {
                                         continue;
                                 }
-				String nameUpper = StrExtend.uppercaseFirstLetter(p.getNameSingular());
+				String nameUpper = uppercaseFirstLetter(p.getNameSingular());
 				s("        repairDead").s(nameUpper).s("Reference(entityId);").ln();
 			}
 			s("    }").ln();
@@ -211,14 +213,14 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 			if (!p.isSearchable()) {
                                 continue;
                         }
-			ln("        if (matchesKey(get" + StrExtend.uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
+			ln("        if (matchesKey(get" + uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
 		}
 		ln("        return false;");
 		ln("    }");
 	}
 
 	private void writeProperty(PropertyModel p) {
-		String pNameUpper = StrExtend.uppercaseFirstLetter(p.getName());
+		String pNameUpper = uppercaseFirstLetter(p.getName());
 
 		ln();
 		ln("    // -----------------------------------------------------------");
@@ -322,7 +324,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 				ln("        return (" + p.getCollectionType() + ") " + daoExpr + ".getByIds" + suffix + "("
 						+ getFieldName(p) + ");");
 			} else {
-				ln("        if (" + p.getName() + "Cache == null) update" + StrExtend.uppercaseFirstLetter(p.getName())
+				ln("        if (" + p.getName() + "Cache == null) update" + uppercaseFirstLetter(p.getName())
 						+ "Cache();");
 				ln("        return " + p.getName() + "Cache;");
 			}
@@ -336,7 +338,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 	}
 
 	private void writeSetXxxContent(PropertyModel p) {
-		String pNameUpper = StrExtend.uppercaseFirstLetter(p.getName());
+		String pNameUpper = uppercaseFirstLetter(p.getName());
 		if (p.isReference()) {
 			if (p.isCollection()) {
 				ln("        if (" + p.getName() + " == null) " + p.getName() + " = Collections.emptyList();");
@@ -451,8 +453,8 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 	}
 
 	protected void writeCollectionProperty(PropertyModel p) {
-		String pNameSingularUpper = StrExtend.uppercaseFirstLetter(p.getNameSingular());
-		String pNameUpper = StrExtend.uppercaseFirstLetter(p.getName());
+		String pNameSingularUpper = uppercaseFirstLetter(p.getNameSingular());
+		String pNameUpper = uppercaseFirstLetter(p.getName());
 		String paramExpr = p.isReference() ? p.getNameSingular() + ".getId()" : p.getNameSingular();
 
 		// --- repairDeadXxxReference ---
@@ -589,22 +591,22 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 				daoExpr = "getDaoService()";
 			}
 			String suffix = p instanceof SetPropertyModel ? "AsSet" : "";
-			ln("        set" + StrExtend.uppercaseFirstLetter(p.getName()) + "((" + p.getCollectionType() + ") " + daoExpr
+			ln("        set" + uppercaseFirstLetter(p.getName()) + "((" + p.getCollectionType() + ") " + daoExpr
 					+ ".getByIds" + suffix + "(ids));");
 		} else {
-			ln("        set" + StrExtend.uppercaseFirstLetter(p.getName()) + "((" + p.getType() + ") value);");
+			ln("        set" + uppercaseFirstLetter(p.getName()) + "((" + p.getType() + ") value);");
 		}
 		ln("    }");
 	}
 
 	private void writeSimpleProperty(PropertyModel p) {
-		String pNameUpper = StrExtend.uppercaseFirstLetter(p.getName());
+		String pNameUpper = uppercaseFirstLetter(p.getName());
 
 		// --- repairDeadXxxReference ---
 		if (p.isReference()) {
 			ReferencePropertyModel pRef = (ReferencePropertyModel) p;
 			ln();
-			ln("    protected void repairDead" + StrExtend.uppercaseFirstLetter(p.getNameSingular())
+			ln("    protected void repairDead" + uppercaseFirstLetter(p.getNameSingular())
 					+ "Reference(String entityId) {");
 			ln("        if (" + getFieldName(p) + " == null || entityId.equals(" + getFieldName(p) + ")) {");
 			if (pRef.isMaster()) {
@@ -681,7 +683,7 @@ public class DatobGenerator<D extends DatobModel> extends ABeanGenerator<D> {
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> result = new LinkedHashSet<String>();
+		Set<String> result = new LinkedHashSet<>();
 		result.addAll(super.getImports());
 		result.add(ADatob.class.getName());
 		result.add(AEntity.class.getName());

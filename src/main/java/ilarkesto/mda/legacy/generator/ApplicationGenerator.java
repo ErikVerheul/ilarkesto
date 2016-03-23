@@ -24,7 +24,7 @@ public class ApplicationGenerator extends ABeanGenerator<ApplicationModel> {
 		super(bean);
 	}
 
-	@Override
+        @Override
 	protected String getSuperclass() {
 		switch (bean.getType()) {
 			case SWING:

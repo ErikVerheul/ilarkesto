@@ -16,6 +16,8 @@ package ilarkesto.cli;
 
 import ilarkesto.auth.LoginRequiredException;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.subarray;
+import static ilarkesto.base.StrExtend.tokenize;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -30,11 +32,11 @@ public class CommandService {
 
 	public Object execute(String commandLine) throws NoSuchCommandException, CommandExecutionFailedException,
 			LoginRequiredException {
-		String[] sa = StrExtend.tokenize(commandLine);
+		String[] sa = tokenize(commandLine);
 		if (sa.length < 1) {
                         throw new NoSuchCommandException(commandLine);
                 }
-		return execute(sa[0], StrExtend.subarray(sa, 1));
+		return execute(sa[0], subarray(sa, 1));
 	}
 
 	public Object execute(String command, String[] arguments) throws NoSuchCommandException,

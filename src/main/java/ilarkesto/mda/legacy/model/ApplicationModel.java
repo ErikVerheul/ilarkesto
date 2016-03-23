@@ -24,8 +24,8 @@ public class ApplicationModel extends BeanModel {
 	}
 
 	private Type type;
-	private List<GwtServiceModel> gwtServices = new ArrayList<GwtServiceModel>();
-	private List<ActionModel> actions = new ArrayList<ActionModel>();
+	private List<GwtServiceModel> gwtServices = new ArrayList<>();
+	private List<ActionModel> actions = new ArrayList<>();
 
 	public ApplicationModel(Type type, String name, String packageName) {
 		super(name, packageName);

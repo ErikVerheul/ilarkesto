@@ -14,7 +14,8 @@
  */
 package ilarkesto.integration.velocity;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.format;
+import static ilarkesto.integration.velocity.Velocity.createContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import org.apache.velocity.VelocityContext;
 
 public class ContextBuilder {
 
-	private Map<String, Object> map = new HashMap<String, Object>();
+	private final Map<String, Object> map = new HashMap<>();
 
 	public <T> T put(String name, T value) {
 		map.put(name, value);
@@ -53,7 +54,7 @@ public class ContextBuilder {
 	}
 
 	public VelocityContext toVelocityContext() {
-		return Velocity.createContext(map);
+		return createContext(map);
 	}
 
 	public Map<String, Object> getMap() {
@@ -62,7 +63,7 @@ public class ContextBuilder {
 
 	@Override
 	public String toString() {
-		return "ContextBuilder(" + StrExtend.format(map) + ")";
+		return "ContextBuilder(" + format(map) + ")";
 	}
 
 }

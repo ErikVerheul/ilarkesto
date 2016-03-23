@@ -15,6 +15,7 @@
 package ilarkesto.gwt.client.editor;
 
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.getSimpleName;
 
 public abstract class AFieldModel<T> {
 
@@ -25,7 +26,7 @@ public abstract class AFieldModel<T> {
 	}
 
 	public String getId() {
-		return Str.getSimpleName(getClass()).replace('$', '_');
+		return getSimpleName(getClass()).replace('$', '_');
 	}
 
 }

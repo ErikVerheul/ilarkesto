@@ -15,6 +15,9 @@
 package ilarkesto.form;
 
 
+import static ilarkesto.form.Form.BUTTON_PREFIX;
+import static ilarkesto.form.Form.CLEAR_ITEM_BUTTON_NAME_PREFIX;
+import static ilarkesto.form.Form.SELECT_ITEM_BUTTON_NAME_PREFIX;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -36,10 +39,10 @@ public class ItemFormField<T> extends AFormField {
     public ItemFormField(String name) {
         super(name);
 
-        clearButton = (ClearButton) new ClearButton(Form.BUTTON_PREFIX + Form.CLEAR_ITEM_BUTTON_NAME_PREFIX + name)
+        clearButton = (ClearButton) new ClearButton(BUTTON_PREFIX + CLEAR_ITEM_BUTTON_NAME_PREFIX + name)
                 .setValidateForm(false).setLabel("Entfernen").setIcon("delete");
 
-        selectButton = (SelectButton) new SelectButton(Form.BUTTON_PREFIX + Form.SELECT_ITEM_BUTTON_NAME_PREFIX + name)
+        selectButton = (SelectButton) new SelectButton(BUTTON_PREFIX + SELECT_ITEM_BUTTON_NAME_PREFIX + name)
                 .setValidateForm(false).setLabel("Auswahl...").setIcon("edit");
     }
 
@@ -58,7 +61,7 @@ public class ItemFormField<T> extends AFormField {
     }
 
     public Collection getSelectableItems() {
-        Set<T> result = new HashSet<T>(selectableItems);
+        Set<T> result = new HashSet<>(selectableItems);
         if (value != null) {
                 result.remove(value);
         }

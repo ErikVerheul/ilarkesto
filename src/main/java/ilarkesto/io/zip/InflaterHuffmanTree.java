@@ -51,6 +51,8 @@ exception statement from your version. */
 
 package ilarkesto.io.zip;
 
+import static ilarkesto.io.zip.DeflaterHuffman.bitReverse;
+
 public class InflaterHuffmanTree {
   private final static int MAX_BITLEN = 15;
   private short[] tree;
@@ -144,7 +146,7 @@ public class InflaterHuffmanTree {
 	int start = code & 0x1ff80;
 	for (int i = start; i < end; i += 1 << 7)
 	  {
-	    tree[DeflaterHuffman.bitReverse(i)]
+	    tree[               bitReverse(i)]
 	      = (short) ((-treePtr << 4) | bits);
 	    treePtr += 1 << (bits-9);
 	  }
@@ -157,7 +159,7 @@ public class InflaterHuffmanTree {
                 continue;
         }
 	code = nextCode[bits];
-	int revcode = DeflaterHuffman.bitReverse(code);
+	int revcode =   bitReverse(code);
 	if (bits <= 9)
 	  {
 	    do

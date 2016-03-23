@@ -14,9 +14,12 @@
  */
 package ilarkesto.gwt.client;
 
-import com.google.gwt.core.client.GWT;
+import static com.google.gwt.core.client.GWT.getModuleBaseURL;
+import static com.google.gwt.core.client.GWT.isProdMode;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
+import static com.google.gwt.user.client.DOM.getInnerHTML;
+import static com.google.gwt.user.client.DOM.setInnerText;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -33,13 +36,15 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.ToHtmlSupport;
-import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.concatToHtml;
+import static ilarkesto.gwt.client.Predicate.FALSE;
+import static ilarkesto.gwt.client.Predicate.TRUE;
 import ilarkesto.gwt.client.editor.RichtextEditorWidget;
 import ilarkesto.gwt.client.undo.UndoManager;
 import java.util.ArrayList;
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptySet;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -64,7 +69,7 @@ public class Gwt {
 	}
 
 	public static boolean isMsie() {
-		return GWT.isProdMode() ? isMsieJs() : false;
+		return isProdMode() ? isMsieJs() : false;
 	}
 
 	private static native boolean isMsieJs()
@@ -173,8 +178,8 @@ public class Gwt {
 
 	public static String escapeHtml(String maybeHtml) {
 		final Element div = DOM.createDiv();
-		DOM.setInnerText(div, maybeHtml);
-		return DOM.getInnerHTML(div);
+		setInnerText(div, maybeHtml);
+		return getInnerHTML(div);
 	}
 
 	public static boolean equals(Object a, Object b) {
@@ -227,11 +232,11 @@ public class Gwt {
 	}
 
 	public static Predicate predicate(boolean value) {
-		return value ? Predicate.TRUE : Predicate.FALSE;
+		return value ? TRUE : FALSE;
 	}
 
 	public static Widget createToHtmlItemsWidget(Collection<? extends ToHtmlSupport> items) {
-		return new HTML(Utl.concatToHtml(items, "<br>"));
+		return new HTML(concatToHtml(items, "<br>"));
 	}
 
 	public static HTML createServletDownloadLink(String relativeHref, String text) {
@@ -239,7 +244,7 @@ public class Gwt {
 	}
 
 	public static HTML createServletLink(String relativeHref, String text, boolean targetBlank) {
-		return createHyperlink(GWT.getModuleBaseURL() + relativeHref, text, targetBlank);
+		return createHyperlink(getModuleBaseURL() + relativeHref, text, targetBlank);
 	}
 
 	public static HTML createHyperlink(String href, String text, boolean targetBlank) {
@@ -280,11 +285,11 @@ public class Gwt {
 
 	public static void setRichtextEditorEditInitializer(
 			Initializer<RichtextEditorWidget> richtextEditorToolbarInitializer) {
-		Gwt.richtextEditorEditInitializer = richtextEditorToolbarInitializer;
+		richtextEditorEditInitializer = richtextEditorToolbarInitializer;
 	}
 
 	public static void setDefaultRichtextFormater(RichtextFormater defaultRichtextFormater) {
-		Gwt.defaultRichtextFormater = defaultRichtextFormater;
+		defaultRichtextFormater = defaultRichtextFormater;
 	}
 
 	public static Initializer<RichtextEditorWidget> getRichtextEditorEditInitializer() {
@@ -300,11 +305,11 @@ public class Gwt {
 	}
 
 	public static void setDefaultRichtextSyntaxInfo(String defaultRichtextSyntaxInfo) {
-		Gwt.defaultRichtextSyntaxInfo = defaultRichtextSyntaxInfo;
+		defaultRichtextSyntaxInfo = defaultRichtextSyntaxInfo;
 	}
 
 	public static void setRootWidget(Widget rootWidget) {
-		Gwt.rootWidget = rootWidget;
+		rootWidget = rootWidget;
 	}
 
 	public static Widget getRootWidget() {
@@ -405,7 +410,7 @@ public class Gwt {
 
 	public static <O extends Object> List<O> toList(O... objects) {
 		ArrayList<O> list = new ArrayList<O>(objects.length);
-                list.addAll(Arrays.asList(objects));
+                list.addAll(asList(objects));
 		return list;
 	}
 
@@ -474,7 +479,7 @@ public class Gwt {
 
 	public static Set<String> getIdsAsSet(Collection<? extends AGwtEntity> entities) {
 		if (entities == null) {
-                        return Collections.emptySet();
+                        return emptySet();
                 }
 		Set<String> ret = new HashSet<String>(entities.size());
 		for (AGwtEntity entity : entities) {

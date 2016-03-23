@@ -17,7 +17,9 @@ package ilarkesto.mda.swingeditor;
 import ilarkesto.core.scope.In;
 import ilarkesto.mda.model.Node;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
 import java.awt.Color;
+import static java.awt.Color.DARK_GRAY;
 import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -39,15 +41,15 @@ public class NodeValuePanel extends JPanel implements NodeSelectionChangedHandle
 		Node node = event.getSelectedNode();
 		if (node != null) {
 			Component component = swingModelHelper.createValueComponent(node);
-			add(createWrapper(component), BorderLayout.CENTER);
+			add(createWrapper(component), CENTER);
 		}
 		updateUI();
 	}
 
 	private Component createWrapper(Component component) {
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.add(component, BorderLayout.CENTER);
-		panel.setBorder(new LineBorder(Color.DARK_GRAY));
+		panel.add(component, CENTER);
+		panel.setBorder(new LineBorder(DARK_GRAY));
 		return panel;
 	}
 

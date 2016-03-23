@@ -14,17 +14,18 @@
  */
 package ilarkesto.mda.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.core.base.Str.concat;
 import ilarkesto.gwt.client.ErrorWrapper;
 import ilarkesto.gwt.server.AGwtServiceImpl;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.List;
 
 public class GwtServiceImplGenerator extends AJavaClassGenerator implements NodeTypes {
 
-	private Node module;
+	private final Node module;
 
 	public GwtServiceImplGenerator(String srcPath, Node module) {
 		super(srcPath, true);
@@ -35,7 +36,7 @@ public class GwtServiceImplGenerator extends AJavaClassGenerator implements Node
 	protected void printCode(JavaPrinter out) {
 		out.package_(getServerPackageName());
 		out.beginClass(true, "G" + module.getValue() + "ServiceImpl", AGwtServiceImpl.class.getName(),
-			Arrays.asList(getGwtPackageName() + "." + module.getValue() + "Service"));
+			asList(getGwtPackageName() + "." + module.getValue() + "Service"));
 
 		out.loggerByClassName(module.getValue() + "ServiceImpl");
 
@@ -57,7 +58,7 @@ public class GwtServiceImplGenerator extends AJavaClassGenerator implements Node
 			out.annotationOverride();
 			List<String> params = getParameterTypesAndNames(call, "String");
 			params.add(0, "int conversationNumber");
-			out.beginMethod(getGwtPackageName() + ".DataTransferObject", StrExtend.lowercaseFirstLetter(call.getValue()),
+			out.beginMethod(getGwtPackageName() + ".DataTransferObject", lowercaseFirstLetter(call.getValue()),
 				params);
 			if (!call.getValue().equals("Ping")) {
 				out.logDebug("\"Handling service call: " + call.getValue() + "\"");
@@ -80,7 +81,7 @@ public class GwtServiceImplGenerator extends AJavaClassGenerator implements Node
 			out.beginTry();
 			List<String> parameterNames = getParameterNames(call);
 			parameterNames.add(0, "conversation");
-			out.statement("on" + call.getValue() + "(" + StrExtend.concat(parameterNames, ", ") + ")");
+			out.statement("on" + call.getValue() + "(" + concat(parameterNames, ", ") + ")");
 			out.statement("onServiceMethodExecuted(context)");
 			out.beginCatchThrowable();
 			out.statement("handleServiceMethodException(conversationNumber, \"" + call.getValue() + "\", ex)");

@@ -15,12 +15,19 @@
 package ilarkesto.ui.web;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.activateLinksInHtml;
+import static ilarkesto.base.StrExtend.replaceForHtml;
 import ilarkesto.base.Url;
 import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.getRootCause;
+import static ilarkesto.core.base.Str.toHtml;
+import static ilarkesto.core.base.Utl.equalsAny;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
 import ilarkesto.integration.links.MultiLinkConverter;
+import static ilarkesto.integration.links.MultiLinkConverter.ALL;
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,11 +35,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import static java.lang.String.valueOf;
 
 public class HtmlRenderer {
 
 	private PrintWriter out;
-	private String encoding = IO.UTF_8;
+	private String encoding = UTF_8;
 
 	private StringWriter buffer; // optional
 	private FileWriter fileWriter; // optional
@@ -444,7 +452,7 @@ public class HtmlRenderer {
 	private Tag INPUT(String type, String name, String value) {
 		Tag tag = startTag(INPUT, true).set("type", type).set("name", name);
 		if (value != null) {
-                        tag.set("value", StrExtend.replaceForHtml(value));
+                        tag.set("value", replaceForHtml(value));
                 }
 		return tag;
 	}
@@ -959,23 +967,23 @@ public class HtmlRenderer {
 				try {
 					s = text.toString();
 				} catch (Throwable ex) {
-					s = "<ERROR: " + UtlExtend.getRootCause(ex).getMessage() + ">";
+					s = "<ERROR: " + getRootCause(ex).getMessage() + ">";
 				}
 			}
 			if (s.startsWith("<html>")) {
 				if (s.length() > 6) {
 					s = s.substring(6);
 					if (activateLinks) {
-                                                s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+                                                s = activateLinksInHtml(s, ALL);
                                         }
 					out.print(s);
 				}
 			} else {
-				s = StrExtend.replaceForHtml(s);
+				s = replaceForHtml(s);
 				// text = StringEscapeUtils.escapeHtml(text);
 				// text = text.replace("\n", "<BR/>");
 				if (activateLinks) {
-                                        s = StrExtend.activateLinksInHtml(s, MultiLinkConverter.ALL);
+                                        s = activateLinksInHtml(s, ALL);
                                 }
 				out.print(s);
 			}
@@ -1008,7 +1016,7 @@ public class HtmlRenderer {
 		closeStartingTag();
 		depth--;
 
-		if (UtlExtend.equalsAny(name, "html", "body", "head", "ul", "div")) {
+		if (equalsAny(name, "html", "body", "head", "ul", "div")) {
 			nl();
 			printPrefix();
 		}
@@ -1074,7 +1082,7 @@ public class HtmlRenderer {
 		}
 
 		public Tag setTitle(String value) {
-			return set("title", StrExtend.toHtml(value));
+			return set("title", toHtml(value));
 		}
 
 		public Tag setHref(String value) {
@@ -1179,7 +1187,7 @@ public class HtmlRenderer {
 			if (value == null) {
                                 return this;
                         }
-			return set(name, String.valueOf(value));
+			return set(name, valueOf(value));
 		}
 
 		public Tag set(String name, String value) {

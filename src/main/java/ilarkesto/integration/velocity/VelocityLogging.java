@@ -16,12 +16,16 @@ package ilarkesto.integration.velocity;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.logging.Log.Level;
+import static ilarkesto.core.logging.Log.Level.DEBUG;
+import static ilarkesto.core.logging.Log.Level.ERROR;
+import static ilarkesto.core.logging.Log.Level.INFO;
+import static ilarkesto.core.logging.Log.Level.WARN;
 import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.log.LogChute;
 
 public class VelocityLogging implements LogChute {
 
-	private static Log log = Log.get(VelocityLogging.class);
+	private static final Log log = Log.get(VelocityLogging.class);
 
 	@Override
 	public void init(RuntimeServices rs) throws Exception {
@@ -49,13 +53,13 @@ public class VelocityLogging implements LogChute {
 	private Level mapLevel(int level) {
 		switch (level) {
 			case ERROR_ID:
-				return Level.ERROR;
+				return ERROR;
 			case WARN_ID:
-				return Level.WARN;
+				return WARN;
 			case INFO_ID:
-				return Level.INFO;
+				return INFO;
 			default:
-				return Level.DEBUG;
+				return DEBUG;
 		}
 	}
 

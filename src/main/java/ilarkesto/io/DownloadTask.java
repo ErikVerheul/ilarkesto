@@ -16,6 +16,7 @@ package ilarkesto.io;
 
 import ilarkesto.base.Bytes;
 import ilarkesto.concurrent.ATask;
+import static ilarkesto.io.IO.downloadUrlToFile;
 
 public class DownloadTask extends ATask {
 
@@ -46,7 +47,7 @@ public class DownloadTask extends ATask {
 
 	@Override
 	protected void perform() {
-		IO.downloadUrlToFile(url, destinationPath, username, password, new Observer());
+		downloadUrlToFile(url, destinationPath, username, password, new Observer());
 	}
 
 	@Override

@@ -14,6 +14,7 @@
  */
 package ilarkesto.core.time;
 
+import static java.lang.System.currentTimeMillis;
 import java.util.Date;
 
 public class Tm {
@@ -41,11 +42,11 @@ public class Tm {
 	private static long timeOffset = 0;
 
 	public static long getCurrentTimeMillis() {
-		return System.currentTimeMillis() + timeOffset;
+		return currentTimeMillis() + timeOffset;
 	}
 
 	public static void setTimeOffset(long timeOffset) {
-		Tm.timeOffset = timeOffset;
+		timeOffset = timeOffset;
 	}
 
 	public static Date getDateAndTime(Date date, long time) {

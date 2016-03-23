@@ -14,6 +14,7 @@
  */
 package ilarkesto.io;
 
+import static ilarkesto.io.IO.createDirectory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class ExclusiveFileLock {
 
 		this.file = file;
 
-		IO.createDirectory(file.getParentFile());
+		createDirectory(file.getParentFile());
 
 		FileChannel channel;
 		try {

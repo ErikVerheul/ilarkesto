@@ -15,8 +15,9 @@
 package ilarkesto.jdbc;
 
 import ilarkesto.core.logging.Log;
+import static java.lang.Class.forName;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import static java.sql.DriverManager.getConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ import java.sql.Statement;
 
 public class Jdbc {
 
-	private static Log log = Log.get(Jdbc.class);
+	private static final Log log = Log.get(Jdbc.class);
 
 	public static Connection createConnection(String driver, String protocol, String host, String port,
 			String database, String login, String password) {
@@ -32,7 +33,7 @@ public class Jdbc {
 		String url = createConnectionUrl(protocol, host, port, database);
 		log.info("Connecting database:", url);
 		try {
-			return DriverManager.getConnection(url, login, password);
+			return getConnection(url, login, password);
 		} catch (SQLException ex) {
 			throw new RuntimeException("Connecting database failed: " + url, ex);
 		}
@@ -54,7 +55,7 @@ public class Jdbc {
 
 	public static void loadDriver(String driver) {
 		try {
-			Class.forName(driver).newInstance();
+			forName(driver).newInstance();
 		} catch (ClassNotFoundException ex) {
 			throw new RuntimeException("Loading JDBC driver failed: " + driver, ex);
 		} catch (Exception ex) {

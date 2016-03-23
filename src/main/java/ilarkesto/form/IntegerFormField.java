@@ -15,6 +15,9 @@
 package ilarkesto.form;
 
 
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.valueOf;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
@@ -44,7 +47,7 @@ public class IntegerFormField extends AFormField  {
     }
 
     public IntegerFormField setValue(Integer value) {
-        this.value = value == null ? null : String.valueOf(value);
+        this.value = value == null ? null : valueOf(value);
         return this;
     }
 
@@ -69,7 +72,7 @@ public class IntegerFormField extends AFormField  {
             }
         } else {
             try {
-                Integer.parseInt(value);
+                                parseInt(value);
             } catch (Exception ex) {
                 throw new ValidationException("Hier wird eine Zahl erwartet");
             }
@@ -81,7 +84,7 @@ public class IntegerFormField extends AFormField  {
     }
 
     public Integer getValue() {
-        return value == null ? null : Integer.parseInt(value);
+        return value == null ? null : parseInt(value);
     }
 
 }

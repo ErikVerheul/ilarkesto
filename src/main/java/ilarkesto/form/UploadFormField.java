@@ -21,12 +21,12 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
-import org.mortbay.log.Log;
+import static org.mortbay.log.Log.warn;
 
 public class UploadFormField extends AFormField {
 
     private File file;
-    private Integer maxFilesize = new Integer(10000000);
+    private Integer maxFilesize = 10000000;
 
     public UploadFormField(String name) {
         super(name);
@@ -61,7 +61,7 @@ public class UploadFormField extends AFormField {
                                         } catch (Exception ex) {
                                                 throw new RuntimeException(ex);
                                         }
-                                } Log.warn("Can not create directory");
+                                } warn("Can not create directory");
                         }
                 }
         }
@@ -89,7 +89,7 @@ public class UploadFormField extends AFormField {
 
     // --- dependencies ---
 
-    private static IdGenerator folderIdGenerator = new CountingIdGenerator(UploadFormField.class.getSimpleName());
+    private static final IdGenerator folderIdGenerator = new CountingIdGenerator(UploadFormField.class.getSimpleName());
 
     private String applicationTempDir = "";
 

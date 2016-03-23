@@ -15,7 +15,20 @@
 package ilarkesto.core.time;
 
 import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.getLanguage;
+import static ilarkesto.core.time.Tm.DAY;
+import static ilarkesto.core.time.Tm.HOUR;
+import static ilarkesto.core.time.Tm.MINUTE;
+import static ilarkesto.core.time.Tm.MONTH;
+import static ilarkesto.core.time.Tm.SECOND;
+import static ilarkesto.core.time.Tm.WEEK;
+import static ilarkesto.core.time.Tm.YEAR;
+import static ilarkesto.core.time.Tm.getLocalizer;
 import java.io.Serializable;
+import static java.lang.Long.parseLong;
+import static java.lang.Long.parseLong;
+import static java.lang.Long.parseLong;
+import static java.lang.String.valueOf;
 
 public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 
@@ -34,16 +47,16 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 			int i = 0;
 			while (idx >= 0) {
 				String num = s.substring(0, idx);
-				long l = Long.parseLong(num);
+				long l = parseLong(num);
 				switch (i) {
 					case 0:
-						millis += l * Tm.HOUR;
+						millis += l * HOUR;
 						break;
 					case 1:
-						millis += l * Tm.MINUTE;
+						millis += l * MINUTE;
 						break;
 					case 2:
-						millis += l * Tm.SECOND;
+						millis += l * SECOND;
 						break;
 					default:
 						throw new IllegalArgumentException(s);
@@ -52,22 +65,22 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 				s = s.substring(idx + 1);
 				idx = s.indexOf(':');
 			}
-			long l = Long.parseLong(s);
+			long l = parseLong(s);
 			switch (i) {
 				case 0:
-					millis += l * Tm.HOUR;
+					millis += l * HOUR;
 					break;
 				case 1:
-					millis += l * Tm.MINUTE;
+					millis += l * MINUTE;
 					break;
 				case 2:
-					millis += l * Tm.SECOND;
+					millis += l * SECOND;
 					break;
 				default:
 					millis += l;
 			}
 		} else {
-			this.millis = Long.parseLong(s);
+			this.millis = parseLong(s);
 		}
 	}
 
@@ -96,7 +109,7 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 	}
 
 	public TimePeriod addDays(int days) {
-		return newTimePeriod(millis + Tm.DAY);
+		return newTimePeriod(millis + DAY);
 	}
 
 	public TimePeriod multiplyBy(int factor) {
@@ -120,35 +133,35 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 	}
 
 	public final long toSeconds() {
-		return millis / Tm.SECOND;
+		return millis / SECOND;
 	}
 
 	public final long toMinutes() {
-		return millis / Tm.MINUTE;
+		return millis / MINUTE;
 	}
 
 	public final long toHours() {
-		return millis / Tm.HOUR;
+		return millis / HOUR;
 	}
 
 	public final int toDays() {
-		return (int) (millis / Tm.DAY);
+		return (int) (millis / DAY);
 	}
 
 	public final int toWeeks() {
-		return (int) (millis / Tm.WEEK);
+		return (int) (millis / WEEK);
 	}
 
 	public final int toMonths() {
-		return (int) (millis / Tm.MONTH);
+		return (int) (millis / MONTH);
 	}
 
 	public final int toYears() {
-		return (int) (millis / Tm.YEAR);
+		return (int) (millis / YEAR);
 	}
 
 	public final float toDecimalDays() {
-		return (float) millis / (float) Tm.DAY;
+		return (float) millis / (float) DAY;
 	}
 
 	public final boolean isNegative() {
@@ -173,38 +186,38 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 	}
 
 	public String toShortestString() {
-		return toShortestString(Utl.getLanguage());
+		return toShortestString(getLanguage());
 	}
 
 	public final String toShortestString(String language) {
-		TmLocalizer loc = Tm.getLocalizer(language);
+		TmLocalizer loc = getLocalizer(language);
 		StringBuilder sb = new StringBuilder();
 		long m = millis >= 0 ? millis : -millis;
-		if (m >= (Tm.YEAR * 2)) {
+		if (m >= (YEAR * 2)) {
 			int i = toYears();
 			sb.append(i);
 			sb.append(" ").append(loc.years(i));
-		} else if (m >= (Tm.MONTH * 2)) {
+		} else if (m >= (MONTH * 2)) {
 			int i = toMonths();
 			sb.append(i);
 			sb.append(" ").append(loc.months(i));
-		} else if (m >= (Tm.WEEK * 2)) {
+		} else if (m >= (WEEK * 2)) {
 			int i = toWeeks();
 			sb.append(i);
 			sb.append(" ").append(loc.weeks(i));
-		} else if (m >= Tm.DAY) {
+		} else if (m >= DAY) {
 			int i = toDays();
 			sb.append(i);
 			sb.append(" ").append(loc.days(i));
-		} else if (m >= ((Tm.HOUR * 2) - (Tm.MINUTE - 20))) {
+		} else if (m >= ((HOUR * 2) - (MINUTE - 20))) {
 			long l = toHours();
 			sb.append(l);
 			sb.append(" ").append(loc.hours(l));
-		} else if (m >= Tm.MINUTE) {
+		} else if (m >= MINUTE) {
 			long l = toMinutes();
 			sb.append(l);
 			sb.append(" ").append(loc.minutes(l));
-		} else if (m >= Tm.SECOND) {
+		} else if (m >= SECOND) {
 			long l = toSeconds();
 			sb.append(l);
 			sb.append(" ").append(loc.seconds(l));
@@ -258,29 +271,29 @@ public class TimePeriod implements Comparable<TimePeriod>, Serializable {
 
 	@Override
 	public final String toString() {
-		return String.valueOf(millis);
+		return valueOf(millis);
 	}
 
 	// --- static ---
 
 	public static TimePeriod seconds(int seconds) {
-		return new TimePeriod(seconds * Tm.SECOND);
+		return new TimePeriod(seconds * SECOND);
 	}
 
 	public static TimePeriod minutes(int minutes) {
-		return new TimePeriod(minutes * Tm.MINUTE);
+		return new TimePeriod(minutes * MINUTE);
 	}
 
 	public static TimePeriod hours(int hours) {
-		return new TimePeriod(hours * Tm.HOUR);
+		return new TimePeriod(hours * HOUR);
 	}
 
 	public static TimePeriod days(int days) {
-		return new TimePeriod(days * Tm.DAY);
+		return new TimePeriod(days * DAY);
 	}
 
 	public static TimePeriod weeks(int weeks) {
-		return new TimePeriod(weeks * Tm.WEEK);
+		return new TimePeriod(weeks * WEEK);
 	}
 
 }

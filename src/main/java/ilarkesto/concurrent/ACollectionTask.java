@@ -14,9 +14,9 @@
  */
 package ilarkesto.concurrent;
 
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.getRootCause;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 
 public abstract class ACollectionTask<E> extends ATask {
 
@@ -32,7 +32,7 @@ public abstract class ACollectionTask<E> extends ATask {
 	protected final void perform() throws InterruptedException {
 		Collection<E> elements = prepare();
 		if (elements == null) {
-                        elements = Collections.emptyList();
+                        elements = emptyList();
                 }
 		count = elements.size();
 		index = 0;
@@ -41,7 +41,7 @@ public abstract class ACollectionTask<E> extends ATask {
 			try {
 				perform(local_element);
 			} catch (Throwable ex) {
-				Throwable rootCause = UtlExtend.getRootCause(ex);
+				Throwable rootCause = getRootCause(ex);
 				if (!(rootCause instanceof InterruptedException)) {
                                         onElementError(local_element, ex);
                                 }

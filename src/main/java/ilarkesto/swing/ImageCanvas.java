@@ -14,8 +14,14 @@
  */
 package ilarkesto.swing;
 
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.getScaled;
+import static ilarkesto.io.IO.toBufferedImage;
+import static ilarkesto.swing.Swing.captureScreen;
+import static ilarkesto.swing.Swing.getWindow;
+import static ilarkesto.swing.Swing.invokeInEventDispatchThread;
+import static ilarkesto.swing.Swing.showInJFrame;
 import java.awt.Color;
+import static java.awt.Color.DARK_GRAY;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -26,12 +32,12 @@ public class ImageCanvas extends Component {
 
 	public static void main(String[] args) throws Throwable {
 		ImageCanvas ic = new ImageCanvas();
-		ic.setImage(Swing.captureScreen(Swing.getWindow(ic)));
+		ic.setImage(captureScreen(getWindow(ic)));
 		ic.setPreferredSize(new Dimension(300, 300));
-		Swing.showInJFrame(ic, "ImageCanvas", null, true);
+		showInJFrame(ic, "ImageCanvas", null, true);
 	}
 
-	private Color backgroundColor = Color.DARK_GRAY;
+	private Color backgroundColor = DARK_GRAY;
 
 	private BufferedImage image;
 	private boolean autoScale;
@@ -81,7 +87,7 @@ public class ImageCanvas extends Component {
 
 		if (autoScale) {
 			if (imageWidth > width || imageHeight > height) {
-				image = IO.toBufferedImage(IO.getScaled(this.image, width, height));
+				image = toBufferedImage(getScaled(this.image, width, height));
 				imageWidth = image.getWidth();
 				imageHeight = image.getHeight();
 			}
@@ -142,7 +148,7 @@ public class ImageCanvas extends Component {
 		public void run() {
 			setName("ImageLoadThread:" + file.getPath());
 			final BufferedImage image = getPreloader().get(file);
-			Swing.invokeInEventDispatchThread(new Runnable() {
+			invokeInEventDispatchThread(new Runnable() {
 
 				@Override
 				public void run() {

@@ -15,12 +15,16 @@
 package ilarkesto.rss;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.TmExtend;
+import static ilarkesto.base.TmExtend.FORMAT_RFC822;
 import ilarkesto.base.UtlExtend;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.integration.jdom.JDom;
+import static ilarkesto.integration.jdom.JDom.addElement;
+import static ilarkesto.integration.jdom.JDom.addTextElement;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.List;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -34,10 +38,10 @@ public class Rss20Builder {
 	private DateAndTime pubDate;
 	private String image;
 
-	private List<Item> items = new ArrayList<Item>();
+	private List<Item> items = new ArrayList<>();
 
 	public Rss20Builder sortItems() {
-		Collections.sort(items);
+		sort(items);
 		return this;
 	}
 
@@ -78,30 +82,30 @@ public class Rss20Builder {
 		doc.setRootElement(eRss);
 		eRss.setAttribute("version", "2.0");
 
-		Element eChannel = JDom.addElement(eRss, "channel");
+		Element eChannel = addElement(eRss, "channel");
 		if (title != null) {
-                        JDom.addTextElement(eChannel, "title", title);
+                        addTextElement(eChannel, "title", title);
                 }
 		if (link != null) {
-                        JDom.addTextElement(eChannel, "link", link);
+                        addTextElement(eChannel, "link", link);
                 }
 		if (description != null) {
-                        JDom.addTextElement(eChannel, "description", description);
+                        addTextElement(eChannel, "description", description);
                 }
 		if (language != null) {
-                        JDom.addTextElement(eChannel, "language", language);
+                        addTextElement(eChannel, "language", language);
                 }
 		if (pubDate != null) {
-                        JDom.addTextElement(eChannel, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+                        addTextElement(eChannel, "pubDate", FORMAT_RFC822.format(pubDate));
                 }
 		if (image != null) {
-			Element eImage = JDom.addElement(eChannel, "image");
-			JDom.addTextElement(eImage, "url", image);
-			JDom.addTextElement(eImage, "title", "Logo");
+			Element eImage = addElement(eChannel, "image");
+			addTextElement(eImage, "url", image);
+			addTextElement(eImage, "title", "Logo");
 		}
 
 		for (Item item : items) {
-			Element eItem = JDom.addElement(eChannel, "item");
+			Element eItem = addElement(eChannel, "item");
 			item.appendTo(eItem);
 		}
 
@@ -109,7 +113,7 @@ public class Rss20Builder {
 	}
 
 	public void removeDuplicates(Item item) {
-		for (Item i : new ArrayList<Item>(items)) {
+		for (Item i : new ArrayList<>(items)) {
 			if (i == item) {
                                 continue;
                         }
@@ -140,22 +144,22 @@ public class Rss20Builder {
 
 		private void appendTo(Element eItem) {
 			if (title != null) {
-                                JDom.addTextElement(eItem, "title", title);
+                                addTextElement(eItem, "title", title);
                         }
 			if (description != null) {
-                                JDom.addTextElement(eItem, "description", description);
+                                addTextElement(eItem, "description", description);
                         }
 			if (link != null) {
-                                JDom.addTextElement(eItem, "link", link);
+                                addTextElement(eItem, "link", link);
                         }
 			if (guid != null) {
-                                JDom.addTextElement(eItem, "guid", guid);
+                                addTextElement(eItem, "guid", guid);
                         }
 			if (pubDate != null) {
-                                JDom.addTextElement(eItem, "pubDate", TmExtend.FORMAT_RFC822.format(pubDate));
+                                addTextElement(eItem, "pubDate", FORMAT_RFC822.format(pubDate));
                         }
 			if (enclosure != null) {
-				Element eEnclosure = JDom.addElement(eItem, "enclosure");
+				Element eEnclosure = addElement(eItem, "enclosure");
 				eEnclosure.setAttribute("url", enclosure);
 			}
 		}

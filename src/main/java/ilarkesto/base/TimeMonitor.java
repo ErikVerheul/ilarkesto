@@ -15,28 +15,31 @@
 package ilarkesto.base;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static java.lang.String.valueOf;
 
 /**
  * Simple tool for measuring time between calls.
  */
 public class TimeMonitor {
 
-	private long start = TmExtend.getCurrentTimeMillis();
+	private long start = getCurrentTimeMillis();
 
 	public long getTime() {
-		return TmExtend.getCurrentTimeMillis() - start;
+		return getCurrentTimeMillis() - start;
 	}
 
 	public void debugOut(String name) {
 		if (name == null) {
                         name = "TimeMonitor";
                 }
-		Log.DEBUG(name, "->", this);
+		DEBUG(name, "->", this);
 	}
 
 	@Override
 	public String toString() {
-		return String.valueOf(getTime()) + " ms.";
+		return valueOf(getTime()) + " ms.";
 	}
 
 }

@@ -1,5 +1,7 @@
 package ilarkesto.fp;
 
+import static ilarkesto.fp.FP.group;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +11,7 @@ import junit.framework.TestCase;
 public class FPTest extends TestCase {
 
 	public void testGroup() {
-		Collection<String> elements = new ArrayList<String>();
+		Collection<String> elements = new ArrayList<>();
 		elements.add("abc");
 		elements.add("123");
 		elements.add("456");
@@ -18,7 +20,7 @@ public class FPTest extends TestCase {
 
 			public String eval(String e) {
 				try {
-					Integer.parseInt(e);
+					parseInt(e);
 					return "num";
 				} catch (NumberFormatException ex) {
 					return "text";
@@ -27,7 +29,7 @@ public class FPTest extends TestCase {
 
 		};
 
-		Map<String, List<String>> result = FP.group(elements, textOrNumGroupFunction);
+		Map<String, List<String>> result = group(elements, textOrNumGroupFunction);
 		List<String> nums = result.get("num");
 		List<String> texts = result.get("text");
 		List<String> others = result.get("other");

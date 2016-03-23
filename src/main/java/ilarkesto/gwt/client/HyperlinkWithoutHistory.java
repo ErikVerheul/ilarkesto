@@ -15,13 +15,22 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
+import static com.google.gwt.event.dom.client.ClickEvent.getType;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
+import static com.google.gwt.user.client.DOM.appendChild;
+import static com.google.gwt.user.client.DOM.createAnchor;
+import static com.google.gwt.user.client.DOM.createDiv;
+import static com.google.gwt.user.client.DOM.eventGetType;
+import static com.google.gwt.user.client.DOM.eventPreventDefault;
+import static com.google.gwt.user.client.DOM.getInnerHTML;
+import static com.google.gwt.user.client.DOM.getInnerText;
+import static com.google.gwt.user.client.DOM.setInnerHTML;
+import static com.google.gwt.user.client.DOM.setInnerText;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import static com.google.gwt.user.client.Event.ONCLICK;
 import com.google.gwt.user.client.ui.HasHTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.HyperlinkImpl;
@@ -30,10 +39,10 @@ public class HyperlinkWithoutHistory extends Widget implements HasHTML, HasClick
 
 	private static HyperlinkImpl impl = GWT.create(HyperlinkImpl.class);
 
-	private final Element anchorElem = DOM.createAnchor();
+	private final Element anchorElem = createAnchor();
 
 	public HyperlinkWithoutHistory() {
-		this(DOM.createDiv());
+		this(createDiv());
 	}
 
 	protected HyperlinkWithoutHistory(Element elem) {
@@ -41,45 +50,45 @@ public class HyperlinkWithoutHistory extends Widget implements HasHTML, HasClick
 			setElement(anchorElem);
 		} else {
 			setElement(elem);
-			DOM.appendChild(getElement(), anchorElem);
+			appendChild(getElement(), anchorElem);
 		}
 
-		sinkEvents(Event.ONCLICK);
+		sinkEvents(ONCLICK);
 		setStyleName("gwt-Hyperlink");
 	}
 
 	@Override
 	@Deprecated
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return addHandler(handler, ClickEvent.getType());
+		return addHandler(handler, getType());
 	}
 
 	@Override
 	public String getHTML() {
-		return DOM.getInnerHTML(anchorElem);
+		return getInnerHTML(anchorElem);
 	}
 
 	@Override
 	public String getText() {
-		return DOM.getInnerText(anchorElem);
+		return getInnerText(anchorElem);
 	}
 
 	@Override
 	public void onBrowserEvent(Event event) {
 		super.onBrowserEvent(event);
-		if (DOM.eventGetType(event) == Event.ONCLICK && impl.handleAsClick(event)) {
-			DOM.eventPreventDefault(event);
+		if (eventGetType(event) == ONCLICK && impl.handleAsClick(event)) {
+			eventPreventDefault(event);
 		}
 	}
 
 	@Override
 	public void setHTML(String html) {
-		DOM.setInnerHTML(anchorElem, html);
+		setInnerHTML(anchorElem, html);
 	}
 
 	@Override
 	public void setText(String text) {
-		DOM.setInnerText(anchorElem, text);
+		setInnerText(anchorElem, text);
 	}
 
 	@Override

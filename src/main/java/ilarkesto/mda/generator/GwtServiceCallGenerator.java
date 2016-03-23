@@ -15,12 +15,15 @@
 package ilarkesto.mda.generator;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeByIndexComparator;
 import ilarkesto.mda.model.NodeTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.List;
 
 public class GwtServiceCallGenerator extends AJavaClassGenerator implements NodeTypes {
@@ -46,13 +49,13 @@ public class GwtServiceCallGenerator extends AJavaClassGenerator implements Node
 		out.beginClass(call.getValue() + "ServiceCall", "scrum.client.core.AServiceCall", null);
 
 		List<Node> parameters = call.getChildrenByType(Parameter);
-		Collections.sort(parameters, new NodeByIndexComparator());
+		sort(parameters, new NodeByIndexComparator());
 
 		for (Node parameter : parameters) {
 			out.field("private", getType(parameter), parameter.getValue(), null);
 		}
 
-		List<String> constructorParameters = new ArrayList<String>(parameters.size());
+		List<String> constructorParameters = new ArrayList<>(parameters.size());
 		for (Node parameter : parameters) {
 			constructorParameters.add(getType(parameter) + " " + parameter.getValue());
 		}
@@ -67,9 +70,9 @@ public class GwtServiceCallGenerator extends AJavaClassGenerator implements Node
 			callParameters.append(parameter.getValue()).append(", ");
 		}
 
-		out.beginMethod("void", "execute", Arrays.asList("Runnable returnHandler"));
+		out.beginMethod("void", "execute", asList("Runnable returnHandler"));
 		out.statement("serviceCaller.onServiceCall(this)");
-		out.statement("serviceCaller.getService()." + StrExtend.lowercaseFirstLetter(call.getValue())
+		out.statement("serviceCaller.getService()." + lowercaseFirstLetter(call.getValue())
 				+ "(serviceCaller.getConversationNumber(), " + callParameters
 				+ "new DefaultCallback(this, returnHandler))");
 		out.endMethod();

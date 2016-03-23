@@ -15,11 +15,10 @@
 package ilarkesto.form;
 
 import ilarkesto.base.MissingDependencyException;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.locale.Localizer;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
@@ -41,16 +40,16 @@ public class Form {
 
 	private String formName;
 	private String title;
-	private List<FormField> visibleFields = new ArrayList<FormField>();
-	private List<HiddenFormField> hiddenFields = new ArrayList<HiddenFormField>();
-	private List<FormButton> submitButtons = new ArrayList<FormButton>();
+	private List<FormField> visibleFields = new ArrayList<>();
+	private List<HiddenFormField> hiddenFields = new ArrayList<>();
+	private List<FormButton> submitButtons = new ArrayList<>();
 	private String errorMessage;
 	private boolean multipart = false;
 	private FormButton defaultButton;
 	private boolean autoLocalize = true;
 	private String stringKeyPrefix;
 	private boolean initialized;
-	private List<FormPlugin> footerPlugins = new ArrayList<FormPlugin>(1);
+	private List<FormPlugin> footerPlugins = new ArrayList<>(1);
 
 	protected void initializeForm() {}
 
@@ -76,7 +75,7 @@ public class Form {
 	}
 
 	public List<FormField> getAutoTriggerFields() {
-		List<FormField> result = new ArrayList<FormField>();
+		List<FormField> result = new ArrayList<>();
 		for (FormField field : visibleFields) {
 			if (field instanceof ItemFormField) {
 				if (((ItemFormField) field).isAutoTrigger()) {
@@ -123,7 +122,7 @@ public class Form {
 
 	public String getName() {
 		if (formName == null) {
-                        formName = StrExtend.lowercaseFirstLetter(getClass().getSimpleName());
+                        formName = lowercaseFirstLetter(getClass().getSimpleName());
                 }
 		return formName;
 	}
@@ -338,13 +337,12 @@ public class Form {
 			return ((MultiComplexFormField) getField(fieldName)).getRemoveButton(id);
 		}
 
-		// submitButtons
-		for (Iterator iter = submitButtons.iterator(); iter.hasNext();) {
-			FormButton button = (FormButton) iter.next();
-			if (button.getName().equals(name)) {
+                // submitButtons
+                for (FormButton button : submitButtons) {
+                        if (button.getName().equals(name)) {
                                 return button;
                         }
-		}
+                }
 
 		throw new RuntimeException("button does not exist: " + name);
 	}

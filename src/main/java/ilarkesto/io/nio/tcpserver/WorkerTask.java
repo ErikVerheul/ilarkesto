@@ -15,6 +15,7 @@
 package ilarkesto.io.nio.tcpserver;
 
 import ilarkesto.concurrent.ALoopTask;
+import static java.lang.System.arraycopy;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class WorkerTask extends ALoopTask {
 
 	private DataHandler handler;
 
-	private final List<ServerDataEvent> queue = new LinkedList<ServerDataEvent>();
+	private final List<ServerDataEvent> queue = new LinkedList<>();
 
 	public WorkerTask(DataHandler handler) {
 		super();
@@ -35,7 +36,7 @@ public class WorkerTask extends ALoopTask {
 			dataCopy = null;
 		} else {
 			dataCopy = new byte[count];
-			System.arraycopy(data, 0, dataCopy, 0, count);
+			arraycopy(data, 0, dataCopy, 0, count);
 		}
 		synchronized (queue) {
 			queue.add(new ServerDataEvent(connection, dataCopy));

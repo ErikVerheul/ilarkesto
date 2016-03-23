@@ -14,44 +14,50 @@
  */
 package ilarkesto.concurrent;
 
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.getRootCause;
+import static ilarkesto.base.UtlExtend.toSet;
+import static ilarkesto.base.UtlExtend.toStringWithType;
 import ilarkesto.core.logging.Log;
-import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.di.Context;
-import java.util.Collections;
+import static ilarkesto.di.Context.get;
+import static java.lang.Long.MAX_VALUE;
+import static java.lang.Thread.sleep;
+import static java.util.Collections.synchronizedSet;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class TaskManager {
 
 	private static final Log LOG = Log.get(TaskManager.class);
 
-	private Set<ATask> runningTasks = Collections.synchronizedSet(new HashSet<ATask>());
-	private Set<ATask> scheduledTasks = Collections.synchronizedSet(new HashSet<ATask>());
-	private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5,
+	private final Set<ATask> runningTasks = synchronizedSet(new HashSet<ATask>());
+	private final Set<ATask> scheduledTasks = synchronizedSet(new HashSet<ATask>());
+	private final ScheduledExecutorService scheduledExecutorService = newScheduledThreadPool(5,
 		new DeamonThreadFactory());
-	private ExecutorService executorService = Executors.newCachedThreadPool(new DeamonThreadFactory());
+	private final ExecutorService executorService = newCachedThreadPool(new DeamonThreadFactory());
 	private boolean shutdownInProgress;
 
 	public void waitForRunningTasks() {
-		waitForRunningTasks(Long.MAX_VALUE);
+		waitForRunningTasks(MAX_VALUE);
 	}
 
 	public void waitForRunningTasks(long maxWaitTime) {
-		long now = Tm.getCurrentTimeMillis();
+		long now = getCurrentTimeMillis();
 		long tryUntilTime = now + maxWaitTime;
 		if (tryUntilTime < now) {
-                        tryUntilTime = Long.MAX_VALUE;
+                        tryUntilTime = MAX_VALUE;
                 }
 		Set<ATask> tasks;
-		while ((!(tasks = getRunningTasks()).isEmpty()) && Tm.getCurrentTimeMillis() < tryUntilTime) {
+		while ((!(tasks = getRunningTasks()).isEmpty()) && getCurrentTimeMillis() < tryUntilTime) {
 			LOG.info("Waiting for running tasks:", tasks);
 			try {
-				Thread.sleep(100);
+				sleep(100);
 			} catch (InterruptedException ex) {
 				LOG.info("    Waiting for running tasks aborted by InterruptedException");
 				return;
@@ -61,7 +67,7 @@ public class TaskManager {
 	}
 
 	public Set<ATask> getRunningTasks() {
-		return UtlExtend.toSet(runningTasks.toArray(new ATask[runningTasks.size()]));
+		return toSet(runningTasks.toArray(new ATask[runningTasks.size()]));
 	}
 
 	public void abortAllRunningTasks() {
@@ -81,7 +87,7 @@ public class TaskManager {
 	}
 
 	public Set<ATask> getScheduledTasks() {
-		return new HashSet<ATask>(scheduledTasks);
+		return new HashSet<>(scheduledTasks);
 	}
 
 	public void start(ATask task) {
@@ -89,7 +95,7 @@ public class TaskManager {
 			LOG.info("Task execution prevented, cause shutdown in progress:", task);
 			return;
 		}
-		TaskRunner runner = new TaskRunner(task, false, Context.get());
+		TaskRunner runner = new TaskRunner(task, false, get());
 		executorService.execute(runner);
 	}
 
@@ -99,8 +105,7 @@ public class TaskManager {
 
 	public void scheduleWithFixedDelay(ATask task, long initialDelay, long delay) {
 		scheduledTasks.add(task);
-		scheduledExecutorService.scheduleWithFixedDelay(new TaskRunner(task, true, Context.get()), initialDelay, delay,
-			TimeUnit.MILLISECONDS);
+		scheduledExecutorService.scheduleWithFixedDelay(new TaskRunner(task, true, get()), initialDelay, delay, MILLISECONDS);
 		LOG.info("Scheduled task:", task);
 	}
 
@@ -117,9 +122,9 @@ public class TaskManager {
 
 	class TaskRunner implements Runnable {
 
-		private ATask task;
-		private boolean repeating;
-		private Context parentContext;
+		private final ATask task;
+		private final boolean repeating;
+		private final Context parentContext;
 
 		public TaskRunner(ATask task, boolean repeating, Context parentContext) {
 			this.task = task;
@@ -136,8 +141,8 @@ public class TaskManager {
 			try {
 				task.run();
 			} catch (Throwable ex) {
-				if (shutdownInProgress && UtlExtend.getRootCause(ex) instanceof InterruptedException) {
-					LOG.info("Task interrupted while shutdown:", UtlExtend.toStringWithType(task));
+				if (shutdownInProgress && getRootCause(ex) instanceof InterruptedException) {
+					LOG.info("Task interrupted while shutdown:", toStringWithType(task));
 				} else {
 					LOG.error(ex);
 				}

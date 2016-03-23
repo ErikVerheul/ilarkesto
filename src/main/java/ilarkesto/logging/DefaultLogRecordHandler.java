@@ -14,15 +14,19 @@
  */
 package ilarkesto.logging;
 
-import ilarkesto.base.StrExtend;
-import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.getUsersHomePath;
+import static ilarkesto.base.Sys.getWorkDir;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.setLogRecordHandler;
 import ilarkesto.core.logging.LogRecord;
 import ilarkesto.core.logging.LogRecordHandler;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.isFileWritable;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import static java.lang.System.err;
+import static java.lang.Thread.currentThread;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,15 +41,15 @@ public class DefaultLogRecordHandler implements LogRecordHandler {
         public final DateFormat LOG_TIME_FORMAT = new SimpleDateFormat("EEE, dd. MMMM yyyy, HH:mm");
         public static final DefaultLogRecordHandler INSTANCE = new DefaultLogRecordHandler();
         private File logFile;
-        private final LinkedList<LogRecord> latestRecords = new LinkedList<LogRecord>();
-        private final LinkedList<LogRecord> errorRecords = new LinkedList<LogRecord>();
+        private final LinkedList<LogRecord> latestRecords = new LinkedList<>();
+        private final LinkedList<LogRecord> errorRecords = new LinkedList<>();
 
         public static void activate() {
         }
 
         private DefaultLogRecordHandler() {
-                System.err.println("Initializing logging system");
-                Log.setLogRecordHandler(this);
+                err.println("Initializing logging system");
+                setLogRecordHandler(this);
         }
 
         @Override
@@ -71,7 +75,7 @@ public class DefaultLogRecordHandler implements LogRecordHandler {
                         }
                 }
 
-                record.context = Thread.currentThread().getName();
+                record.context = currentThread().getName();
                 appendToFile(record.toString());
 //                if (record.level.isWarnOrWorse()) {
 //                        appendToFile(record.toString());
@@ -79,7 +83,7 @@ public class DefaultLogRecordHandler implements LogRecordHandler {
         }
 
         public static boolean setLogFile(File file) {
-                if (!IO.isFileWritable(file)) {
+                if (!isFileWritable(file)) {
                         return false;
                 }
                 INSTANCE.logFile = file;
@@ -95,19 +99,19 @@ public class DefaultLogRecordHandler implements LogRecordHandler {
         }
 
         public static boolean setLogFileToHome(String name) {
-                boolean ok = setLogFile(new File(Sys.getUsersHomePath() + "/" + name + ".log"));
+                boolean ok = setLogFile(new File(getUsersHomePath() + "/" + name + ".log"));
                 if (ok) {
                         return true;
                 }
-                return setLogFile(new File(Sys.getUsersHomePath() + "/webapps/" + name + ".log"));
+                return setLogFile(new File(getUsersHomePath() + "/webapps/" + name + ".log"));
         }
 
         public static boolean setLogFileToWorkdir(String name) {
-                boolean ok = setLogFile(new File(Sys.getWorkDir() + "/" + name + ".log"));
+                boolean ok = setLogFile(new File(getWorkDir() + "/" + name + ".log"));
                 if (ok) {
                         return true;
                 }
-                return setLogFile(new File(Sys.getWorkDir() + "/webapps/" + name + ".log"));
+                return setLogFile(new File(getWorkDir() + "/webapps/" + name + ".log"));
         }
 
         @edu.umd.cs.findbugs.annotations.SuppressWarnings(value = "DM_DEFAULT_ENCODING", justification = "Used only when default encoding is needed")
@@ -125,27 +129,27 @@ public class DefaultLogRecordHandler implements LogRecordHandler {
                 }
 
                 try {
-                        BufferedWriter out = new BufferedWriter(new FileWriter(logFile, logFile.length() < 1048576));
-                        out.write("--------------------------------------------------------------------------------\n");
-                        out.write(LOG_TIME_FORMAT.format(new Date()));
-                        out.write(" -> ");
-                        out.write(record);
-                        out.write('\n');
-                        out.close();
+                        try (BufferedWriter out = new BufferedWriter(new FileWriter(logFile, logFile.length() < 1048576))) {
+                                out.write("--------------------------------------------------------------------------------\n");
+                                out.write(LOG_TIME_FORMAT.format(new Date()));
+                                out.write(" -> ");
+                                out.write(record);
+                                out.write('\n');
+                        }
                 } catch (Exception e) {
-                        System.err.println("Failed to write to logFile: " + logFile.getAbsolutePath() + ": " + StrExtend.format(e));
+                        err.println("Failed to write to logFile: " + logFile.getAbsolutePath() + ": " + format(e));
                 }
         }
 
         public static List<LogRecord> getLatestRecords() {
                 synchronized (INSTANCE.latestRecords) {
-                        return new ArrayList<LogRecord>(INSTANCE.latestRecords);
+                        return new ArrayList<>(INSTANCE.latestRecords);
                 }
         }
 
         public static List<LogRecord> getErrors() {
                 synchronized (INSTANCE.errorRecords) {
-                        return new ArrayList<LogRecord>(INSTANCE.errorRecords);
+                        return new ArrayList<>(INSTANCE.errorRecords);
                 }
         }
 }

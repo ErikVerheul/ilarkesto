@@ -14,7 +14,14 @@
  */
 package ilarkesto.base;
 
+import static ilarkesto.base.StrExtend.formatWithThousandsSeparator;
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
+import static java.lang.System.out;
 import java.util.Locale;
+import static java.util.Locale.GERMAN;
+import static java.util.Locale.GERMANY;
 import java.util.StringTokenizer;
 
 /**
@@ -23,7 +30,7 @@ import java.util.StringTokenizer;
 public final class Money implements Comparable<Money> {
 
 	public static void main(String[] args) {
-		System.out.println(new Money(12000000000d, USD).toString(Locale.GERMANY));
+		out.println(new Money(12000000000d, USD).toString(GERMANY));
 	}
 
 	public static final transient String EUR = "EUR";
@@ -46,7 +53,7 @@ public final class Money implements Comparable<Money> {
                         throw new RuntimeException("Illegal money format: " + s);
                 }
 		String amount = tokenizer.nextToken();
-		this.cent = Math.round(Double.parseDouble(amount.replace(',', '.')) * 100);
+		this.cent = round(parseDouble(amount.replace(',', '.')) * 100);
 		if (!tokenizer.hasMoreTokens()) {
                         throw new RuntimeException("Illegal money format (missing currency): " + s);
                 }
@@ -57,7 +64,7 @@ public final class Money implements Comparable<Money> {
 	}
 
 	public Money(String amount, String currency) {
-		this.cent = Math.round(Double.parseDouble(amount.replace(',', '.')) * 100);
+		this.cent = round(parseDouble(amount.replace(',', '.')) * 100);
 		this.currency = currency;
 		if (this.currency == null) {
                         throw new RuntimeException("currency == null");
@@ -65,7 +72,7 @@ public final class Money implements Comparable<Money> {
 	}
 
 	public Money(double value, String currency) {
-		this.cent = Math.round(value * 100);
+		this.cent = round(value * 100);
 		this.currency = currency;
 		if (this.currency == null) {
                         throw new RuntimeException("currency == null");
@@ -125,11 +132,11 @@ public final class Money implements Comparable<Money> {
 	}
 
 	public Money multiply(float factor) {
-		return new Money(0, Math.round((cent * factor)), currency);
+		return new Money(0, round((cent * factor)), currency);
 	}
 
 	public Money divide(float divisor) {
-		return new Money(0, Math.round((cent / divisor)), currency);
+		return new Money(0, round((cent / divisor)), currency);
 	}
 
 	public String getAmountAsString(char decimalSeparator) {
@@ -141,7 +148,7 @@ public final class Money implements Comparable<Money> {
 		long c = cent;
 		if (c < 0) {
 			neg = true;
-			c = Math.abs(c);
+			c = abs(c);
 		}
 		long value = c / 100;
 		long rest = c - (value * 100);
@@ -149,7 +156,7 @@ public final class Money implements Comparable<Money> {
 		if (neg) {
                         sb.append("-");
                 }
-		sb.append(StrExtend.formatWithThousandsSeparator(value, thousandsSeparator));
+		sb.append(formatWithThousandsSeparator(value, thousandsSeparator));
 		sb.append(decimalSeparator);
 		if (rest < 10) {
                         sb.append('0');
@@ -160,7 +167,7 @@ public final class Money implements Comparable<Money> {
 
 	public String toString(Locale locale) {
 		if (locale != null) {
-			if (locale.equals(Locale.GERMAN) || locale.equals(Locale.GERMANY)) {
+			if (locale.equals(GERMAN) || locale.equals(GERMANY)) {
                                 return getAmountAsString(',', ".") + ' ' + currency;
                         }
 		}

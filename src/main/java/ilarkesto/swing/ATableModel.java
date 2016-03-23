@@ -16,6 +16,7 @@ package ilarkesto.swing;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -23,7 +24,7 @@ public abstract class ATableModel<T> extends AbstractTableModel {
 
 	private final String[] columnNames;
 
-	private List<T> items = Collections.emptyList();
+	private List<T> items = emptyList();
 
 	public ATableModel(String... columnNames) {
 		if (columnNames.length == 0) {

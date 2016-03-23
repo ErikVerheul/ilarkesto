@@ -1,5 +1,6 @@
 package ilarkesto.email;
 
+import static ilarkesto.email.EmailAddress.formatAddress;
 import junit.framework.TestCase;
 
 public class EmailAddressTestJUnit extends TestCase {
@@ -30,7 +31,7 @@ public class EmailAddressTestJUnit extends TestCase {
 		assert emailAddress.getLabel() == null;
 		assert DUKE_ADDR.equals(emailAddress.getAddress());
 
-		assert DUKE_ADDR.equals(EmailAddress.formatAddress(email, false));
+		assert DUKE_ADDR.equals(formatAddress(email, false));
 	}
 
 	private void assertDukeFull(String email) {
@@ -40,7 +41,7 @@ public class EmailAddressTestJUnit extends TestCase {
 		assert DUKE_LABEL.equals(emailAddress.getLabel());
 		assert DUKE_ADDR.equals(emailAddress.getAddress());
 
-		assert DUKE_FULL.equals(EmailAddress.formatAddress(email, false));
+		assert DUKE_FULL.equals(formatAddress(email, false));
 	}
 
 }

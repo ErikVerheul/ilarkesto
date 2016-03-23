@@ -14,10 +14,12 @@
  */
 package ilarkesto.mda.legacy.model;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class IntegerPropertyModel extends SimplePropertyModel {
 
 	private int min = 0;
-	private int max = Integer.MAX_VALUE;
+	private int max = MAX_VALUE;
 
 	public IntegerPropertyModel(BeanModel entityModel, String name) {
 		super(entityModel, name, false, false, Integer.class.getName());

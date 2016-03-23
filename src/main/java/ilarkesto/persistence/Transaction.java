@@ -18,6 +18,8 @@ import ilarkesto.base.UtlExtend;
 import ilarkesto.core.logging.Log;
 import ilarkesto.fp.Predicate;
 import ilarkesto.id.IdentifiableResolver;
+import static ilarkesto.persistence.Persist.test;
+import static java.lang.Thread.currentThread;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -28,21 +30,21 @@ class Transaction implements IdentifiableResolver<AEntity> {
 	private static final Log log = Log.get(Transaction.class);
 
 	private static int count = 0;
-	private int no;
+	private final int no;
 
-	private EntityStore entityStore;
+	private final EntityStore entityStore;
 
-	private String threadName;
-	private Set<AEntity> entitiesToSave = new HashSet<AEntity>();
-	private Set<AEntity> entitiesToDelete = new HashSet<AEntity>();
-	private Set<AEntity> entitiesRegistered = new HashSet<AEntity>();
+	private final String threadName;
+	private final Set<AEntity> entitiesToSave = new HashSet<>();
+	private final Set<AEntity> entitiesToDelete = new HashSet<>();
+	private final Set<AEntity> entitiesRegistered = new HashSet<>();
 
 	public Transaction(EntityStore entityStore) {
 		synchronized (Transaction.class) {
 			no = ++count;
 		}
 		this.entityStore = entityStore;
-		threadName = Thread.currentThread().getName();
+		threadName = currentThread().getName();
 	}
 
 	synchronized void saveEntity(AEntity entity) {
@@ -85,13 +87,13 @@ class Transaction implements IdentifiableResolver<AEntity> {
 			log.info("Committing transaction:", this);
 		}
 
-		Set<AEntity> integratedEntities = new HashSet<AEntity>(entitiesToSave.size());
+		Set<AEntity> integratedEntities = new HashSet<>(entitiesToSave.size());
 
 		int loopcount = 0;
 		while (!integratedEntities.containsAll(entitiesToSave)) {
 
 			if (loopcount > 0) {
-				HashSet<AEntity> tmp = new HashSet<AEntity>(entitiesToSave);
+				HashSet<AEntity> tmp = new HashSet<>(entitiesToSave);
 				tmp.removeAll(integratedEntities);
 				log.debug("  Entities changed after ensuring integrity:", tmp);
 			}
@@ -101,7 +103,7 @@ class Transaction implements IdentifiableResolver<AEntity> {
                         }
 
 			entitiesToSave.removeAll(entitiesToDelete);
-			for (AEntity entity : new HashSet<AEntity>(entitiesToSave)) {
+			for (AEntity entity : new HashSet<>(entitiesToSave)) {
 				log.debug("Ensuring integrity for", entity.getClass().getSimpleName(), entity.getId());
 				entity.ensureIntegrity();
 				integratedEntities.add(entity);
@@ -183,12 +185,12 @@ class Transaction implements IdentifiableResolver<AEntity> {
 	synchronized Set<AEntity> getEntities(Predicate<Class> typeFilter, Predicate<AEntity> entityFilter) {
 		Set<AEntity> result = entityStore.getEntities(typeFilter, entityFilter);
 		for (AEntity entity : entitiesToSave) {
-			if (Persist.test(entity, typeFilter, entityFilter)) {
+			if (test(entity, typeFilter, entityFilter)) {
                                 result.add(entity);
                         }
 		}
 		for (AEntity entity : entitiesRegistered) {
-			if (Persist.test(entity, typeFilter, entityFilter)) {
+			if (test(entity, typeFilter, entityFilter)) {
                                 result.add(entity);
                         }
 		}
@@ -204,12 +206,12 @@ class Transaction implements IdentifiableResolver<AEntity> {
 		AEntity result = entityStore.getEntity(typeFilter, entityFilter);
 		if (result == null) {
 			for (AEntity entity : entitiesToSave) {
-				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
+				if (test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
                                         return entity;
                                 }
 			}
 			for (AEntity entity : entitiesRegistered) {
-				if (Persist.test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
+				if (test(entity, typeFilter, entityFilter) && !entitiesToDelete.contains(entity)) {
                                         return entity;
                                 }
 			}

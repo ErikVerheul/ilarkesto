@@ -16,7 +16,7 @@ package ilarkesto.mda.legacy.model;
 
 public class ReferencePropertyModel extends SimplePropertyModel {
 
-	private EntityModel referencedEntity;
+	private final EntityModel referencedEntity;
 	private boolean master;
 	private BackReferenceModel backReference;
 

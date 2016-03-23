@@ -15,7 +15,8 @@
 package ilarkesto.mda.swingeditor;
 
 import ilarkesto.core.scope.CascadingScope;
-import ilarkesto.core.scope.NonConcurrentScopeManager;
+import static ilarkesto.core.scope.CascadingScope.get;
+import static ilarkesto.core.scope.NonConcurrentScopeManager.createCascadingScopeInstance;
 import ilarkesto.core.scope.Scope;
 import ilarkesto.mda.model.ModellingSession;
 import ilarkesto.scope.ReflectionComponentReflector;
@@ -29,9 +30,9 @@ public class Starter {
 	}
 
 	public static Scope createModellerScope() {
-		NonConcurrentScopeManager.createCascadingScopeInstance("app", new ReflectionComponentReflector());
+		createCascadingScopeInstance("app", new ReflectionComponentReflector());
 
-		CascadingScope scope = CascadingScope.get();
+		CascadingScope scope = get();
 		scope.putComponent(new Workspace());
 		scope.putComponent(new ModellingSession());
 		scope.putComponent(new SwingModelHelper());

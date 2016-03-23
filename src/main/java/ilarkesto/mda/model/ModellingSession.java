@@ -21,17 +21,17 @@ import ilarkesto.mda.model.processor.GwtClassesGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModellingSession {
+public final class ModellingSession {
 
-	private static Log log = Log.get(ModellingSession.class);
+	private static final Log log = Log.get(ModellingSession.class);
 
 	@In
 	protected EventBus eventBus;
 
 	private ModelSource source;
 	private Model model = new Model();
-	private RuleSet ruleSet = new RuleSet();
-	private List<ModelProcessor> processors = new ArrayList<ModelProcessor>();
+	private final RuleSet ruleSet = new RuleSet();
+	private final List<ModelProcessor> processors = new ArrayList<>();
 
 	public ModellingSession() {
 		addProcessor(new GwtClassesGenerator());

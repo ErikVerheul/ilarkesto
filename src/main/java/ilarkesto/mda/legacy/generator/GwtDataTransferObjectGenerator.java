@@ -15,6 +15,7 @@
 package ilarkesto.mda.legacy.generator;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.mda.legacy.model.ApplicationModel;
 import ilarkesto.mda.legacy.model.EntityModel;
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class GwtDataTransferObjectGenerator extends AClassGenerator {
 			String name = entity.getName();
 			String type = entity.getPackageName().replace(".server.", ".client.") + "." + name;
 			String serverType = entity.getPackageName() + "." + name;
-			String nameLower = StrExtend.lowercaseFirstLetter(name);
+			String nameLower = lowercaseFirstLetter(name);
 			String mapVar = nameLower + "s";
 			ln();
 			comment(name);

@@ -16,7 +16,7 @@ package ilarkesto.mda.legacy.model;
 
 public class ReferenceSetPropertyModel extends SetPropertyModel {
 
-	private EntityModel referencedEntity;
+	private final EntityModel referencedEntity;
 	private BackReferenceModel backReference;
 
 	public ReferenceSetPropertyModel(BeanModel entityModel, String name, EntityModel referencedEntity) {

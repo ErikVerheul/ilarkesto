@@ -17,7 +17,8 @@ package ilarkesto.form;
 import ilarkesto.base.BeanMap;
 import ilarkesto.base.Factory;
 import ilarkesto.base.Money;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.getRootCauseMessage;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.Time;
@@ -25,7 +26,7 @@ import ilarkesto.core.time.TimePeriod;
 import ilarkesto.email.EmailAddress;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +38,7 @@ public class BeanForm<O> extends Form {
 
 	private O bean;
 
-	private List<FormField> beanFields = new ArrayList<FormField>();
+	private final List<FormField> beanFields = new ArrayList<>();
 
 	private BeanMap beanMap;
 
@@ -54,7 +55,7 @@ public class BeanForm<O> extends Form {
 
 		Collection value = (Collection) beanMap.get(name);
 		if (value != null) {
-			Set<Object> set = new HashSet<Object>(value);
+			Set<Object> set = new HashSet<>(value);
 			field.setValue(set);
 		}
 
@@ -130,7 +131,7 @@ public class BeanForm<O> extends Form {
 
 	public DropdownFormField addDropdownProperty(String name, Object[] selectableItems) {
 		Collection items = new ArrayList(selectableItems.length);
-                items.addAll(Arrays.asList(selectableItems));
+                items.addAll(asList(selectableItems));
 		return addDropdownProperty(name, items);
 	}
 
@@ -287,49 +288,49 @@ public class BeanForm<O> extends Form {
 			if (field instanceof DateFormField) {
 				try {
 					beanMap.put(field.getName(), ((DateFormField) field).getValueAsDate());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof TimeFormField) {
 				try {
 					beanMap.put(field.getName(), ((TimeFormField) field).getValueAsTime());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof TimePeriodFormField) {
 				try {
 					beanMap.put(field.getName(), ((TimePeriodFormField) field).getValueAsTimePeriod());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof MoneyFormField) {
 				try {
 					beanMap.put(field.getName(), ((MoneyFormField) field).getValueAsMoney());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof ItemFormField) {
 				try {
 					beanMap.put(field.getName(), ((ItemFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Auswahl ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Auswahl ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof MultiItemFormField) {
 				try {
 					beanMap.put(field.getName(), ((MultiItemFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Auswahl ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Auswahl ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof MultiComplexFormField) {
@@ -337,7 +338,7 @@ public class BeanForm<O> extends Form {
 					beanMap.put(field.getName(), ((MultiComplexFormField) field).getValue());
 				} catch (Throwable ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Auswahl ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Auswahl ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof UploadFormField) {
@@ -352,41 +353,41 @@ public class BeanForm<O> extends Form {
 			} else if (field instanceof RadioSelectFormField) {
 				try {
 					beanMap.put(field.getName(), ((RadioSelectFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof IntegerFormField) {
 				try {
 					beanMap.put(field.getName(), ((IntegerFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof FloatFormField) {
 				try {
 					beanMap.put(field.getName(), ((FloatFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else if (field instanceof DropdownFormField) {
 				try {
 					beanMap.put(field.getName(), ((DropdownFormField) field).getValue());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.format(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + format(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			} else {
 				try {
 					beanMap.put(field.getName(), field.getValueAsString());
-				} catch (Throwable ex) {
+				} catch (IllegalArgumentException | ClassCastException ex) {
 					LOG.debug(ex);
-					field.setErrorMessage("Eingabe ung\u00FCltig: " + StrExtend.getRootCauseMessage(ex));
+					field.setErrorMessage("Eingabe ung\u00FCltig: " + getRootCauseMessage(ex));
 					throw new ValidationException(ERROR_MSG);
 				}
 			}

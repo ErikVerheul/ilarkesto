@@ -14,7 +14,7 @@
  */
 package ilarkesto.core.scope;
 
-import ilarkesto.core.event.AEventBus;
+import static ilarkesto.core.event.AEventBus.DEFAULT_COMPONENT_NAME;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -41,7 +41,7 @@ public class CascadingScope extends Scope {
 
 		this.componentReflector = componentReflector;
 
-		putComponent(AEventBus.DEFAULT_COMPONENT_NAME, new CascadingScopeEventBus(this));
+		putComponent(DEFAULT_COMPONENT_NAME, new CascadingScopeEventBus(this));
 	}
 
 	public synchronized void wireComponents() {

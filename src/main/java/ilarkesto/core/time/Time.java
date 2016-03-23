@@ -15,7 +15,13 @@
 package ilarkesto.core.time;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.core.time.Tm.getNowAsDate;
 import java.io.Serializable;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
 
 @SuppressWarnings("SE_NO_SERIALVERSIONID")
 public class Time implements Comparable<Time>, Serializable {
@@ -35,24 +41,24 @@ public class Time implements Comparable<Time>, Serializable {
 	public Time(String timeString) {
 		int idx = timeString.indexOf(':');
 		if (idx >= 0) {
-			hour = Integer.parseInt(timeString.substring(0, idx));
+			hour = parseInt(timeString.substring(0, idx));
 			timeString = timeString.substring(idx + 1);
 		} else {
 			if (timeString.trim().length() == 0) {
                                 return; // 0:00:00
                         }
-			hour = Integer.parseInt(timeString);
+			hour = parseInt(timeString);
 			return;
 		}
 		idx = timeString.indexOf(':');
 		if (idx >= 0) {
-			minute = Integer.parseInt(timeString.substring(0, idx));
+			minute = parseInt(timeString.substring(0, idx));
 			timeString = timeString.substring(idx + 1);
 		} else {
-			minute = Integer.parseInt(timeString);
+			minute = parseInt(timeString);
 			return;
 		}
-		second = Integer.parseInt(timeString);
+		second = parseInt(timeString);
 	}
 
 	public Time(int hour, int minute) {
@@ -68,7 +74,7 @@ public class Time implements Comparable<Time>, Serializable {
 	}
 
 	public Time() {
-		this(Tm.getNowAsDate());
+		this(getNowAsDate());
 	}
 
 	// ---

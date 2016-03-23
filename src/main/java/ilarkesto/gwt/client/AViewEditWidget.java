@@ -16,7 +16,7 @@ package ilarkesto.gwt.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,9 +24,14 @@ import com.google.gwt.user.client.ui.FocusListener;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import ilarkesto.core.base.Str;
-import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Str.getSimpleName;
+import static ilarkesto.core.base.Str.isBlank;
+import static ilarkesto.core.base.Utl.getUserMessageStack;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
+import static ilarkesto.gwt.client.Gwt.addTooltipHtml;
+import static ilarkesto.gwt.client.Gwt.createDiv;
+import static ilarkesto.gwt.client.Gwt.getRootWidget;
 
 public abstract class AViewEditWidget extends AWidget {
 
@@ -61,7 +66,7 @@ public abstract class AViewEditWidget extends AWidget {
 	protected final Widget onInitialization() {
 		masterWrapper = new FocusPanel();
 		masterWrapper.setStyleName("AViewEditWidget");
-		Gwt.addTooltipHtml(masterWrapper, getTooltip());
+		addTooltipHtml(masterWrapper, getTooltip());
 		return masterWrapper;
 	}
 
@@ -87,7 +92,7 @@ public abstract class AViewEditWidget extends AWidget {
 		if (!isEditable()) {
                         return;
                 }
-		Log.DEBUG("Switching to edit mode: " + toString());
+		DEBUG("Switching to edit mode: " + toString());
 		ensureEditorInitialized();
 		viewMode = false;
 		if (currentEditor != null) {
@@ -125,7 +130,7 @@ public abstract class AViewEditWidget extends AWidget {
 		if (isViewMode()) {
                         return;
                 }
-		Log.DEBUG("Switching to view mode: " + toString());
+		DEBUG("Switching to view mode: " + toString());
 		viewMode = true;
 		onEditorClose();
 		if (currentEditor == this) {
@@ -154,7 +159,7 @@ public abstract class AViewEditWidget extends AWidget {
 			onEditorSubmit();
 		} catch (Throwable ex) {
 			ex.printStackTrace();
-			setEditorError(Utl.getUserMessageStack(ex));
+			setEditorError(getUserMessageStack(ex));
 			return false;
 		}
 		setEditorError(null);
@@ -168,7 +173,7 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	protected void updateAutoUpdateWidget() {
-		Gwt.update(Gwt.getRootWidget());
+		Gwt.update(getRootWidget());
 	}
 
 	protected final void cancelEditor() {
@@ -249,10 +254,10 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	protected void setEditorError(String text) {
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
 			errorWrapper.clear();
 		} else {
-			errorWrapper.setWidget(Gwt.createDiv("AViewEditWidget-error", text));
+			errorWrapper.setWidget(createDiv("AViewEditWidget-error", text));
 		}
 	}
 
@@ -287,7 +292,7 @@ public abstract class AViewEditWidget extends AWidget {
 
 	@Override
 	public String getId() {
-		return Str.getSimpleName(getClass()).replace('$', '_');
+		return getSimpleName(getClass()).replace('$', '_');
 	}
 
 	protected String getViewerId() {
@@ -303,7 +308,7 @@ public abstract class AViewEditWidget extends AWidget {
 	}
 
 	public static void setGlobalModeSwitchHandler(ModeSwitchHandler globalModeSwitchHandler) {
-		AViewEditWidget.globalModeSwitchHandler = globalModeSwitchHandler;
+		globalModeSwitchHandler = globalModeSwitchHandler;
 	}
 
 	private class ViewerClickListener implements ClickHandler {
@@ -337,7 +342,7 @@ public abstract class AViewEditWidget extends AWidget {
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
 			int keyCode = event.getNativeKeyCode();
-			if (keyCode == KeyCodes.KEY_ESCAPE) {
+			if (keyCode == KEY_ESCAPE) {
 				cancelEditor();
 			}
 		}

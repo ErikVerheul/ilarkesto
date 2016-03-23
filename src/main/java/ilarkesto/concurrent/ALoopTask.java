@@ -15,10 +15,11 @@
 package ilarkesto.concurrent;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
 
 public abstract class ALoopTask extends ATask {
 
-	private Log log = Log.get(getClass());
+	private Log log = get(getClass());
 
 	protected abstract void iteration() throws InterruptedException;
 

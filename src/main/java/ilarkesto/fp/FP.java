@@ -32,7 +32,7 @@ import java.util.Set;
 public abstract class FP {
 
 	public static <I, K, V> Map<K, V> map(Collection<I> elements, Function<I, Tuple<K, V>> mapFunction) {
-		Map<K, V> ret = new HashMap<K, V>();
+		Map<K, V> ret = new HashMap<>();
 		for (I e : elements) {
 			Tuple<K, V> keyValue = mapFunction.eval(e);
 			ret.put(keyValue.getA(), keyValue.getB());
@@ -48,7 +48,7 @@ public abstract class FP {
 	 * @return The function results.
 	 */
 	public static <I, O> List<O> foreach(Collection<I> elements, Function<I, O> mapFunction) {
-		List<O> result = new ArrayList<O>(elements.size());
+		List<O> result = new ArrayList<>(elements.size());
 		for (I e : elements) {
 			result.add(mapFunction.eval(e));
 		}
@@ -78,12 +78,12 @@ public abstract class FP {
 	 * @return result
 	 */
 	public static <G, E> Map<G, List<E>> group(Collection<E> elements, Function<E, G> groupFunction) {
-		Map<G, List<E>> result = new HashMap<G, List<E>>();
+		Map<G, List<E>> result = new HashMap<>();
 		for (E e : elements) {
 			G key = groupFunction.eval(e);
 			List<E> bucket = result.get(key);
 			if (bucket == null) {
-				bucket = new ArrayList<E>();
+				bucket = new ArrayList<>();
 				result.put(key, bucket);
 			}
 			bucket.add(e);
@@ -92,7 +92,7 @@ public abstract class FP {
 	}
 
 	public static <T> Predicate<T> and(Predicate<T>... predicates) {
-		return new And<T>(predicates);
+		return new And<>(predicates);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public abstract class FP {
 	 * @param list The collection of elements.
 	 */
 	public static <T> List<T> filterList(Predicate<T> predicate, Collection<T> list) {
-		List<T> result = new ArrayList<T>();
+		List<T> result = new ArrayList<>();
 		for (T element : list) {
 			if (predicate.test(element)) {
                                 result.add(element);
@@ -120,7 +120,7 @@ public abstract class FP {
 	 * @param list The collection of elements.
 	 */
 	public static <T> Set<T> filterSet(Predicate<T> predicate, Collection<T> list) {
-		Set<T> result = new HashSet<T>();
+		Set<T> result = new HashSet<>();
 		for (T element : list) {
 			if (predicate.test(element)) {
                                 result.add(element);
@@ -138,7 +138,7 @@ public abstract class FP {
 	 * @param map The map with the values to return.
 	 */
 	public static <K, V> List<V> values(Collection<K> keys, Map<K, V> map) {
-		List<V> result = new ArrayList<V>();
+		List<V> result = new ArrayList<>();
 		for (K key : keys) {
                         result.add(map.get(key));
                 }
@@ -178,7 +178,7 @@ public abstract class FP {
 	}
 
 	public static List<File> filterFilesList(Collection<File> files, final FileFilter filter) {
-		return FP.filterList(new Predicate<File>() {
+		return filterList(new Predicate<File>() {
 
 			@Override
 			public boolean test(File file) {

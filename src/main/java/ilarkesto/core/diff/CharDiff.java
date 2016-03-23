@@ -14,6 +14,8 @@
  */
 package ilarkesto.core.diff;
 
+import static ilarkesto.core.diff.LongestCommonSubsequenceString.execute;
+
 
 public class CharDiff {
 
@@ -41,7 +43,7 @@ public class CharDiff {
 	}
 
 	public CharDiff diff() {
-		lcs = LongestCommonSubsequenceString.execute(left, right);
+		lcs = execute(left, right);
 		updateLengths();
 
 		while (skipBurn || (lcsLen > 0 && leftLen > 0 && rightLen > 0)) {

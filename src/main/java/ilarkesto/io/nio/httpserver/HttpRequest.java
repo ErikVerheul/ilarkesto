@@ -14,9 +14,11 @@
  */
 package ilarkesto.io.nio.httpserver;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.io.nio.httpserver.HttpStatusCode.INTERNAL_SERVER_ERROR;
 import ilarkesto.io.nio.tcpserver.TcpConnection;
+import static java.lang.Integer.parseInt;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,10 +33,10 @@ public class HttpRequest<S> {
 	private String uri;
 	private String version;
 	private TcpConnection connection;
-	private Map<String, String> headers = new HashMap<String, String>();
+	private Map<String, String> headers = new HashMap<>();
 
 	private String responseStatusLine;
-	private Map<String, String> responseHeaders = new HashMap<String, String>();
+	private Map<String, String> responseHeaders = new HashMap<>();
 	private boolean responseHeadersSent;
 
 	private HttpSession<S> session;
@@ -61,7 +63,7 @@ public class HttpRequest<S> {
 		if (value == null) {
                         return null;
                 }
-		return Integer.parseInt(value);
+		return parseInt(value);
 	}
 
 	void setMethod(HttpMethod method) {
@@ -94,7 +96,7 @@ public class HttpRequest<S> {
 
 	public void setResponseStatus(HttpStatusCode code, String message) {
 		String text = code.getText();
-		if (!Str.isBlank(message)) {
+		if (!isBlank(message)) {
                         text += ": " + message;
                 }
 		responseStatusLine = PROTOCOL_VERSION + " " + code.getCode() + " " + text;
@@ -116,7 +118,7 @@ public class HttpRequest<S> {
                                 + toString());
                 }
 		if (responseStatusLine == null) {
-			setResponseStatus(HttpStatusCode.INTERNAL_SERVER_ERROR, null);
+			setResponseStatus(INTERNAL_SERVER_ERROR, null);
 			log.error("sendHeaders() responseStatusLine==null");
 		}
 		sendLine(responseStatusLine);

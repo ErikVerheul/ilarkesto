@@ -14,7 +14,10 @@
  */
 package ilarkesto.core.time;
 
+import static ilarkesto.core.time.TimePeriod.days;
+import static ilarkesto.core.time.Weekday.FRIDAY;
 import ilarkesto.testng.ATest;
+import static java.util.Calendar.DAY_OF_YEAR;
 import java.util.GregorianCalendar;
 import org.testng.annotations.Test;
 
@@ -29,15 +32,15 @@ public class DateTest extends ATest {
 
 	@Test
 	public void getPeriodTo() {
-		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 2)), TimePeriod.days(1));
-		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 1)), TimePeriod.days(0));
-		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 20)), TimePeriod.days(19));
-		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 30)), TimePeriod.days(29));
+		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 2)), days(1));
+		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 1)), days(0));
+		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 20)), days(19));
+		assertEquals(new Date(2011, 3, 1).getPeriodTo(new Date(2011, 3, 30)), days(29));
 	}
 
 	@Test
 	public void getWeekday() {
-		assertEquals(BIRTHDAY.getWeekday(), Weekday.FRIDAY);
+		assertEquals(BIRTHDAY.getWeekday(), FRIDAY);
 	}
 
 	@Test
@@ -85,7 +88,7 @@ public class DateTest extends ATest {
 		calendar.setTimeInMillis(begin.toMillis());
 		assertEquals(begin, new Date(calendar.getTime()));
 
-		calendar.add(GregorianCalendar.DAY_OF_YEAR, days);
+		calendar.add(DAY_OF_YEAR, days);
 
 		assertEquals(begin.addDays(days), new Date(calendar.getTime()));
 	}

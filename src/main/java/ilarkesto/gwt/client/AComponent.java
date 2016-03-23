@@ -15,10 +15,12 @@
 package ilarkesto.gwt.client;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
+import static ilarkesto.gwt.client.Gwt.getSimpleName;
 
 public class AComponent {
 
-	protected final Log log = Log.get(getClass());
+	protected final Log log = get(getClass());
 
 	private boolean initialized;
 	private boolean destroyed;
@@ -44,7 +46,7 @@ public class AComponent {
 
 	@Override
 	public String toString() {
-		return Gwt.getSimpleName(getClass());
+		return getSimpleName(getClass());
 	}
 
 }

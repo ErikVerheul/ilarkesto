@@ -1,6 +1,7 @@
 package ilarkesto.gwt.client;
 
 import ilarkesto.core.time.Date;
+import static java.util.Calendar.DAY_OF_MONTH;
 import java.util.GregorianCalendar;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -25,7 +26,7 @@ public class DateTest2 extends Assert {
 		GregorianCalendar cal = new GregorianCalendar();
 		for (int i = 0; i < 1600; i++) {
 			java.util.Date d1 = cal.getTime();
-			cal.add(GregorianCalendar.DAY_OF_MONTH, 1);
+			cal.add(DAY_OF_MONTH, 1);
 			java.util.Date d2 = cal.getTime();
 			assertEquals(new Date(d2), new Date(d1).nextDay());
 		}

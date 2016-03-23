@@ -1,5 +1,7 @@
 package ilarkesto.json;
 
+import static ilarkesto.json.Json.convertValue;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,12 +20,12 @@ public class JsonObject {
 		json.addToArray("array", new JsonObject());
 
 		String s = json.toFormatedString();
-		System.out.println(s);
+		out.println(s);
 
 		new JsonObject(s);
 	}
 
-	private Map<String, Object> elements = new LinkedHashMap<String, Object>();
+	private Map<String, Object> elements = new LinkedHashMap<>();
 	private int idx = -1;
 
 	public JsonObject() {}
@@ -39,7 +41,7 @@ public class JsonObject {
 	public JsonObject(Map<?, ?> map) {
 		for (Map.Entry entry : map.entrySet()) {
 			String name = entry.getKey().toString();
-			Object value = Json.convertValue(entry.getValue());
+			Object value = convertValue(entry.getValue());
 			put(name, value);
 		}
 	}
@@ -144,7 +146,7 @@ public class JsonObject {
 		if (value == null) {
                         return false;
                 }
-		return value.booleanValue();
+		return value;
 	}
 
 	public List<String> getArrayOfStrings(String name) {
@@ -161,7 +163,7 @@ public class JsonObject {
 		if (name == null || name.length() == 0) {
                         throw new RuntimeException("name required");
                 }
-		elements.put(name, Json.convertValue(value));
+		elements.put(name, convertValue(value));
 		return value;
 	}
 

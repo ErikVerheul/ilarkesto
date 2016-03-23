@@ -33,7 +33,7 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 	private static final Log LOG = Log.get(DaoService.class);
 
-	private Map<Class, ADao> daos = new HashMap<Class, ADao>();
+	private final Map<Class, ADao> daos = new HashMap<>();
 
 	public void ensureIntegrity() {
 		if (!initialized) {
@@ -119,11 +119,11 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 	}
 
 	public Set<AEntity> getByIdsAsSet(Collection<String> ids) {
-		return new HashSet<AEntity>(getByIds(ids));
+		return new HashSet<>(getByIds(ids));
 	}
 
 	public List<AEntity> getEntitiesByIds(final Collection<String> ids) {
-		List<AEntity> ret = new ArrayList<AEntity>(ids.size());
+		List<AEntity> ret = new ArrayList<>(ids.size());
 		for (String id : ids) {
                         ret.add(transactionService.getById(id));
                 }
@@ -136,7 +136,7 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 
 	public void addListener(DaoListener listener) {
 		if (listeners == null) {
-                        listeners = new ArrayList<DaoListener>();
+                        listeners = new ArrayList<>();
                 }
 		listeners.add(listener);
 	}

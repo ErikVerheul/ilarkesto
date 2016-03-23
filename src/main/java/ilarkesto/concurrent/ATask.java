@@ -14,9 +14,10 @@
  */
 package ilarkesto.concurrent;
 
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.getRootCause;
 import ilarkesto.core.logging.Log;
-import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static java.lang.Thread.currentThread;
 import org.netbeans.api.annotations.common.SuppressWarnings;
 
 public abstract class ATask {
@@ -85,7 +86,7 @@ public abstract class ATask {
 		if (isFinished()) {
                         return finishTime - startTime;
                 }
-		return Tm.getCurrentTimeMillis() - startTime;
+		return getCurrentTimeMillis() - startTime;
 	}
 
 	public void reset() {
@@ -106,18 +107,18 @@ public abstract class ATask {
 
         @SuppressWarnings("NN_NAKED_NOTIFY")
 	public final void run() {
-		this.thread = Thread.currentThread();
+		this.thread = currentThread();
 		if (started) {
                         throw new RuntimeException("Task already started: " + this);
                 }
 		started = true;
-		startTime = Tm.getCurrentTimeMillis();
+		startTime = getCurrentTimeMillis();
 		try {
 			perform();
 		} catch (InterruptedException ex) {
 			// all right
 		} catch (Throwable ex) {
-			Throwable rootCause = UtlExtend.getRootCause(ex);
+			Throwable rootCause = getRootCause(ex);
 			if (rootCause instanceof InterruptedException) {
 				// all right
 			} else {
@@ -126,7 +127,7 @@ public abstract class ATask {
 			}
 		} finally {
 			finished = true;
-			finishTime = Tm.getCurrentTimeMillis();
+			finishTime = getCurrentTimeMillis();
 			synchronized (this) {
 				this.notifyAll();
 			}

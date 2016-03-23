@@ -15,8 +15,14 @@
 package ilarkesto.core.logging;
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.cutLeft;
+import static ilarkesto.core.base.Str.fillUpRight;
+import static ilarkesto.core.base.Str.format;
+import static ilarkesto.core.base.Str.getStackTrace;
 import ilarkesto.core.base.Utl;
 import ilarkesto.core.logging.Log.Level;
+import static ilarkesto.core.logging.Log.Level.DEBUG;
+import static ilarkesto.core.logging.Log.Level.INFO;
 import java.util.Date;
 
 public class LogRecord {
@@ -40,8 +46,8 @@ public class LogRecord {
 
 	@Override
 	public String toString() {
-		String nameFormated = Str.cutLeft(name, 20);
-		nameFormated = Str.fillUpRight(nameFormated, " ", 20);
+		String nameFormated = cutLeft(name, 20);
+		nameFormated = fillUpRight(nameFormated, " ", 20);
 
 		StringBuilder sb = new StringBuilder();
 
@@ -49,10 +55,10 @@ public class LogRecord {
 		sb.append(new Date(time)).append(" ");
 
 		// level
-		if ((level != Level.DEBUG) && (level != Level.INFO)) {
+		if ((level != DEBUG) && (level != INFO)) {
                         sb.append("\n    ");
                 }
-		if (level != Level.DEBUG) {
+		if (level != DEBUG) {
                         sb.append(level);
                 }
 
@@ -60,7 +66,7 @@ public class LogRecord {
 		sb.append(" ").append(nameFormated);
 
 		// text
-		sb.append(Str.fillUpRight(getParametersAsString(), " ", 100));
+		sb.append(fillUpRight(getParametersAsString(), " ", 100));
 
 		// context
 		if (context != null) {
@@ -68,7 +74,7 @@ public class LogRecord {
                 }
 
 		// extra line for high prio logs
-		if ((level != Level.DEBUG) && (level != Level.INFO)) {
+		if ((level != DEBUG) && (level != INFO)) {
                         sb.append('\n');
                 }
 
@@ -83,9 +89,9 @@ public class LogRecord {
 			for (Object parameter : parameters) {
 				textSb.append(' ');
 				if (parameter instanceof Throwable) {
-					textSb.append("\n").append(Str.getStackTrace((Throwable) parameter));
+					textSb.append("\n").append(getStackTrace((Throwable) parameter));
 				} else {
-					textSb.append(Str.format(parameter));
+					textSb.append(format(parameter));
 				}
 			}
 		}

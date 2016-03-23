@@ -14,25 +14,26 @@
  */
 package ilarkesto.gwt.client;
 
-import com.google.gwt.core.client.GWT;
+import static com.google.gwt.core.client.GWT.isScript;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.gwt.client.Gwt.createBugMarker;
 
 public abstract class AWidget extends Composite implements Updatable {
 
 	private boolean initializing;
 	private boolean initialized;
-	private Wrapper wrapper;
+	private final Wrapper wrapper;
 
 	protected abstract Widget onInitialization();
 
 	public AWidget() {
 		wrapper = new Wrapper();
-		if (!GWT.isScript()) {
-                        wrapper.setContent(Gwt.createBugMarker(getClass().getName() + " is not initialized. -> call update()"));
+		if (!isScript()) {
+                        wrapper.setContent(createBugMarker(getClass().getName() + " is not initialized. -> call update()"));
                 }
 		initWidget(wrapper);
 	}

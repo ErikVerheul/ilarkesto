@@ -16,6 +16,8 @@ package ilarkesto.async;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 
 public class ExecutorAsyncWorker extends AAsyncWorker {
 
@@ -29,11 +31,11 @@ public class ExecutorAsyncWorker extends AAsyncWorker {
 	}
 
 	public ExecutorAsyncWorker(Executor jobExecutor) {
-		this(jobExecutor, Executors.newSingleThreadExecutor());
+		this(jobExecutor, newSingleThreadExecutor());
 	}
 
 	public ExecutorAsyncWorker() {
-		this(Executors.newCachedThreadPool());
+		this(newCachedThreadPool());
 	}
 
 	@Override

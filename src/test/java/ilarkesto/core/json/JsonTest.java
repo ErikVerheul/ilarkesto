@@ -1,6 +1,7 @@
 package ilarkesto.core.json;
 
 import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.toList;
 import ilarkesto.json.Json;
 import ilarkesto.json.JsonObject;
 import ilarkesto.testng.ATest;
@@ -40,11 +41,11 @@ public class JsonTest extends ATest {
 	@Test
 	public void toStringArray() {
 		JsonObject jo = new JsonObject();
-		jo.put("list", Utl.toList(1, 2, 3));
+		jo.put("list", toList(1, 2, 3));
 		assertEquals(jo.toString(), "{\"list\":[1,2,3]}");
 		JsonObject sub1 = new JsonObject();
 		JsonObject sub2 = new JsonObject();
-		jo.put("subs", Utl.toList(sub1, sub2));
+		jo.put("subs", toList(sub1, sub2));
 		assertEquals(jo.toString(), "{\"list\":[1,2,3],\"subs\":[{},{}]}");
 	}
 

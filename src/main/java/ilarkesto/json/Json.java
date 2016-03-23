@@ -1,5 +1,9 @@
 package ilarkesto.json;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
+import static java.lang.Long.parseLong;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -68,8 +72,8 @@ public class Json {
 		int idx = s.indexOf("\\u");
 		while (idx >= 0) {
 			String code = s.substring(idx + 2, idx + 6);
-			char ch = (char) Integer.parseInt(code, 16);
-			s = s.replace("\\u" + code, String.valueOf(ch));
+			char ch = (char) parseInt(code, 16);
+			s = s.replace("\\u" + code, valueOf(ch));
 			idx = s.indexOf("\\u", idx);
 		}
 		s = s.replace("\\\\", "\\");
@@ -83,9 +87,9 @@ public class Json {
 
 	public static Number parseNumber(String s) throws NumberFormatException {
 		if (s.contains(".")) {
-                        return Double.parseDouble(s);
+                        return parseDouble(s);
                 }
-		return Long.parseLong(s);
+		return parseLong(s);
 	}
 
 	public static boolean isWhitespace(char c) {

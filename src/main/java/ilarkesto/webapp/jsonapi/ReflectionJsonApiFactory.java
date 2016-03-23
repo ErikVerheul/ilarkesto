@@ -15,16 +15,19 @@
 package ilarkesto.webapp.jsonapi;
 
 import ilarkesto.base.Reflect;
+import static ilarkesto.base.Reflect.newInstance;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.webapp.AWebApplication;
 import ilarkesto.webapp.AWebSession;
 import ilarkesto.webapp.RequestWrapper;
+import static java.lang.Class.forName;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReflectionJsonApiFactory implements JsonApiFactory {
 
-	private List<String> packages = new ArrayList<String>();
+	private List<String> packages = new ArrayList<>();
 
 	public ReflectionJsonApiFactory(AWebApplication webApplication) {
 		addPackage(webApplication.getClass().getPackage());
@@ -52,13 +55,13 @@ public class ReflectionJsonApiFactory implements JsonApiFactory {
 	}
 
 	private AJsonApi createApiInstance(String path) {
-		String classSimpleName = path.isEmpty() ? "RootApi" : StrExtend.uppercaseFirstLetter(path) + "Api";
+		String classSimpleName = path.isEmpty() ? "RootApi" : uppercaseFirstLetter(path) + "Api";
 		for (String pkg : packages) {
 			String className = pkg + "." + classSimpleName;
 			Class<? extends AJsonApi> type;
 			try {
-				type = (Class<? extends AJsonApi>) Class.forName(className);
-				return Reflect.newInstance(type);
+				type = (Class<? extends AJsonApi>) forName(className);
+				return newInstance(type);
 			} catch (ClassNotFoundException ex) {
 			}
 		}

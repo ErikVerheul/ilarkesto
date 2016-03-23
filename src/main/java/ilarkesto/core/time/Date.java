@@ -15,7 +15,13 @@
 package ilarkesto.core.time;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.core.time.Tm.DAY;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.getDaysBetweenDates;
+import static ilarkesto.core.time.Tm.getNowAsDate;
+import static ilarkesto.core.time.Weekday.MONDAY;
 import java.io.Serializable;
+import static java.lang.Integer.parseInt;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +36,7 @@ public class Date implements Comparable<Date>, Serializable {
 	private transient int hashCode;
 
 	public Date() {
-		this(Tm.getNowAsDate());
+		this(getNowAsDate());
 	}
 
 	public Date(java.util.Date javaDate) {
@@ -50,9 +56,9 @@ public class Date implements Comparable<Date>, Serializable {
                         throw new RuntimeException("Illegal date format: " + date);
                 }
 
-		int y = Integer.parseInt(date.substring(0, 4));
-		int m = Integer.parseInt(date.substring(5, 7));
-		int d = Integer.parseInt(date.substring(8, 10));
+		int y = parseInt(date.substring(0, 4));
+		int m = parseInt(date.substring(5, 7));
+		int d = parseInt(date.substring(8, 10));
 
 		this.year = y;
 		this.month = m;
@@ -60,7 +66,7 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public Date(long millis) {
-		this(Tm.createDate(millis));
+		this(createDate(millis));
 	}
 
 	protected Date newDate(java.util.Date javaDate) {
@@ -82,7 +88,7 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public TimePeriod getPeriodTo(Date other) {
-		return new TimePeriod(Tm.DAY * Tm.getDaysBetweenDates(toJavaDate(), other.toJavaDate()));
+		return new TimePeriod(DAY * getDaysBetweenDates(toJavaDate(), other.toJavaDate()));
 	}
 
 	public TimePeriod getPeriodToToday() {
@@ -138,7 +144,7 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public Date getMondayOfWeek() {
-		if (getWeekday() == Weekday.MONDAY) {
+		if (getWeekday() == MONDAY) {
                         return this;
                 }
 		return addDays(-1).getMondayOfWeek();
@@ -205,11 +211,11 @@ public class Date implements Comparable<Date>, Serializable {
 	}
 
 	public final java.util.Date toJavaDate() {
-		return Tm.createDate(year, month, day);
+		return createDate(year, month, day);
 	}
 
 	public final java.util.Date toJavaDate(Time time) {
-		return Tm.createDate(year, month, day, time.hour, time.minute, time.second);
+		return createDate(year, month, day, time.hour, time.minute, time.second);
 	}
 
 	public final long toMillis(Time time) {

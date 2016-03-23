@@ -30,7 +30,7 @@ import java.util.Map;
 public class MultiSelectionWidget<I extends Object> extends AWidget {
 
 	private FlexTable table;
-	private Map<I, CheckBox> items = new HashMap<I, CheckBox>();
+	private final Map<I, CheckBox> items = new HashMap<I, CheckBox>();
 	private FocusPanel panel;
 
 	@Override

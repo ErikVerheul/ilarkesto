@@ -15,6 +15,12 @@
 package ilarkesto.core.time;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.core.time.Date.today;
+import static ilarkesto.core.time.Tm.HOUR;
+import static ilarkesto.core.time.Tm.MINUTE;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.getNowAsDate;
 import java.io.Serializable;
 
 public class DateAndTime implements Comparable<DateAndTime>, Serializable {
@@ -44,7 +50,7 @@ public class DateAndTime implements Comparable<DateAndTime>, Serializable {
 				date = new Date(s);
 				time = new Time("0");
 			} else {
-				date = Date.today();
+				date = today();
 				time = new Time(s);
 			}
 		}
@@ -61,11 +67,11 @@ public class DateAndTime implements Comparable<DateAndTime>, Serializable {
 	}
 
 	public DateAndTime(long millis) {
-		this(Tm.createDate(millis));
+		this(createDate(millis));
 	}
 
 	public DateAndTime() {
-		this(Tm.getNowAsDate());
+		this(getNowAsDate());
 	}
 
 	// ---
@@ -75,11 +81,11 @@ public class DateAndTime implements Comparable<DateAndTime>, Serializable {
 	}
 
 	public DateAndTime addHours(int hours) {
-		return new DateAndTime(toMillis() + (hours * Tm.HOUR));
+		return new DateAndTime(toMillis() + (hours * HOUR));
 	}
 
 	public DateAndTime addMinutes(int minutes) {
-		return new DateAndTime(toMillis() + (minutes * Tm.MINUTE));
+		return new DateAndTime(toMillis() + (minutes * MINUTE));
 	}
 
 	public TimePeriod getPeriodTo(DateAndTime other) {
@@ -131,7 +137,7 @@ public class DateAndTime implements Comparable<DateAndTime>, Serializable {
 	}
 
 	public final java.util.Date toJavaDate() {
-		return Tm.createDate(date.toMillis() + time.toMillis());
+		return createDate(date.toMillis() + time.toMillis());
 	}
 
 	public final long toMillis() {

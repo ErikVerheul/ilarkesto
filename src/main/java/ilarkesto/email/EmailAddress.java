@@ -15,6 +15,8 @@
 package ilarkesto.email;
 
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.cutFrom;
+import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.StringTokenizer;
 public final class EmailAddress {
 
 	public static void main(String[] args) {
-		System.out.println(EmailAddress.formatAddress("<duke@hell.org> Crap", false));
+		out.println(formatAddress("<duke@hell.org> Crap", false));
 	}
 
 	private String address;
@@ -65,7 +67,7 @@ public final class EmailAddress {
 		if (address == null) {
                         return null;
                 }
-		return Str.cutFrom(address, "@");
+		return cutFrom(address, "@");
 	}
 
 	public String getAddress() {
@@ -201,7 +203,7 @@ public final class EmailAddress {
 		if (s == null) {
                         return null;
                 }
-		List<EmailAddress> result = new ArrayList<EmailAddress>();
+		List<EmailAddress> result = new ArrayList<>();
 		StringTokenizer st = new StringTokenizer(s, ";");
 		while (st.hasMoreTokens()) {
 			result.add(new EmailAddress(st.nextToken()));
@@ -214,7 +216,7 @@ public final class EmailAddress {
 	}
 
 	public static final List<String> toStringList(Collection<EmailAddress> addresses) {
-		List<String> ret = new ArrayList<String>(addresses.size());
+		List<String> ret = new ArrayList<>(addresses.size());
 		for (EmailAddress address : addresses) {
 			ret.add(address.toString());
 		}

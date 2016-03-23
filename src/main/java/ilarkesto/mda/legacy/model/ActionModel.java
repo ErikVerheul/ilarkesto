@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ActionModel extends AModel {
 
-	private List<ParameterModel> parameters = new ArrayList<ParameterModel>();
+	private List<ParameterModel> parameters = new ArrayList<>();
 	private String packageName;
 
 	public ActionModel(String name, String packageName) {

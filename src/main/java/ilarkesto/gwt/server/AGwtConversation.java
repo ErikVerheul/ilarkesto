@@ -15,10 +15,12 @@
 package ilarkesto.gwt.server;
 
 import ilarkesto.base.PermissionDeniedException;
-import ilarkesto.base.Sys;
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.Sys.isDevelopmentMode;
+import static ilarkesto.base.UtlExtend.toStringWithType;
+import static ilarkesto.core.base.Utl.compare;
 import ilarkesto.core.logging.Log;
 import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 import ilarkesto.core.time.TimePeriod;
 import ilarkesto.gwt.client.ADataTransferObject;
 import ilarkesto.persistence.AEntity;
@@ -29,7 +31,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+import static java.util.UUID.randomUUID;
 
 public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 
@@ -43,10 +45,10 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	 */
 	private ADataTransferObject nextData;
 	private final Object nextDataLock = new Object();
-	private Map<AEntity, DateAndTime> remoteEntityModificationTimes = new HashMap<AEntity, DateAndTime>();
+	private final Map<AEntity, DateAndTime> remoteEntityModificationTimes = new HashMap<>();
 
-	private AWebSession session;
-	private int number;
+	private final AWebSession session;
+	private final int number;
 	private DateAndTime lastTouched;
 
 	protected abstract ADataTransferObject createDataTransferObject();
@@ -58,8 +60,8 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 
 		nextData = createDataTransferObject();
 		if (nextData != null) {
-			nextData.developmentMode = Sys.isDevelopmentMode();
-			nextData.entityIdBase = UUID.randomUUID().toString();
+			nextData.developmentMode = isDevelopmentMode();
+			nextData.entityIdBase = randomUUID().toString();
 			nextData.conversationNumber = number;
 		}
 
@@ -75,7 +77,7 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	}
 
 	public final void clearRemoteEntitiesByType(Class<? extends AEntity> type) {
-		List<AEntity> toRemove = new ArrayList<AEntity>();
+		List<AEntity> toRemove = new ArrayList<>();
 		for (AEntity entity : remoteEntityModificationTimes.keySet()) {
 			if (entity.getClass().equals(type)) {
                                 toRemove.add(entity);
@@ -114,7 +116,7 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 		DateAndTime timeLocal = entity.getLastModified();
 
 		if (timeLocal.equals(timeRemote)) {
-			LOG.debug("Remote entity already up to date:", UtlExtend.toStringWithType(entity), "for", this);
+			LOG.debug("Remote entity already up to date:", toStringWithType(entity), "for", this);
 			return;
 		}
 
@@ -123,7 +125,7 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 
 		getNextData().addEntity(propertiesMap);
 		remoteEntityModificationTimes.put(entity, timeLocal);
-		LOG.debug("Sending", UtlExtend.toStringWithType(entity), "to", this);
+		LOG.debug("Sending", toStringWithType(entity), "to", this);
 	}
 
 	public final void sendToClient(Collection<? extends AEntity> entities) {
@@ -155,7 +157,7 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 	}
 
 	public final void touch() {
-		lastTouched = DateAndTime.now();
+		lastTouched = now();
 	}
 
 	protected TimePeriod getTimeout() {
@@ -183,6 +185,6 @@ public abstract class AGwtConversation implements Comparable<AGwtConversation> {
 
 	@Override
 	public int compareTo(AGwtConversation o) {
-		return UtlExtend.compare(o.getLastTouched(), getLastTouched());
+		return compare(o.getLastTouched(), getLastTouched());
 	}
 }

@@ -16,6 +16,9 @@ package ilarkesto.ui.web;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
 
 public class CssRenderer {
 
@@ -619,7 +622,7 @@ public class CssRenderer {
 		}
 
 		public Style marginCentered(int top, int bottom) {
-			return margin(String.valueOf(top) + "px", "auto", String.valueOf(bottom) + "px", "auto");
+			return margin(valueOf(top) + "px", "auto", valueOf(bottom) + "px", "auto");
 		}
 
 		public Style marginCentered() {
@@ -721,7 +724,7 @@ public class CssRenderer {
 		}
 
 		private Style attr(String name, int value) {
-			return attr(name, String.valueOf(value));
+			return attr(name, valueOf(value));
 		}
 
 		private Style attr(String name, String value) {

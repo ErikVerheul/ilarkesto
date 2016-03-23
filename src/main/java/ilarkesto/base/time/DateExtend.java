@@ -16,14 +16,25 @@ package ilarkesto.base.time;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.tokenize;
 import ilarkesto.base.TmExtend;
+import static ilarkesto.base.TmExtend.year;
 import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.randomInt;
+import static ilarkesto.core.time.Tm.DAY;
 import ilarkesto.core.time.Weekday;
+import static ilarkesto.core.time.Weekday.MONDAY;
+import static java.lang.Integer.parseInt;
+import static java.lang.System.currentTimeMillis;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import static java.util.Locale.GERMANY;
 
 @SuppressWarnings("SE_NO_SERIALVERSIONID")
 public final class DateExtend extends ilarkesto.core.time.Date {
@@ -84,7 +95,7 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public DateExtend getMondayOfWeek() {
-		if (getWeekday() == Weekday.MONDAY) {
+		if (getWeekday() == MONDAY) {
                         return this;
                 }
 		return addDays(-1).getMondayOfWeek();
@@ -93,33 +104,33 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	public DateExtend getFirstDateOfMonth() {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(toJavaDate());
-		c.set(GregorianCalendar.DAY_OF_MONTH, 1);
+		c.set(DAY_OF_MONTH, 1);
 		return new DateExtend(c);
 	}
 
 	public DateExtend getLastDateOfMonth() {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(toJavaDate());
-		c.set(GregorianCalendar.DAY_OF_MONTH, c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH));
+		c.set(DAY_OF_MONTH, c.getActualMaximum(DAY_OF_MONTH));
 		return new DateExtend(c);
 	}
 
 	public DateExtend addMonths(int count) {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(toJavaDate());
-		c.add(GregorianCalendar.MONTH, count);
+		c.add(MONTH, count);
 		return new DateExtend(c);
 	}
 
 	public DateExtend addYears(int count) {
 		GregorianCalendar c = new GregorianCalendar();
 		c.setTime(toJavaDate());
-		c.add(GregorianCalendar.YEAR, count);
+		c.add(YEAR, count);
 		return new DateExtend(c);
 	}
 
 	public int getDaysInMonth() {
-		return getGregorianCalendar().getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		return getGregorianCalendar().getActualMaximum(DAY_OF_MONTH);
 	}
 
 	public TimePeriodExtend getPeriodTo(DateExtend other) {
@@ -175,7 +186,7 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public String toString(Locale locale) {
-		if (locale.equals(Locale.GERMANY)) {
+		if (locale.equals(GERMANY)) {
                         return toDe();
                 }
 		return toInt();
@@ -223,7 +234,7 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public static DateExtend today() {
-		if (today == null || System.currentTimeMillis() > todayInvalidTime) {
+		if (today == null || currentTimeMillis() > todayInvalidTime) {
 			today = new DateExtend();
 			todayInvalidTime = tomorrow().toJavaDate().getTime() - 1;
 		}
@@ -231,24 +242,24 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 	}
 
 	public static DateExtend tomorrow() {
-		return new DateExtend(System.currentTimeMillis() + TmExtend.DAY);
+		return new DateExtend(currentTimeMillis() + DAY);
 	}
 
 	public static DateExtend inDays(int numberOfDays) {
-		return new DateExtend(System.currentTimeMillis() + (TmExtend.DAY * numberOfDays));
+		return new DateExtend(currentTimeMillis() + (DAY * numberOfDays));
 	}
 
 	public static DateExtend beforeDays(int numberOfDays) {
-		return new DateExtend(System.currentTimeMillis() - (TmExtend.DAY * numberOfDays));
+		return new DateExtend(currentTimeMillis() - (DAY * numberOfDays));
 	}
 
 	public static DateExtend randomPast(int beforeMaxDays) {
-		return DateExtend.beforeDays(UtlExtend.randomInt(0, beforeMaxDays));
+		return beforeDays(randomInt(0, beforeMaxDays));
 	}
 
 	public static DateExtend parseTolerant(String s) throws ParseException {
 		s = s.trim();
-		String[] sa = StrExtend.tokenize(s, ".,- ");
+		String[] sa = tokenize(s, ".,- ");
 		if (sa.length == 0) {
                         throw new ParseException("Not a Date: " + s, -1);
                 }
@@ -258,26 +269,26 @@ public final class DateExtend extends ilarkesto.core.time.Date {
 		int[] ia = new int[sa.length];
 		for (int i = 0; i < ia.length; i++) {
 			try {
-				ia[i] = Integer.parseInt(sa[i]);
+				ia[i] = parseInt(sa[i]);
 			} catch (NumberFormatException e) {
 				throw new ParseException("Not a Date: " + s, -1);
 			}
 		}
 
 		if (ia.length == 3) {
-                        return new DateExtend(TmExtend.year(ia[2]), ia[1], ia[0]);
+                        return new DateExtend(year(ia[2]), ia[1], ia[0]);
                 }
 
 		DateExtend local_today = today();
 		if (ia.length == 2) {
 			if (ia[1] > 12) {
-                                return new DateExtend(TmExtend.year(ia[1]), ia[0], local_today.day);
+                                return new DateExtend(year(ia[1]), ia[0], local_today.day);
                         }
 			return new DateExtend(local_today.year, ia[1], ia[0]);
 		}
 
 		if (ia[0] > 31) {
-                        return new DateExtend(TmExtend.year(ia[0]), local_today.month, local_today.day);
+                        return new DateExtend(year(ia[0]), local_today.month, local_today.day);
                 }
 		return new DateExtend(local_today.year, local_today.month, ia[0]);
 	}

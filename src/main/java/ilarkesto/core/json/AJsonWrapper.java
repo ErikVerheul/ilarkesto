@@ -14,7 +14,7 @@
  */
 package ilarkesto.core.json;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +42,7 @@ public abstract class AJsonWrapper {
 	}
 
 	protected void putOrRemove(String name, String value) {
-		if (Str.isBlank(value)) {
+		if (isBlank(value)) {
 			json.remove(name);
 		} else {
 			json.put(name, value);

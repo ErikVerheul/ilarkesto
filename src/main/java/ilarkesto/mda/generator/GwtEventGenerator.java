@@ -19,16 +19,17 @@ import ilarkesto.mda.model.Node;
 import ilarkesto.mda.model.NodeTypes;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.List;
 
 public class GwtEventGenerator extends AJavaClassGenerator implements NodeTypes {
 
 	private static final String QUIET_FLAG = "quiet";
-	private Node event;
-	private Node package_;
-	private Node gwtModule;
+	private final Node event;
+	private final Node package_;
+	private final Node gwtModule;
 
 	public GwtEventGenerator(String srcPath, Node event) {
 		super(srcPath, true);
@@ -52,7 +53,7 @@ public class GwtEventGenerator extends AJavaClassGenerator implements NodeTypes 
 			out.field("private", getType(parameter), parameter.getValue(), null);
 		}
 
-		List<String> constructorParameters = new ArrayList<String>(parameters.size());
+		List<String> constructorParameters = new ArrayList<>(parameters.size());
 		for (Node parameter : parameters) {
 			constructorParameters.add(getType(parameter) + " " + parameter.getValue());
 		}
@@ -66,7 +67,7 @@ public class GwtEventGenerator extends AJavaClassGenerator implements NodeTypes 
 			out.getter(getType(parameter), parameter.getValue());
 		}
 
-		out.beginMethod("void", "tryToGetHandled", Arrays.asList("Object handler"));
+		out.beginMethod("void", "tryToGetHandled", asList("Object handler"));
 		out.beginIf("handler instanceof " + event.getValue() + "Handler");
 		if (!event.containsChild(Flag, QUIET_FLAG)) {
 			out.logDebug("\"    \" + handler.getClass().getName() + \".on" + event.getValue() + "(event)\"");
@@ -87,7 +88,7 @@ public class GwtEventGenerator extends AJavaClassGenerator implements NodeTypes 
 		if (event.containsChild(Flag, QUIET_FLAG)) {
                         return Arrays.asList(Quiet.class.getName());
                 }
-		return Collections.emptyList();
+		return emptyList();
 	}
 
 	private String getPackageName() {

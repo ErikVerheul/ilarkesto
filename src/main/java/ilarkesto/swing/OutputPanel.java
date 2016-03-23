@@ -15,8 +15,13 @@
 package ilarkesto.swing;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.replaceForHtml;
+import static ilarkesto.swing.Swing.invokeInEventDispatchThreadLater;
+import static ilarkesto.swing.Swing.showInJFrame;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
 import java.awt.Dimension;
+import static java.lang.Thread.sleep;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import javax.swing.JEditorPane;
@@ -27,10 +32,10 @@ public class OutputPanel extends JPanel {
 
 	public static void main(String[] args) throws Throwable {
 		OutputPanel op = new OutputPanel();
-		Swing.showInJFrame(op);
+		showInJFrame(op);
 		op.append("message 1");
 		op.append("message 2");
-		Thread.sleep(2000);
+		sleep(2000);
 		op.clear();
 		op.append("message 3");
 		op.append("message 4");
@@ -43,7 +48,7 @@ public class OutputPanel extends JPanel {
 	public OutputPanel() {
 		super(new BorderLayout());
 
-		strings = new LinkedBlockingDeque<String>();
+		strings = new LinkedBlockingDeque<>();
 
 		outputPane = new JEditorPane("text/html", "");
 		outputPane.setEditable(false);
@@ -51,11 +56,11 @@ public class OutputPanel extends JPanel {
 		scroller = new JScrollPane(outputPane);
 		scroller.setPreferredSize(new Dimension(600, 200));
 
-		add(scroller, BorderLayout.CENTER);
+		add(scroller, CENTER);
 	}
 
 	public void append(String text) {
-		strings.add("<p>" + StrExtend.replaceForHtml(text) + "</p>");
+		strings.add("<p>" + replaceForHtml(text) + "</p>");
 		updateOutputPane();
 	}
 
@@ -65,7 +70,7 @@ public class OutputPanel extends JPanel {
 	}
 
 	private void updateOutputPane() {
-		Swing.invokeInEventDispatchThreadLater(new Runnable() {
+		invokeInEventDispatchThreadLater(new Runnable() {
 
 			@Override
 			public void run() {

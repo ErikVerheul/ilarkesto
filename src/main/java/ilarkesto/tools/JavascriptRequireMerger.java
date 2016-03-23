@@ -15,7 +15,8 @@
 package ilarkesto.tools;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.listFiles;
+import static ilarkesto.io.IO.readFile;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -23,15 +24,15 @@ import java.util.List;
 
 public class JavascriptRequireMerger {
 
-	private static Log log = Log.get(JavascriptRequireMerger.class);
+	private static final Log log = Log.get(JavascriptRequireMerger.class);
 
-	private List<File> files = new ArrayList<File>();
+	private final List<File> files = new ArrayList<>();
 
 	public void merge(PrintWriter out) {
 		beforeFiles(out);
 		for (File file : files) {
 			if (file.isDirectory()) {
-				for (File f : IO.listFiles(file)) {
+				for (File f : listFiles(file)) {
 					processFile(out, f, "");
 				}
 				continue;
@@ -43,13 +44,13 @@ public class JavascriptRequireMerger {
 	public void processFile(PrintWriter out, File file, String prefix) {
 		if (file.isDirectory()) {
 			prefix += file.getName() + "/";
-			for (File f : IO.listFiles(file)) {
+			for (File f : listFiles(file)) {
 				processFile(out, f, prefix);
 			}
 			return;
 		}
 		log.debug("Including", file);
-		String content = IO.readFile(file);
+		String content = readFile(file);
 		beforeFile(out, prefix + file.getName());
 		out.println(content);
 		afterFile(out);

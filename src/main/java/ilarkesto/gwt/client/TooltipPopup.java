@@ -18,6 +18,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import static com.google.gwt.user.client.ui.RootPanel.getBodyElement;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TooltipPopup extends PopupPanel {
@@ -159,7 +160,7 @@ public class TooltipPopup extends PopupPanel {
 	 * @return The offset
 	 */
 	private int getPageScrollLeft() {
-		return DOM.getAbsoluteLeft(DOM.getParent(RootPanel.getBodyElement()));
+		return DOM.getAbsoluteLeft(DOM.getParent(getBodyElement()));
 	}
 
 	/**
@@ -168,6 +169,6 @@ public class TooltipPopup extends PopupPanel {
 	 * @return The offset
 	 */
 	private int getPageScrollTop() {
-		return DOM.getAbsoluteTop(DOM.getParent(RootPanel.getBodyElement()));
+		return DOM.getAbsoluteTop(DOM.getParent(getBodyElement()));
 	}
 }

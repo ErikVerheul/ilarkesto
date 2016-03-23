@@ -37,7 +37,7 @@ public final class CsvParser {
 	}
 
 	public List<String> nextRecord() {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 		int c = readNextChar();
 		if (c == -1) {
                         return null;

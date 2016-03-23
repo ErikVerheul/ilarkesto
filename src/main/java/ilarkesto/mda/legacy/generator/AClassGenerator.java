@@ -14,117 +14,119 @@
  */
 package ilarkesto.mda.legacy.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.readFile;
+import static ilarkesto.io.IO.writeFile;
 import ilarkesto.mda.legacy.model.ParameterModel;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.EMPTY_SET;
 import java.util.Set;
 
 public abstract class AClassGenerator {
 
-	private static final Log LOG = Log.get(AClassGenerator.class);
+        private static final Log LOG = Log.get(AClassGenerator.class);
 
-	protected abstract String getName();
+        protected abstract String getName();
 
-	protected abstract String getPackage();
+        protected abstract String getPackage();
 
-	protected abstract boolean isInterface();
+        protected abstract boolean isInterface();
 
-	protected abstract void writeContent();
+        protected abstract void writeContent();
 
-	private StringWriter stringWriter;
-	private PrintWriter out;
+        private StringWriter stringWriter;
+        private PrintWriter out;
 
-	public final void generate() {
-		File file = getFile();
-		if (file.exists() && !isOverwrite()) {
+        public final void generate() {
+                File file = getFile();
+                if (file.exists() && !isOverwrite()) {
                         return;
                 }
-		stringWriter = new StringWriter();
-		out = new PrintWriter(stringWriter);
+                stringWriter = new StringWriter();
+                out = new PrintWriter(stringWriter);
 
-		if (isOverwrite()) {
-			for (int i = 0; i < 10; i++) {
+                if (isOverwrite()) {
+                        for (int i = 0; i < 10; i++) {
                                 ln();
                         }
-			ln("// ----------> GENERATED FILE - DON'T TOUCH! <----------");
-			ln();
-			ln("// generator: " + getClass().getName());
-			for (int i = 0; i < 10; i++) {
+                        ln("// ----------> GENERATED FILE - DON'T TOUCH! <----------");
+                        ln();
+                        ln("// generator: " + getClass().getName());
+                        for (int i = 0; i < 10; i++) {
                                 ln();
                         }
-		}
+                }
 
-		ln("package " + getPackage() + ";");
+                ln("package " + getPackage() + ";");
 
-		ln();
-		ln("import java.util.*;");
-		for (String im : getImports()) {
-			ln("import " + im + ";");
-		}
+                ln();
+                ln("import java.util.*;");
+                for (String im : getImports()) {
+                        ln("import " + im + ";");
+                }
 
-		ln();
-		s("public ");
-		if (!isInterface() && isAbstract()) {
-			s("abstract ");
-		}
-		s(getType() + " " + getName() + getGenericAsString());
-		String superclass = getSuperclass();
-		if (superclass != null) {
-			ln();
-			s("            extends " + superclass);
-		}
-		Set<String> superinterfaces = getSuperinterfaces();
-		if (superinterfaces != null && superinterfaces.size() > 0) {
-			ln();
-			if (isInterface()) {
-				s("            extends ");
-			} else {
-				s("            implements ");
-			}
-			boolean first = true;
-			for (String superinterface : superinterfaces) {
-				if (first) {
-					first = false;
-				} else {
-					s(", ");
-				}
-				s(superinterface);
-			}
-		}
-		ln(" {");
+                ln();
+                s("public ");
+                if (!isInterface() && isAbstract()) {
+                        s("abstract ");
+                }
+                s(getType() + " " + getName() + getGenericAsString());
+                String superclass = getSuperclass();
+                if (superclass != null) {
+                        ln();
+                        s("            extends " + superclass);
+                }
+                Set<String> superinterfaces = getSuperinterfaces();
+                if (superinterfaces != null && superinterfaces.size() > 0) {
+                        ln();
+                        if (isInterface()) {
+                                s("            extends ");
+                        } else {
+                                s("            implements ");
+                        }
+                        boolean first = true;
+                        for (String superinterface : superinterfaces) {
+                                if (first) {
+                                        first = false;
+                                } else {
+                                        s(", ");
+                                }
+                                s(superinterface);
+                        }
+                }
+                ln(" {");
 
-		for (String declaration : getMethodDeclarations()) {
-			ln();
-			ln("    public abstract " + declaration + ";");
-		}
+                for (String declaration : getMethodDeclarations()) {
+                        ln();
+                        ln("    public abstract " + declaration + ";");
+                }
 
-		writeContent();
+                writeContent();
 
-		ln();
-		ln("}");
+                ln();
+                ln("}");
 
-		out.close();
-		String code = stringWriter.toString();
-		code = code.trim();
-		if (file.exists()) {
-			String previousCode = IO.readFile(file, IO.UTF_8);
-			previousCode = previousCode.trim();
-			if (isSame(code, previousCode)) {
-				// LOG.info("No changes, skipping:", file.getPath());
-				return;
-			}
-		}
-		LOG.info("Writing:", file.getPath());
-		IO.writeFile(file, code, IO.UTF_8);
-	}
+                out.close();
+                String code = stringWriter.toString();
+                code = code.trim();
+                if (file.exists()) {
+                        String previousCode = readFile(file, UTF_8);
+                        previousCode = previousCode.trim();
+                        if (isSame(code, previousCode)) {
+                                // LOG.info("No changes, skipping:", file.getPath());
+                                return;
+                        }
+                }
+                LOG.info("Writing:", file.getPath());
+                writeFile(file, code, UTF_8);
+        }
 
-	private boolean isSame(String a, String b) {
+        private boolean isSame(String a, String b) {
                 // if (!a.equals(b)) {
                 // if (a.length() != b.length()) return false;
                 // int len = a.length();
@@ -140,159 +142,159 @@ public abstract class AClassGenerator {
                 // }
                 // }
                 // }
-                
-		return a.equals(b);
-	}
 
-	public AClassGenerator parameterNames(Collection<ParameterModel> parameters) {
-		boolean first = true;
-		for (ParameterModel parameter : parameters) {
-			if (first) {
-				first = false;
-			} else {
-				s(", ");
-			}
-			s(parameter.getName());
-		}
-		return this;
-	}
+                return a.equals(b);
+        }
 
-	public AClassGenerator parameterDeclaration(Collection<ParameterModel> parameters) {
-		boolean first = true;
-		for (ParameterModel parameter : parameters) {
-			if (first) {
-				first = false;
-			} else {
-				s(", ");
-			}
-			s(parameter.getType(), parameter.getName());
-		}
-		return this;
-	}
+        public AClassGenerator parameterNames(Collection<ParameterModel> parameters) {
+                boolean first = true;
+                for (ParameterModel parameter : parameters) {
+                        if (first) {
+                                first = false;
+                        } else {
+                                s(", ");
+                        }
+                        s(parameter.getName());
+                }
+                return this;
+        }
 
-	public AClassGenerator s(String... ss) {
-		boolean first = true;
-		for (String s : ss) {
-			if (first) {
-				first = false;
-			} else {
-				out.print(" ");
-			}
-			out.print(s);
-		}
-		return this;
-	}
+        public AClassGenerator parameterDeclaration(Collection<ParameterModel> parameters) {
+                boolean first = true;
+                for (ParameterModel parameter : parameters) {
+                        if (first) {
+                                first = false;
+                        } else {
+                                s(", ");
+                        }
+                        s(parameter.getType(), parameter.getName());
+                }
+                return this;
+        }
 
-	public AClassGenerator ln(String... ss) {
-		s(ss);
-		s("\n");
-		return this;
-	}
+        public AClassGenerator s(String... ss) {
+                boolean first = true;
+                for (String s : ss) {
+                        if (first) {
+                                first = false;
+                        } else {
+                                out.print(" ");
+                        }
+                        out.print(s);
+                }
+                return this;
+        }
 
-	public AClassGenerator sU(String s) {
-		return s(StrExtend.uppercaseFirstLetter(s));
-	}
+        public AClassGenerator ln(String... ss) {
+                s(ss);
+                s("\n");
+                return this;
+        }
 
-	public void comment(String s) {
-		s("    // --- ").s(s).s(" ---").ln();
-	}
+        public AClassGenerator sU(String s) {
+                return s(uppercaseFirstLetter(s));
+        }
 
-	public void section(String description) {
-		ln();
-		ln("    // -----------------------------------------------------------");
-		ln("    // - " + description);
-		ln("    // -----------------------------------------------------------");
-	}
+        public void comment(String s) {
+                s("    // --- ").s(s).s(" ---").ln();
+        }
 
-	public void dependency(String type, String name, boolean statik, boolean getter) {
-		ln();
-		s("    ");
-		if (statik) {
+        public void section(String description) {
+                ln();
+                ln("    // -----------------------------------------------------------");
+                ln("    // - " + description);
+                ln("    // -----------------------------------------------------------");
+        }
+
+        public void dependency(String type, String name, boolean statik, boolean getter) {
+                ln();
+                s("    ");
+                if (statik) {
                         s("static ");
                 }
-		s(type).s(" ").s(name).s(";").ln();
-		ln();
+                s(type).s(" ").s(name).s(";").ln();
+                ln();
                 ln("    @edu.umd.cs.findbugs.annotations.SuppressWarnings(\"URF_UNREAD_FIELD\")");
-		s("    public ");
-		if (statik) {
+                s("    public ");
+                if (statik) {
                         s("static final ");
                 }
-		s("void set").sU(name).s("(").s(type).s(" ").s(name).s(") {").ln();
-		s("        ");
-		if (statik) {
-			s(getName());
-		} else {
-			s("this");
-		}
-		s(".").s(name).s(" = ").s(name).s(";").ln();
-		s("    }").ln();
+                s("void set").sU(name).s("(").s(type).s(" ").s(name).s(") {").ln();
+                s("        ");
+                if (statik) {
+                        s(getName());
+                } else {
+                        s("this");
+                }
+                s(".").s(name).s(" = ").s(name).s(";").ln();
+                s("    }").ln();
 
-		if (getter) {
-			ln();
-			s("    public ");
-			if (statik) {
+                if (getter) {
+                        ln();
+                        s("    public ");
+                        if (statik) {
                                 s("static final ");
                         }
-			s(type).s(" get").sU(name).s("() {").ln();
-			s("        return ");
-			if (statik) {
-				s(getName());
-			} else {
-				s("this");
-			}
-			s(".").s(name).s(";").ln();
-			s("    }").ln();
-		}
-	}
+                        s(type).s(" get").sU(name).s("() {").ln();
+                        s("        return ");
+                        if (statik) {
+                                s(getName());
+                        } else {
+                                s("this");
+                        }
+                        s(".").s(name).s(";").ln();
+                        s("    }").ln();
+                }
+        }
 
-	private String getGenericAsString() {
-		String generic = getGeneric();
-		if (generic == null) {
+        private String getGenericAsString() {
+                String generic = getGeneric();
+                if (generic == null) {
                         return "";
                 }
-		return "<" + generic + ">";
-	}
+                return "<" + generic + ">";
+        }
 
-	protected String getGeneric() {
-		return null;
-	}
+        protected String getGeneric() {
+                return null;
+        }
 
-	protected boolean isOverwrite() {
-		return false;
-	}
+        protected boolean isOverwrite() {
+                return false;
+        }
 
-	protected boolean isAbstract() {
-		return true;
-	}
+        protected boolean isAbstract() {
+                return true;
+        }
 
-	protected Set<String> getMethodDeclarations() {
-		return Collections.EMPTY_SET;
-	}
+        protected Set<String> getMethodDeclarations() {
+                return EMPTY_SET;
+        }
 
-	protected Set<String> getImports() {
-		return Collections.EMPTY_SET;
-	}
+        protected Set<String> getImports() {
+                return EMPTY_SET;
+        }
 
-	protected Set<String> getSuperinterfaces() {
-		return Collections.EMPTY_SET;
-	}
+        protected Set<String> getSuperinterfaces() {
+                return EMPTY_SET;
+        }
 
-	protected String getSuperclass() {
-		return null;
-	}
+        protected String getSuperclass() {
+                return null;
+        }
 
-	protected final String getType() {
-		return isInterface() ? "interface" : "class";
-	}
+        protected final String getType() {
+                return isInterface() ? "interface" : "class";
+        }
 
-	protected final File getFile() {
-                System.out.println(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
-		return new File(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
-	}
+        protected final File getFile() {
+                out.println(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
+                return new File(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
+        }
 
-	protected String getSourcePath() {
-		return "src/" + (isOverwrite() ? "generated" : "main") + "/java";
-		// return "src/main/java";
-	}
+        protected String getSourcePath() {
+                return "src/" + (isOverwrite() ? "generated" : "main") + "/java";
+                // return "src/main/java";
+        }
 
 }

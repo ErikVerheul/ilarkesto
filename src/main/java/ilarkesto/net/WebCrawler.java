@@ -14,10 +14,16 @@
  */
 package ilarkesto.net;
 
-import ilarkesto.base.StrExtend;
-import ilarkesto.core.base.Utl;
+import static ilarkesto.base.StrExtend.getCharsetFromHtml;
+import static ilarkesto.core.base.Str.indexOf;
+import static ilarkesto.core.base.Str.isBlank;
+import static ilarkesto.core.base.Utl.toList;
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
+import static ilarkesto.io.IO.downloadToFile;
+import static ilarkesto.io.IO.openUrlConnection;
+import static ilarkesto.io.IO.readToByteArray;
+import static ilarkesto.io.IO.writeFile;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,20 +33,20 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptySet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class WebCrawler {
 
-	private static Log log = Log.get(WebCrawler.class);
+	private static final Log log = Log.get(WebCrawler.class);
 
 	private Filter filter;
 	private Consumer consumer;
-	private String defaultEncoding = IO.UTF_8;
+	private String defaultEncoding = UTF_8;
 
-	private Set<String> crawledUrls = new HashSet<String>();
+	private final Set<String> crawledUrls = new HashSet<>();
 
 	public static void download(String url, String destinationDir) {
 		WebCrawler wc = new WebCrawler();
@@ -52,11 +58,11 @@ public class WebCrawler {
 		if (filter == null) {
                         filter = new HostFilter(url);
                 }
-		crawl(Utl.toList(url));
+		crawl(toList(url));
 	}
 
 	private void crawl(Collection<String> urls) {
-		Set<String> newUrls = new HashSet<String>();
+		Set<String> newUrls = new HashSet<>();
 		for (String url : urls) {
 			Set<String> parsedUrls = doCrawl(url);
 			if (!parsedUrls.isEmpty()) {
@@ -64,7 +70,7 @@ public class WebCrawler {
                         }
 			newUrls.addAll(parsedUrls);
 		}
-		List<String> nextUrls = new ArrayList<String>();
+		List<String> nextUrls = new ArrayList<>();
 		for (String url : newUrls) {
 			if (crawledUrls.contains(url)) {
                                 continue;
@@ -86,10 +92,10 @@ public class WebCrawler {
 		crawledUrls.add(url);
 		if (!isProbablyHtml(url)) {
 			if (consumer == null || consumer.skipNonHtml(url)) {
-                                return Collections.emptySet();
+                                return emptySet();
                         }
 		}
-		URLConnection connection = IO.openUrlConnection(url, null, null);
+		URLConnection connection = openUrlConnection(url, null, null);
 		String type;
 		try {
 			connection.connect();
@@ -104,28 +110,28 @@ public class WebCrawler {
 				} catch (Exception ex1) {
 					throw new RuntimeException(ex1);
 				}
-				return Collections.emptySet();
+				return emptySet();
 			} else {
 				throw new RuntimeException(ex);
 			}
 		}
-		if (StrExtend.isBlank(type)) {
+		if (isBlank(type)) {
                         type = "application/unknown";
                 }
 		if (type.startsWith("text/html")) {
 			String encoding = connection.getContentEncoding();
-			if (StrExtend.isBlank(encoding)) {
+			if (isBlank(encoding)) {
                                 encoding = defaultEncoding;
                         }
 			byte[] data;
 			try {
-				data = IO.readToByteArray(connection.getInputStream());
+				data = readToByteArray(connection.getInputStream());
 			} catch (FileNotFoundException ex) {
 				log.debug("  not found:", url);
 				if (consumer != null) {
                                         consumer.onNotFound(url);
                                 }
-				return Collections.emptySet();
+				return emptySet();
 			} catch (IOException ex) {
 				throw new RuntimeException("Loading URL failed: " + url, ex);
 			}
@@ -135,7 +141,7 @@ public class WebCrawler {
 			} catch (UnsupportedEncodingException ex) {
 				throw new RuntimeException("Loading URL failed: " + url, ex);
 			}
-			String charset = StrExtend.getCharsetFromHtml(html, encoding);
+			String charset = getCharsetFromHtml(html, encoding);
 			if (!encoding.equals(charset)) {
 				try {
 					html = new String(data, charset);
@@ -149,7 +155,7 @@ public class WebCrawler {
 		if (consumer != null) {
                         consumer.onUnknown(url, connection);
                 }
-		return Collections.emptySet();
+		return emptySet();
 	}
 
 	static boolean isProbablyHtml(String url) {
@@ -200,12 +206,12 @@ public class WebCrawler {
 	}
 
 	private Set<String> parseUrls(String html, String sourceUrl) {
-		Set<String> urls = new HashSet<String>();
+		Set<String> urls = new HashSet<>();
 		HtmlParser parser = new HtmlParser(html);
 		String url;
 		while ((url = parser.nextUrl()) != null) {
 			url = normalizeUrl(url);
-			if (StrExtend.isBlank(url)) {
+			if (isBlank(url)) {
                                 continue;
                         }
 			url = concatUrlWithRelative(sourceUrl, url);
@@ -251,7 +257,7 @@ public class WebCrawler {
 	}
 
 	public void activateDownloading(String destinationDir) {
-		setConsumer(new DownloadConsumer(destinationDir, IO.UTF_8));
+		setConsumer(new DownloadConsumer(destinationDir, UTF_8));
 	}
 
 	public Set<String> getCrawledUrls() {
@@ -268,7 +274,7 @@ public class WebCrawler {
 		}
 
 		public String nextUrl() {
-			int idx = StrExtend.indexOf(html, new String[] { "href=", "src=" }, 0);
+			int idx = indexOf(html, new String[] { "href=", "src=" }, 0);
 			if (idx < 0) {
                                 return null;
                         }
@@ -285,7 +291,7 @@ public class WebCrawler {
 		}
 
 		private String nextAttributeValue() {
-			int idx = StrExtend.indexOf(html, new String[] { "\"", "'" }, 0);
+			int idx = indexOf(html, new String[] { "\"", "'" }, 0);
 			if (idx < 0) {
                                 return nextUrl();
                         }
@@ -351,7 +357,7 @@ public class WebCrawler {
 
 	public static class DownloadConsumer implements Consumer {
 
-		private String destinationDir;
+		private final String destinationDir;
 		private boolean skipNonHtml;
 		private String encoding;
 
@@ -366,16 +372,16 @@ public class WebCrawler {
 			File file = getFile(url);
 			log.info("Storing:", file);
 			if (encoding == null) {
-                                encoding = StrExtend.getCharsetFromHtml(html, IO.UTF_8);
+                                encoding = getCharsetFromHtml(html, UTF_8);
                         }
-			IO.writeFile(file, html, encoding);
+			writeFile(file, html, encoding);
 		}
 
 		@Override
 		public void onUnknown(String url, URLConnection connection) {
 			File file = getFile(url);
 			log.info("Storing:", file);
-			IO.downloadToFile(connection, file);
+			downloadToFile(connection, file);
 		}
 
 		private File getFile(String url) {
@@ -386,7 +392,7 @@ public class WebCrawler {
 				throw new RuntimeException(ex);
 			}
 			String path = u.getPath();
-			if (StrExtend.isBlank(path)) {
+			if (isBlank(path)) {
                                 path = "/";
                         }
 			if (path.endsWith("/")) {

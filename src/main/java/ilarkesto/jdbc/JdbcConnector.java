@@ -16,21 +16,22 @@ package ilarkesto.jdbc;
 
 import ilarkesto.core.logging.Log;
 import ilarkesto.jdbc.Jdbc.RecordHandler;
+import static ilarkesto.jdbc.Jdbc.closeQuiet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JdbcConnector {
 
-	private static Log log = Log.get(JdbcConnector.class);
+	private static final Log log = Log.get(JdbcConnector.class);
 
-	private String driver;
-	private String protocol;
-	private String host;
-	private String port;
-	private String database;
-	private String login;
-	private String password;
+	private final String driver;
+	private final String protocol;
+	private final String host;
+	private final String port;
+	private final String database;
+	private final String login;
+	private final String password;
 
 	private Connection connection;
 
@@ -77,7 +78,7 @@ public class JdbcConnector {
 	}
 
 	public synchronized void closeConnection() {
-		Jdbc.closeQuiet(connection);
+		closeQuiet(connection);
 		connection = null;
 	}
 

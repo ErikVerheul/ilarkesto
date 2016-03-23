@@ -16,14 +16,16 @@ package ilarkesto.gwt.client.editor;
 
 import ilarkesto.gwt.client.ADropdownViewEditWidget;
 import ilarkesto.gwt.client.LabelProvider;
+import static java.lang.Integer.parseInt;
+import static java.lang.String.valueOf;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class DropdownEditorWidget<T> extends ADropdownViewEditWidget {
 
-	private AOptionEditorModel<T> model;
-	private LabelProvider<T> labelProvider;
+	private final AOptionEditorModel<T> model;
+	private final LabelProvider<T> labelProvider;
 	private List<T> options;
 
 	public DropdownEditorWidget(AOptionEditorModel<T> editor, LabelProvider<T> labelProvider) {
@@ -45,7 +47,7 @@ public class DropdownEditorWidget<T> extends ADropdownViewEditWidget {
 		Map<String, String> optionsMap = new LinkedHashMap<String, String>();
 		int index = 0;
 		for (T option : options) {
-			optionsMap.put(String.valueOf(index), labelProvider.getLabel(option));
+			optionsMap.put(valueOf(index), labelProvider.getLabel(option));
 			index++;
 		}
 		setOptions(optionsMap);
@@ -55,7 +57,7 @@ public class DropdownEditorWidget<T> extends ADropdownViewEditWidget {
 	@Override
 	protected void onEditorSubmit() {
 		String selected = getSelectedOption();
-		int index = Integer.parseInt(selected);
+		int index = parseInt(selected);
 		model.changeValue(options.get(index));
 	}
 

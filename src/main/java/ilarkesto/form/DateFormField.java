@@ -15,6 +15,7 @@
 package ilarkesto.form;
 
 import ilarkesto.base.DateParser;
+import static ilarkesto.base.DateParser.parseDate;
 import ilarkesto.base.UtlExtend;
 import ilarkesto.core.time.Date;
 import java.text.ParseException;
@@ -54,7 +55,7 @@ public class DateFormField extends AFormField {
                         return null;
                 }
 		try {
-			return DateParser.parseDate(s).formatDayMonthYear();
+			return parseDate(s).formatDayMonthYear();
 		} catch (ParseException ex) {
 			return s;
 		}
@@ -69,7 +70,7 @@ public class DateFormField extends AFormField {
 
 		} else {
 			try {
-				DateParser.parseDate(value);
+				parseDate(value);
 			} catch (ParseException ex) {
 				throw new ValidationException("Eingabe muss ein Datum sein. " + ex.getMessage());
 			}
@@ -83,7 +84,7 @@ public class DateFormField extends AFormField {
 
 	public Date getValueAsDate() {
 		try {
-			return value == null ? null : DateParser.parseDate(value);
+			return value == null ? null : parseDate(value);
 		} catch (ParseException ex) {
 			throw new RuntimeException(ex);
 		}

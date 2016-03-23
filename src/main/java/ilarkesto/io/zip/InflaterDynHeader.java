@@ -51,6 +51,8 @@ exception statement from your version. */
 
 package ilarkesto.io.zip;
 
+import static java.lang.System.arraycopy;
+
 class InflaterDynHeader
 {
   private static final int LNUM   = 0;
@@ -213,14 +215,14 @@ class InflaterDynHeader
   public InflaterHuffmanTree buildLitLenTree() throws DataFormatException
   {
     byte[] litlenLens = new byte[lnum];
-    System.arraycopy(litdistLens, 0, litlenLens, 0, lnum);
+                arraycopy(litdistLens, 0, litlenLens, 0, lnum);
     return new InflaterHuffmanTree(litlenLens);
   }
 
   public InflaterHuffmanTree buildDistTree() throws DataFormatException
   {
     byte[] distLens = new byte[dnum];
-    System.arraycopy(litdistLens, lnum, distLens, 0, dnum);
+                arraycopy(litdistLens, lnum, distLens, 0, dnum);
     return new InflaterHuffmanTree(distLens);
   }
 }

@@ -14,12 +14,20 @@
  */
 package ilarkesto.ui.swing;
 
-import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.getIcon128;
+import static ilarkesto.swing.Swing.getIcon16;
+import static ilarkesto.swing.Swing.showModalDialogWithoutBlocking;
 import java.awt.BorderLayout;
-import java.awt.Color;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
+import static java.awt.BorderLayout.SOUTH;
+import static java.awt.BorderLayout.WEST;
+import static java.awt.Color.GRAY;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import static java.awt.FlowLayout.RIGHT;
 import java.awt.Font;
+import static java.awt.Font.BOLD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -81,44 +89,44 @@ public class SwingDialog {
 
 	public void showDialog(ADialogAdapter adapter) {
 		JButton abortButton = new JButton(ui.getLocalizer().string("abort"));
-		abortButton.setIcon(Swing.getIcon16("abort"));
+		abortButton.setIcon(getIcon16("abort"));
 		abortButton.addActionListener(new DialogAbortActionListener(adapter));
 		JButton okButton = new JButton(okLabel);
 		okButton.setToolTipText(okHint);
-		okButton.setIcon(Swing.getIcon16("ok"));
+		okButton.setIcon(getIcon16("ok"));
 		okButton.addActionListener(new DialogOkActionListener(adapter));
 
 		JLabel titleLabel = new JLabel(title);
-		titleLabel.setFont(new Font(titleLabel.getFont().getName(), Font.BOLD, 20));
+		titleLabel.setFont(new Font(titleLabel.getFont().getName(), BOLD, 20));
 
 		JLabel descriptionLabel = null;
 		if (description != null && description.length() > 0) {
 			descriptionLabel = new JLabel(description);
-			descriptionLabel.setForeground(Color.GRAY);
+			descriptionLabel.setForeground(GRAY);
 		}
 
 		JPanel headerPanel = new JPanel(new BorderLayout());
 		headerPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
-		headerPanel.add(titleLabel, BorderLayout.NORTH);
+		headerPanel.add(titleLabel, NORTH);
 		if (descriptionLabel != null) {
-			headerPanel.add(descriptionLabel, BorderLayout.CENTER);
+			headerPanel.add(descriptionLabel, CENTER);
 		}
 
-		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+		JPanel buttons = new JPanel(new FlowLayout(RIGHT, 0, 0));
 		buttons.add(abortButton);
 		buttons.add(new JLabel("  "));
 		buttons.add(okButton);
 
 		JPanel panel = new JPanel(new BorderLayout(10, 10));
 		panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panel.add(headerPanel, BorderLayout.NORTH);
+		panel.add(headerPanel, NORTH);
 		if (icon128 != null) {
-                        panel.add(new JLabel(Swing.getIcon128(icon128)), BorderLayout.WEST);
+                        panel.add(new JLabel(getIcon128(icon128)), WEST);
                 }
-		panel.add(component, BorderLayout.CENTER);
-		panel.add(buttons, BorderLayout.SOUTH);
+		panel.add(component, CENTER);
+		panel.add(buttons, SOUTH);
 
-		dialog = Swing.showModalDialogWithoutBlocking(parentComponent, title, panel);
+		dialog = showModalDialogWithoutBlocking(parentComponent, title, panel);
 	}
 
 	public void closeDialog() {
@@ -160,7 +168,7 @@ public class SwingDialog {
 
 	static class DialogWindowAdapter extends WindowAdapter {
 
-		private ADialogAdapter adapter;
+		private final ADialogAdapter adapter;
 
 		public DialogWindowAdapter(ADialogAdapter adapter) {
 			this.adapter = adapter;

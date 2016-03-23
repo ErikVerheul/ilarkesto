@@ -29,7 +29,7 @@ public class ReflectionBeanProvider<T> extends ABeanProvider {
 	private BeanMap<T> beanMap;
 
 	public ReflectionBeanProvider(T bean) {
-		beanMap = new BeanMap<T>(bean);
+		beanMap = new BeanMap<>(bean);
 	}
 
 	public T getBean() {
@@ -37,7 +37,7 @@ public class ReflectionBeanProvider<T> extends ABeanProvider {
 	}
 
 	public final Set<String> beanNames() {
-		Set<String> result = new HashSet<String>(beanMap.keySet());
+		Set<String> result = new HashSet<>(beanMap.keySet());
 		result.remove("class");
 		return result;
 	}

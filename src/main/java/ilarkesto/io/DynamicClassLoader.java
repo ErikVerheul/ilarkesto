@@ -15,6 +15,7 @@
 package ilarkesto.io;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.io.IO.readFileToByteArray;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
@@ -24,8 +25,8 @@ public class DynamicClassLoader extends ClassLoader {
 
 	private static final Log LOG = Log.get(DynamicClassLoader.class);
 
-	private String[] packages;
-	private Map<String, Long> typeModificationTimes = new HashMap<String, Long>();
+	private final String[] packages;
+	private final Map<String, Long> typeModificationTimes = new HashMap<>();
 
 	public DynamicClassLoader(ClassLoader parent, String... packages) {
 		super(parent);
@@ -55,7 +56,7 @@ public class DynamicClassLoader extends ClassLoader {
 				// typeModificationTimes.put(name, file.lastModified());
 
 				LOG.debug("Defining class:", name);
-				byte[] data = IO.readFileToByteArray(file);
+				byte[] data = readFileToByteArray(file);
 				Class<?> type = defineClass(name, data, 0, data.length);
 				resolveClass(type);
 				return type;

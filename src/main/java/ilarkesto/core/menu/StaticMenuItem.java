@@ -18,9 +18,9 @@ import ilarkesto.core.logging.Log;
 
 public class StaticMenuItem implements MenuItem {
 
-	private Log log = Log.get(StaticMenuItem.class);
+	private final Log log = Log.get(StaticMenuItem.class);
 
-	private String label;
+	private final String label;
 	private boolean selected;
 	protected StaticMenu menu;
 	private Object payload;

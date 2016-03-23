@@ -53,7 +53,16 @@ exception statement from your version. */
 package ilarkesto.io.zip;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.io.zip.ZipOutputStream.DEFLATED;
+import static ilarkesto.io.zip.ZipOutputStream.STORED;
 import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.SECOND;
+import static java.util.Calendar.YEAR;
+import static java.util.Calendar.getInstance;
 import java.util.Date;
 
 /**
@@ -188,12 +197,12 @@ public class ZipEntry implements ZipConstants, Cloneable
     synchronized (local_cal)
       {
 	local_cal.setTime(new Date(time*1000L));
-	dostime = (local_cal.get(Calendar.YEAR) - 1980 & 0x7f) << 25
-	  | (local_cal.get(Calendar.MONTH) + 1) << 21
-	  | (local_cal.get(Calendar.DAY_OF_MONTH)) << 16
-	  | (local_cal.get(Calendar.HOUR_OF_DAY)) << 11
-	  | (local_cal.get(Calendar.MINUTE)) << 5
-	  | (local_cal.get(Calendar.SECOND)) >> 1;
+	dostime = (local_cal.get(YEAR) - 1980 & 0x7f) << 25
+	  | (local_cal.get(MONTH) + 1) << 21
+	  | (local_cal.get(DAY_OF_MONTH)) << 16
+	  | (local_cal.get(HOUR_OF_DAY)) << 11
+	  | (local_cal.get(MINUTE)) << 5
+	  | (local_cal.get(SECOND)) >> 1;
       }
     dostime = (int) (dostime / 1000L);
     this.known |= KNOWN_TIME;
@@ -237,7 +246,7 @@ public class ZipEntry implements ZipConstants, Cloneable
   private static synchronized Calendar getCalendar()
   {
     if (cal == null) {
-            cal = Calendar.getInstance();
+            cal =       getInstance();
     }
 
     return cal;
@@ -318,8 +327,8 @@ public class ZipEntry implements ZipConstants, Cloneable
    */
   public void setMethod(int method)
   {
-    if (method != ZipOutputStream.STORED
-	&& method != ZipOutputStream.DEFLATED) {
+    if (method != STORED
+	&& method != DEFLATED) {
             throw new IllegalArgumentException();
     }
     this.method = (short) method;

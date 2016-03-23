@@ -15,8 +15,13 @@
 package ilarkesto.integration.itext;
 
 import com.itextpdf.text.BadElementException;
+import static com.itextpdf.text.Element.ALIGN_RIGHT;
+import static com.itextpdf.text.Element.ALIGN_TOP;
+import static com.itextpdf.text.Image.getInstance;
+import static com.itextpdf.text.Image.getInstance;
 import ilarkesto.pdf.AImage;
 import ilarkesto.pdf.APdfBuilder;
+import static ilarkesto.pdf.APdfBuilder.mmToPoints;
 import ilarkesto.pdf.APdfElement;
 import java.io.File;
 import java.io.IOException;
@@ -39,25 +44,25 @@ public class Image extends AImage implements ItextElement {
 		com.itextpdf.text.Image image;
 		try {
 			if (data != null) {
-				image = com.itextpdf.text.Image.getInstance(data);
+				image = getInstance(data);
 			} else {
-				image = com.itextpdf.text.Image.getInstance(file.getPath());
+				image = getInstance(file.getPath());
 			}
 			if (scaleByHeight != null) {
-				height = APdfBuilder.mmToPoints(scaleByHeight);
+				height = mmToPoints(scaleByHeight);
 				float width = image.getWidth() * height / image.getHeight();
 				image.scaleAbsolute(width, height);
 			} else if (scaleByWidth != null) {
-				float width = APdfBuilder.mmToPoints(scaleByWidth);
+				float width = mmToPoints(scaleByWidth);
 				height = image.getHeight() * width / image.getWidth();
 				image.scaleAbsolute(width, height);
 			} else {
 				height = image.getHeight();
 			}
-			image.setIndentationLeft(APdfBuilder.mmToPoints(marginLeft));
-			image.setIndentationRight(APdfBuilder.mmToPoints(marginRight));
-			image.setSpacingBefore(APdfBuilder.mmToPoints(marginTop));
-			image.setSpacingAfter(APdfBuilder.mmToPoints(marginBottom));
+			image.setIndentationLeft(mmToPoints(marginLeft));
+			image.setIndentationRight(mmToPoints(marginRight));
+			image.setSpacingBefore(mmToPoints(marginTop));
+			image.setSpacingAfter(mmToPoints(marginBottom));
 		} catch (BadElementException ex) {
 			throw new RuntimeException(ex);
 		} catch (MalformedURLException ex) {
@@ -84,9 +89,9 @@ public class Image extends AImage implements ItextElement {
 	public static int convertAlign(Align align) {
 		switch (align) {
 			case LEFT:
-				return com.itextpdf.text.Image.ALIGN_RIGHT | com.itextpdf.text.Image.ALIGN_TOP;
+				return ALIGN_RIGHT | ALIGN_TOP;
 			case RIGHT:
-				return com.itextpdf.text.Image.ALIGN_RIGHT | com.itextpdf.text.Image.ALIGN_TOP;
+				return ALIGN_RIGHT | ALIGN_TOP;
 		}
 		throw new RuntimeException("Unsupported align: " + align);
 	}

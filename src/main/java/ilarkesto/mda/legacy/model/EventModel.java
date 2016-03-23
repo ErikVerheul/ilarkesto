@@ -14,17 +14,18 @@
  */
 package ilarkesto.mda.legacy.model;
 
+import static java.lang.Character.isUpperCase;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class EventModel extends AModel {
 
-	private Set<ParameterModel> parameters = new LinkedHashSet<ParameterModel>();
+	private Set<ParameterModel> parameters = new LinkedHashSet<>();
 	private boolean quiet;
 
 	public EventModel(String name) {
 		super(name);
-		if (!Character.isUpperCase(name.charAt(0))) {
+		if (!isUpperCase(name.charAt(0))) {
                         throw new RuntimeException("First letter of event name needs to be uppercase: " + name);
                 }
 	}

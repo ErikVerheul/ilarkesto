@@ -15,6 +15,7 @@
 package ilarkesto.form;
 
 import ilarkesto.richtext.RichTextFormatter;
+import static ilarkesto.richtext.RichTextFormatter.toHtml;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
@@ -36,7 +37,7 @@ public class OutputFormField extends AFormField {
 		if (text == null) {
                         return "";
                 }
-		String html = RichTextFormatter.toHtml(text);
+		String html = toHtml(text);
 		return html;
 	}
 

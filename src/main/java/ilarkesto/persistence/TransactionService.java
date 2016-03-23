@@ -29,7 +29,7 @@ public class TransactionService implements IdentifiableResolver<AEntity> {
 	@In
 	private EntityStore entityStore;
 
-	private ThreadLocal<Transaction> threadLocalTransaction = new ThreadLocal<Transaction>();
+	private final ThreadLocal<Transaction> threadLocalTransaction = new ThreadLocal<>();
 
 	public TransactionService() {}
 

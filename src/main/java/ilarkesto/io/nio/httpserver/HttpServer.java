@@ -15,6 +15,7 @@
 package ilarkesto.io.nio.httpserver;
 
 import ilarkesto.concurrent.TaskManager;
+import static ilarkesto.io.nio.httpserver.HttpStatusCode.NOT_FOUND;
 import ilarkesto.io.nio.tcpserver.DataHandler;
 import ilarkesto.io.nio.tcpserver.PerConnectionDataHandler;
 import ilarkesto.io.nio.tcpserver.PerConnectionDataHandler.HandlerFacotry;
@@ -28,7 +29,7 @@ public class HttpServer<S> {
 	private TcpServer server;
 	private String name;
 
-	private Set<HttpSession<S>> sessions = new HashSet<HttpSession<S>>();
+	private Set<HttpSession<S>> sessions = new HashSet<>();
 
 	public HttpServer(int port, String serverName) {
 		this.name = serverName;
@@ -37,13 +38,13 @@ public class HttpServer<S> {
 
 	void onHttpRequest(HttpRequest request) {
 		updateSession(request);
-		request.sendEmptyResponse(HttpStatusCode.NOT_FOUND);
+		request.sendEmptyResponse(NOT_FOUND);
 	}
 
 	private void updateSession(HttpRequest request) {
 		HttpSession<S> session = getSession("todo");
 		if (session == null) {
-			session = new HttpSession<S>();
+			session = new HttpSession<>();
 			// TODO create session bean
 		}
 		request.setSession(session);

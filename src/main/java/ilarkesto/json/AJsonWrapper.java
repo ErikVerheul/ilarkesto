@@ -14,11 +14,12 @@
  */
 package ilarkesto.json;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.json.Json.JsonWrapper;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
+import static java.util.Collections.emptyList;
 import java.util.List;
 
 public abstract class AJsonWrapper implements JsonWrapper {
@@ -41,7 +42,7 @@ public abstract class AJsonWrapper implements JsonWrapper {
 	}
 
 	protected static List<JsonObject> getJsonObjects(Iterable<? extends AJsonWrapper> wrappers) {
-		List<JsonObject> ret = new ArrayList<JsonObject>();
+		List<JsonObject> ret = new ArrayList<>();
 		for (AJsonWrapper wrapper : wrappers) {
 			ret.add(wrapper.getJson());
 		}
@@ -49,7 +50,7 @@ public abstract class AJsonWrapper implements JsonWrapper {
 	}
 
 	protected void putOrRemove(String name, String value) {
-		if (Str.isBlank(value)) {
+		if (isBlank(value)) {
 			json.remove(name);
 		} else {
 			json.put(name, value);
@@ -67,10 +68,10 @@ public abstract class AJsonWrapper implements JsonWrapper {
 	protected <T extends AJsonWrapper> List<T> createFromArray(String name, Class<T> type) {
 		List<JsonObject> array = json.getArrayOfObjects(name);
 		if (array == null || array.isEmpty()) {
-                        return Collections.emptyList();
+                        return emptyList();
                 }
 
-		List<T> wrappers = new ArrayList<T>(array.size());
+		List<T> wrappers = new ArrayList<>(array.size());
 		for (JsonObject object : array) {
 			T wrapper = createWrapper(object, type);
 			wrappers.add(wrapper);
@@ -91,13 +92,13 @@ public abstract class AJsonWrapper implements JsonWrapper {
 		Constructor<T> constructor;
 		try {
 			constructor = type.getConstructor(JsonObject.class);
-		} catch (Exception ex) {
+		} catch (NoSuchMethodException | SecurityException ex) {
 			throw new RuntimeException("Loading constructor for " + type.getName() + " failed.", ex);
 		}
 		T wrapper;
 		try {
 			wrapper = constructor.newInstance(json);
-		} catch (Exception ex) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 			throw new RuntimeException("Instantiating " + type.getName() + " failed.", ex);
 		}
 		return wrapper;

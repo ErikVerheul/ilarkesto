@@ -15,6 +15,7 @@
 package ilarkesto.form.validator;
 
 import ilarkesto.form.ValidationException;
+import static java.lang.Double.parseDouble;
 
 /**
  * @author <A href="mailto:wi@koczewski.de">Witoslaw Koczewski </A>
@@ -35,7 +36,7 @@ public class DecimalValidator implements Validator {
         text = text.trim();
         double i;
         try {
-            i = Double.parseDouble(text.replace(',', '.'));
+            i =         parseDouble(text.replace(',', '.'));
         } catch (NumberFormatException ex) {
             throw new ValidationException("Die Eingabe mu\u00DF eine Zahl sein. " + getMessage());
         }

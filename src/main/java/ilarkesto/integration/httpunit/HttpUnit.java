@@ -17,10 +17,13 @@ package ilarkesto.integration.httpunit;
 import com.meterware.httpunit.ClientProperties;
 import com.meterware.httpunit.HTMLElement;
 import com.meterware.httpunit.HttpUnitOptions;
+import static com.meterware.httpunit.HttpUnitOptions.setScriptingEnabled;
 import com.meterware.httpunit.WebConversation;
 import com.meterware.httpunit.WebResponse;
 import com.meterware.httpunit.WebTable;
 import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.getHttpProxyHost;
+import static ilarkesto.base.Sys.getHttpProxyPort;
 import org.xml.sax.SAXException;
 
 public class HttpUnit {
@@ -68,15 +71,15 @@ public class HttpUnit {
 	}
 
 	public static WebResponse loadPage(String url) {
-		return loadPage(url, Sys.getHttpProxyHost(), Sys.getHttpProxyPort());
+		return loadPage(url, getHttpProxyHost(), getHttpProxyPort());
 	}
 
 	public static WebConversation createWebConversation(boolean acceptCookies) {
-		return createWebConversation(acceptCookies, Sys.getHttpProxyHost(), Sys.getHttpProxyPort());
+		return createWebConversation(acceptCookies, getHttpProxyHost(), getHttpProxyPort());
 	}
 
 	public static WebConversation createWebConversation(boolean acceptCookies, String proxyHost, Integer proxyPort) {
-		HttpUnitOptions.setScriptingEnabled(false);
+		setScriptingEnabled(false);
 		WebConversation webConversation = new WebConversation();
 		if (proxyHost != null) {
                         webConversation.setProxyServer(proxyHost, proxyPort == null ? 3128 : proxyPort);

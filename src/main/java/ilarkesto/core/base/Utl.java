@@ -14,6 +14,8 @@
  */
 package ilarkesto.core.base;
 
+import static java.lang.Integer.parseInt;
+import static java.lang.System.arraycopy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,7 +76,7 @@ public class Utl {
 		String[] ret = new String[len];
 		int offset = 0;
 		for (String[] array : arrays) {
-			System.arraycopy(array, 0, ret, offset, array.length);
+			arraycopy(array, 0, ret, offset, array.length);
 			offset += array.length;
 		}
 		return ret;
@@ -108,7 +110,7 @@ public class Utl {
 	}
         
         public static void setLanguage(String language) {
-		Utl.language = language;
+		language = language;
 	}
 
 	public static String getLanguage() {
@@ -203,7 +205,7 @@ public class Utl {
 	}
 
 	public static int parseHex(String hex) {
-		return Integer.parseInt(hex, 16);
+		return parseInt(hex, 16);
 	}
 
 	public static String concatToHtml(Collection<? extends ToHtmlSupport> items, String separator) {

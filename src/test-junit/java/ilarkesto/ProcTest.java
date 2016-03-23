@@ -1,6 +1,7 @@
 package ilarkesto;
 
 import ilarkesto.base.Proc;
+import static java.lang.System.out;
 import junit.framework.TestCase;
 
 public class ProcTest extends TestCase {
@@ -10,8 +11,8 @@ public class ProcTest extends TestCase {
 		proc.addParameter("-version");
 		proc.start();
 		proc.waitFor();
-		System.out.println(proc.getReturnCode());
-		System.out.println(proc.getOutput());
+		out.println(proc.getReturnCode());
+		out.println(proc.getOutput());
 	}
 
 }

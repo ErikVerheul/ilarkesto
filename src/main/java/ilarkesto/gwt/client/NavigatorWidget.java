@@ -25,7 +25,9 @@ import ilarkesto.core.menu.MenuItem;
 import ilarkesto.core.menu.StaticMenu;
 import ilarkesto.core.menu.StaticMenuItem;
 import ilarkesto.core.menu.Submenu;
-import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static ilarkesto.gwt.client.Gwt.createDiv;
+import static ilarkesto.gwt.client.Gwt.createEmptyDiv;
 import ilarkesto.gwt.client.animation.AnimatingFlowPanel;
 
 public class NavigatorWidget<K extends Object> extends AWidget {
@@ -56,12 +58,12 @@ public class NavigatorWidget<K extends Object> extends AWidget {
                 }
 
 		panel.clear();
-		panel.add(Gwt.createEmptyDiv("NavigatorWidget-head"));
+		panel.add(createEmptyDiv("NavigatorWidget-head"));
 		for (StaticMenuItem item : menu.getItems()) {
 			panel.add(createItemWidget(item));
 		}
 		super.onUpdate();
-		lastUpdateTime = Tm.getCurrentTimeMillis();
+		lastUpdateTime = getCurrentTimeMillis();
 	}
 
 	protected String getHref(MenuItem item) {
@@ -89,7 +91,7 @@ public class NavigatorWidget<K extends Object> extends AWidget {
 
 		FlowPanel itemPanel = new FlowPanel();
 		itemPanel.setStyleName("NavigatorWidget-item");
-		SimplePanel itemLink = Gwt.createDiv("NavigatorWidget-item-link", a);
+		SimplePanel itemLink = createDiv("NavigatorWidget-item-link", a);
 		itemPanel.add(itemLink);
 		if (item.isSelected()) {
 			if (item instanceof Submenu) {

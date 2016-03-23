@@ -14,7 +14,9 @@
  */
 package ilarkesto.mda.legacy.generator;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
@@ -42,7 +44,7 @@ import java.util.Set;
 
 public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 
-	private ApplicationModel application;
+	private final ApplicationModel application;
 
 	public GwtEntityGenerator(EntityModel datobModel, ApplicationModel application) {
 		super(datobModel);
@@ -66,7 +68,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 	}
 
 	private void backReferences() {
-		Set<String> backRefs = new HashSet<String>();
+		Set<String> backRefs = new HashSet<>();
 		for (BackReferenceModel br : bean.getBackReferences()) {
 			if (backRefs.contains(br.getName())) {
                                 continue;
@@ -85,19 +87,19 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
                                 return;
                         }
 		}
-		String by = StrExtend.uppercaseFirstLetter(ref.getName());
+		String by = uppercaseFirstLetter(ref.getName());
 		if (ref.isCollection()) {
-                        by = StrExtend.removeSuffix(by, "s");
+                        by = removeSuffix(by, "s");
                 }
 		if (ref.isUnique()) {
 			ln("    public final " + refEntity.getBeanClass().replace(".server.", ".client.") + " get"
-					+ StrExtend.uppercaseFirstLetter(br.getName()) + "() {");
-			ln("        return getDao().get" + StrExtend.uppercaseFirstLetter(br.getName()) + "By" + by + "(("
+					+ uppercaseFirstLetter(br.getName()) + "() {");
+			ln("        return getDao().get" + uppercaseFirstLetter(br.getName()) + "By" + by + "(("
 					+ bean.getName() + ")this);");
 			ln("    }");
 		} else {
 			ln("    public final java.util.List<" + refEntity.getBeanClass().replace(".server.", ".client.") + "> get"
-					+ StrExtend.uppercaseFirstLetter(br.getName()) + "s() {");
+					+ uppercaseFirstLetter(br.getName()) + "s() {");
 			ln("        return getDao().get" + refEntity.getName() + "sBy" + by + "((" + bean.getName() + ")this);");
 			ln("    }");
 		}
@@ -112,7 +114,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 			if (!p.isSearchable()) {
                                 continue;
                         }
-			ln("        if (matchesKey(get" + StrExtend.uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
+			ln("        if (matchesKey(get" + uppercaseFirstLetter(p.getName()) + "(), key)) return true;");
 		}
 		ln("        return false;");
 		ln("    }");
@@ -126,7 +128,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
                         return;
                 }
 		String modelProperty = property.getName() + "Model";
-		String nameUpper = StrExtend.uppercaseFirstLetter(property.getName());
+		String nameUpper = uppercaseFirstLetter(property.getName());
 		String baseClassName = null;
 		String type = property.getType();
 		if (property.isOptionRestricted()) {
@@ -166,11 +168,11 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		ln();
 		ln("    public " + nameUpper + "Model get" + nameUpper + "Model() {");
 		ln("        if (" + modelProperty + " == null) " + modelProperty + " = create"
-				+ StrExtend.uppercaseFirstLetter(modelProperty) + "();");
+				+ uppercaseFirstLetter(modelProperty) + "();");
 		ln("        return " + modelProperty + ";");
 		ln("    }");
 		ln();
-		ln("    protected " + StrExtend.uppercaseFirstLetter(nameUpper) + "Model create" + nameUpper
+		ln("    protected " + uppercaseFirstLetter(nameUpper) + "Model create" + nameUpper
 				+ "Model() { return new " + nameUpper + "Model(); }");
 		ln();
 		ln("    protected class " + nameUpper + "Model extends " + baseClassName + " {");
@@ -220,7 +222,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 		String editablePredicate = property.getEditablePredicate();
 		if (editablePredicate != null) {
 			String returnValue = editablePredicate.equals("false") ? "false" : getName() + ".this.is"
-					+ StrExtend.uppercaseFirstLetter(editablePredicate) + "()";
+					+ uppercaseFirstLetter(editablePredicate) + "()";
 			ln();
 			ln("        @Override");
 			ln("        public boolean isEditable() { return " + returnValue + "; }");
@@ -283,7 +285,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 
 	private void type() {
 		ln();
-		ln("    public static final String ENTITY_TYPE = \"" + StrExtend.lowercaseFirstLetter(bean.getName()) + "\";");
+		ln("    public static final String ENTITY_TYPE = \"" + lowercaseFirstLetter(bean.getName()) + "\";");
 		ln();
 		ln("    @Override");
 		ln("    public final String getEntityType() {");
@@ -294,7 +296,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 	private void predicates() {
 		for (PredicateModel p : bean.getPredicates()) {
 			ln();
-			ln("    public abstract boolean is" + StrExtend.uppercaseFirstLetter(p.getName()) + "();");
+			ln("    public abstract boolean is" + uppercaseFirstLetter(p.getName()) + "();");
 		}
 	}
 
@@ -306,7 +308,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 
 	private void property(PropertyModel p) {
 		String name = p.getName();
-		String nameUpper = StrExtend.uppercaseFirstLetter(p.getName());
+		String nameUpper = uppercaseFirstLetter(p.getName());
 		ln();
 		comment(p.getName());
 		ln();
@@ -318,7 +320,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 				String contentType = p.getContentType().replace(".server.", ".client.");
 				String varName = name + "Ids";
 				String nameSingular = p.getNameSingular();
-				String nameSingularUpper = StrExtend.uppercaseFirstLetter(nameSingular);
+				String nameSingularUpper = uppercaseFirstLetter(nameSingular);
 				ln("    private Set<String>", varName + " = new HashSet<String>();");
 				ln();
 				ln("    public final", type, "get" + nameUpper + "() {");
@@ -356,7 +358,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 				String typeName = type.substring(type.lastIndexOf('.') + 1, type.length() - 1);
 				String contentType = p.getContentType().replace(".server.", ".client.");
 				String nameSingular = p.getNameSingular();
-				String nameSingularUpper = StrExtend.uppercaseFirstLetter(nameSingular);
+				String nameSingularUpper = uppercaseFirstLetter(nameSingular);
 				ln("    private " + p.getType() + " " + p.getName() + " = new " + p.getCollectionImpl() + "<"
 						+ p.getContentType() + ">();");
 				ln();
@@ -578,7 +580,7 @@ public class GwtEntityGenerator extends ABeanGenerator<EntityModel> {
 
 	@Override
 	protected Set<String> getImports() {
-		Set<String> ret = new LinkedHashSet<String>(super.getImports());
+		Set<String> ret = new LinkedHashSet<>(super.getImports());
 		ret.add("scrum.client.common.*");
 		ret.add(AGwtDao.class.getPackage().getName() + ".*");
 		return ret;

@@ -15,6 +15,11 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.event.dom.client.KeyCodes;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_BACKSPACE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_DELETE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_ESCAPE;
+import static com.google.gwt.event.dom.client.KeyCodes.KEY_TAB;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FocusListener;
@@ -24,6 +29,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
+import static ilarkesto.gwt.client.Gwt.createNbsp;
+import static java.lang.Character.isDigit;
+import static java.lang.Integer.parseInt;
 
 public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 
@@ -60,11 +69,11 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 			panel = new HorizontalPanel();
 			if (editable) {
 				panel.add(minus.update());
-				panel.add(Gwt.createNbsp());
+				panel.add(createNbsp());
 			}
 			panel.add(viewer);
 			if (editable) {
-				panel.add(Gwt.createNbsp());
+				panel.add(createNbsp());
 				panel.add(plus.update());
 			}
 			wrapper.setWidget(panel);
@@ -83,7 +92,7 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 	}
 
 	public final void setViewerText(String text) {
-		if (Str.isBlank(text)) {
+		if (isBlank(text)) {
                         text = ".";
                 }
 		viewer.setText(text);
@@ -120,7 +129,7 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 				return null;
 			} else {
 				try {
-					return Integer.parseInt(text);
+					return parseInt(text);
 				} catch (NumberFormatException e) {
 					return null;
 				}
@@ -179,7 +188,7 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 				editor.cancelKey();
 			}
 
-			if (keyCode == KeyCodes.KEY_ENTER || keyCode == KeyCodes.KEY_ESCAPE) {
+			if (keyCode == KEY_ENTER || keyCode == KEY_ESCAPE) {
 				submitEditor();
 			}
 		}
@@ -187,12 +196,12 @@ public abstract class AIntegerViewEditWidget extends AViewEditWidget {
 		private boolean isCancelKey(int keyCode) {
 			boolean chancelKey = true;
 
-			chancelKey &= Character.isDigit((char) keyCode) == false;
-			chancelKey &= keyCode != KeyCodes.KEY_ENTER;
-			chancelKey &= (keyCode != KeyCodes.KEY_TAB);
-			chancelKey &= (keyCode != KeyCodes.KEY_BACKSPACE);
-			chancelKey &= (keyCode != KeyCodes.KEY_DELETE);
-			chancelKey &= (keyCode != KeyCodes.KEY_ESCAPE);
+			chancelKey &= isDigit((char) keyCode) == false;
+			chancelKey &= keyCode != KEY_ENTER;
+			chancelKey &= (keyCode != KEY_TAB);
+			chancelKey &= (keyCode != KEY_BACKSPACE);
+			chancelKey &= (keyCode != KEY_DELETE);
+			chancelKey &= (keyCode != KEY_ESCAPE);
 			chancelKey |= (keyCode == 46); // 46 = "."
 
 			return chancelKey;

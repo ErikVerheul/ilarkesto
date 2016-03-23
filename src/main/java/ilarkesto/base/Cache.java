@@ -21,12 +21,14 @@ import java.util.Map;
 /**
  * A simple cache, where keys are mapped to value objects. When no value-object is assigned to a key, then a
  * create method is called on the user provided factory.
+ * @param <K>
+ * @param <V>
  */
 public class Cache<K, V> {
 
 	private static final Log LOG = Log.get(Cache.class);
 
-	private Map<K, V> cache = new HashMap<K, V>();
+	private Map<K, V> cache = new HashMap<>();
 
 	private Factory<K, V> factory;
 
@@ -41,7 +43,7 @@ public class Cache<K, V> {
 	}
 
 	public void clear() {
-		cache = new HashMap<K, V>();
+		cache = new HashMap<>();
 	}
 
 	public V get(K key) {

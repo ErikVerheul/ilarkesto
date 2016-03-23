@@ -14,11 +14,14 @@
  */
 package ilarkesto.base;
 
-import ilarkesto.core.logging.Log;
+import static ilarkesto.base.Reflect.setProperty;
+import static ilarkesto.base.UtlExtend.toStringWithType;
+import static ilarkesto.core.logging.Log.DEBUG;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
+import static java.beans.Introspector.getBeanInfo;
 import java.beans.PropertyDescriptor;
+import static java.lang.String.valueOf;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -34,16 +37,17 @@ import java.util.Set;
 /**
  * The BeanMap is a full Map implementation where a java object (bean) acts as the data storage. A call to the
  * get(key)-method invokes the getter in the bean and the set(key, value)-method invokes the setter.
+ * @param <T>
  */
 public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable {
 
 	private transient T bean;
 
-	private transient HashMap<String, Method> readMethods = new HashMap<String, Method>();
+	private transient HashMap<String, Method> readMethods = new HashMap<>();
 
-	private transient HashMap<String, Method> writeMethods = new HashMap<String, Method>();
+	private transient HashMap<String, Method> writeMethods = new HashMap<>();
 
-	private transient HashMap<String, Class> types = new HashMap<String, Class>();
+	private transient HashMap<String, Class> types = new HashMap<>();
 
 	/**
 	 * An empty array. Used to invoke accessors via reflection.
@@ -68,7 +72,7 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 
             @Override
 			public Object transform(Object input) {
-				return Character.valueOf(input.toString().charAt(0));
+				return input.toString().charAt(0);
 			}
 		});
 		defaultTransformers.put(Byte.TYPE, new Transformer() {
@@ -139,7 +143,7 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 
 	@Override
 	public String toString() {
-		return "BeanMap<" + String.valueOf(bean) + ">";
+		return "BeanMap<" + valueOf(bean) + ">";
 	}
 
 	/**
@@ -287,10 +291,10 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 	 */
 	@Override
 	public Object put(String name, Object value) throws IllegalArgumentException, ClassCastException {
-		Log.DEBUG("------------- setting property ", name, "->", UtlExtend.toStringWithType(value));
+		DEBUG("------------- setting property ", name, "->", toStringWithType(value));
 		if (bean != null) {
 			Object oldValue = get(name);
-			Reflect.setProperty(bean, name, value);
+			setProperty(bean, name, value);
 			return oldValue;
 		}
 		return null;
@@ -521,26 +525,25 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 		Class beanClass = getBean().getClass();
 		try {
 			// BeanInfo beanInfo = Introspector.getBeanInfo( bean, null );
-			BeanInfo beanInfo = Introspector.getBeanInfo(beanClass);
+			BeanInfo beanInfo = getBeanInfo(beanClass);
 			PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
 			if (propertyDescriptors != null) {
-				for (int i = 0; i < propertyDescriptors.length; i++) {
-					PropertyDescriptor propertyDescriptor = propertyDescriptors[i];
-					if (propertyDescriptor != null) {
-						String name = propertyDescriptor.getName();
-						Method readMethod = propertyDescriptor.getReadMethod();
-						Method writeMethod = propertyDescriptor.getWriteMethod();
-						Class aType = propertyDescriptor.getPropertyType();
-
-						if (readMethod != null) {
-							readMethods.put(name, readMethod);
-						}
-						if (writeMethod != null) {
-							writeMethods.put(name, writeMethod);
-						}
-						types.put(name, aType);
-					}
-				}
+                                for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
+                                        if (propertyDescriptor != null) {
+                                                String name = propertyDescriptor.getName();
+                                                Method readMethod = propertyDescriptor.getReadMethod();
+                                                Method writeMethod = propertyDescriptor.getWriteMethod();
+                                                Class aType = propertyDescriptor.getPropertyType();
+                                                
+                                                if (readMethod != null) {
+                                                        readMethods.put(name, readMethod);
+                                                }
+                                                if (writeMethod != null) {
+                                                        writeMethods.put(name, writeMethod);
+                                                }
+                                                types.put(name, aType);
+                                        }
+                                }
 			}
 		} catch (IntrospectionException e) {
 			throw new RuntimeException(e);
@@ -584,9 +587,7 @@ public class BeanMap<T> extends AbstractMap<String, Object> implements Cloneable
 			}
 			Object[] answer = { value };
 			return answer;
-		} catch (InvocationTargetException e) {
-			throw new IllegalArgumentException(e);
-		} catch (InstantiationException e) {
+		} catch (InvocationTargetException | InstantiationException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}

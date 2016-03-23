@@ -14,7 +14,9 @@
  */
 package ilarkesto.swing;
 
+import static java.lang.Thread.currentThread;
 import javax.swing.SwingUtilities;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * This is the 3rd version of SwingWorker (also known as SwingWorker 3), an abstract class that you subclass
@@ -98,7 +100,7 @@ public abstract class SwingWorker {
 			try {
 				t.join();
 			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt(); // propagate
+				currentThread().interrupt(); // propagate
 				return null;
 			}
 		}
@@ -124,7 +126,7 @@ public abstract class SwingWorker {
 					threadVar.clear();
 				}
 
-				SwingUtilities.invokeLater(doFinished);
+				invokeLater(doFinished);
 			}
 		};
 

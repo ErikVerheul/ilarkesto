@@ -18,7 +18,9 @@ import ilarkesto.auth.DeleteProtected;
 import ilarkesto.auth.EditProtected;
 import ilarkesto.auth.Ownable;
 import ilarkesto.auth.ViewProtected;
-import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
+import static ilarkesto.base.StrExtend.uppercaseFirstLetter;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.time.Date;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.core.time.Time;
@@ -40,7 +42,7 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 
 	@Override
 	protected void writeContent() {
-		String daoName = StrExtend.lowercaseFirstLetter(bean.getDaoName());
+		String daoName = lowercaseFirstLetter(bean.getDaoName());
 
 		if (!bean.isAbstract()) {
 			ln();
@@ -127,7 +129,7 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 			ln("    }");
 		}
 
-		Set<String> backRefs = new HashSet<String>();
+		Set<String> backRefs = new HashSet<>();
 		for (BackReferenceModel br : bean.getBackReferences()) {
 			if (backRefs.contains(br.getName())) {
                                 continue;
@@ -143,20 +145,20 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 		ln();
 		PropertyModel ref = br.getReference();
 		EntityModel refEntity = ref.getEntity();
-		String by = StrExtend.uppercaseFirstLetter(ref.getName());
+		String by = uppercaseFirstLetter(ref.getName());
 		if (ref.isCollection()) {
-                        by = StrExtend.removeSuffix(by, "s");
+                        by = removeSuffix(by, "s");
                 }
 		if (ref.isUnique()) {
-			ln("    public final " + refEntity.getBeanClass() + " get" + StrExtend.uppercaseFirstLetter(br.getName())
+			ln("    public final " + refEntity.getBeanClass() + " get" + uppercaseFirstLetter(br.getName())
 					+ "() {");
-			ln("        return " + StrExtend.lowercaseFirstLetter(refEntity.getName()) + "Dao.get"
-					+ StrExtend.uppercaseFirstLetter(br.getName()) + "By" + by + "((" + bean.getName() + ")this);");
+			ln("        return " + lowercaseFirstLetter(refEntity.getName()) + "Dao.get"
+					+ uppercaseFirstLetter(br.getName()) + "By" + by + "((" + bean.getName() + ")this);");
 			ln("    }");
 		} else {
 			ln("    public final java.util.Set<" + refEntity.getBeanClass() + "> get"
-					+ StrExtend.uppercaseFirstLetter(br.getName()) + "s() {");
-			ln("        return " + StrExtend.lowercaseFirstLetter(refEntity.getName()) + "Dao.get" + refEntity.getName()
+					+ uppercaseFirstLetter(br.getName()) + "s() {");
+			ln("        return " + lowercaseFirstLetter(refEntity.getName()) + "Dao.get" + refEntity.getName()
 					+ "sBy" + by + "((" + bean.getName() + ")this);");
 			ln("    }");
 		}
@@ -164,7 +166,7 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 
 	@Override
 	protected Set<String> getSuperinterfaces() {
-		Set<String> result = new LinkedHashSet<String>();
+		Set<String> result = new LinkedHashSet<>();
 		result.addAll(super.getSuperinterfaces());
 		if (bean.isViewProtected()) {
                         result.add(ViewProtected.class.getName() + "<" + getUserClassName() + ">");
@@ -201,11 +203,11 @@ public class EntityGenerator extends DatobGenerator<EntityModel> {
 	@Override
 	protected void writeDependencies() {
 		super.writeDependencies();
-		String daoName = StrExtend.lowercaseFirstLetter(bean.getDaoName());
+		String daoName = lowercaseFirstLetter(bean.getDaoName());
 		if (!bean.isAbstract() && !bean.containsDependency(daoName)) {
 			dependency(bean.getDaoClass(), daoName, true, false);
 		}
-		Set<String> refDaos = new HashSet<String>();
+		Set<String> refDaos = new HashSet<>();
 		for (BackReferenceModel br : bean.getBackReferences()) {
 			EntityModel refEntity = br.getReference().getEntity();
 			String refDaoName = refEntity.getDaoName();

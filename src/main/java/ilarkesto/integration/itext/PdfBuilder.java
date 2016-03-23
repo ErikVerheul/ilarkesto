@@ -15,12 +15,16 @@
 package ilarkesto.integration.itext;
 
 import com.itextpdf.text.BaseColor;
+import static com.itextpdf.text.BaseColor.RED;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.PdfWriter;
+import static com.itextpdf.text.pdf.PdfWriter.getInstance;
 import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.getUsersHomePath;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.DEBUG;
 import ilarkesto.pdf.AImage;
 import ilarkesto.pdf.AParagraph;
 import ilarkesto.pdf.APdfBuilder;
@@ -50,17 +54,17 @@ public class PdfBuilder extends APdfBuilder {
 		pdf.paragraph().text("--------------------------");
 		ATable table = pdf.table(50, 50);
 		table.cell().paragraph().text("1 ABC");
-		table.cell().setBorder(BaseColor.RED, 0.5f).paragraph().text("2 ABC\u00DC\u00DC\nABCDEF");
+		table.cell().setBorder(RED, 0.5f).paragraph().text("2 ABC\u00DC\u00DC\nABCDEF");
 		table.cell().paragraph().text("3 ABC");
 		table.cell().paragraph().text("4 ABC");
 		String path = "/inbox/test.pdf";
-                outStream = new FileOutputStream(Sys.getUsersHomePath() + path);
+                outStream = new FileOutputStream(getUsersHomePath() + path);
 		pdf.write(outStream);
                 outStream.close();
-		Log.DEBUG("PDF created:", path);
+		DEBUG("PDF created:", path);
 	}
 
-	private Collection<ItextElement> elements = new ArrayList<ItextElement>();
+	private Collection<ItextElement> elements = new ArrayList<>();
 	private boolean newPage = true;
 
 	@Override
@@ -88,7 +92,7 @@ public class PdfBuilder extends APdfBuilder {
 	       public void write(OutputStream out) {
                 Document document = new Document();
                 try {
-                        PdfWriter.getInstance(document, out);
+                        getInstance(document, out);
                 } catch (DocumentException ex) {
                         throw new RuntimeException(ex);
                 }

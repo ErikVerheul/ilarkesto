@@ -15,9 +15,12 @@
 package ilarkesto.form;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.fillUpLeft;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -44,14 +47,14 @@ public class DropdownFormField<E> extends AFormField {
 	}
 
 	public DropdownFormField<E> setSelectableItems(Collection<E> items) {
-		List<E> itemList = (List<E>) (items instanceof List ? items : new ArrayList<E>(items));
+		List<E> itemList = (List<E>) (items instanceof List ? items : new ArrayList<>(items));
 		if (!itemList.isEmpty() && itemList.get(0) instanceof Comparable) {
-                        Collections.sort((List) itemList);
+                        sort((List) itemList);
                 }
-		this.selectableItems = new TreeMap<String, E>();
+		this.selectableItems = new TreeMap<>();
 		int i = 0;
 		for (E item : itemList) {
-			String key = StrExtend.fillUpLeft(String.valueOf(i++), "0", 4);
+			String key = fillUpLeft(valueOf(i++), "0", 4);
 			selectableItems.put(key, item);
 		}
 		return this;

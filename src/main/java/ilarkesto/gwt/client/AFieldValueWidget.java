@@ -17,6 +17,7 @@ package ilarkesto.gwt.client;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import static ilarkesto.gwt.client.Gwt.formatHours;
 
 public abstract class AFieldValueWidget extends AWidget {
 
@@ -47,7 +48,7 @@ public abstract class AFieldValueWidget extends AWidget {
 	}
 
 	public void setHours(int hours) {
-		setText(Gwt.formatHours(hours));
+		setText(formatHours(hours));
 	}
 
 }

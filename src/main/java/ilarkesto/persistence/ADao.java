@@ -16,23 +16,25 @@ package ilarkesto.persistence;
 
 import ilarkesto.auth.AUser;
 import ilarkesto.auth.AUserDao;
-import ilarkesto.auth.Auth;
+import static ilarkesto.auth.Auth.isVisible;
 import ilarkesto.auth.Ownable;
 import ilarkesto.base.Iconized;
 import ilarkesto.base.Reflect;
-import ilarkesto.base.UtlExtend;
+import static ilarkesto.base.UtlExtend.toStringWithType;
 import ilarkesto.core.logging.Log;
-import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 import ilarkesto.di.Context;
 import ilarkesto.fp.Predicate;
 import ilarkesto.id.IdentifiableResolver;
+import static ilarkesto.persistence.Persist.matchesKeys;
 import ilarkesto.search.SearchResultsConsumer;
 import ilarkesto.search.Searchable;
 import ilarkesto.search.Searcher;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.emptySet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +58,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
                         return;
                 }
 
-		LOG.info("Entity modified:", UtlExtend.toStringWithType(entity), "->", comment);
+		LOG.info("Entity modified:", toStringWithType(entity), "->", comment);
 		saveEntity(entity);
 	}
 
@@ -78,7 +80,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	public abstract Class getEntityClass();
 
 	public Map<String, Class> getAliases() {
-		return Collections.emptyMap();
+		return emptyMap();
 	}
 
 	private boolean isPersistent(E entity) {
@@ -146,10 +148,10 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 	@Override
 	public List<E> getByIds(Collection<String> entitiesIds) {
-		Set<String> ids = new HashSet<String>(entitiesIds);
+		Set<String> ids = new HashSet<>(entitiesIds);
 		List<E> result = (List<E>) transactionService.getByIds(entitiesIds);
 		if (result.size() != ids.size()) {
-			result = new ArrayList<E>();
+			result = new ArrayList<>();
 			for (String id : ids) {
 				E entity = (E) transactionService.getById(id);
 				result.add(entity);
@@ -159,7 +161,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	}
 
 	public Set<E> getByIdsAsSet(Collection<String> entitiesIds) {
-		return new HashSet<E>(getByIds(entitiesIds));
+		return new HashSet<>(getByIds(entitiesIds));
 	}
 
 	@Deprecated
@@ -172,7 +174,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 			@Override
 			public boolean test(E e) {
-				return Auth.isVisible(e, user);
+				return isVisible(e, user);
 			}
 
 		});
@@ -204,12 +206,10 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 		E entity;
 		try {
 			entity = (E) getEntityClass().newInstance();
-		} catch (InstantiationException ex) {
-			throw new RuntimeException(ex);
-		} catch (IllegalAccessException ex) {
+		} catch (InstantiationException | IllegalAccessException ex) {
 			throw new RuntimeException(ex);
 		}
-		entity.setLastModified(DateAndTime.now());
+		entity.setLastModified(now());
 		transactionService.registerEntity(entity);
 		return entity;
 	}
@@ -261,8 +261,8 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 
 			@Override
 			public boolean test(E e) {
-				return e != null && Auth.isVisible(e, searchBox.getSearcher())
-						&& Persist.matchesKeys(e, searchBox.getKeys());
+				return e != null && isVisible(e, searchBox.getSearcher())
+						&& matchesKeys(e, searchBox.getKeys());
 			}
 
 		})) {
@@ -278,7 +278,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
 	// ---
 
 	protected Set<Class> getValueObjectClasses() {
-		return Collections.emptySet();
+		return emptySet();
 	}
 
 	@Override
@@ -315,9 +315,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
                         }
 			try {
 				daoField.set(null, this);
-			} catch (IllegalArgumentException ex) {
-				throw new RuntimeException(ex);
-			} catch (IllegalAccessException ex) {
+			} catch (IllegalArgumentException | IllegalAccessException ex) {
 				throw new RuntimeException(ex);
 			} catch (NullPointerException ex) {
 				throw new RuntimeException("Setting dao field failed. Is it static?", ex);

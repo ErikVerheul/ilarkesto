@@ -16,11 +16,16 @@ package ilarkesto.integration.ldap;
 
 import ilarkesto.auth.AuthenticationFailedException;
 import ilarkesto.auth.WrongPasswordException;
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.core.logging.Log;
+import static java.lang.System.out;
 import java.util.Hashtable;
 import javax.naming.AuthenticationException;
-import javax.naming.Context;
+import static javax.naming.Context.INITIAL_CONTEXT_FACTORY;
+import static javax.naming.Context.PROVIDER_URL;
+import static javax.naming.Context.SECURITY_AUTHENTICATION;
+import static javax.naming.Context.SECURITY_CREDENTIALS;
+import static javax.naming.Context.SECURITY_PRINCIPAL;
 import javax.naming.Name;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -28,14 +33,15 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
+import static javax.naming.directory.SearchControls.SUBTREE_SCOPE;
 import javax.naming.directory.SearchResult;
 
 public class Ldap {
 
-	private static Log log = Log.get(Ldap.class);
+	private static final Log log = Log.get(Ldap.class);
 
 	public static void main(String[] args) {
-		System.out.println(authenticateUserGetEmail("ldap://adcsv10:389/", "bind user", "bind password", "base dn",
+		out.println(authenticateUserGetEmail("ldap://adcsv10:389/", "bind user", "bind password", "base dn",
 			"user filter", "user", "password"));
 	}
 
@@ -44,9 +50,9 @@ public class Ldap {
 		log.info("LDAP authentication for ", user, "on", url);
 		NamingEnumeration<SearchResult> searchResultEnum;
 		try {
-			DirContext ctx = Ldap.createDirContext(url, bindUser, bindPassword);
+			DirContext ctx = createDirContext(url, bindUser, bindPassword);
 			String filter = userFilterRegex == null ? user : userFilterRegex.replaceAll("%u", user);
-			SearchControls cons = new SearchControls(SearchControls.SUBTREE_SCOPE, 0, 0, new String[] { "mail" }, true,
+			SearchControls cons = new SearchControls(SUBTREE_SCOPE, 0, 0, new String[] { "mail" }, true,
 					false);
 			searchResultEnum = ctx.search(baseDn, filter, cons);
 		} catch (NamingException ex) {
@@ -58,7 +64,7 @@ public class Ldap {
                 }
 
 		try {
-			Ldap.createDirContext(url, searchResult.getName() + "," + baseDn, password);
+			createDirContext(url, searchResult.getName() + "," + baseDn, password);
 		} catch (AuthenticationException ex) {
 			throw new WrongPasswordException();
 		}
@@ -76,17 +82,17 @@ public class Ldap {
 	}
 
 	public static DirContext createDirContext(String url, String user, String password) throws AuthenticationException {
-		Hashtable <String, String> env = new Hashtable<String, String>();
+		Hashtable <String, String> env = new Hashtable<>();
 
-		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
+		env.put(INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 		// TODO depends on sun-jdk?
 
-		env.put(Context.PROVIDER_URL, url);
+		env.put(PROVIDER_URL, url);
 
 		if (user != null) {
-			env.put(Context.SECURITY_AUTHENTICATION, "simple");
-			env.put(Context.SECURITY_PRINCIPAL, user);
-			env.put(Context.SECURITY_CREDENTIALS, password);
+			env.put(SECURITY_AUTHENTICATION, "simple");
+			env.put(SECURITY_PRINCIPAL, user);
+			env.put(SECURITY_CREDENTIALS, password);
 		}
 
 		log.debug("Connecting LDAP:", url);
@@ -99,7 +105,7 @@ public class Ldap {
 			sb.append("Creating InitialDirContext failed.");
 			sb.append("\n    URL: ").append(url);
 			String explanation = ex.getExplanation();
-			if (!Str.isBlank(explanation)) {
+			if (!isBlank(explanation)) {
                                 sb.append("\n    explanation: ").append(explanation);
                         }
 			Name remainingName = ex.getRemainingName();

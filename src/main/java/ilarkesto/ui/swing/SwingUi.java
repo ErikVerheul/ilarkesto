@@ -15,19 +15,28 @@
 package ilarkesto.ui.swing;
 
 import ilarkesto.auth.LoginData;
-import ilarkesto.base.Reflect;
+import static ilarkesto.base.Reflect.getProperty;
 import ilarkesto.base.Url;
 import ilarkesto.form.Form;
 import ilarkesto.form.FormButton;
 import ilarkesto.form.swing.FormDialog;
 import ilarkesto.swing.ExceptionPanel;
-import ilarkesto.swing.Swing;
+import static ilarkesto.swing.Swing.center;
+import static ilarkesto.swing.Swing.createMessageComponent;
+import static ilarkesto.swing.Swing.getWindow;
+import static ilarkesto.swing.Swing.showMessageDialog;
 import ilarkesto.ui.AUi;
 import ilarkesto.ui.AView;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.OK_CANCEL_OPTION;
+import static javax.swing.JOptionPane.OK_OPTION;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
+import static javax.swing.JOptionPane.YES_OPTION;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class SwingUi extends AUi {
 
@@ -75,7 +84,7 @@ public class SwingUi extends AUi {
 		frame.add(component);
 		frame.pack();
 		frame.setMinimumSize(frame.getPreferredSize());
-		Swing.center(frame);
+		center(frame);
 		if (!frame.isVisible()) {
                         frame.setVisible(true);
                 }
@@ -97,7 +106,7 @@ public class SwingUi extends AUi {
 	}
 
 	private Component getJavaComponent(String id) {
-		Object view = Reflect.getProperty(application, id);
+		Object view = getProperty(application, id);
 		if (view == null) {
                         throw new RuntimeException("Component does not exist: " + id);
                 }
@@ -199,7 +208,7 @@ public class SwingUi extends AUi {
 	}
 
 	public final FormButton showFormDialog(Form form) {
-		return FormDialog.showDialog(Swing.getWindow(getParentComponent()), form);
+		return FormDialog.showDialog(getWindow(getParentComponent()), form);
 	}
 
 	public final void showErrorDialog(Throwable ex) {
@@ -207,22 +216,22 @@ public class SwingUi extends AUi {
 	}
 
 	public final void showErrorDialog(String message) {
-		JOptionPane.showMessageDialog(getParentComponent(), Swing.createMessageComponent(message), localizer
-				.string("dialog.error.title"), JOptionPane.ERROR_MESSAGE);
+		showMessageDialog(getParentComponent(), createMessageComponent(message), localizer
+				.string("dialog.error.title"), ERROR_MESSAGE);
 	}
 
 	public final void showInfoDialog(String message) {
-		Swing.showMessageDialog(getParentComponent(), message);
+		showMessageDialog(getParentComponent(), message);
 	}
 
 	public final boolean showConfirmDialog(String message) {
-		return JOptionPane.OK_OPTION == JOptionPane.showConfirmDialog(getParentComponent(), message, localizer
-				.string("dialog.confirm.title"), JOptionPane.OK_CANCEL_OPTION);
+		return OK_OPTION == JOptionPane.showConfirmDialog(getParentComponent(), message, localizer
+				.string("dialog.confirm.title"), OK_CANCEL_OPTION);
 	}
 
 	public final boolean showYesNoDialog(String message) {
-		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(getParentComponent(), message, localizer
-				.string("dialog.yesno.title"), JOptionPane.YES_NO_OPTION);
+		return YES_OPTION == JOptionPane.showConfirmDialog(getParentComponent(), message, localizer
+				.string("dialog.yesno.title"), YES_NO_OPTION);
 	}
 
 	public Component getParentComponent() {

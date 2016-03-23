@@ -14,20 +14,29 @@
  */
 package ilarkesto.di.app;
 
-import ilarkesto.base.Sys;
+import static ilarkesto.base.Sys.getFileEncoding;
+import static ilarkesto.base.Sys.getJavaHome;
+import static ilarkesto.base.Sys.getJavaRuntimeVersion;
+import static ilarkesto.base.Sys.getStartupTime;
+import static ilarkesto.base.Sys.getUsersHomePath;
+import static ilarkesto.base.Sys.getUsersName;
+import static ilarkesto.base.Sys.isDevelopmentMode;
+import static ilarkesto.base.Sys.storeStartupTime;
 import ilarkesto.cli.ACommand;
-import ilarkesto.core.base.Utl;
+import static ilarkesto.core.base.Utl.setLanguage;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.setDebugEnabled;
 import ilarkesto.core.time.DateAndTime;
 import ilarkesto.di.BeanContainer;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.di.MultiBeanProvider;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.getTempDir;
+import static ilarkesto.io.IO.getWorkDir;
 import ilarkesto.logging.DefaultLogRecordHandler;
 import ilarkesto.logging.JavaLogging;
 import ilarkesto.logging.Log4jLogging;
 import java.io.File;
-import java.util.Locale;
+import static java.util.Locale.getDefault;
 
 public class ApplicationStarter {
 
@@ -36,10 +45,10 @@ public class ApplicationStarter {
 	public static <A extends AApplication> A startApplication(Class<A> applicationClass, BeanProvider beanProvider,
 			String... arguments) {
 
-		Sys.storeStartupTime();
+		storeStartupTime();
 		DefaultLogRecordHandler.activate();
-		Log.setDebugEnabled(Sys.isDevelopmentMode());
-		Utl.setLanguage(Locale.getDefault().getLanguage());
+		setDebugEnabled(isDevelopmentMode());
+		setLanguage(getDefault().getLanguage());
 		LOG.info("********************************************************************************");
 		LOG.info("Starting application:", applicationClass.getName());
 		logEnvironmentInfo();
@@ -60,24 +69,24 @@ public class ApplicationStarter {
 			LOG.info("Application started:", application.getApplicationName() + " " + application.getReleaseLabel());
 			LOG.info("********************************************************************************\n");
 			return application;
-		} catch (Throwable ex) {
+		} catch (InstantiationException | IllegalAccessException ex) {
 			LOG.fatal("Starting application failed.", ex);
 			throw new RuntimeException(ex);
 		}
 	}
 
 	public static void logEnvironmentInfo() {
-		String mode = Sys.isDevelopmentMode() ? "DEVELOPMENT" : "PRODUCTION";
+		String mode = isDevelopmentMode() ? "DEVELOPMENT" : "PRODUCTION";
 		LOG.info("   ", mode, "MODE");
-		LOG.info("    time:        ", new DateAndTime(Sys.getStartupTime()));
-		LOG.info("    system user: ", Sys.getUsersName());
-		LOG.info("    user home:   ", Sys.getUsersHomePath());
-		LOG.info("    work-path:   ", IO.getWorkDir());
-		LOG.info("    temp-path:   ", IO.getTempDir());
-		LOG.info("    locale:      ", Locale.getDefault());
-		LOG.info("    encoding:    ", Sys.getFileEncoding());
-		LOG.info("    java:        ", Sys.getJavaHome());
-		LOG.info("    java version:", Sys.getJavaRuntimeVersion());
+		LOG.info("    time:        ", new DateAndTime(getStartupTime()));
+		LOG.info("    system user: ", getUsersName());
+		LOG.info("    user home:   ", getUsersHomePath());
+		LOG.info("    work-path:   ", getWorkDir());
+		LOG.info("    temp-path:   ", getTempDir());
+		LOG.info("    locale:      ", getDefault());
+		LOG.info("    encoding:    ", getFileEncoding());
+		LOG.info("    java:        ", getJavaHome());
+		LOG.info("    java version:", getJavaRuntimeVersion());
 	}
 
 	public static <A extends AApplication> A startApplication(Class<A> applicationClass, String... arguments) {

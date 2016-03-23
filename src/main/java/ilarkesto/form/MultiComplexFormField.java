@@ -15,12 +15,17 @@
 package ilarkesto.form;
 
 import ilarkesto.base.Factory;
-import ilarkesto.base.Reflect;
+import static ilarkesto.base.Reflect.newInstance;
+import static ilarkesto.form.Form.ADD_COMPLEX_BUTTON_NAME_PREFIX;
+import static ilarkesto.form.Form.BUTTON_PREFIX;
+import static ilarkesto.form.Form.EDIT_COMPLEX_BUTTON_NAME_PREFIX;
+import static ilarkesto.form.Form.REMOVE_COMPLEX_BUTTON_NAME_PREFIX;
 import ilarkesto.id.CountingIdGenerator;
 import ilarkesto.id.IdGenerator;
+import static java.lang.String.valueOf;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import static java.util.Collections.sort;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +37,8 @@ public class MultiComplexFormField extends AFormField {
 
 	private Set<Object> value;
 	private AddButton addButton;
-	private Map<Object, RemoveButton> removeButtons = new HashMap<Object, RemoveButton>();
-	private Map<Object, EditButton> editButtons = new HashMap<Object, EditButton>();
+	private Map<Object, RemoveButton> removeButtons = new HashMap<>();
+	private Map<Object, EditButton> editButtons = new HashMap<>();
 	private Factory itemFactory;
 	private Class<? extends BeanForm> elementFormClass;
 	private Comparator comparator;
@@ -49,7 +54,7 @@ public class MultiComplexFormField extends AFormField {
 		// String formBeanName = getForm().getName() + Str.uppercaseFirstLetter(getName()) + "Form";
 		// BeanForm form = (BeanForm) beanProvider.getBean(formBeanName);
 		// if (form == null) throw new RuntimeException("Form bean does not exist: " + formBeanName);
-		BeanForm form = Reflect.newInstance(elementFormClass);
+		BeanForm form = newInstance(elementFormClass);
 		form.setStringKeyPrefix(getForm().getStringKeyPrefix());
 		return form;
 	}
@@ -121,7 +126,7 @@ public class MultiComplexFormField extends AFormField {
 	public Collection<Object> getValue() {
 		if (comparator != null) {
 			List list = new ArrayList(value);
-			Collections.sort(list, comparator);
+			sort(list, comparator);
 			return list;
 		}
 		return value;
@@ -129,7 +134,7 @@ public class MultiComplexFormField extends AFormField {
 
 	@Override
 	public String getValueAsString() {
-		return value == null ? "0" : String.valueOf(value.size());
+		return value == null ? "0" : valueOf(value.size());
 	}
 
 	@Override
@@ -152,7 +157,7 @@ public class MultiComplexFormField extends AFormField {
 	public class AddButton extends FormButton {
 
 		public AddButton() {
-			super(Form.BUTTON_PREFIX + Form.ADD_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName());
+			super(BUTTON_PREFIX + ADD_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName());
 		}
 
 		public MultiComplexFormField getField() {
@@ -172,7 +177,7 @@ public class MultiComplexFormField extends AFormField {
 		}
 
 		private RemoveButton(Object item, String id) {
-			super(Form.BUTTON_PREFIX + Form.REMOVE_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName()
+			super(BUTTON_PREFIX + REMOVE_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName()
 					+ "_" + id);
 			this.item = item;
 			this.id = id;
@@ -205,7 +210,7 @@ public class MultiComplexFormField extends AFormField {
 		}
 
 		private EditButton(Object item, String id) {
-			super(Form.BUTTON_PREFIX + Form.EDIT_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName()
+			super(BUTTON_PREFIX + EDIT_COMPLEX_BUTTON_NAME_PREFIX + MultiComplexFormField.this.getName()
 					+ "_" + id);
 			this.item = item;
 			this.id = id;

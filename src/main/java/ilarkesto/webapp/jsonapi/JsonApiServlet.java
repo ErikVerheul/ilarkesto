@@ -14,7 +14,9 @@
  */
 package ilarkesto.webapp.jsonapi;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.cutFrom;
+import static ilarkesto.core.base.Str.isBlank;
+import static ilarkesto.core.base.Str.removeSuffix;
 import ilarkesto.core.logging.Log;
 import ilarkesto.json.JsonObject;
 import ilarkesto.webapp.AServlet;
@@ -25,7 +27,7 @@ import java.io.IOException;
 
 public class JsonApiServlet extends AServlet<AWebApplication, AWebSession> {
 
-	private static Log log = Log.get(JsonApiServlet.class);
+	private static final Log log = Log.get(JsonApiServlet.class);
 
 	@Override
 	protected void onGet(RequestWrapper req) throws IOException {
@@ -56,14 +58,14 @@ public class JsonApiServlet extends AServlet<AWebApplication, AWebSession> {
 	}
 
 	private AJsonApi createApi(RequestWrapper req) {
-		String path = Str.cutFrom(req.getUriWithoutContext(), "api/");
+		String path = cutFrom(req.getUriWithoutContext(), "api/");
 		log.info(path);
 		String subpath = null;
 		int idx = path.indexOf('/');
 		if (idx >= 0) {
 			subpath = path.substring(idx + 1);
-			subpath = Str.removeSuffix(subpath, "/");
-			if (Str.isBlank(subpath)) {
+			subpath = removeSuffix(subpath, "/");
+			if (isBlank(subpath)) {
                                 subpath = null;
                         }
 			path = path.substring(0, idx);

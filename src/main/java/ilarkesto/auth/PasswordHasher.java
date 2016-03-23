@@ -15,8 +15,10 @@
 package ilarkesto.auth;
 
 import ilarkesto.io.IO;
+import static ilarkesto.io.IO.UTF_8;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import static java.security.MessageDigest.getInstance;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordHasher {
@@ -30,11 +32,11 @@ public class PasswordHasher {
                         }
                         MessageDigest md;
                         try {
-                                md = MessageDigest.getInstance(ALGORITHM);
+                                md = getInstance(ALGORITHM);
                         } catch (NoSuchAlgorithmException ex) {
                                 throw new RuntimeException("Unsupported algorithm: " + ALGORITHM, ex);
                         }
-                        md.update((password + salt).getBytes(IO.UTF_8));
+                        md.update((password + salt).getBytes(UTF_8));
 
                         byte byteData[] = md.digest();
 

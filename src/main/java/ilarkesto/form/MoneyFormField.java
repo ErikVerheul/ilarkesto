@@ -15,6 +15,7 @@
 package ilarkesto.form;
 
 import ilarkesto.base.Money;
+import static ilarkesto.base.Money.EUR;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
@@ -22,7 +23,7 @@ import org.apache.commons.fileupload.FileItem;
 public class MoneyFormField extends AFormField {
 
 	private String value;
-	private String currency = Money.EUR;
+	private String currency = EUR;
 
 	public MoneyFormField(String name) {
 		super(name);

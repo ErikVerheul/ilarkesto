@@ -2,6 +2,7 @@ package ilarkesto.gwt.client;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.formatException;
 import java.io.Serializable;
 
 public class ErrorWrapper implements Serializable, IsSerializable {
@@ -16,7 +17,7 @@ public class ErrorWrapper implements Serializable, IsSerializable {
 	}
 
 	public ErrorWrapper(Throwable ex) {
-		this(ex.getClass().getName(), Str.formatException(ex));
+		this(ex.getClass().getName(), formatException(ex));
 	}
 
 	private ErrorWrapper() {

@@ -14,19 +14,19 @@
  */
 package ilarkesto.core.navig;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.toStringHelper;
 import ilarkesto.core.logging.Log;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Navigator {
+public final class Navigator {
 
 	private static final Log log = Log.get(Navigator.class);
 
-	private Page rootPage = new Page(null);
-	private List<Page> pages = new LinkedList<Page>();
-	private List<Plugin> plugins = new ArrayList<Plugin>();
+	private final Page rootPage = new Page(null);
+	private final List<Page> pages = new LinkedList<Page>();
+	private final List<Plugin> plugins = new ArrayList<Plugin>();
 	private NavigatorObserver observer;
 
 	public Navigator() {
@@ -100,7 +100,7 @@ public class Navigator {
 
 	@Override
 	public String toString() {
-		return Str.toStringHelper(this, getDepth(), getPage());
+		return toStringHelper(this, getDepth(), getPage());
 	}
 
 }

@@ -16,12 +16,13 @@ package ilarkesto.ui.action;
 
 import ilarkesto.base.Iconized;
 import ilarkesto.base.MissingDependencyException;
-import ilarkesto.base.StrExtend;
 import ilarkesto.base.StringProvider;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
 import ilarkesto.di.BeanProvider;
 import ilarkesto.form.BeanForm;
 import ilarkesto.form.Form;
+import static ilarkesto.form.Form.BUTTON_PREFIX;
 import ilarkesto.form.FormButton;
 import ilarkesto.form.FormField;
 import ilarkesto.form.InputAssistant;
@@ -77,8 +78,8 @@ public final class FormAction<F extends Form> extends AAction {
 
 		// determine clicked button
 		for (String parameter : webRequestParametersBeanProvider.beanNames()) {
-			if (parameter.startsWith(Form.BUTTON_PREFIX)) {
-				String buttonName = parameter.substring(Form.BUTTON_PREFIX.length());
+			if (parameter.startsWith(BUTTON_PREFIX)) {
+				String buttonName = parameter.substring(BUTTON_PREFIX.length());
 				clickedButton = form.getButton(buttonName);
 				break;
 			}
@@ -99,7 +100,7 @@ public final class FormAction<F extends Form> extends AAction {
 					String message = ex.getMessage();
 					Throwable cause = ex.getCause();
 					if (cause != null) {
-                                                message += " " + StrExtend.format(cause);
+                                                message += " " + format(cause);
                                         }
 					form.setErrorMessage(message);
 					return true;
@@ -200,18 +201,18 @@ public final class FormAction<F extends Form> extends AAction {
 		if (button instanceof MultiComplexFormField.AddButton) {
 			MultiComplexFormField.AddButton b = (MultiComplexFormField.AddButton) button;
 			final MultiComplexFormField field = b.getField();
-			final BeanForm form = field.createSubform();
-			autowire(form);
-			form.setBean(field.getItemFactory().getBean());
+			final BeanForm formLocal = field.createSubform();
+			autowire(formLocal);
+			formLocal.setBean(field.getItemFactory().getBean());
 			FormAction action = new FormAction();
-			action.setForm(form);
+			action.setForm(formLocal);
 			try {
 				actionPerformer.performSubAction(action, this);
 			} catch (ActionAbortedException ex) {
 				return true;
 			}
 			if (!action.isClickedButtonAbort()) {
-				field.addValueItem(form.getBean());
+				field.addValueItem(formLocal.getBean());
 			}
 			return true;
 		}
@@ -260,7 +261,7 @@ public final class FormAction<F extends Form> extends AAction {
 	}
 
 	private void updateForm(Form form) {
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, String> data = new HashMap<>();
 		for (String parameter : webRequestParametersBeanProvider.beanNames()) {
 			if (!parameter.startsWith("_")) {
 				data.put(parameter, (String) webRequestParametersBeanProvider.getBean(parameter));

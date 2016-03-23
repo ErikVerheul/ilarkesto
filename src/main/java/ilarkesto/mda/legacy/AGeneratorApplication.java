@@ -38,8 +38,7 @@ import ilarkesto.mda.legacy.model.GwtServiceModel;
 import ilarkesto.persistence.AEntity;
 import ilarkesto.persistence.AStructure;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
+import static java.util.Collections.sort;
 import java.util.List;
 
 public abstract class AGeneratorApplication extends AApplication {
@@ -155,24 +154,22 @@ public abstract class AGeneratorApplication extends AApplication {
 	}
 
 	public final List<EntityModel> getEntityModels(boolean excludeUser) {
-		List<EntityModel> entityModels = new ArrayList<EntityModel>();
-		for (Iterator iterator = Context.get().getBeanProvider().getBeansByType(EntityModel.class).iterator(); iterator
-				.hasNext();) {
-			EntityModel local_entityModel = (EntityModel) iterator.next();
-			if (excludeUser && local_entityModel == getUserModel()) {
+		List<EntityModel> entityModels = new ArrayList<>();
+                for (EntityModel local_entityModel : Context.get().getBeanProvider().getBeansByType(EntityModel.class)) {
+                        if (excludeUser && local_entityModel == getUserModel()) {
                                 continue;
                         }
-			if (local_entityModel == getEntityModel()) {
+                        if (local_entityModel == getEntityModel()) {
                                 continue;
                         }
-			entityModels.add(local_entityModel);
-		}
-		Collections.sort(entityModels);
+                        entityModels.add(local_entityModel);
+                }
+		sort(entityModels);
 		return entityModels;
 	}
 
 	public final List<EntityModel> getFinalEntityModels(boolean excludeUser) {
-		List<EntityModel> result = new ArrayList<EntityModel>();
+		List<EntityModel> result = new ArrayList<>();
 		for (EntityModel em : getEntityModels(excludeUser)) {
 			if (!em.isAbstract()) {
                                 result.add(em);

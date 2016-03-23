@@ -14,7 +14,9 @@
  */
 package ilarkesto.base;
 
+import static java.lang.Character.isDigit;
 import java.net.InetAddress;
+import static java.net.InetAddress.getAllByName;
 import java.net.UnknownHostException;
 
 /**
@@ -25,9 +27,9 @@ public abstract class Net {
 	public static final String getHostname(String ip) {
 		String host = null;
 		try {
-			for (InetAddress a : InetAddress.getAllByName(ip)) {
+			for (InetAddress a : getAllByName(ip)) {
 				host = a.getHostName();
-				if (host.length() > 0 && !Character.isDigit(host.charAt(0))) {
+				if (host.length() > 0 && !isDigit(host.charAt(0))) {
                                         break;
                                 }
 			}

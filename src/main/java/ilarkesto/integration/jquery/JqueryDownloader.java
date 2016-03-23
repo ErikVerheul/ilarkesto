@@ -15,12 +15,12 @@
 package ilarkesto.integration.jquery;
 
 import ilarkesto.core.logging.Log;
-import ilarkesto.io.IO;
+import static ilarkesto.io.IO.downloadUrlToFile;
 import java.io.File;
 
 public class JqueryDownloader {
 
-	private static Log log = Log.get(JqueryDownloader.class);
+	private static final Log log = Log.get(JqueryDownloader.class);
 
 	public static void installToDir(String version, File destinationDir) {
 		download("jquery-" + version + ".min.js", destinationDir);
@@ -38,6 +38,6 @@ public class JqueryDownloader {
 		String url = "http://code.jquery.com/" + filename;
 		String file = destinationDir.getPath() + "/" + filename;
 		log.info("Downloading", url, "to", file);
-		IO.downloadUrlToFile(url, file);
+		downloadUrlToFile(url, file);
 	}
 }

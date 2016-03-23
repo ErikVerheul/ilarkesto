@@ -17,8 +17,11 @@ package ilarkesto.gwt.client.editor;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.isBlank;
 import ilarkesto.gwt.client.AWidget;
 import ilarkesto.gwt.client.Gwt;
+import static ilarkesto.gwt.client.Gwt.addTooltipHtml;
+import static java.lang.String.valueOf;
 
 public class TextOutputWidget extends AWidget {
 
@@ -41,15 +44,15 @@ public class TextOutputWidget extends AWidget {
 	@Override
 	protected void onUpdate() {
 		Object value = model.getValue();
-		String text = value == null ? null : String.valueOf(value);
-		if (forceEmptyChar && Str.isBlank(text)) {
+		String text = value == null ? null : valueOf(value);
+		if (forceEmptyChar && isBlank(text)) {
 			viewer.setHTML("&nbsp;");
 		} else {
 			viewer.setText(text);
 		}
 		String tooltip = getTooltip();
-		if (!Str.isBlank(tooltip)) {
-                        Gwt.addTooltipHtml(viewer, tooltip);
+		if (!isBlank(tooltip)) {
+                        addTooltipHtml(viewer, tooltip);
                 }
 	}
 

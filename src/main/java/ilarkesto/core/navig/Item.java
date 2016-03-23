@@ -15,6 +15,7 @@
 package ilarkesto.core.navig;
 
 import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.toStringHelper;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return Str.toStringHelper(this, plugin, label);
+		return toStringHelper(this, plugin, label);
 	}
 
 }

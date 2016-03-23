@@ -35,8 +35,11 @@
 package ilarkesto.io.zip;
 
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static ilarkesto.io.zip.Deflater.DEFAULT_COMPRESSION;
 import java.io.IOException;
 import java.io.OutputStream;
+import static java.lang.Long.toHexString;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -83,7 +86,7 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 	 * @param out the output stream to which the zip archive is written.
 	 */
 	public ZipOutputStream(OutputStream out) {
-		super(out, new Deflater(Deflater.DEFAULT_COMPRESSION, true));
+		super(out, new Deflater(DEFAULT_COMPRESSION, true));
 	}
 
 	/**
@@ -191,7 +194,7 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
                 }
 
 		if (entry.getTime() < 0) {
-                        entry.setTime(Tm.getCurrentTimeMillis());
+                        entry.setTime(getCurrentTimeMillis());
                 }
 
 		entry.flags = flags;
@@ -271,8 +274,8 @@ public class ZipOutputStream extends DeflaterOutputStream implements ZipConstant
 		if (curEntry.getCrc() < 0) {
                         curEntry.setCrc(crc.getValue());
                 } else if (curEntry.getCrc() != crc.getValue()) {
-                        throw new ZipException("crc was " + Long.toHexString(crc.getValue()) + ", but I expected "
-                                + Long.toHexString(curEntry.getCrc()));
+                        throw new ZipException("crc was " + toHexString(crc.getValue()) + ", but I expected "
+                                + toHexString(curEntry.getCrc()));
                 }
 
 		offset += csize;

@@ -15,6 +15,8 @@
 package ilarkesto.pdf;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
+import static ilarkesto.pdf.AImage.Align.LEFT;
+import static ilarkesto.pdf.AImage.Align.RIGHT;
 import java.io.File;
 
 public abstract class AImage extends AParagraphElement {
@@ -51,11 +53,11 @@ public abstract class AImage extends AParagraphElement {
 	// --- helper ---
 
 	public AImage setAlignLeft() {
-		return setAlign(Align.LEFT);
+		return setAlign(LEFT);
 	}
 
 	public AImage setAlignRight() {
-		return setAlign(Align.RIGHT);
+		return setAlign(RIGHT);
 	}
 
 	public AImage setMargin(float top, float right, float bottom, float left) {

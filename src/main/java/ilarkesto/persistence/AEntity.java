@@ -17,9 +17,10 @@ package ilarkesto.persistence;
 import ilarkesto.auth.AUser;
 import ilarkesto.base.Iconized;
 import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 import ilarkesto.id.Identifiable;
 import java.util.Map;
-import java.util.UUID;
+import static java.util.UUID.randomUUID;
 
 public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 
@@ -58,7 +59,7 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 	@Override
 	public final String getId() {
 		if (id == null) {
-                        id = UUID.randomUUID().toString();
+                        id = randomUUID().toString();
                 }
 		return id;
 	}
@@ -108,7 +109,7 @@ public abstract class AEntity extends ADatob implements Identifiable, Iconized {
 
 	@Override
 	public void updateLastModified() {
-		setLastModified(DateAndTime.now());
+		setLastModified(now());
 	}
 
 	@Override

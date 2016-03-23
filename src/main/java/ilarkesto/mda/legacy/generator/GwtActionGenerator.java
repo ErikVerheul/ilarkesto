@@ -22,7 +22,7 @@ import java.util.List;
 
 public class GwtActionGenerator extends AClassGenerator {
 
-	private ActionModel action;
+	private final ActionModel action;
 
 	public GwtActionGenerator(ActionModel action) {
 		super();

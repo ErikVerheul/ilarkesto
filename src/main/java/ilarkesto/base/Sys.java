@@ -14,14 +14,23 @@
  */
 package ilarkesto.base;
 
-import ilarkesto.io.IO;
+import static ilarkesto.base.UtlExtend.toStringArray;
+import static ilarkesto.core.base.Str.isBlank;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
+import static ilarkesto.io.IO.getLocalHostNames;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.util.Arrays;
+import static java.io.File.listRoots;
+import static java.lang.Integer.parseInt;
+import static java.lang.Runtime.getRuntime;
+import static java.lang.String.valueOf;
+import static java.lang.System.getProperty;
+import static java.lang.Thread.currentThread;
+import static java.util.Arrays.asList;
 import java.util.Collection;
 
 /**
- * Utilitiy methods for the java core. System properties access.
+ * Utility methods for the java core. System properties access.
  */
 public final class Sys {
 
@@ -39,7 +48,7 @@ public final class Sys {
 	}
 
 	public static long getAvailableMemory() {
-		Runtime runtime = Runtime.getRuntime();
+		Runtime runtime = getRuntime();
 		long freeMemory = runtime.freeMemory();
 		long totalMemory = runtime.totalMemory();
 		long usedMemory = totalMemory - freeMemory;
@@ -49,7 +58,7 @@ public final class Sys {
 	}
 
 	public static void storeStartupTime() {
-		startupTime = TmExtend.getCurrentTimeMillis();
+		startupTime = getCurrentTimeMillis();
 	}
 
 	public static long getStartupTime() {
@@ -91,6 +100,7 @@ public final class Sys {
 
 	/**
 	 * No GUI Mode. Allows usage of Java 2D or Imaging without GUI support.
+         * @param value
 	 */
 	public static void setHeadless(boolean value) {
 		setProperty("java.awt.headless", value);
@@ -105,7 +115,7 @@ public final class Sys {
 	}
 
 	public static void setHttpProxy(String host, Integer port) {
-		setHttpProxy(host, port, UtlExtend.toStringArray(IO.getLocalHostNames(true, true)));
+		setHttpProxy(host, port, toStringArray(getLocalHostNames(true, true)));
 	}
 
 	public static void setHttpProxy(String host, Integer port, String... nonProxyHosts) {
@@ -123,37 +133,37 @@ public final class Sys {
 	}
 
 	public static void setHttpProxy(String host, Integer port, String nonProxyHosts) {
-		System.setProperty("http.proxyHost", StrExtend.isBlank(host) ? "" : host);
+		System.setProperty("http.proxyHost", isBlank(host) ? "" : host);
 		System.setProperty("http.proxyPort", port == null ? "" : port.toString());
-		System.setProperty("http.nonProxyHosts", StrExtend.isBlank(nonProxyHosts) ? "" : nonProxyHosts);
+		System.setProperty("http.nonProxyHosts", isBlank(nonProxyHosts) ? "" : nonProxyHosts);
 	}
 
 	public static String getHttpProxyHost() {
-		String value = System.getProperty("http.proxyHost");
-		if (StrExtend.isBlank(value)) {
+		String value = getProperty("http.proxyHost");
+		if (isBlank(value)) {
                         return null;
                 }
 		return value;
 	}
 
 	public static Integer getHttpProxyPort() {
-		String value = System.getProperty("http.proxyPort");
-		if (StrExtend.isBlank(value)) {
+		String value = getProperty("http.proxyPort");
+		if (isBlank(value)) {
                         return null;
                 }
-		return Integer.parseInt(value);
+		return parseInt(value);
 	}
 
 	public static String getJavaRuntimeVersion() {
-		return System.getProperty("java.runtime.version");
+		return getProperty("java.runtime.version");
 	}
 
 	public static String getJavaHome() {
-		return System.getProperty("java.home");
+		return getProperty("java.home");
 	}
 
 	public static String getFileEncoding() {
-		return System.getProperty("file.encoding");
+		return getProperty("file.encoding");
 	}
 
 	public static void setFileEncoding(String charset) {
@@ -161,23 +171,23 @@ public final class Sys {
 	}
 
 	public static String getUsersName() {
-		return System.getProperty("user.name");
+		return getProperty("user.name");
 	}
 
 	public static String getUsersHomePath() {
-		return System.getProperty("user.home");
+		return getProperty("user.home");
 	}
 
 	public static String getFileSeparator() {
-		return System.getProperty("file.separator");
+		return getProperty("file.separator");
 	}
 
 	public static String getPathSeparator() {
-		return System.getProperty("path.separator");
+		return getProperty("path.separator");
 	}
 
 	public static void setProperty(String name, boolean value) {
-		setProperty(name, String.valueOf(value));
+		setProperty(name, valueOf(value));
 	}
 
 	public static void setProperty(String name, String value) {
@@ -185,7 +195,7 @@ public final class Sys {
 	}
 
 	public static ThreadGroup getRootThreadGroup() {
-		ThreadGroup g = Thread.currentThread().getThreadGroup();
+		ThreadGroup g = currentThread().getThreadGroup();
 		while (true) {
 			ThreadGroup parent = g.getParent();
 			if (parent == null) {
@@ -201,7 +211,7 @@ public final class Sys {
 		int count = tg.activeCount();
 		Thread[] threads = new Thread[count];
 		tg.enumerate(threads);
-		return Arrays.asList(threads);
+		return asList(threads);
 	}
 
 	public static boolean equals(Object a, Object b) {
@@ -236,7 +246,7 @@ public final class Sys {
 
 	public static boolean isUnixFileSystem() {
 		if (unixFileSystem == null) {
-			File[] roots = File.listRoots();
+			File[] roots = listRoots();
 			unixFileSystem = roots.length == 1 && "/".equals(roots[0].getPath());
 		}
 		return unixFileSystem;

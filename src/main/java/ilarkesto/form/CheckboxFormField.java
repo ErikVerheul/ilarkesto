@@ -14,6 +14,7 @@
  */
 package ilarkesto.form;
 
+import static java.lang.String.valueOf;
 import java.util.Collection;
 import java.util.Map;
 import org.apache.commons.fileupload.FileItem;
@@ -36,7 +37,7 @@ public class CheckboxFormField extends AFormField {
     }
 
     public String getValueAsString() {
-        return String.valueOf(checked);
+        return  valueOf(checked);
     }
 
     public void update(Map<String, String> data, Collection<FileItem> uploadedFiles) {

@@ -14,6 +14,18 @@
  */
 package ilarkesto.core.base;
 
+import static ilarkesto.core.base.Utl.toList;
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isLetter;
+import static java.lang.Character.isLetterOrDigit;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
+import static java.lang.String.valueOf;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
@@ -243,14 +255,14 @@ public class Str {
                         return null;
                 }
 		s = s.replace("&", "&amp;");
-		s = s.replace(String.valueOf(ae), "&auml;");
-		s = s.replace(String.valueOf(ue), "&uuml;");
-		s = s.replace(String.valueOf(oe), "&ouml;");
-		s = s.replace(String.valueOf(AE), "&Auml;");
-		s = s.replace(String.valueOf(UE), "&Uuml;");
-		s = s.replace(String.valueOf(OE), "&Ouml;");
-		s = s.replace(String.valueOf(sz), "&szlig;");
-		s = s.replace(String.valueOf(EUR), "&euro;");
+		s = s.replace(valueOf(ae), "&auml;");
+		s = s.replace(valueOf(ue), "&uuml;");
+		s = s.replace(valueOf(oe), "&ouml;");
+		s = s.replace(valueOf(AE), "&Auml;");
+		s = s.replace(valueOf(UE), "&Uuml;");
+		s = s.replace(valueOf(OE), "&Ouml;");
+		s = s.replace(valueOf(sz), "&szlig;");
+		s = s.replace(valueOf(EUR), "&euro;");
 		s = s.replace("<", "&lt;");
 		s = s.replace(">", "&gt;");
 		s = s.replace("\"", "&quot;");
@@ -326,7 +338,7 @@ public class Str {
 		StringBuilder sb = new StringBuilder(len);
 		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
-			if (Character.isLetter(ch) || (Character.isDigit(ch) && i > 0)) {
+			if (isLetter(ch) || (isDigit(ch) && i > 0)) {
 				sb.append(ch);
 				continue;
 			}
@@ -373,7 +385,7 @@ public class Str {
 				dot = true;
 				continue;
 			}
-			if (Character.isLetterOrDigit(c) || c == '-' || c == '_') {
+			if (isLetterOrDigit(c) || c == '-' || c == '_') {
                                 continue;
                         }
 			return false;
@@ -406,12 +418,12 @@ public class Str {
 
 	public static int indexOf(String text, String[] toFind, int startIdx) {
 		int firstIdx = -1;
-		for (int i = 0; i < toFind.length; i++) {
-			int idx = text.indexOf(toFind[i], startIdx);
-			if (firstIdx < 0 || (idx >= 0 && idx < firstIdx)) {
-				firstIdx = idx;
-			}
-		}
+                for (String toFind1 : toFind) {
+                        int idx = text.indexOf(toFind1, startIdx);
+                        if (firstIdx < 0 || (idx >= 0 && idx < firstIdx)) {
+                                firstIdx = idx;
+                        }
+                }
 		return firstIdx;
 	}
 
@@ -448,7 +460,7 @@ public class Str {
 	}
 
 	public static String formatEnumeration(Enumeration<String> e) {
-		return formatCollection(Utl.toList(e));
+		return formatCollection(toList(e));
 	}
 
 	public static String formatCollection(Collection c) {

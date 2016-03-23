@@ -4,20 +4,22 @@ import ilarkesto.auth.LoginData;
 import ilarkesto.auth.LoginDataProvider;
 import ilarkesto.core.logging.Log;
 import ilarkesto.json.JsonObject;
-import java.nio.charset.Charset;
+import static java.lang.System.in;
+import static java.lang.System.out;
+import static java.nio.charset.Charset.defaultCharset;
 import java.util.Scanner;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.Api;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
-import org.scribe.model.Verb;
+import static org.scribe.model.Verb.GET;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 public class OAuth {
 
-	private static Log log = Log.get(OAuth.class);
+	private static final Log log = Log.get(OAuth.class);
 
 	public static JsonObject loadUrlAsJson(OAuthService service, LoginDataProvider accessToken, String url) {
 		String json = loadUrlAsString(service, accessToken, url);
@@ -33,7 +35,7 @@ public class OAuth {
 		log.info("Requesting", url);
 		LoginData loginData = accessToken.getLoginData();
 		Token token = new Token(loginData.getLogin(), loginData.getPassword());
-		OAuthRequest request = new OAuthRequest(Verb.GET, url);
+		OAuthRequest request = new OAuthRequest(GET, url);
 		service.signRequest(token, request);
 		Response response = request.send();
 		int code = response.getCode();
@@ -77,10 +79,10 @@ public class OAuth {
 	public static LoginData createAccessTokenByPinFromStdIn(OAuthService service) {
 		Token requestToken = createRequestToken(service);
 		String url = getAuthorizationUrl(service, requestToken);
-		System.out.println("\n    Authenticate here: " + url);
-		System.out.print("    Input PIN: ");
-		String pin = new Scanner(System.in, Charset.defaultCharset().toString()).nextLine();
-		System.out.println();
+		out.println("\n    Authenticate here: " + url);
+		out.print("    Input PIN: ");
+		String pin = new Scanner(in, defaultCharset().toString()).nextLine();
+		out.println();
 		return createAccessToken(service, requestToken, pin);
 	}
 }

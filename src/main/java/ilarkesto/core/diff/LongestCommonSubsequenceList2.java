@@ -14,6 +14,7 @@
  */
 package ilarkesto.core.diff;
 
+import static java.lang.Math.max;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class LongestCommonSubsequenceList2 {
 				if (x.get(i).equals(y.get(j))) {
                                         opt[i][j] = opt[i + 1][j + 1] + 1;
                                 } else {
-                                        opt[i][j] = Math.max(opt[i + 1][j], opt[i][j + 1]);
+                                        opt[i][j] = max(opt[i + 1][j], opt[i][j + 1]);
                                 }
 			}
 		}

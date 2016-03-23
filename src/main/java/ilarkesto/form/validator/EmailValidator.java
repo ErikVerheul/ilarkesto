@@ -15,6 +15,7 @@
 package ilarkesto.form.validator;
 
 import ilarkesto.email.EmailAddress;
+import static ilarkesto.email.EmailAddress.parseList;
 import ilarkesto.form.ValidationException;
 
 /**
@@ -44,7 +45,7 @@ public class EmailValidator implements Validator {
 		// if (idx2 <= idx) throw new ValidationException(MSG);
 		// if (idx2 >= s.length() - 1) throw new ValidationException(MSG);
 
-		EmailAddress.parseList(s);
+		parseList(s);
 		return s;
 	}
 

@@ -15,6 +15,7 @@
 package ilarkesto.ui.usermessage;
 
 import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 
 public class UserMessage {
 
@@ -29,7 +30,7 @@ public class UserMessage {
 	public UserMessage(String type, String text) {
 		this.type = type;
 		this.text = text;
-		this.dateAndTime = DateAndTime.now();
+		this.dateAndTime = now();
 	}
 
 	public boolean isError() {

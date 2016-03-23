@@ -15,13 +15,14 @@
 package ilarkesto.mda.legacy.model;
 
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.lowercaseFirstLetter;
 import ilarkesto.persistence.AEntity;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class DatobModel extends BeanModel {
 
-	private Set<PropertyModel> properties = new LinkedHashSet<PropertyModel>();
+	private Set<PropertyModel> properties = new LinkedHashSet<>();
 	private boolean searchable;
 	private boolean gwtSupport;
 
@@ -111,7 +112,7 @@ public class DatobModel extends BeanModel {
                         addDependency("addReference", type.getPackageName() + "." + type.getName() + "Dao",
                                 StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
                 }
-		propertyModel.createBackReference(StrExtend.lowercaseFirstLetter(getName()));
+		propertyModel.createBackReference(lowercaseFirstLetter(getName()));
 		return propertyModel;
 	}
 
@@ -122,9 +123,9 @@ public class DatobModel extends BeanModel {
 		properties.add(propertyModel);
 		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className)) {
                         addDependency("addSetReference", type.getPackageName() + "." + type.getName() + "Dao",
-                                StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+                                lowercaseFirstLetter((type.getName())) + "Dao");
                 }
-		propertyModel.createBackReference(StrExtend.lowercaseFirstLetter(getName()));
+		propertyModel.createBackReference(lowercaseFirstLetter(getName()));
 		return propertyModel;
 	}
 
@@ -135,7 +136,7 @@ public class DatobModel extends BeanModel {
 		properties.add(propertyModel);
 		if (!"User".equals(type.getName()) && !AEntity.class.getName().equals(className)) {
                         addDependency("addListReference", type.getPackageName() + "." + type.getName() + "Dao",
-                                StrExtend.lowercaseFirstLetter((type.getName())) + "Dao");
+                                lowercaseFirstLetter((type.getName())) + "Dao");
                 }
 		return propertyModel;
 	}

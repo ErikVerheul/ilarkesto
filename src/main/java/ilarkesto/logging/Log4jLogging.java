@@ -14,23 +14,25 @@
  */
 package ilarkesto.logging;
 
-import ilarkesto.base.StrExtend;
+import static ilarkesto.core.base.Str.format;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import static org.apache.log4j.Logger.getRootLogger;
 import org.apache.log4j.spi.ErrorHandler;
 import org.apache.log4j.spi.Filter;
 import org.apache.log4j.spi.LoggingEvent;
 
 public class Log4jLogging {
 
-	private static Log log = Log.get(Log4jLogging.class);
+	private static final Log log = Log.get(Log4jLogging.class);
 
 	public static void redirectToLoggers() {
 
-		Logger rootLogger = Logger.getRootLogger();
+		Logger rootLogger = getRootLogger();
 		rootLogger.removeAllAppenders();
 
 		rootLogger.addAppender(new LoggerRedirectionAppender());
@@ -44,12 +46,12 @@ public class Log4jLogging {
 			loggerName = loggerName.substring(idx + 1);
 		}
 
-		Log logger = Log.get(loggerName);
+		Log logger = get(loggerName);
 		logger.log(toLevel(event.getLevel()), getMessage(event));
 	}
 
 	public static String getMessage(LoggingEvent event) {
-		return StrExtend.format(event.getMessage());
+		return format(event.getMessage());
 	}
 
 	public static Log.Level toLevel(Level log4jLevel) {

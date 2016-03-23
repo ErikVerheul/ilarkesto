@@ -15,8 +15,47 @@
 package ilarkesto.core.time;
 
 import ilarkesto.base.UtlExtend;
+import static ilarkesto.core.base.Utl.toList;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
+import static ilarkesto.core.time.Tm.createDate;
 import ilarkesto.testng.ATest;
 import java.util.Calendar;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.FRIDAY;
+import static java.util.Calendar.HOUR_OF_DAY;
+import static java.util.Calendar.MINUTE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -31,23 +70,23 @@ public class TmTest extends ATest {
 
 	@BeforeMethod
 	public void init() {
-		birthday = Tm.createDate(1979, 8, 3);
-		armageddon = Tm.createDate(2012, 12, 21);
-		leapYears = UtlExtend.toList(1904, 1908, 1912, 1916, 1920, 1924, 1928, 1932, 1936, 1940, 1944, 1948, 1952, 1956,
+		birthday = createDate(1979, 8, 3);
+		armageddon = createDate(2012, 12, 21);
+		leapYears = toList(1904, 1908, 1912, 1916, 1920, 1924, 1928, 1932, 1936, 1940, 1944, 1948, 1952, 1956,
 			1960, 1964, 1968, 1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020, 2024, 2028,
 			2032, 2036, 2040, 2044, 2048, 2052, 2056, 2060, 2064, 2068, 2072, 2076, 2080, 2084, 2088, 2092, 2096);
 	}
 
 	@Test
 	public void getDateOfFirstWeek() {
-		assertEquals(Tm.getDateOfFirstWeek(2005), Tm.createDate(2005, 1, 3));
-		assertEquals(Tm.getDateOfFirstWeek(2006), Tm.createDate(2006, 1, 2));
-		assertEquals(Tm.getDateOfFirstWeek(2007), Tm.createDate(2007, 1, 1));
-		assertEquals(Tm.getDateOfFirstWeek(2008), Tm.createDate(2007, 12, 31));
-		assertEquals(Tm.getDateOfFirstWeek(2009), Tm.createDate(2008, 12, 29));
-		assertEquals(Tm.getDateOfFirstWeek(2010), Tm.createDate(2010, 1, 4));
-		assertEquals(Tm.getDateOfFirstWeek(2011), Tm.createDate(2011, 1, 3));
-		assertEquals(Tm.getDateOfFirstWeek(2012), Tm.createDate(2012, 1, 2));
+		assertEquals(Tm.getDateOfFirstWeek(2005), createDate(2005, 1, 3));
+		assertEquals(Tm.getDateOfFirstWeek(2006), createDate(2006, 1, 2));
+		assertEquals(Tm.getDateOfFirstWeek(2007), createDate(2007, 1, 1));
+		assertEquals(Tm.getDateOfFirstWeek(2008), createDate(2007, 12, 31));
+		assertEquals(Tm.getDateOfFirstWeek(2009), createDate(2008, 12, 29));
+		assertEquals(Tm.getDateOfFirstWeek(2010), createDate(2010, 1, 4));
+		assertEquals(Tm.getDateOfFirstWeek(2011), createDate(2011, 1, 3));
+		assertEquals(Tm.getDateOfFirstWeek(2012), createDate(2012, 1, 2));
 	}
 
 	@Test
@@ -65,29 +104,29 @@ public class TmTest extends ATest {
 
 	@Test
 	public void getWeek() {
-		assertEquals(Tm.getWeek(Tm.createDate(2011, 4, 6)), 14);
-		assertEquals(Tm.getWeek(Tm.createDate(2007, 12, 31)), 1);
+		assertEquals(Tm.getWeek(createDate(2011, 4, 6)), 14);
+		assertEquals(Tm.getWeek(createDate(2007, 12, 31)), 1);
 		for (int i = 2000; i < 2100; i++) {
-			assertEquals(Tm.getWeek(Tm.createDate(i, 1, 4)), 1);
+			assertEquals(Tm.getWeek(createDate(i, 1, 4)), 1);
 		}
 	}
 
 	@Test
 	public void getDaysBetweenDates() {
-		assertEquals(Tm.getDaysBetweenDates(Tm.createDate(2011, 3, 1), Tm.createDate(2011, 3, 2)), 1);
-		assertEquals(Tm.getDaysBetweenDates(Tm.createDate(2011, 3, 1), Tm.createDate(2011, 3, 1)), 0);
-		assertEquals(Tm.getDaysBetweenDates(Tm.createDate(2011, 3, 1), Tm.createDate(2011, 3, 30)), 29);
+		assertEquals(Tm.getDaysBetweenDates(createDate(2011, 3, 1), createDate(2011, 3, 2)), 1);
+		assertEquals(Tm.getDaysBetweenDates(createDate(2011, 3, 1), createDate(2011, 3, 1)), 0);
+		assertEquals(Tm.getDaysBetweenDates(createDate(2011, 3, 1), createDate(2011, 3, 30)), 29);
 	}
 
 	@Test
 	public void getWeekday() {
-		assertEquals(Tm.getWeekday(birthday), Calendar.FRIDAY);
-		assertEquals(Tm.getWeekday(armageddon), Calendar.FRIDAY);
+		assertEquals(Tm.getWeekday(birthday), FRIDAY);
+		assertEquals(Tm.getWeekday(armageddon), FRIDAY);
 	}
 
 	@Test
 	public void preconditions() {
-		Date date = Tm.createDate(1979, 8, 3);
+		Date date = createDate(1979, 8, 3);
 		assertEquals(date, birthday);
 		assertEquals(Tm.getYear(date), 1979);
 		assertEquals(Tm.getMonth(date), 8);
@@ -96,14 +135,14 @@ public class TmTest extends ATest {
 
 	@Test
 	public void addDays() {
-		assertEquals(Tm.addDays(birthday, 1), Tm.createDate(1979, 8, 4));
-		assertEquals(Tm.addDays(birthday, -1), Tm.createDate(1979, 8, 2));
+		assertEquals(Tm.addDays(birthday, 1), createDate(1979, 8, 4));
+		assertEquals(Tm.addDays(birthday, -1), createDate(1979, 8, 2));
 
-		assertEquals(Tm.addDays(Tm.createDate(2011, 2, 28), 1), Tm.createDate(2011, 3, 1));
-		assertEquals(Tm.addDays(Tm.createDate(2012, 2, 28), 1), Tm.createDate(2012, 2, 29));
-		assertEquals(Tm.addDays(Tm.createDate(2012, 2, 29), 1), Tm.createDate(2012, 3, 1));
+		assertEquals(Tm.addDays(createDate(2011, 2, 28), 1), createDate(2011, 3, 1));
+		assertEquals(Tm.addDays(createDate(2012, 2, 28), 1), createDate(2012, 2, 29));
+		assertEquals(Tm.addDays(createDate(2012, 2, 29), 1), createDate(2012, 3, 1));
 
-		assertEquals(Tm.addDays(Tm.createDate(2012, 12, 1), 31), Tm.createDate(2013, 1, 1));
+		assertEquals(Tm.addDays(createDate(2012, 12, 1), 31), createDate(2013, 1, 1));
 	}
 
 	@Test
@@ -127,23 +166,23 @@ public class TmTest extends ATest {
 	@Test
 	public void createDateFuture() {
 		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(Tm.createDate(2066, 10, 23));
-		assertEquals(cal.get(GregorianCalendar.YEAR), 2066);
-		assertEquals(cal.get(GregorianCalendar.MONTH), 9);
-		assertEquals(cal.get(GregorianCalendar.DAY_OF_MONTH), 23);
-		assertEquals(cal.get(GregorianCalendar.HOUR_OF_DAY), 0);
-		assertEquals(cal.get(GregorianCalendar.MINUTE), 0);
+		cal.setTime(createDate(2066, 10, 23));
+		assertEquals(cal.get(YEAR), 2066);
+		assertEquals(cal.get(MONTH), 9);
+		assertEquals(cal.get(DAY_OF_MONTH), 23);
+		assertEquals(cal.get(HOUR_OF_DAY), 0);
+		assertEquals(cal.get(MINUTE), 0);
 	}
 
 	@Test
 	public void createDatePast() {
 		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(Tm.createDate(1979, 8, 3));
-		assertEquals(cal.get(GregorianCalendar.YEAR), 1979);
-		assertEquals(cal.get(GregorianCalendar.MONTH), 7);
-		assertEquals(cal.get(GregorianCalendar.DAY_OF_MONTH), 3);
-		assertEquals(cal.get(GregorianCalendar.HOUR_OF_DAY), 0);
-		assertEquals(cal.get(GregorianCalendar.MINUTE), 0);
+		cal.setTime(createDate(1979, 8, 3));
+		assertEquals(cal.get(YEAR), 1979);
+		assertEquals(cal.get(MONTH), 7);
+		assertEquals(cal.get(DAY_OF_MONTH), 3);
+		assertEquals(cal.get(HOUR_OF_DAY), 0);
+		assertEquals(cal.get(MINUTE), 0);
 	}
 
 }

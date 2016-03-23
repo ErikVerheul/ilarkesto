@@ -15,12 +15,17 @@
 package ilarkesto.swing;
 
 import ilarkesto.core.logging.Log;
+import static ilarkesto.swing.Swing.showInJFrame;
 import java.awt.BorderLayout;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.WEST;
 import java.awt.Component;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS;
+import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER;
 
 public class HorizontalBarPanel extends JPanel {
 
@@ -32,14 +37,14 @@ public class HorizontalBarPanel extends JPanel {
 		panel.addColumn(new JLabel("Column 2"));
 		panel.addColumn(new JLabel("Column 3"));
 		panel.addColumn(new JLabel("Column 4"));
-		Swing.showInJFrame(panel);
+		showInJFrame(panel);
 	}
 
 	private JPanel grid;
 
 	public HorizontalBarPanel() {
 		setLayout(new BorderLayout());
-		add(createGrid(), BorderLayout.CENTER);
+		add(createGrid(), CENTER);
 	}
 
 	public void addColumn(Component component) {
@@ -75,11 +80,11 @@ public class HorizontalBarPanel extends JPanel {
 		grid = new JPanel(new GridLayout(1, 0, 10, 0));
 
 		JPanel wrapper = new JPanel(new BorderLayout());
-		wrapper.add(grid, BorderLayout.WEST);
+		wrapper.add(grid, WEST);
 
 		JScrollPane scroller = new JScrollPane(wrapper);
-		scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-		scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_NEVER);
+		scroller.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_ALWAYS);
 		return scroller;
 	}
 

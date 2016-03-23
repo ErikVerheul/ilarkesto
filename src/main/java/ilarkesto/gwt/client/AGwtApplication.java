@@ -16,7 +16,9 @@ package ilarkesto.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import static com.google.gwt.core.client.GWT.setUncaughtExceptionHandler;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.setLogRecordHandler;
 import java.util.List;
 
 public abstract class AGwtApplication implements EntryPoint {
@@ -36,8 +38,8 @@ public abstract class AGwtApplication implements EntryPoint {
                         throw new RuntimeException("GWT application already instantiated: " + singleton);
                 }
 		singleton = this;
-		Log.setLogRecordHandler(new GwtLogRecordHandler());
-		GWT.setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
+		setLogRecordHandler(new GwtLogRecordHandler());
+		setUncaughtExceptionHandler(new GWT.UncaughtExceptionHandler() {
 
 			@Override
 			public void onUncaughtException(Throwable ex) {

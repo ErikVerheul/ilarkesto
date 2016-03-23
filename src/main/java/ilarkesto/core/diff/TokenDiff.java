@@ -14,6 +14,7 @@
  */
 package ilarkesto.core.diff;
 
+import static ilarkesto.core.diff.LongestCommonSubsequenceList.execute;
 import java.util.List;
 
 public class TokenDiff {
@@ -54,7 +55,7 @@ public class TokenDiff {
 	}
 
 	public TokenDiff diff() {
-		lcs = LongestCommonSubsequenceList.execute(left, right);
+		lcs = execute(left, right);
 		updateLengths();
 
 		while (skipBurn || (lcsLen > 0 && leftLen > 0 && rightLen > 0)) {

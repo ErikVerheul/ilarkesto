@@ -15,6 +15,7 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.user.client.Window;
+import static com.google.gwt.user.client.Window.scrollTo;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -42,7 +43,7 @@ public class SwitcherWidget extends AWidget {
 		currentWidget = widget;
 		replaceContent(currentWidget);
 		update();
-		Window.scrollTo(0, 0);
+		scrollTo(0, 0);
 		return widget;
 	}
 

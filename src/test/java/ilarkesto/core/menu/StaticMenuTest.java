@@ -1,7 +1,7 @@
 package ilarkesto.core.menu;
 
-import ilarkesto.base.UtlExtend;
-import java.util.UUID;
+import static ilarkesto.base.UtlExtend.sleep;
+import static java.util.UUID.randomUUID;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -68,7 +68,7 @@ public class StaticMenuTest extends Assert {
 
 	@Test
 	public void submenu() {
-		Object payload = UUID.randomUUID();
+		Object payload = randomUUID();
 		item4_2.setPayload(payload);
 
 		assertSame(menu.getItemByPayload(payload), item4_2);
@@ -78,7 +78,7 @@ public class StaticMenuTest extends Assert {
 	public void submenuChangeIndicator() {
 		long initTime = menu.getChangeIndicator().getChangeTime();
 		assertFalse(menu.getChangeIndicator().hasChangedSince(initTime));
-                UtlExtend.sleep(10);
+                sleep(10);
 		item4_2.select();		
 		assertTrue(menu.getChangeIndicator().hasChangedSince(initTime));
 	}

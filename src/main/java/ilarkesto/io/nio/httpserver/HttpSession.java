@@ -15,13 +15,15 @@
 package ilarkesto.io.nio.httpserver;
 
 import ilarkesto.core.time.Tm;
+import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import java.util.UUID;
+import static java.util.UUID.randomUUID;
 
 public class HttpSession<S> {
 
-	private String id = UUID.randomUUID().toString();
-	private long startTime = Tm.getCurrentTimeMillis();
-	private long lastAccessTime = Tm.getCurrentTimeMillis();
+	private String id = randomUUID().toString();
+	private long startTime = getCurrentTimeMillis();
+	private long lastAccessTime = getCurrentTimeMillis();
 
 	private S bean;
 
@@ -38,15 +40,15 @@ public class HttpSession<S> {
 	}
 
 	public void touch() {
-		lastAccessTime = Tm.getCurrentTimeMillis();
+		lastAccessTime = getCurrentTimeMillis();
 	}
 
 	public long getAge() {
-		return Tm.getCurrentTimeMillis() - startTime;
+		return getCurrentTimeMillis() - startTime;
 	}
 
 	public long getIdleTime() {
-		return Tm.getCurrentTimeMillis() - lastAccessTime;
+		return getCurrentTimeMillis() - lastAccessTime;
 	}
 
 }

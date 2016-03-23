@@ -16,9 +16,14 @@ package ilarkesto.properties;
 
 import edu.umd.cs.findbugs.annotations.SuppressWarnings;
 import ilarkesto.base.StrExtend;
+import static ilarkesto.base.StrExtend.tokenize;
 import ilarkesto.base.UtlExtend;
+import static ilarkesto.core.base.Utl.toList;
 import ilarkesto.email.EmailAddress;
 import java.io.File;
+import static java.lang.Boolean.parseBoolean;
+import static java.lang.Integer.parseInt;
+import static java.lang.Integer.parseInt;
 import java.util.List;
 import java.util.Properties;
 
@@ -77,7 +82,7 @@ public abstract class APropertiesStore {
 
 	public final List<String> getList(String name, List<String> defaultValue) {
 		String s = get(name);
-		return s == null ? defaultValue : UtlExtend.toList(StrExtend.tokenize(s, ";"));
+		return s == null ? defaultValue : toList(tokenize(s, ";"));
 	}
 
 	// --- Integer ---
@@ -87,21 +92,21 @@ public abstract class APropertiesStore {
 		if (s == null) {
                         return null;
                 }
-		return Integer.parseInt(s);
+		return parseInt(s);
 	}
 
 	// --- int ---
 
 	public final int getInt(String name, int defaultValue) {
 		String s = get(name);
-		return s == null ? defaultValue : Integer.parseInt(s);
+		return s == null ? defaultValue : parseInt(s);
 	}
 
 	// --- boolean ---
 
 	public final boolean getBoolean(String name, boolean defaultValue) {
 		String s = get(name);
-		return s == null ? defaultValue : Boolean.parseBoolean(s);
+		return s == null ? defaultValue : parseBoolean(s);
 	}
 
 	// --- crypt ---

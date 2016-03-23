@@ -15,6 +15,7 @@
 package ilarkesto.gwt.client.undo;
 
 import ilarkesto.core.time.DateAndTime;
+import static ilarkesto.core.time.DateAndTime.now;
 
 public abstract class AUndoOperation {
 
@@ -25,7 +26,7 @@ public abstract class AUndoOperation {
 	public abstract String getLabel();
 
 	public AUndoOperation() {
-		dateAndTime = DateAndTime.now();
+		dateAndTime = now();
 	}
 
 	public final void undo() {

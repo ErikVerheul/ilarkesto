@@ -1,5 +1,7 @@
 package ilarkesto.core.diff;
 
+import static java.lang.System.out;
+
 /**
  * This is an implementation, in Java, of the Longest Common Subsequence algorithm. That is, given two strings
  * A and B, this program will find the longest sequence of letters that are common and ordered in A and B.
@@ -97,7 +99,7 @@ public class LongestCommonSubsequenceString {
 	public static void main(String args[]) {
 		try {
 			String s = execute(args[0], args[1]);
-			System.out.println(s);
+			out.println(s);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

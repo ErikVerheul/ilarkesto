@@ -14,15 +14,15 @@
  */
 package ilarkesto.core.navig;
 
-import ilarkesto.core.base.Str;
+import static ilarkesto.core.base.Str.toStringHelper;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Page {
 
-	private Plugin plugin;
+	private final Plugin plugin;
 	private String label;
-	private List<Item> items = new ArrayList<Item>();
+	private final List<Item> items = new ArrayList<Item>();
 	private Object payload;
 
 	public Page(Plugin plugin) {
@@ -63,7 +63,7 @@ public class Page {
 
 	@Override
 	public String toString() {
-		return Str.toStringHelper(this, label, items.size());
+		return toStringHelper(this, label, items.size());
 	}
 
 }

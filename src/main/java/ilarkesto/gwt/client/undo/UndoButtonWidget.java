@@ -17,6 +17,8 @@ package ilarkesto.gwt.client.undo;
 import com.google.gwt.user.client.ui.Widget;
 import ilarkesto.gwt.client.DropdownMenuButtonWidget;
 import ilarkesto.gwt.client.Gwt;
+import static ilarkesto.gwt.client.Gwt.createDiv;
+import static ilarkesto.gwt.client.Gwt.getUndoManager;
 
 public class UndoButtonWidget extends DropdownMenuButtonWidget {
 
@@ -28,9 +30,9 @@ public class UndoButtonWidget extends DropdownMenuButtonWidget {
 
 	@Override
 	protected Widget onInitialization() {
-		undoManager = Gwt.getUndoManager();
+		undoManager = getUndoManager();
 		Widget widget = super.onInitialization();
-		return Gwt.createDiv("UndoButtonWidget", widget);
+		return createDiv("UndoButtonWidget", widget);
 	}
 
 	@Override

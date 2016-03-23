@@ -16,16 +16,28 @@ package ilarkesto.integration.itext;
 
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Element;
+import static com.itextpdf.text.Element.ALIGN_CENTER;
+import static com.itextpdf.text.Element.ALIGN_LEFT;
+import static com.itextpdf.text.Element.ALIGN_RIGHT;
 import com.itextpdf.text.Font;
+import static com.itextpdf.text.Font.BOLD;
+import static com.itextpdf.text.Font.BOLDITALIC;
+import static com.itextpdf.text.Font.ITALIC;
+import static com.itextpdf.text.Font.NORMAL;
+import static com.itextpdf.text.Image.TEXTWRAP;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
+import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
+import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
 import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import ilarkesto.core.logging.Log;
+import static ilarkesto.core.logging.Log.get;
 import ilarkesto.pdf.AImage;
 import ilarkesto.pdf.AParagraph;
 import ilarkesto.pdf.AParagraphElement;
+import static ilarkesto.pdf.APdfBuilder.mmToPoints;
 import ilarkesto.pdf.APdfElement;
 import ilarkesto.pdf.FontStyle;
 import ilarkesto.pdf.TextChunk;
@@ -33,7 +45,7 @@ import java.io.File;
 
 public class Paragraph extends AParagraph implements ItextElement {
 
-	private static Log log = Log.get(Paragraph.class);
+	private static final Log log = Log.get(Paragraph.class);
 
 	public Paragraph(APdfElement parent) {
 		super(parent);
@@ -56,7 +68,7 @@ public class Paragraph extends AParagraph implements ItextElement {
 
 				float size = (fontStyle.getSize() * 1.1f) + 1f;
 				if (size > maxSize) {
-                                        maxSize = PdfBuilder.mmToPoints(size);
+                                        maxSize = mmToPoints(size);
                                 }
 			} else if (element instanceof Image) {
 				Image image = (Image) element;
@@ -69,7 +81,7 @@ public class Paragraph extends AParagraph implements ItextElement {
 				}
 
 				if (image.getAlign() != null) {
-					itextImage.setAlignment(Image.convertAlign(image.getAlign()) | com.itextpdf.text.Image.TEXTWRAP);
+					itextImage.setAlignment(Image.convertAlign(image.getAlign()) | TEXTWRAP);
 					p.add(itextImage);
 				} else {
 					Chunk chunk = new Chunk(itextImage, 0, 0);
@@ -85,8 +97,8 @@ public class Paragraph extends AParagraph implements ItextElement {
 			}
 		}
 		p.setLeading(maxSize);
-		p.setSpacingBefore(PdfBuilder.mmToPoints(spacingTop));
-		p.setSpacingAfter(PdfBuilder.mmToPoints(spacingBottom));
+		p.setSpacingBefore(mmToPoints(spacingTop));
+		p.setSpacingAfter(mmToPoints(spacingBottom));
 		if (align != null) {
                         p.setAlignment(convertAlign(align));
                 }
@@ -97,7 +109,7 @@ public class Paragraph extends AParagraph implements ItextElement {
 		// wrap in table
 		PdfPCell cell = new PdfPCell();
 		cell.setBorder(0);
-		cell.setFixedHeight(PdfBuilder.mmToPoints(height));
+		cell.setFixedHeight(mmToPoints(height));
 		cell.addElement(p);
 		PdfPTable table = new PdfPTable(1);
 		table.setWidthPercentage(100);
@@ -106,13 +118,13 @@ public class Paragraph extends AParagraph implements ItextElement {
 	}
 
 	private int createStyle(FontStyle fontStyle) {
-		int style = Font.NORMAL;
+		int style = NORMAL;
 		if (fontStyle.isItalic() && fontStyle.isBold()) {
-			style = Font.BOLDITALIC;
+			style = BOLDITALIC;
 		} else if (fontStyle.isItalic()) {
-			style = Font.ITALIC;
+			style = ITALIC;
 		} else if (fontStyle.isBold()) {
-			style = Font.BOLD;
+			style = BOLD;
 		}
 		return style;
 	}
@@ -137,14 +149,14 @@ public class Paragraph extends AParagraph implements ItextElement {
 	private Font createFont(String name, FontStyle fontStyle) {
 		Font font;
 		try {
-			font = new Font(BaseFont.createFont(name, BaseFont.IDENTITY_H, BaseFont.EMBEDDED));
+			font = new Font(BaseFont.createFont(name, IDENTITY_H, EMBEDDED));
 		} catch (Exception ex) {
 			throw new RuntimeException("Loading font failed: " + name, ex);
 		}
 
 		if (fontStyle != null) {
 			font.setStyle(createStyle(fontStyle));
-			font.setSize(PdfBuilder.mmToPoints(fontStyle.getSize()));
+			font.setSize(mmToPoints(fontStyle.getSize()));
 			font.setColor(fontStyle.getColor());
 		}
 
@@ -168,11 +180,11 @@ public class Paragraph extends AParagraph implements ItextElement {
 	private static int convertAlign(Align align) {
 		switch (align) {
 			case LEFT:
-				return com.itextpdf.text.Paragraph.ALIGN_LEFT;
+				return ALIGN_LEFT;
 			case CENTER:
-				return com.itextpdf.text.Paragraph.ALIGN_CENTER;
+				return ALIGN_CENTER;
 			case RIGHT:
-				return com.itextpdf.text.Paragraph.ALIGN_RIGHT;
+				return ALIGN_RIGHT;
 		}
 		throw new RuntimeException("Unsupported align: " + align);
 	}

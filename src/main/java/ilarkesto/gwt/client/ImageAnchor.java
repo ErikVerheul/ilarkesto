@@ -15,7 +15,11 @@
 package ilarkesto.gwt.client;
 
 import com.google.gwt.dom.client.AnchorElement;
+import static com.google.gwt.dom.client.AnchorElement.as;
 import com.google.gwt.user.client.DOM;
+import static com.google.gwt.user.client.DOM.appendChild;
+import static com.google.gwt.user.client.DOM.createAnchor;
+import static com.google.gwt.user.client.DOM.createDiv;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Image;
@@ -29,7 +33,7 @@ public class ImageAnchor extends FocusWidget {
                         throw new IllegalArgumentException("image or text must be not null");
                 }
 
-		a = AnchorElement.as(DOM.createAnchor());
+		a = as(createAnchor());
 		setElement(a);
 		setStyleName("ImageAnchor");
 
@@ -37,7 +41,7 @@ public class ImageAnchor extends FocusWidget {
 
 		if (image != null) {
 			Element img = image.getElement();
-			DOM.appendChild(getElement(), img);
+			appendChild(getElement(), img);
 		}
 
 		// if (spacerBetweenImageAndText && image != null && text != null) {
@@ -47,16 +51,16 @@ public class ImageAnchor extends FocusWidget {
 		// }
 
 		if (text != null) {
-			Element div = DOM.createDiv();
+			Element div = createDiv();
 			div.setClassName("text");
 			div.setInnerText(text);
-			DOM.appendChild(getElement(), div);
+			appendChild(getElement(), div);
 		}
 
 		if (image != null) {
-			Element clear = DOM.createDiv();
+			Element clear = createDiv();
 			clear.setClassName("floatClear");
-			DOM.appendChild(getElement(), clear);
+			appendChild(getElement(), clear);
 		}
 	}
 

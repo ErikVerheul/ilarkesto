@@ -20,7 +20,7 @@ import java.util.List;
 
 public class ARow {
 
-	private List<ACell> cells = new ArrayList<ACell>();
+	private List<ACell> cells = new ArrayList<>();
 	private BaseColor defaultBackgroundColor;
 	private FontStyle defaultFontStyle;
 
