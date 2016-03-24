@@ -111,8 +111,7 @@ public abstract class AGwtDao extends AComponent {
 			if (entity != null) {
                                 return entity;
                         }
-		}
-                Log.DEBUG("EntityDoesNotExist Id=" + id);
+		}                
 		throw new EntityDoesNotExistException(id);
 	}
 
