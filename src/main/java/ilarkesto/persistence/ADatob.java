@@ -37,7 +37,7 @@ public abstract class ADatob implements Searchable {
 	protected static AUserDao userDao;
 
 	public static void setUserDao(AUserDao userDao) {
-		userDao = userDao;
+		ADatob.userDao = userDao;
 	}
 
 	// --- ---
