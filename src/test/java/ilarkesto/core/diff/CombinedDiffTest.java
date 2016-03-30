@@ -15,7 +15,6 @@
 package ilarkesto.core.diff;
 
 import static ilarkesto.core.diff.TokenDiff.combinedDiff;
-import ilarkesto.core.time.Tm;
 import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.testng.ATest;
 import org.testng.annotations.Test;

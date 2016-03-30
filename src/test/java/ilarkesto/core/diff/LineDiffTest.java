@@ -14,7 +14,6 @@
  */
 package ilarkesto.core.diff;
 
-import ilarkesto.core.time.Tm;
 import static ilarkesto.core.time.Tm.getCurrentTimeMillis;
 import ilarkesto.testng.ATest;
 import java.util.List;
