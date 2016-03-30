@@ -43,13 +43,13 @@ public abstract class AClassGenerator {
         private PrintWriter out;
 
         public final void generate() {
+                stringWriter = new StringWriter();
+                out = new PrintWriter(stringWriter);
                 File file = getFile();
                 if (file.exists() && !isOverwrite()) {
                         return;
                 }
-                stringWriter = new StringWriter();
-                out = new PrintWriter(stringWriter);
-
+                
                 if (isOverwrite()) {
                         for (int i = 0; i < 10; i++) {
                                 ln();
@@ -127,22 +127,6 @@ public abstract class AClassGenerator {
         }
 
         private boolean isSame(String a, String b) {
-                // if (!a.equals(b)) {
-                // if (a.length() != b.length()) return false;
-                // int len = a.length();
-                // for (int i = 0; i < len; i++) {
-                // char ca = a.charAt(i);
-                // char cb = b.charAt(i);
-                // if (ca != cb) {
-                // LOG.debug("----different char @" + i + ":", ((int) ca) + " '" + ca + "'", "<->", ((int) cb) + " '"
-                // + cb + "'");
-                // IO.writeFile(Sys.getUsersHomeDir() + "/inbox/a.txt", a, IO.UTF_8);
-                // IO.writeFile(Sys.getUsersHomeDir() + "/inbox/b.txt", b, IO.UTF_8);
-                // return false;
-                // }
-                // }
-                // }
-
                 return a.equals(b);
         }
 
@@ -288,7 +272,9 @@ public abstract class AClassGenerator {
         }
 
         protected final File getFile() {
-                out.println(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
+                out.println(getSourcePath() + "/"
+                        + getPackage().replace('.', '/') + "/"
+                        + getName() + ".java");
                 return new File(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
         }
 
