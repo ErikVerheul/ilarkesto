@@ -14,12 +14,9 @@
  */
 package ilarkesto.gwt.client;
 
-import ilarkesto.core.logging.Log;
-
 public class EntityDoesNotExistException extends RuntimeException {
 
 	public EntityDoesNotExistException(String entityId) {
 		super("Entity does not exist: " + entityId);
-                Log.DEBUG("[Erik] EntityDoesNotExist Id=" + entityId  + " / " + this.toString());
 	}
 }
