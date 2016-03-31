@@ -271,10 +271,7 @@ public abstract class AClassGenerator {
                 return isInterface() ? "interface" : "class";
         }
 
-        protected final File getFile() {
-                out.println(getSourcePath() + "/"
-                        + getPackage().replace('.', '/') + "/"
-                        + getName() + ".java");
+        protected final File getFile() {               
                 return new File(getSourcePath() + "/" + getPackage().replace('.', '/') + "/" + getName() + ".java");
         }
 
