@@ -111,7 +111,8 @@ public abstract class AGwtDao extends AComponent {
 			if (entity != null) {
                                 return entity;
                         }
-		}                
+		}
+                ilarkesto.core.logging.Log.DEBUG("EntityDoesNotExistException thrown in " + this.getClass().getName());
 		throw new EntityDoesNotExistException(id);
 	}
 

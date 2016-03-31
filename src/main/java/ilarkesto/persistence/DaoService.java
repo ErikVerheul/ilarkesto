@@ -93,6 +93,7 @@ public class DaoService implements IdentifiableResolver<AEntity> {
 		});
 
 		if (entity == null) {
+                        ilarkesto.core.logging.Log.DEBUG("EntityDoesNotExistException thrown in " + this.getClass().getName());
                         throw new EntityDoesNotExistException(id);
                 }
 		return entity;

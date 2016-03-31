@@ -136,6 +136,7 @@ public abstract class ADao<E extends AEntity> extends ADatobManager<E> implement
                 }
 		E entity = (E) transactionService.getById(id);
 		if (entity == null) {
+                        ilarkesto.core.logging.Log.DEBUG("EntityDoesNotExistException thrown in " + this.getClass().getName());
                         throw new EntityDoesNotExistException(id);
                 }
 		return entity;
